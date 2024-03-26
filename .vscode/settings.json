@@ -1,0 +1,68 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#025c57",
+    "titleBar.activeBackground": "#025c57",
+    "titleBar.activeForeground": "#4d8572",
+    "statusBar.background": "#515715",
+    "statusBar.noFolderBackground": "#0d02dd",
+    "statusBar.debuggingBackground": "#094969",
+    "activityBarBadge.background": "#094969",
+    "activityBar.activeBorder": "#5cc7fd",
+    "activityBar.activeFocusBorder": "#5cc7fd",
+    "activityBar.foreground": "#5cddfd", // hover icon
+    "activityBar.inactiveForeground": "#87aa88",
+    "activityBar.activeBackground": "#057c50",
+    "activityBar.activeForeground": "#57574e",
+    "tab.activeBackground": "#7f7f09",
+    "terminal.foreground": "#4be952",
+    "terminal.background": "#2a2a2a",
+    "terminalCursor.background": "#4D4D4C",
+    "terminalCursor.foreground": "#4D4D4C",
+    "terminal.ansiBlack": "#FFFFFF",
+    "terminal.ansiBlue": "#4271AE",
+    "terminal.ansiBrightBlack": "#8E908C",
+    "terminal.ansiBrightBlue": "#4271AE",
+    "terminal.ansiBrightCyan": "#3E999F",
+    "terminal.ansiBrightGreen": "#718C00",
+    "terminal.ansiBrightMagenta": "#8959A8",
+    "terminal.ansiBrightRed": "#C82829",
+    "terminal.ansiBrightWhite": "#1D1F21",
+    "terminal.ansiBrightYellow": "#EAB700",
+    "terminal.ansiCyan": "#3E999F",
+    "terminal.ansiGreen": "#718C00",
+    "terminal.ansiMagenta": "#8959A8",
+    "terminal.ansiRed": "#C82829",
+    "terminal.ansiWhite": "#4D4D4C",
+    "terminal.ansiYellow": "#b19945"
+  },
+  /// sdasdasdsad
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "settings": {
+          "fontStyle": "italic",
+          "foreground": "#008080"
+        },
+        "scope": [
+          "comment",
+          "comment.block.documentation",
+          "comment.block.documentation.js",
+          "comment.line.double-slash.js",
+          "storage.type.class.jsdoc",
+          "entity.name.type.instance.jsdoc",
+          "variable.other.jsdoc",
+          "punctuation.definition.comment",
+          "punctuation.definition.comment.begin.documentation",
+          "punctuation.definition.comment.end.documentation"
+        ]
+      }
+    ]
+  },
+  "cSpell.words": ["datepicker", "Kellner", "wojtekmaj"],
+  "bracketPairColorizer.colorMode": "Independent"
+}
+// {
+//     "workbench.colorCustomizations": {
+
+//     }
+// }
