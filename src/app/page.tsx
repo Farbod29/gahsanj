@@ -71,7 +71,7 @@ export default function Home() {
       `${IraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
-  const persianWeekdays = {
+  const persianWeekdays: { [key: string]: string } = {
     Sunday: '(یکشنبه) خورشید (مهر) روز',
     Monday: '( دوشنبه) ماه روز',
     Tuesday: ' ( سه شنبه)بهرام روز',
@@ -81,7 +81,8 @@ export default function Home() {
     Saturday: '(شنبه) کیوان روز',
   };
 
-  const getTodayPersianName = () => {
+  function getTodayPersianName(): string {
+    const today = new Date();
     const gregorianWeekdays = [
       'Sunday',
       'Monday',
@@ -91,10 +92,9 @@ export default function Home() {
       'Friday',
       'Saturday',
     ];
-    const today = new Date();
     const todayName = gregorianWeekdays[today.getDay()];
-    return persianWeekdays[todayName];
-  };
+    return persianWeekdays[todayName]; // Now TypeScript knows that todayName is a valid key for persianWeekdays
+  }
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-600">
