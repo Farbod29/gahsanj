@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import jalaali from 'jalaali-js';
 
-const PersianCalendar = () => {
-  // Define the Jalaali month and week names
-  const jalaaliMonths = [
-    'فروردین',
-    'اردیبهشت',
-    'خرداد',
-    'تیر',
-    'مرداد',
-    'شهریور',
-    'مهر',
-    'آبان',
-    'آذر',
-    'دی',
-    'بهمن',
-    'اسفند',
-  ];
-
+interface PersianCalendarProps {
+  IraniMelli: string;
+  NameOfTheDay: string; // Define the type of NameOfTheDay here
+}
+const PersianCalendar: React.FC<PersianCalendarProps> = ({
+  IraniMelli,
+  NameOfTheDay,
+}) => {
   const persianWeekDays = [
     { day: 'اورمزد', dayShort: 'پ' },
     { day: 'آدینه', dayShort: 'ج' },
@@ -42,64 +33,100 @@ const PersianCalendar = () => {
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
 
-  // Create a state for the current month and year in the Jalaali calendar
   const [currentMonth, setCurrentMonth] = useState(jToday.jm);
   const [currentYear, setCurrentYear] = useState(jToday.jy);
-  const [selectedDay, setSelectedDay] = useState(jToday.jd);
+
+  useEffect(() => {
+    // Convert IraniMelli to a number before setting it to currentYear
+    const yearAsNumber = Number(IraniMelli);
+    if (!isNaN(yearAsNumber)) {
+      setCurrentYear(yearAsNumber);
+    }
+  }, [IraniMelli]);
 
   // Function to generate the days of the month
-  const generateMonthDays = (year: number, month: number) => {
+  const generateMonthDays = (year: number, month: number): number[] => {
     const daysInMonth = jalaali.jalaaliMonthLength(year, month);
-    let days = [];
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i);
-    }
-    return days;
+    return Array.from({ length: daysInMonth }, (_, i) => i + 1);
   };
 
-  // Get the first day of the month
-  const firstDayOfTheMonth = new Date(jToday.jy, jToday.jm - 1, 1);
-  const startDayOfWeek = firstDayOfTheMonth.getDay();
-  // import { Hamishe } from '@/styles/fonts/fonts';
-
-  // Rotate the `persianWeekDays` array according to the first day of the month
-  const rotatedPersianWeekDays = persianWeekDays
-    .slice(startDayOfWeek)
-    .concat(persianWeekDays.slice(0, startDayOfWeek));
-
-  // Days of the current month
   const days = generateMonthDays(currentYear, currentMonth);
+
+  // Navigate to the previous month
+  const goToPreviousMonth = () => {
+    setCurrentMonth(currentMonth === 1 ? 12 : currentMonth - 1);
+    if (currentMonth === 1) {
+      setCurrentYear(currentYear - 1);
+    }
+  };
+
+  // Navigate to the next month
+  const goToNextMonth = () => {
+    setCurrentMonth(currentMonth === 12 ? 1 : currentMonth + 1);
+    if (currentMonth === 12) {
+      setCurrentYear(currentYear + 1);
+    }
+  };
+
+  const jalaaliMonths = [
+    'فروردین',
+    'اردیبهشت',
+    'خرداد',
+    'تیر',
+    'مرداد',
+    'شهریور',
+    'مهر',
+    'آبان',
+    'آذر',
+    'دی',
+    'بهمن',
+    'اسفند',
+  ];
 
   return (
     <div
-      style={{ fontFamily: 'Hamishe, sans-serif' }}
-      className=" max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2"
+      dir="rtl"
+      // style={{ fontFamily: 'Hamishe, sans-serif' }}
+      className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2 text-3xl w-full"
     >
-      <div className="flex justify-between bg-red-500 text-white text-6xl">
-        <button className="p-2 hover:bg-red-600">‹</button>
-        <span className="p-2">{jalaaliMonths[currentMonth - 1]}</span>
-        <button className="p-2 hover:bg-red-600">›</button>
+      <div className="flex justify-between items-center bg-red-500 text-white ">
+        <button onClick={goToPreviousMonth} className="p-2 text-8xl">
+          ‹
+        </button>
+        <span className="p-3 ml-3 items-center pt-4 pb-4">
+          <p className="text-6xl pb-1 pt-2">
+            {jalaaliMonths[currentMonth - 1]}
+          </p>
+          <p className="text-xm pt-3">
+            {IraniMelli} {NameOfTheDay}
+          </p>
+        </span>
+        <button onClick={goToNextMonth} className="p-2 text-8xl">
+          ›
+        </button>
       </div>
       <div className="grid grid-cols-7 gap-1 p-2">
-        {/* Render the day names */}
-        {rotatedPersianWeekDays.map((day, index) => (
+        {persianWeekDays.map((day, index) => (
           <div
             key={index}
-            className="flex flex-col items-center justify-center "
+            className="flex flex-col items-center justify-center"
           >
             <span className="text-xl text-gray-500">{day.day}</span>
             <span className="text-xl text-gray-500">روز</span>
           </div>
         ))}
-        {/* Render the days of the month */}
         {days.map((day) => {
-          const isSelected = day === selectedDay;
+          // Parse the currentYear as Number to ensure type consistency in comparison
+          const isToday =
+            jToday.jd === day &&
+            jToday.jm === currentMonth &&
+            jToday.jy === Number(currentYear); // Make sure currentYear is a number
+
           return (
             <div
               key={day}
-              onClick={() => setSelectedDay(day)}
-              className={`border rounded text-center text-4xl  p-2 cursor-pointer ${
-                isSelected ? 'bg-red-500 text-white' : 'text-gray-500'
+              className={`border rounded text-center text-4xl p-2 ${
+                isToday ? 'bg-red-500 text-white' : 'text-gray-500'
               }`}
             >
               {toPersianDigits(day)}
