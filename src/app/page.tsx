@@ -174,12 +174,20 @@ export default function Home() {
               </div>
 
               <div className="bg-[#92E6DF] p-4 rounded-2xl">
-                <h3 className="text-4xl text-blue-900 pb-6"> ماد دیاکو</h3>
-                <p className="text-3xl text-blue-700">{dates.IranianDiako}</p>
+                <h3 className="text-4xl text-blue-900 pb-6 text-center">
+                  پادشاهی دیاکو ماد
+                </h3>
+                <p className="text-3xl text-blue-700 text-center">
+                  {dates.IranianDiako}
+                </p>
               </div>
               <div className="bg-[#92E6DF] p-4 rounded-2xl">
-                <h3 className="text-4xl text-blue-900 pb-6">کورش کبیر</h3>
-                <p className="text-3xl text-blue-700">{dates.pahlaviYear}</p>
+                <h3 className="text-4xl text-blue-900 pb-6 text-center">
+                  کورش کبیر (منشور پادشاهی)
+                </h3>
+                <p className="text-3xl text-blue-700 text-center">
+                  {dates.pahlaviYear}
+                </p>
               </div>
             </div>
           </div>
