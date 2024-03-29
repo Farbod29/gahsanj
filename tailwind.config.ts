@@ -8,7 +8,8 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      IranNastaliq: ['var(--font-IranNastaliq)'],
+      //IranNastaliq: ['var(--font-IranNastaliq)'],
+      hamishe: ['Hamishe', 'sans-serif'], // Add this line
     },
     extend: {
       backgroundImage: {

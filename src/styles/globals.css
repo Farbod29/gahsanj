@@ -9,13 +9,16 @@
 }
 
 @font-face {
-  font-family: 'IranNastaliq';
-  src: url('/path-to-your-font/IranNastaliq.eot'); /* Update with the correct path */
-  /* Include other formats as needed */
+  font-family: 'Hamishe';
+  src: url('/fonts/Hamishe/Hamishe.otf') format('opentype');
+  /* Add other formats if available */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-.nastaliq-font {
-  font-family: 'IranNastaliq', serif;
+.Hamishe {
+  font-family: 'Hamishe', serif;
 }
 
 @media (prefers-color-scheme: dark) {

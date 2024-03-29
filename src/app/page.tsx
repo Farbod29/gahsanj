@@ -101,19 +101,17 @@ export default function Home() {
       <div className="flex flex-col space-y-8 rounded-lg p-8 shadow-4xl bg-white w-full max-w-3xl md:max-w-4xl lg:max-w-6xl">
         <div className="flex flex-col md:flex-row items-center justify-between bg-[#92E6DF]">
           {/* Logo container */}
-          <div className="relative w-full md:w-[400px] h-[200px] mb-5 md:mb-0">
+          {/* <div className="relative w-full md:w-[400px] h-[200px] mb-5 md:mb-0">
             <Image
-              src="/assets/logo-gahshomar-yellow.png"
+              src="https://res.cloudinary.com/ingootag-com/image/upload/v1711727641/Gahshomar/logo-gahshomar-yellow2_utuv5w.png"
               alt="Gahshomar Logo"
               layout="fill"
               objectFit="contain"
             />
-          </div>
-
+          </div> */}
           {/* Blue rectangle container */}
-          <div className="hidden md:block bg-blue-500 w-[262px] h-[97px]"></div>
+          {/* <div className="hidden md:block bg-blue-500 w-[262px] h-[97px]"></div> */}
         </div>
-
         <div className="text-center">
           <div className="flex flex-wrap justify-around items-center w-full my-12">
             <div className="text-center mb-5 w-1/2 md:w-auto">
@@ -124,7 +122,7 @@ export default function Home() {
             <div className="text-center mb-5 w-1/2 md:w-auto">
               <div className="text-black">Los Angeles</div>
               <ReactClock timeZone="America/Los_Angeles" />
-              <div className="text-black text-4xl">لس آنجلس</div>
+              <div className="text-black text-4xl">لس آنجلس </div>
             </div>
             <div className="text-center mb-5 w-1/2 md:w-auto">
               <div className="text-black">New York</div>
@@ -134,7 +132,7 @@ export default function Home() {
             <div className="text-center mb-5 w-1/2 md:w-auto">
               <div className="text-black">London</div>
               <ReactClock timeZone="Europe/London" />
-              <div className="text-black text-4xl">لندن</div>
+              <div className="text-black text-4xl">لندن </div>
             </div>
             <div className="text-center w-1/2 md:w-auto">
               <div className="text-black">Tehran</div>

@@ -60,6 +60,7 @@ const PersianCalendar = () => {
   // Get the first day of the month
   const firstDayOfTheMonth = new Date(jToday.jy, jToday.jm - 1, 1);
   const startDayOfWeek = firstDayOfTheMonth.getDay();
+  // import { Hamishe } from '@/styles/fonts/fonts';
 
   // Rotate the `persianWeekDays` array according to the first day of the month
   const rotatedPersianWeekDays = persianWeekDays
@@ -70,7 +71,10 @@ const PersianCalendar = () => {
   const days = generateMonthDays(currentYear, currentMonth);
 
   return (
-    <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2">
+    <div
+      style={{ fontFamily: 'Hamishe, sans-serif' }}
+      className=" max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2"
+    >
       <div className="flex justify-between bg-red-500 text-white text-6xl">
         <button className="p-2 hover:bg-red-600">‹</button>
         <span className="p-2">{jalaaliMonths[currentMonth - 1]}</span>
