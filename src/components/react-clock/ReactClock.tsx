@@ -1,36 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
 import Clock from 'react-clock';
 import 'react-clock/dist/Clock.css';
 
-// Define a type for the props expected by ReactClock
 interface ReactClockProps {
-  timeZone?: string; // the timeZone prop is optional and can be a string
+  timeZone?: string;
 }
-
-export default function ReactClock({ timeZone }: ReactClockProps) {
+interface ReactClockProps {
+  timeZone?: string;
+  size?: number; // add this line to include the size property
+}
+export default function ReactClock({ timeZone, size }: ReactClockProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [propsSize, setPropsSize] = useState(30); // Default size
+
+  useLayoutEffect(() => {
+    const updateSize = () => {
+      const newSize = window.innerWidth < 320 ? 100 : 150;
+      setPropsSize(newSize);
+    };
+
+    window.addEventListener('resize', updateSize);
+    updateSize(); // Call immediately to set initial size
+
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // The timeString will be in the format of the specified time zone
       const timeString = new Date().toLocaleString('en-US', { timeZone });
-      // Parse the time string back into a Date object
       const dateInTimeZone = new Date(timeString);
       setCurrentTime(dateInTimeZone);
     }, 1000);
 
-    // Clear the interval on component unmount
     return () => clearInterval(intervalId);
   }, [timeZone]);
 
   return (
-    <div style={{ display: 'inline-block', marginLeft: '20px' }}>
-      <Clock
-        value={currentTime}
-
-        // size={100}
-        //  renderNumbers={true}  />
-      />
+    <div className="inline-block m-2">
+      <Clock value={currentTime} size={size} />
     </div>
   );
 }

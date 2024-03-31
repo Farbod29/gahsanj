@@ -10,13 +10,13 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
   NameOfTheDay,
 }) => {
   const persianWeekDays = [
-    { day: 'اورمزد', dayShort: 'پ' },
-    { day: 'آدینه', dayShort: 'ج' },
-    { day: 'کیوان', dayShort: 'ش' },
     { day: 'مهر', dayShort: 'ی' },
     { day: 'ماه', dayShort: 'د' },
     { day: 'بهرام', dayShort: 'س' },
     { day: 'تیر', dayShort: 'چ' },
+    { day: 'اورمزد', dayShort: 'پ' },
+    { day: 'آدینه', dayShort: 'ج' },
+    { day: 'کیوان', dayShort: 'ش' },
   ];
 
   // Helper function to convert numbers to Persian
@@ -86,22 +86,24 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
   return (
     <div
       dir="rtl"
-      // style={{ fontFamily: 'Hamishe, sans-serif' }}
-      className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2 text-3xl w-full"
+      className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2 text-xl sm:text-3xl w-full"
     >
-      <div className="flex justify-between items-center bg-red-500 text-white ">
-        <button onClick={goToPreviousMonth} className="p-2 text-8xl">
+      <div className="flex justify-between items-center bg-red-500 text-white">
+        <button
+          onClick={goToPreviousMonth}
+          className="p-2 text-4xl sm:text-8xl"
+        >
           ‹
         </button>
         <span className="p-3 ml-3 items-center pt-4 pb-4">
-          <p className="text-6xl pb-1 pt-2">
+          <p className="text-4xl sm:text-6xl pb-1 pt-2">
             {jalaaliMonths[currentMonth - 1]}
           </p>
-          <p className="text-xm pt-3">
+          <p className="text-sm sm:text-xl pt-3">
             {IraniMelli} {NameOfTheDay}
           </p>
         </span>
-        <button onClick={goToNextMonth} className="p-2 text-8xl">
+        <button onClick={goToNextMonth} className="p-2 text-4xl sm:text-8xl">
           ›
         </button>
       </div>
@@ -111,8 +113,8 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
             key={index}
             className="flex flex-col items-center justify-center"
           >
-            <span className="text-xl text-gray-500">{day.day}</span>
-            <span className="text-xl text-gray-500">روز</span>
+            <span className="text-sm sm:text-xl text-gray-500">{day.day}</span>
+            <span className="text-sm sm:text-xl text-gray-500">روز</span>
           </div>
         ))}
         {days.map((day) => {
@@ -125,9 +127,10 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
           return (
             <div
               key={day}
-              className={`border rounded text-center text-4xl p-2 ${
+              className={`border rounded text-center p-2 ${
                 isToday ? 'bg-red-500 text-white' : 'text-gray-500'
-              }`}
+              } 
+                        text-xs sm:text-sm md:text-4xl`} // Starts with 'text-xs' for smallest screens, 'sm:text-sm' for small screens, and 'md:text-4xl' for medium screens and up.
             >
               {toPersianDigits(day)}
             </div>
