@@ -129,7 +129,7 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
       dir="rtl"
       className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2 text-xl sm:text-3xl w-full"
     >
-      <div className="flex justify-between items-center bg-[#CC3333] text-white">
+      <div className="flex justify-between items-center bg-[#1C39BB] text-white">
         <button
           onClick={goToPreviousMonth}
           className="p-2 text-4xl sm:text-8xl"
