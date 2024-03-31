@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import jalaali from 'jalaali-js';
+import { getTime } from 'date-fns';
 
 interface PersianCalendarProps {
   IraniMelli: string;
   NameOfTheDay: string; // Define the type of NameOfTheDay here
 }
+
 const PersianCalendar: React.FC<PersianCalendarProps> = ({
   IraniMelli,
   NameOfTheDay,
 }) => {
   const persianWeekDays = [
-    { day: 'مهر', dayShort: 'ی' },
-    { day: 'ماه', dayShort: 'د' },
-    { day: 'بهرام', dayShort: 'س' },
-    { day: 'تیر', dayShort: 'چ' },
-    { day: 'اورمزد', dayShort: 'پ' },
-    { day: 'آدینه', dayShort: 'ج' },
-    { day: 'کیوان', dayShort: 'ش' },
+    { day: 'مه', dayShort: 'د', HejriDay: 'دوشنبه' },
+    { day: 'بهرام', dayShort: 'س', HejriDay: 'سه شنبه' },
+    { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه' },
+    { day: 'مزد', dayShort: 'پ', HejriDay: 'پنجشنبه' },
+    { day: 'آدینه', dayShort: 'ج', HejriDay: 'جمعه' },
+    { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنیه' },
+    { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه' },
   ];
 
   // Helper function to convert numbers to Persian
@@ -68,6 +70,23 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
     }
   };
 
+  const convertToGregorianDay = (
+    jalaaliYear: number,
+    jalaaliMonth: number,
+    jalaaliDay: number
+  ): number => {
+    const gregorianDate = jalaali.toGregorian(
+      jalaaliYear,
+      jalaaliMonth,
+      jalaaliDay
+    );
+    return new Date(
+      gregorianDate.gy,
+      gregorianDate.gm - 1,
+      gregorianDate.gd
+    ).getDate();
+  };
+
   const jalaaliMonths = [
     'فروردین',
     'اردیبهشت',
@@ -83,12 +102,34 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
     'اسفند',
   ];
 
+  const firstDayOfJalaaliMonth = jalaali.toGregorian(
+    currentYear,
+    currentMonth,
+    1
+  );
+  const firstDayDate = new Date(
+    firstDayOfJalaaliMonth.gy,
+    firstDayOfJalaaliMonth.gm - 1,
+    firstDayOfJalaaliMonth.gd
+  );
+  const firstDayOfWeek = firstDayDate.getDay();
+
+  const offset = (firstDayOfWeek + 1) % 7;
+
+  const emptySlots = Array.from({ length: offset }, (_, index) => (
+    <div
+      key={`empty-${index}`}
+      className="border rounded text-center p-3 text-gray-500 opacity-50"
+    >
+      {/* Render empty cells or previous month's days */}
+    </div>
+  ));
   return (
     <div
       dir="rtl"
       className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2 text-xl sm:text-3xl w-full"
     >
-      <div className="flex justify-between items-center bg-red-500 text-white">
+      <div className="flex justify-between items-center bg-[#CC3333] text-white">
         <button
           onClick={goToPreviousMonth}
           className="p-2 text-4xl sm:text-8xl"
@@ -99,9 +140,10 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
           <p className="text-4xl sm:text-6xl pb-1 pt-2">
             {jalaaliMonths[currentMonth - 1]}
           </p>
-          <p className="text-sm sm:text-xl pt-3">
-            {IraniMelli} {NameOfTheDay}
-          </p>
+          <div className="flex gap-12">
+            <p className="text-sm sm:text-xl pt-3">{NameOfTheDay}</p>
+            <p className="text-sm sm:text-xl pt-3">{IraniMelli}</p>
+          </div>
         </span>
         <button onClick={goToNextMonth} className="p-2 text-4xl sm:text-8xl">
           ›
@@ -115,24 +157,35 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
           >
             <span className="text-sm sm:text-xl text-gray-500">{day.day}</span>
             <span className="text-sm sm:text-xl text-gray-500">روز</span>
+            <span className="text-sm sm:text-xl text-gray-500">
+              {day.dayShort}
+            </span>
           </div>
         ))}
-        {days.map((day) => {
-          // Parse the currentYear as Number to ensure type consistency in comparison
+        {emptySlots}{' '}
+        {/* Render the empty slots before the first day of the month */}
+        {days.map((day, index) => {
           const isToday =
             jToday.jd === day &&
             jToday.jm === currentMonth &&
-            jToday.jy === Number(currentYear); // Make sure currentYear is a number
+            jToday.jy === Number(currentYear);
+          const gregorianDay = convertToGregorianDay(
+            currentYear,
+            currentMonth,
+            day
+          );
 
           return (
             <div
-              key={day}
-              className={`border rounded text-center p-2 ${
-                isToday ? 'bg-red-500 text-white' : 'text-gray-500'
-              } 
-                        text-xs sm:text-sm md:text-4xl`} // Starts with 'text-xs' for smallest screens, 'sm:text-sm' for small screens, and 'md:text-4xl' for medium screens and up.
+              key={index}
+              className={`border rounded text-center p-3 flex items-center justify-center relative ${
+                isToday ? 'bg-[#CC3333] text-white' : 'text-gray-500'
+              }`}
             >
-              {toPersianDigits(day)}
+              <span className="font-bold">{toPersianDigits(day)}</span>
+              <span className="text-xxxxs absolute top-0 left-0 mt-6 ml-0.5">
+                {gregorianDay}
+              </span>
             </div>
           );
         })}

@@ -31,8 +31,8 @@ export default function Home() {
 
   const Tab = ({ name }: { name: string }) => (
     <button
-      className={`p-3 rounded-lg  hover:bg-blue-700 ${
-        activeTab === name ? 'bg-blue-500 text-white' : 'bg-gray-200'
+      className={`p-3 rounded-lg  hover:bg-[#32127A] ${
+        activeTab === name ? 'bg-[#1C39BB] text-white' : 'bg-gray-200'
       }`}
       onClick={() => setActiveTab(name)}
     >
@@ -63,7 +63,7 @@ export default function Home() {
   useEffect(() => {
     const today = new Date();
     setDates({
-      europeanDate: toPersianNums(today.toLocaleDateString('en-GB')),
+      europeanDate: today.toLocaleDateString('en-GB'),
       jalaliDate: convertToJalali(today),
       pahlaviYear: convertToPahlavi(today),
       IranianDiako: convertToIranianDiako(today),
@@ -111,13 +111,13 @@ export default function Home() {
     );
   }
   const persianWeekdays: { [key: string]: string } = {
-    Sunday: '(یکشنبه) خورشید (مهر) روز',
-    Monday: '( دوشنبه) ماه روز',
-    Tuesday: ' ( سه شنبه)بهرام روز',
-    Wednesday: '( چهار شنبه) تیر روز ',
-    Thursday: '( پنج شنبه)اورمزد روز',
-    Friday: '(جمعه)آدینه', // or 'ناهید روز' depending on your preference
-    Saturday: '(شنبه) کیوان روز',
+    Sunday: '   مهر روز  / یکشنبه',
+    Monday: '  ماه روز /دوشنبه',
+    Tuesday: '   بهرام روز / سه شنبه ',
+    Wednesday: ' چهار شنبه  تیر روز ',
+    Thursday: ' پنج شنبه اورمزد روز',
+    Friday: 'جمعه آدینه', // or 'ناهید روز' depending on your preference
+    Saturday: 'شنبه  کیوان روز',
   };
 
   function getTodayPersianName(): string {
@@ -136,8 +136,8 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-gray-600 px-2 sm:px-4 md:px-8">
-      <div className="w-full flex flex-col items-center px-2 py-4 md:py-8 rounded-lg bg-white shadow-xl md:shadow-2xl lg:shadow-4xl">
+    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-[#C6FAF7] px-2 sm:px-4 md:px-8">
+      <div className="w-full flex flex-col items-center px-2 py-4 md:py-8 rounded-lg bg-white shadow-xl md:shadow-2xl lg:shadow-4xl min-h-screen">
         {/* Tab Headers */}
         <div className="flex w-full justify-around mb-2 md:mb-4 text-xs md:text-sm lg:text-base xl:text-lg">
           <Tab name="ساعت شمار" />
@@ -226,50 +226,50 @@ export default function Home() {
         {activeTab === 'گاهشمار' && (
           <div className="space-y-2 md:space-y-4 w-full">
             <div className="text-center bg-[#92E6DF] py-4 md:py-8 rounded-2xl mt-6 md:mt-24">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl text-blue-900 pb-4 md:pb-8">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-[#32127A] pb-4 md:pb-8">
                 ایران نو
               </h2>
-              <p className="text-3xl md:text-4xl lg:text-5xl text-blue-700 pb-2 md:pb-3">
+              <p className="text-3xl md:text-4xl lg:text-5xl text-[#1C39BB] pb-2 md:pb-3">
                 {dates.IraniMelli}
               </p>
-              <p className="text-3xl md:text-4xl lg:text-5xl text-blue-700">
+              <p className="text-3xl md:text-4xl lg:text-5xl text-[#1C39BB]">
                 {getTodayPersianName()}
               </p>
             </div>
 
             <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-4">
               <div className="bg-[#92E6DF] p-2 sm:p-4 rounded-2xl flex-1 flex flex-col items-center w-full">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-blue-900 pb-3 sm:pb-4 lg:pb-6">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
                   هجری
                 </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-blue-700">
+                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
                   {dates.jalaliDate}
                 </p>
               </div>
 
               <div className="bg-[#92E6DF] p-2 sm:p-4 rounded-2xl flex-1 flex flex-col items-center w-full">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-blue-900 pb-3 sm:pb-4 lg:pb-6">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
                   میلادی
                 </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-blue-700">
+                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
                   {dates.europeanDate}
                 </p>
               </div>
 
               <div className="bg-[#92E6DF] p-2 sm:p-4 rounded-2xl flex-1 text-center w-full">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-blue-900 pb-3 sm:pb-4 lg:pb-6">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
                   مادی
                 </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-blue-700">
+                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
                   {dates.IranianDiako}
                 </p>
               </div>
 
               <div className="bg-[#92E6DF] p-2 sm:p-4 rounded-2xl flex-1 text-center w-full">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-blue-900 pb-3 sm:pb-4 lg:pb-6">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
                   هخامنشی
                 </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-blue-700">
+                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
                   {dates.pahlaviYear}
                 </p>
               </div>
