@@ -179,7 +179,9 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
             <div
               key={index}
               className={`border rounded text-center p-3 flex items-center justify-center relative ${
-                isToday ? 'bg-[#CC3333] text-white' : 'text-gray-500'
+                isToday
+                  ? ' border-red-500 bg-[#f7f7f7] text-black font-bold border-2 p-1 rounded'
+                  : 'text-gray-500 '
               }`}
             >
               <span className="font-bold">{toPersianDigits(day)}</span>
