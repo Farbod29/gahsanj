@@ -1,3 +1,7 @@
+// react clock.jsx
+
+'use client';
+
 import React, { useLayoutEffect, useState, useEffect } from 'react';
 import Clock from 'react-clock';
 import 'react-clock/dist/Clock.css';

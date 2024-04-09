@@ -1,23 +1,45 @@
+// src/app/ClocksPage/page.tsx
 'use client';
-import ReactClock from '@/components/react-clock/ReactClock';
-import React from 'react';
+import dynamic from 'next/dynamic';
+import React, { useState, useEffect } from 'react';
 
-function determineClockSize(): number {
-  const screenWidth = window.innerWidth;
-
-  if (screenWidth <= 480) {
-    // Phone size
-    return 70;
-  } else if (screenWidth <= 768) {
-    // iPad size
-    return 90;
-  } else {
-    // Larger screens
-    return 130;
-  }
-}
+// Dynamically import ReactClock with SSR disabled
+const ReactClockNoSSR = dynamic(
+  () => import('@/components/react-clock/ReactClock'),
+  { ssr: false }
+);
 
 const ClocksPage = () => {
+  // Initialize the clock size with a default value
+  const [clockSize, setClockSize] = useState(130);
+
+  useEffect(() => {
+    // This function will determine the clock size and set it using the state
+    function determineClockSize() {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth <= 480) {
+        return 70;
+      } else if (screenWidth <= 768) {
+        return 90;
+      } else {
+        return 130;
+      }
+    }
+
+    // Call the function and set the state when the component mounts in the browser
+    setClockSize(determineClockSize());
+
+    // Optional: Set up a resize listener if you want the size to be responsive
+    const handleResize = () => {
+      setClockSize(determineClockSize());
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup the event listener when the component unmounts
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-screen bg-white p-12">
@@ -28,7 +50,7 @@ const ClocksPage = () => {
             <div className="text-black text-xxxxs md:text-2xl pb-1">
               Local Time
             </div>
-            <ReactClock timeZone="Europe/Berlin" size={determineClockSize()} />
+            <ReactClockNoSSR timeZone="Europe/Berlin" size={clockSize} />
             <div className="text-black text-lg md:text-3xl pt-1 pb-4 text-xxxxs ">
               وقت محلی
             </div>
@@ -39,10 +61,7 @@ const ClocksPage = () => {
             <div className="text-black text-xxxxs md:text-2xl pb-1">
               Los Angeles
             </div>
-            <ReactClock
-              timeZone="America/Los_Angeles"
-              size={determineClockSize()}
-            />
+            <ReactClockNoSSR timeZone="America/Los_Angeles" size={clockSize} />
             <div className="text-black text-lg md:text-3xl pt-1 pb-4 text-xxxxs ">
               لس آنجلس
             </div>
@@ -53,10 +72,7 @@ const ClocksPage = () => {
             <div className="text-black text-xxxxs md:text-2xl pb-1">
               New York
             </div>
-            <ReactClock
-              timeZone="America/New_York"
-              size={determineClockSize()}
-            />
+            <ReactClockNoSSR timeZone="America/New_York" size={clockSize} />
             <div className="text-black text-lg md:text-3xl pt-1 pb-4 text-xxxxs ">
               نیویورک
             </div>
@@ -65,14 +81,14 @@ const ClocksPage = () => {
           {/* CLOCKS */}
           <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/6">
             <div className="text-black text-xxxxs md:text-2xl pb-1">London</div>
-            <ReactClock timeZone="Europe/London" size={determineClockSize()} />
+            <ReactClockNoSSR timeZone="Europe/London" size={clockSize} />
             <div className="text-black text-lg md:text-3xl pt-1 pb-4 text-xxxxs ">
               لندن
             </div>
           </div>
           <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/6">
             <div className="text-black text-xxxxs md:text-2xl pb-1">Tehran</div>
-            <ReactClock timeZone="Asia/Tehran" size={determineClockSize()} />
+            <ReactClockNoSSR timeZone="Asia/Tehran" size={clockSize} />
             <div className="text-black text-lg md:text-3xl pt-1 pb-4 text-xxxxs ">
               تهران
             </div>
@@ -81,7 +97,7 @@ const ClocksPage = () => {
           {/* CLOCKS */}
           <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/6">
             <div className="text-black text-xxxxs md:text-2xl pb-1">Berlin</div>
-            <ReactClock timeZone="Asia/Tehran" size={determineClockSize()} />
+            <ReactClockNoSSR timeZone="Asia/Tehran" size={clockSize} />
             <div className="text-black text-lg md:text-3xl pt-1 pb-4 text-xxxxs ">
               برلین
             </div>
