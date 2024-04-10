@@ -155,152 +155,54 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center bg-[#1CD2D5] px-2 sm:px-4 md:px-8">
-      <div className="w-full flex flex-col items-center px-2 py-4 md:py-8 rounded-lg bg-white shadow-xl md:shadow-2xl lg:shadow-4xl min-h-screen">
-        {/* Tab Headers */}
-
-        <div className="flex w-full justify-around mb-2 md:mb-4 text-xs md:text-sm lg:text-base xl:text-lg">
-          {/* <Tab name="گاهشمار" /> */}
+      <div className="w-full max-w-4xl mx-auto">
+        <div className="text-center bg-[#FFFFFF] p-4 rounded-2xl">
+          <h2 className="text-xl md:text-5xl lg:text-6xl text-[#32127A] md:pb-8">
+            ایران نو
+          </h2>
+          <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB] pb-1 md:pb-3">
+            {dates.IraniMelli}
+          </p>
+          <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
+            {getTodayPersianName()}
+          </p>
         </div>
-
-        {/* Content based on activeTab */}
-        {activeTab === 'ساعت شمار' && (
-          <div className="flex flex-col justify-center items-center w-full my-4 lg:my-12">
-            {!showClocks ? (
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 w-full">
-                {/* Assuming you want the spinner to take full height */}
-                <div className="spinner"> Wait for clocks</div>
-                {/* Loading icon */}
-              </div>
-            ) : (
-              <div className="flex flex-wrap justify-around items-center w-full">
-                <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/5">
-                  <div className="text-black text-sm md:text-xl pb-2">
-                    Local Time
-                  </div>
-                  <ReactClock
-                    timeZone="Europe/Berlin"
-                    size={determineClockSize()}
-                  />
-
-                  <div className="text-black text-lg md:text-4xl pt-3">
-                    وقت محلی
-                  </div>
-                </div>
-                <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/5">
-                  <div className="text-black text-sm md:text-xl pb-2">
-                    Los Angeles
-                  </div>
-                  <ReactClock
-                    timeZone="America/Los_Angeles"
-                    size={determineClockSize()}
-                  />
-                  <div className="text-black text-lg md:text-4xl pt-3">
-                    کالفرنیا
-                  </div>
-                </div>
-                <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/5">
-                  <div className="text-black text-sm md:text-xl pb-2">
-                    New York
-                  </div>
-                  <ReactClock
-                    timeZone="America/New_York"
-                    size={determineClockSize()}
-                  />
-                  <div className="text-black text-lg md:text-4xl pt-3">
-                    نیویورک
-                  </div>
-                </div>
-                <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/5">
-                  <div className="text-black text-sm md:text-xl pb-2">
-                    London
-                  </div>
-                  <ReactClock
-                    timeZone="Europe/London"
-                    size={determineClockSize()}
-                  />
-                  <div className="text-black text-lg md:text-4xl pt-3">
-                    لندن
-                  </div>
-                </div>
-                <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/5">
-                  <div className="text-black text-sm md:text-xl pb-2">
-                    Tehran
-                  </div>
-                  <ReactClock
-                    timeZone="Asia/Tehran"
-                    size={determineClockSize()}
-                  />
-                  <div className="text-black text-lg md:text-4xl pt-3">
-                    تهران
-                  </div>
-                </div>
-              </div>
-            )}
+        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full mt-4 md:mt-8">
+          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full md:flex-1 md:mr-2">
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center">
+              مادی
+            </h3>
+            <p className="text-sm sm:text-xl lg:text-3xl text-[#1C39BB] text-center">
+              {dates.IranianDiako}
+            </p>
           </div>
-        )}
-
-        {activeTab === 'گاهشمار' && (
-          <div className="space-y-2 md:space-y-4 w-full">
-            <div className="text-center bg-[#92E6DF] py-4 md:py-8 rounded-2xl mt-6 md:mt-24">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl text-[#32127A] pb-4 md:pb-8">
-                ایران نو
-              </h2>
-              <p className="text-3xl md:text-4xl lg:text-5xl text-[#1C39BB] pb-2 md:pb-3">
-                {dates.IraniMelli}
-              </p>
-              <p className="text-3xl md:text-4xl lg:text-5xl text-[#1C39BB]">
-                {getTodayPersianName()}
-              </p>
-            </div>
-
-            <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-4 w-full">
-              <div className="bg-[#92E6DF] p-2 rounded-2xl w-full md:w-1/2 flex flex-col items-center mb-2 md:mb-0">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
-                  مادی
-                </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
-                  {dates.IranianDiako}
-                </p>
-              </div>
-              <div className="bg-[#92E6DF] p-2 rounded-2xl w-full md:w-1/2 flex flex-col items-center mb-2 md:mb-0">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
-                  هخامنشی
-                </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
-                  {dates.pahlaviYear}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-4 w-full">
-              <div className="bg-[#92E6DF] p-2 rounded-2xl w-full md:w-1/2 flex flex-col items-center">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6 ">
-                  هجری
-                </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
-                  {dates.jalaliDate}
-                </p>
-              </div>
-
-              <div className="bg-[#92E6DF] p-2 rounded-2xl w-full md:w-1/2 flex flex-col items-center">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
-                  میلادی
-                </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
-                  {dates.europeanDate}
-                </p>
-              </div>
-            </div>
+          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full md:flex-1 md:ml-2 mt-4 md:mt-0">
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center">
+              هخامنشی
+            </h3>
+            <p className="text-sm sm:text-xl lg:text-3xl text-[#1C39BB] text-center">
+              {dates.pahlaviYear}
+            </p>
           </div>
-        )}
-        {activeTab === 'روزهای ماه' && (
-          <div className="flex flex-col items-center justify-center mt-4 lg:mt-12 w-full">
-            <PersianCalendar
-              IraniMelli={dates.IraniMelli}
-              NameOfTheDay={getTodayPersianName()}
-            />
+        </div>
+        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full mt-4">
+          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full md:flex-1 md:mr-2">
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center">
+              هجری
+            </h3>
+            <p className="text-sm sm:text-xl lg:text-3xl text-[#1C39BB] text-center">
+              {dates.jalaliDate}
+            </p>
           </div>
-        )}
+          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full md:flex-1 md:ml-2 mt-4 md:mt-0">
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center">
+              میلادی
+            </h3>
+            <p className="text-sm sm:text-xl lg:text-3xl text-[#1C39BB] text-center">
+              {dates.europeanDate}
+            </p>
+          </div>
+        </div>
       </div>
     </main>
   );
