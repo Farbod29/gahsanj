@@ -142,7 +142,6 @@ export default function Home() {
         <div className="flex w-full justify-around mb-2 md:mb-4 text-xs md:text-sm lg:text-base xl:text-lg">
           {/* <Tab name="گاهشمار" /> */}
         </div>
-
         {/* Content based on activeTab */}
         {activeTab === 'ساعت شمار' && (
           <div className="flex flex-col justify-center items-center w-full my-4 lg:my-12">
