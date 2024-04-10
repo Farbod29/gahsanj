@@ -140,9 +140,7 @@ export default function Home() {
       <div className="w-full flex flex-col items-center px-2 py-4 md:py-8 rounded-lg bg-white shadow-xl md:shadow-2xl lg:shadow-4xl min-h-screen">
         {/* Tab Headers */}
         <div className="flex w-full justify-around mb-2 md:mb-4 text-xs md:text-sm lg:text-base xl:text-lg">
-          <Tab name="ساعت شمار" />
-          <Tab name="گاهشمار" />
-          <Tab name="روزهای ماه" />
+          {/* <Tab name="گاهشمار" /> */}
         </div>
 
         {/* Content based on activeTab */}
