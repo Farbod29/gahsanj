@@ -157,7 +157,7 @@ function PersianCalendar() {
   return (
     <div
       dir="rtl"
-      className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2 text-xl sm:text-3xl w-full"
+      className="max-w-md mx-auto bg-white rounded-lg overflow-hidden my-2 text-xl sm:text-3xl w-full"
     >
       <div className="flex justify-between items-center bg-[#FF7F50] text-white p-3">
         <button
