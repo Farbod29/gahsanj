@@ -18,7 +18,8 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       fontSize: {
-        xxxxs: '0.7rem', // Custom extra extra extra small font size
+        xxxxs: '0.6rem', // Custom extra extra extra small font size
+        verysmall: '0.5rem', // Custom extra extra extra small font size
       },
       spacing: {
         '0.1': '1.3325rem', // for very fine adjustments

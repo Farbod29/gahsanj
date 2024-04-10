@@ -154,7 +154,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-[#C6FAF7] px-2 sm:px-4 md:px-8">
+    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-[#1CD2D5] px-2 sm:px-4 md:px-8">
       <div className="w-full flex flex-col items-center px-2 py-4 md:py-8 rounded-lg bg-white shadow-xl md:shadow-2xl lg:shadow-4xl min-h-screen">
         {/* Tab Headers */}
 
@@ -177,12 +177,11 @@ export default function Home() {
                   <div className="text-black text-sm md:text-xl pb-2">
                     Local Time
                   </div>
-                  {/* <div className="w-[200px]"> */}
                   <ReactClock
                     timeZone="Europe/Berlin"
                     size={determineClockSize()}
                   />
-                  {/* </div> */}
+
                   <div className="text-black text-lg md:text-4xl pt-3">
                     وقت محلی
                   </div>
@@ -196,7 +195,7 @@ export default function Home() {
                     size={determineClockSize()}
                   />
                   <div className="text-black text-lg md:text-4xl pt-3">
-                    لس آنجلس
+                    کالفرنیا
                   </div>
                 </div>
                 <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/5">
@@ -254,26 +253,8 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-4">
-              <div className="bg-[#92E6DF] p-2 sm:p-4 rounded-2xl flex-1 flex flex-col items-center w-full">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
-                  هجری
-                </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
-                  {dates.jalaliDate}
-                </p>
-              </div>
-
-              <div className="bg-[#92E6DF] p-2 sm:p-4 rounded-2xl flex-1 flex flex-col items-center w-full">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
-                  میلادی
-                </h3>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
-                  {dates.europeanDate}
-                </p>
-              </div>
-
-              <div className="bg-[#92E6DF] p-2 sm:p-4 rounded-2xl flex-1 text-center w-full">
+            <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-4 w-full">
+              <div className="bg-[#92E6DF] p-2 rounded-2xl w-full md:w-1/2 flex flex-col items-center mb-2 md:mb-0">
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
                   مادی
                 </h3>
@@ -281,13 +262,32 @@ export default function Home() {
                   {dates.IranianDiako}
                 </p>
               </div>
-
-              <div className="bg-[#92E6DF] p-2 sm:p-4 rounded-2xl flex-1 text-center w-full">
+              <div className="bg-[#92E6DF] p-2 rounded-2xl w-full md:w-1/2 flex flex-col items-center mb-2 md:mb-0">
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
                   هخامنشی
                 </h3>
                 <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
                   {dates.pahlaviYear}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-4 w-full">
+              <div className="bg-[#92E6DF] p-2 rounded-2xl w-full md:w-1/2 flex flex-col items-center">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6 ">
+                  هجری
+                </h3>
+                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
+                  {dates.jalaliDate}
+                </p>
+              </div>
+
+              <div className="bg-[#92E6DF] p-2 rounded-2xl w-full md:w-1/2 flex flex-col items-center">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl text-[#32127A] pb-3 sm:pb-4 lg:pb-6">
+                  میلادی
+                </h3>
+                <p className="text-xl sm:text-2xl lg:text-3xl text-[#1C39BB]">
+                  {dates.europeanDate}
                 </p>
               </div>
             </div>
