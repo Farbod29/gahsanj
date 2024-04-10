@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import jalaali from 'jalaali-js';
 
 // Helper function to convert numbers to Persian
-const toPersianDigits = (num) => {
+const toPersianDigits = (num: number) => {
   const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return String(num)
     .split('')
@@ -12,24 +12,23 @@ const toPersianDigits = (num) => {
 };
 
 // Mapping Gregorian weekdays to Jalaali weekdays
-const gregorianToJalaaliWeekDayMap = {
-  6: 6,
-  0: 0,
-  2: 2,
-  3: 3,
-  4: 4,
-  5: 5,
-  1: 1,
+const gregorianToJalaaliWeekDayMap: { [key: number]: number } = {
+  0: 6,
+  1: 0,
+  2: 1,
+  3: 2,
+  4: 3,
+  5: 4,
+  6: 5,
 };
-
 function toPersianNums(numString: string) {
   const persianNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
 }
 
 // Get the Persian name of today
-const getTodayPersianName = () => {
-  const persianWeekDays = [
+const getTodayPersianName = (): string => {
+  const persianWeekDays: string[] = [
     'یک‌شنبه',
     'دوشنبه',
     'سه‌شنبه',
@@ -39,16 +38,18 @@ const getTodayPersianName = () => {
     'شنبه',
   ];
   const today = new Date();
-  return persianWeekDays[gregorianToJalaaliWeekDayMap[today.getDay()]];
+  type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  const dayOfWeek: WeekDay = today.getDay() as WeekDay;
+  return persianWeekDays[gregorianToJalaaliWeekDayMap[dayOfWeek]];
 };
 
 // Convert to the Iranian year
 
 function convertToIraniMelli(date: Date) {
   const { jy, jm, jd } = jalaali.toJalaali(date);
-  const IraniMelli = jy - 1396;
+  const iraniMelli = jy - 1396;
   return toPersianNums(
-    `${IraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
+    `${iraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
   );
 }
 
@@ -72,7 +73,7 @@ function PersianCalendar() {
   const IraniMelli = convertToIraniMelli(today);
 
   // Function to generate the days of the current month
-  const generateMonthDays = (year, month) => {
+  const generateMonthDays = (year: number, month: number) => {
     const daysInMonth = jalaali.jalaaliMonthLength(year, month);
     return Array.from({ length: daysInMonth }, (_, i) => i + 1);
   };
@@ -96,7 +97,11 @@ function PersianCalendar() {
   };
 
   // Convert Jalaali date to Gregorian day
-  const convertToGregorianDay = (jalaaliYear, jalaaliMonth, jalaaliDay) => {
+  const convertToGregorianDay = (
+    jalaaliYear: number,
+    jalaaliMonth: number,
+    jalaaliDay: number
+  ) => {
     const gregorianDate = jalaali.toGregorian(
       jalaaliYear,
       jalaaliMonth,
