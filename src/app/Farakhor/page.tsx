@@ -77,12 +77,11 @@ const Occasions: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-5 bg-[#1CD2D5] flex flex-col">
-      <div className="flex justify-center items-center bg-[#1CD2D5] text-2xl font-bold mb- text-white">
-        <h1>{`فراخورهای ماه فروردین`}</h1>
+    <div className=" bg-[#1CD2D5] flex flex-col">
+      <div className="bg-[#FF7F50] shadow rounded-lg p-12 w-full text-center text-2xl text-bold text-white fixed mr-8">
+        <h1 className="align-center items-center">{`فراخورهای ماه فروردین`}</h1>
       </div>
-      <div className="flex flex-col items-center mt-8">
-        {' '}
+      <div className="flex flex-col items-center mt-36">
         {/* Adjust margin-top as necessary */}
         {Object.entries(currentMonthEvents).map(([day, event]) => (
           <div
