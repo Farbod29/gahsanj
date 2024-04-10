@@ -11,11 +11,11 @@ const ReactClockNoSSR = dynamic(
 
 const ClocksPage = () => {
   // Initialize the clock size with a default value
-  const [clockSize, setClockSize] = useState(120);
+  const [clockSize, setClockSize] = useState<number>(120);
 
   useEffect(() => {
     // This function will determine the clock size and set it using the state
-    function determineClockSize() {
+    function determineClockSize(): number {
       const screenWidth = window.innerWidth;
 
       if (screenWidth <= 480) {
@@ -25,15 +25,13 @@ const ClocksPage = () => {
       } else if (screenWidth <= 1800) {
         return 73;
       }
+      return 120; // Return default size if no condition is met
     }
 
-    // Call the function and set the state when the component mounts in the browser
-
-    // Optional: Set up a resize listener if you want the size to be responsive
+    setClockSize(determineClockSize());
     const handleResize = () => {
       setClockSize(determineClockSize());
     };
-
     window.addEventListener('resize', handleResize);
 
     // Cleanup the event listener when the component unmounts
