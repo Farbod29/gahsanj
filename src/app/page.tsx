@@ -11,6 +11,21 @@ function toPersianNums(numString: string) {
   return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
 }
 
+const jalaaliMonths = [
+  'فروردین',
+  'اردیبهشت',
+  'خرداد',
+  'تیر',
+  'مرداد',
+  'شهریور',
+  'مهر',
+  'آبان',
+  'آذر',
+  'دی',
+  'بهمن',
+  'اسفند',
+];
+
 function determineClockSize(): number {
   const screenWidth = window.innerWidth;
 
@@ -42,6 +57,9 @@ export default function Home() {
 
   const [showClocks, setShowClocks] = useState(false);
 
+  const today = new Date();
+  const jToday = jalaali.toJalaali(today);
+  const [currentMonth, setCurrentMonth] = useState(jToday.jm);
   const [activeTab, setActiveTab] = useState('گاهشمار'); // State to track active tab
   const [dates, setDates] = useState({
     europeanDate: '',
@@ -139,9 +157,11 @@ export default function Home() {
     <main className="flex min-h-screen w-full flex-col items-center justify-center bg-[#C6FAF7] px-2 sm:px-4 md:px-8">
       <div className="w-full flex flex-col items-center px-2 py-4 md:py-8 rounded-lg bg-white shadow-xl md:shadow-2xl lg:shadow-4xl min-h-screen">
         {/* Tab Headers */}
+
         <div className="flex w-full justify-around mb-2 md:mb-4 text-xs md:text-sm lg:text-base xl:text-lg">
           {/* <Tab name="گاهشمار" /> */}
         </div>
+
         {/* Content based on activeTab */}
         {activeTab === 'ساعت شمار' && (
           <div className="flex flex-col justify-center items-center w-full my-4 lg:my-12">
