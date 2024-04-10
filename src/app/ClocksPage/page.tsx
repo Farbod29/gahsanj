@@ -39,7 +39,7 @@ const ClocksPage = () => {
   }, []);
   return (
     <div>
-      <div className="bg-white p-1">
+      <div className="bg-white p-1 pt-4">
         {/* Assuming you have 6 clocks to display in a row */}
         <div className="grid grid-cols-6 gap-4 justify-items-center">
           {/* Clocks will be here */}
