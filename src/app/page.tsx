@@ -68,6 +68,7 @@ export default function Home() {
     IranianDiako: '',
     IraniMithra: '',
     IraniMelli: '',
+    ilami: '',
   });
 
   useEffect(() => {
@@ -87,6 +88,7 @@ export default function Home() {
       IranianDiako: convertToIranianDiako(today),
       IraniMithra: convertToIraniMithra(today),
       IraniMelli: convertToIraniMelli(today),
+      ilami: convertToIlami(today),
     });
   }, []);
 
@@ -108,6 +110,14 @@ export default function Home() {
   function convertToIranianDiako(date: Date) {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IranianDiako = jy + 1321;
+    return toPersianNums(
+      `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
+    );
+  }
+
+  function convertToIlami(date: Date) {
+    const { jy, jm, jd } = jalaali.toJalaali(date);
+    const IranianDiako = jy + 3821;
     return toPersianNums(
       `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
@@ -154,53 +164,63 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center bg-[#1cd2d5]  px-2 sm:px-4 md:px-8">
+    <main className="flex min-h-screen w-full flex-col items-center bg-[#1cd2d5] px-2 sm:px-4 md:px-8">
       <div className="w-full max-w-4xl mx-auto">
         <div className="text-center bg-[#FFFFFF] p-4 rounded-2xl">
-          <h2 className="text-2xl md:text-5xl lg:text-6xl text-[#32127A] md:pb-8">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#32127A] md:pb-8 font-bold">
             ایران نو
           </h2>
-          <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB] pb-1 md:pb-3">
+          <p className="text-xl md:text-4xl pt-2 lg:text-5xl text-[#1C39BB] pb-1 md:pb-3">
             {dates.IraniMelli}
           </p>
           <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
             {getTodayPersianName()}
           </p>
         </div>
-        <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full md:flex-1 md:ml-2 mt-4 md:mt-0">
-          <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center">
-            هخامنشی
+
+        <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+          <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
+            {dates.ilami}
+          </p>
+          <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center mr-2 ml-2">
+            عیلامی
           </h3>
-          <p className="text-sm sm:text-xl lg:text-3xl text-[#1C39BB] text-center">
+        </div>
+        <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+          <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
             {dates.pahlaviYear}
           </p>
+          <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center mr-2 ml-2">
+            هخامنشی
+          </h3>
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full mt-4 md:mt-8">
-          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full md:flex-1 md:mr-2">
-            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center">
-              مادی
-            </h3>
-            <p className="text-sm sm:text-xl lg:text-3xl text-[#1C39BB] text-center">
+
+        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full  md:mt-8">
+          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+            <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
               {dates.IranianDiako}
             </p>
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center mr-2 ml-2">
+              مادی
+            </h3>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full mt-4">
-          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full md:flex-1 md:mr-2">
-            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center">
-              هجری
-            </h3>
-            <p className="text-sm sm:text-xl lg:text-3xl text-[#1C39BB] text-center">
+        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full ">
+          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+            <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
               {dates.jalaliDate}
             </p>
-          </div>
-          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full md:flex-1 md:ml-2 mt-4 md:mt-0">
-            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center">
-              میلادی
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center mr-2 ml-2">
+              هجری
             </h3>
-            <p className="text-sm sm:text-xl lg:text-3xl text-[#1C39BB] text-center">
+          </div>
+          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+            <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
               {dates.europeanDate}
             </p>
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#32127A] text-center mr-2 ml-2">
+              میلادی
+            </h3>
           </div>
         </div>
       </div>
