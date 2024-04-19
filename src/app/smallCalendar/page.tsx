@@ -155,71 +155,75 @@ function PersianCalendar() {
 
   // Render the component
   return (
-    <div
-      dir="rtl"
-      className="max-w-md mx-auto bg-white rounded-lg overflow-hidden my-2 text-xl sm:text-3xl w-full"
-    >
-      <div className="flex justify-between items-center bg-[#FF7F50] text-white p-3">
-        <button
-          onClick={goToPreviousMonth}
-          className="p-2 text-4xl sm:text-8xl"
-        >
-          ‹
-        </button>
-        <span className="p-3 ml-3 items-center pt-4 pb-4">
-          <p className="text-4xl sm:text-6xl pb-1 pt-2">
-            {jalaaliMonths[currentMonth - 1]}
-          </p>
-          <div className="flex gap-12">
-            <p className="text-sm sm:text-xl pt-3">{NameOfTheDay}</p>
-            <p className="text-sm sm:text-xl pt-3">{IraniMelli}</p>{' '}
-            {/* This will now show the correct date */}
-          </div>
-        </span>
-        <button onClick={goToNextMonth} className="p-2 text-4xl sm:text-8xl">
-          ›
-        </button>
-      </div>
-      <div className="grid grid-cols-7 gap-1 p-4">
-        {persianWeekDays.map((day, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center justify-center px-4"
+    <div className="bg-[#1cd2d5] w-full h-full">
+      <div
+        dir="rtl"
+        className="max-w-md mx-auto rounded-lg overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full"
+      >
+        <div className="flex justify-between items-center bg-[#FF7F50] text-white p-3">
+          <button
+            onClick={goToPreviousMonth}
+            className="p-2 text-4xl sm:text-8xl"
           >
-            <span className="text-sm sm:text-xl text-gray-500">{day.day}</span>
-            <span className="text-sm sm:text-xl text-gray-500">روز</span>
-            <span className="text-sm sm:text-xl text-gray-500">
-              {day.dayShort}
-            </span>
-          </div>
-        ))}
-        {emptySlots}
-        {days.map((day, index) => {
-          const isToday =
-            jalaali.toJalaali(today).jd === day &&
-            currentMonth === jalaali.toJalaali(today).jm &&
-            currentYear === jalaali.toJalaali(today).jy;
-          const gregorianDay = convertToGregorianDay(
-            currentYear,
-            currentMonth,
-            day
-          );
-          return (
+            ‹
+          </button>
+          <span className="p-3 ml-3 items-center pt-4 pb-4">
+            <p className="text-4xl sm:text-6xl pb-1 pt-2">
+              {jalaaliMonths[currentMonth - 1]}
+            </p>
+            <div className="flex gap-12">
+              <p className="text-sm sm:text-xl pt-3">{NameOfTheDay}</p>
+              <p className="text-sm sm:text-xl pt-3">{IraniMelli}</p>{' '}
+              {/* This will now show the correct date */}
+            </div>
+          </span>
+          <button onClick={goToNextMonth} className="p-2 text-4xl sm:text-8xl">
+            ›
+          </button>
+        </div>
+        <div className="grid grid-cols-7 gap-1 p-4">
+          {persianWeekDays.map((day, index) => (
             <div
               key={index}
-              className={`border rounded text-center px-3 p-3 flex items-center justify-center relative ${
-                isToday
-                  ? 'border-red-500 bg-[#f7f7f7] text-black font-bold border-2 p-1 rounded'
-                  : 'text-gray-500'
-              }`}
+              className="flex flex-col items-center justify-center px-4"
             >
-              <span className="font-bold">{toPersianDigits(day)}</span>
-              <span className="text-xxxxs absolute top-0 left-0 mt-6 ml-0.5">
-                {gregorianDay}
+              <span className="text-sm sm:text-xl text-gray-500">
+                {day.day}
+              </span>
+              <span className="text-sm sm:text-xl text-gray-500">روز</span>
+              <span className="text-sm sm:text-xl text-gray-500">
+                {day.dayShort}
               </span>
             </div>
-          );
-        })}
+          ))}
+          {emptySlots}
+          {days.map((day, index) => {
+            const isToday =
+              jalaali.toJalaali(today).jd === day &&
+              currentMonth === jalaali.toJalaali(today).jm &&
+              currentYear === jalaali.toJalaali(today).jy;
+            const gregorianDay = convertToGregorianDay(
+              currentYear,
+              currentMonth,
+              day
+            );
+            return (
+              <div
+                key={index}
+                className={`border rounded text-center px-3 p-3 flex items-center justify-center relative ${
+                  isToday
+                    ? 'border-red-500 bg-[#f7f7f7] text-black font-bold border-2 p-1 rounded'
+                    : 'text-gray-500'
+                }`}
+              >
+                <span className="font-bold">{toPersianDigits(day)}</span>
+                <span className="text-xxxxs absolute top-0 left-0 mt-6 ml-0.5">
+                  {gregorianDay}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

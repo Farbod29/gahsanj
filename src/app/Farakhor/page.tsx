@@ -100,7 +100,7 @@ const Occasions: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#1CD2D5] flex flex-col">
+    <div className="bg-[#1cd2d5] flex flex-col">
       <div className="bg-[#FF7F50] shadow rounded-lg p-12 w-full text-center text-2xl text-bold text-white fixed mr-8 flex justify-between items-center">
         <button onClick={handlePreviousMonth}>&lt;</button>
         <h1>{`فراخورهای ماه ${currentMonthName}`}</h1>

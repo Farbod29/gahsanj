@@ -154,7 +154,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center  bg-[#1CD2D5] px-2 sm:px-4 md:px-8">
+    <main className="flex min-h-screen w-full flex-col items-center bg-[#1cd2d5]  px-2 sm:px-4 md:px-8">
       <div className="w-full max-w-4xl mx-auto">
         <div className="text-center bg-[#FFFFFF] p-4 rounded-2xl">
           <h2 className="text-2xl md:text-5xl lg:text-6xl text-[#32127A] md:pb-8">
