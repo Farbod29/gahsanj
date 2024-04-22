@@ -139,13 +139,13 @@ export default function Home() {
     );
   }
   const persianWeekdays: { [key: string]: string } = {
-    Sunday: '   مهر روز  / یکشنبه',
-    Monday: '  ماه روز /دوشنبه',
-    Tuesday: '   بهرام روز / سه شنبه ',
-    Wednesday: ' چهار شنبه  تیر روز ',
-    Thursday: ' پنج شنبه اورمزد روز',
-    Friday: 'جمعه آدینه', // or 'ناهید روز' depending on your preference
-    Saturday: 'شنبه  کیوان روز',
+    Sunday: '   مهر شید  / یکشنبه',
+    Monday: '  ماه شید /دوشنبه',
+    Tuesday: '   بهرام شید / سه شنبه ',
+    Wednesday: ' چهار شنبه  تیر شید ',
+    Thursday: ' پنج شنبه اورمزد شید',
+    Friday: 'جمعه آدینه', // or 'ناهید شید' depending on your preference
+    Saturday: 'شنبه  کیوان شید',
   };
 
   function getTodayPersianName(): string {
