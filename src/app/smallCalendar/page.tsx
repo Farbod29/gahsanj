@@ -33,8 +33,8 @@ const getTodayPersianName = (): string => {
     '(سه‌شنبه) بهرام',
     '(چهار‌شنبه) تیر',
     '(پنج‌شنبه) مزد',
-    'آدینه',
-    '(یک‌شنبه) کیوان',
+    'ناهید (آدینه) ',
+    '(یک‌شنبه)  کیوان',
     '(دوشنبه) مهر',
   ];
   const today = new Date();
@@ -60,7 +60,7 @@ function PersianCalendar() {
     { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه' },
     { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه' },
     { day: 'مزد', dayShort: 'پ', HejriDay: 'پنج‌شنبه' },
-    { day: 'آدینه', dayShort: 'ج', HejriDay: 'جمعه' },
+    { day: 'ناهید', dayShort: 'ج', HejriDay: 'آدینه' },
     { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه' },
     { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه' },
   ];
@@ -191,7 +191,7 @@ function PersianCalendar() {
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.day}
               </span>
-              <span className="text-sm sm:text-xl text-gray-500">روز</span>
+              <span className="text-sm sm:text-xl text-gray-500">شید</span>
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.dayShort}
               </span>

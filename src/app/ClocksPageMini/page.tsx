@@ -19,11 +19,11 @@ const ClocksPage = () => {
       const screenWidth = window.innerWidth;
 
       if (screenWidth <= 480) {
-        return 150;
+        return 140;
       } else if (screenWidth <= 768) {
-        return 150;
+        return 140;
       } else if (screenWidth <= 1800) {
-        return 150;
+        return 140;
       }
       return 120; // Return default size if no condition is met
     }
