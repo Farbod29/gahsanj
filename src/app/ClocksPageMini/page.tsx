@@ -19,11 +19,11 @@ const ClocksPage = () => {
       const screenWidth = window.innerWidth;
 
       if (screenWidth <= 480) {
-        return 40;
+        return 150;
       } else if (screenWidth <= 768) {
-        return 60;
+        return 150;
       } else if (screenWidth <= 1800) {
-        return 73;
+        return 150;
       }
       return 120; // Return default size if no condition is met
     }
@@ -38,7 +38,7 @@ const ClocksPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   return (
-    <div className="bg-white p-4">
+    <div className="bg-white p-3">
       <div className="flex flex-row items-center">
         {' '}
         {/* Changed to flex row */}
