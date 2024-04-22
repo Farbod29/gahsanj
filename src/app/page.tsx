@@ -140,11 +140,11 @@ export default function Home() {
   }
   const persianWeekdays: { [key: string]: string } = {
     Sunday: '   مهر شید  / یکشنبه',
-    Monday: '  ماه شید /دوشنبه',
+    Monday: '  مه شید /دوشنبه',
     Tuesday: '   بهرام شید / سه شنبه ',
     Wednesday: ' چهار شنبه  تیر شید ',
     Thursday: ' پنج شنبه اورمزد شید',
-    Friday: 'جمعه آدینه', // or 'ناهید شید' depending on your preference
+    Friday: ' ناهید شید آدینه', // or 'ناهید شید' depending on your preference
     Saturday: 'شنبه  کیوان شید',
   };
 
