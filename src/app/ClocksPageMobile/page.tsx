@@ -32,14 +32,21 @@ const ClocksPage = () => {
   }, []);
 
   const clocks = [
-    { timeZone: "Australia/Sydney", cityFA: "سیدنی" },
+    { timeZone: "America/Los_Angeles", cityFA: "لس آنجلس" },
     { timeZone: "America/Toronto", cityFA: "تورنتو" },
-    { timeZone: "Europe/London", cityFA: "لندن" },
     { timeZone: "Europe/Berlin", cityFA: "برلین" },
+    { timeZone: "Europe/London", cityFA: "لندن" },
+    { timeZone: "Australia/Sydney", cityFA: "سیدنی" },
     { timeZone: "Asia/Kuala_Lumpur", cityFA: "کوالالامپور" },
     { timeZone: "Asia/Dubai", cityFA: "دبی" },
     { timeZone: "America/New_York", cityFA: "واشنگتن" }, // Washington D.C. is in the Eastern Time Zone
-    { timeZone: "America/Los_Angeles", cityFA: "لس آنجلس" },
+    { timeZone: "Europe/Istanbul", cityFA: "استانبول" },
+    { timeZone: "Europe/Stockholm", cityFA: "استکهلم" },
+    { timeZone: "Asia/Baghdad", cityFA: "بغداد" },
+    { timeZone: "Asia/Jerusalem", cityFA: "اورشلیم" },
+    { timeZone: "Asia/Kolkata", cityFA: "مومبای" }, // Kolkata is the time zone used for Mumbai (formerly Bombay or Bambai)
+    { timeZone: "Europe/Moscow", cityFA: "مسکو" },
+    { timeZone: "Asia/Baku", cityFA: "باکو" },
   ];
 
   return (
