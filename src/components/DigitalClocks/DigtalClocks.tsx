@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-const DigitalClock = ({ timeZone }) => {
-  const [time, setTime] = useState("");
+// Define a type for the props expected by the DigitalClock component
+type DigitalClockProps = {
+  timeZone: string; // This sets the type for timeZone as string
+};
+
+const DigitalClock: React.FC<DigitalClockProps> = ({ timeZone }) => {
+  const [time, setTime] = useState<string>(""); // The type of state is also explicitly set as string
 
   useEffect(() => {
     const updateClock = () => {
@@ -13,6 +18,7 @@ const DigitalClock = ({ timeZone }) => {
     updateClock();
     const intervalId = setInterval(updateClock, 1000);
 
+    // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, [timeZone]);
 

@@ -1,4 +1,4 @@
-// src/app/ClocksPage/ClocksPage.tsx
+// src/app/ClocksPage/ClocksPageMobile.tsx
 "use client";
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
@@ -17,9 +17,9 @@ const ClocksPage = () => {
     const determineClockSize = (): number => {
       const screenWidth = window.innerWidth;
       if (screenWidth <= 768) {
-        return 80; // Adjusted size for smaller screens
+        return 70; // Adjusted size for smaller screens
       }
-      return 80; // Default size for larger screens
+      return 70; // Default size for larger screens
     };
 
     const handleResize = () => {
@@ -38,6 +38,9 @@ const ClocksPage = () => {
     { timeZone: "Europe/Berlin", cityFA: "برلین" },
     { timeZone: "Asia/Tehran", cityFA: "تهران" },
     { timeZone: "Asia/Kuala_Lumpur", cityFA: "کوالالامپور" },
+    { timeZone: "Asia/Dubai", cityFA: "دبی" },
+    { timeZone: "America/New_York", cityFA: "واشنگتن" }, // Washington D.C. is in the Eastern Time Zone
+    { timeZone: "America/Los_Angeles", cityFA: "لس آنجلس" },
   ];
 
   return (
