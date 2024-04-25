@@ -36,7 +36,6 @@ const ClocksPage = () => {
     { timeZone: "America/Toronto", cityFA: "تورنتو" },
     { timeZone: "Europe/London", cityFA: "لندن" },
     { timeZone: "Europe/Berlin", cityFA: "برلین" },
-    { timeZone: "Asia/Tehran", cityFA: "تهران" },
     { timeZone: "Asia/Kuala_Lumpur", cityFA: "کوالالامپور" },
     { timeZone: "Asia/Dubai", cityFA: "دبی" },
     { timeZone: "America/New_York", cityFA: "واشنگتن" }, // Washington D.C. is in the Eastern Time Zone
