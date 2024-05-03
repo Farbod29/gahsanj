@@ -144,7 +144,7 @@ export default function Home() {
     Tuesday: '   بهرام شید / سه شنبه ',
     Wednesday: ' چهار شنبه  تیر شید ',
     Thursday: ' پنج شنبه اورمزد شید',
-    Friday: ' ناهید شید آدینه', // or 'ناهید شید' depending on your preference
+    Friday: ' (ناهید شید (آدینه', // or 'ناهید شید' depending on your preference
     Saturday: 'شنبه  کیوان شید',
   };
 
@@ -166,7 +166,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-[#1cd2d5] px-2 sm:px-4 md:px-8">
       <div className="w-full max-w-4xl mx-auto">
-        <div className="text-center bg-[#FFFFFF] p-4 rounded-2xl">
+        <div className="text-center bg-[#FFFFFF] p-4 rounded-xl">
           <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#32127A] md:pb-8 font-bold">
             ایران نو
           </h2>
@@ -178,7 +178,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+        <div className="bg-[#FFFFFF] p-4 rounded-xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
           <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
             {dates.ilami}
           </p>
@@ -186,7 +186,7 @@ export default function Home() {
             عیلامی
           </h3>
         </div>
-        <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+        <div className="bg-[#FFFFFF] p-4 rounded-xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
           <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
             {dates.pahlaviYear}
           </p>
@@ -196,7 +196,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full  md:mt-8">
-          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+          <div className="bg-[#FFFFFF] p-4 rounded-xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
             <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
               {dates.IranianDiako}
             </p>
@@ -206,7 +206,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full ">
-          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+          <div className="bg-[#FFFFFF] p-4 rounded-xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
             <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
               {dates.jalaliDate}
             </p>
@@ -214,7 +214,7 @@ export default function Home() {
               هجری
             </h3>
           </div>
-          <div className="bg-[#FFFFFF] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
+          <div className="bg-[#FFFFFF] p-4 rounded-xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
             <p className="text sm:text-x lg:text-2xl text-[#1C39BB] text-center">
               {dates.europeanDate}
             </p>
