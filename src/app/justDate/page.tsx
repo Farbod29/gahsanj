@@ -21,8 +21,15 @@ const jalaaliMonths = [
   'بهمن',
   'اسفند',
 ];
-
-const persianWeekdays = {
+type WeekdayKey =
+  | 'Sunday'
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday';
+const persianWeekdays: { [key in WeekdayKey]: string } = {
   Sunday: 'یکشنبه (مهر شید)',
   Monday: 'دوشنبه (مه شید)',
   Tuesday: 'سه شنبه (بهرام شید)',
@@ -42,10 +49,10 @@ export default function Home() {
   useEffect(() => {
     const today = new Date();
     const { jd, jm } = jalaali.toJalaali(today);
-    const weekday =
-      persianWeekdays[
-        new Date().toLocaleDateString('en-US', { weekday: 'long' })
-      ];
+    const weekdayKey: WeekdayKey = new Date().toLocaleDateString('en-US', {
+      weekday: 'long',
+    }) as WeekdayKey;
+    const weekday = persianWeekdays[weekdayKey];
     setDates({
       day: toPersianNums(`${jd}`),
       monthName: jalaaliMonths[jm - 1],
