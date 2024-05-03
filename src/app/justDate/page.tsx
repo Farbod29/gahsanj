@@ -28,7 +28,7 @@ const persianWeekdays = {
   Tuesday: 'سه شنبه (بهرام شید)',
   Wednesday: 'چهار شنبه (تیر شید)',
   Thursday: 'پنج شنبه (اورمزد شید)',
-  Friday: 'آدینه (ناهید شید)', // or just 'آدینه' depending on your preference
+  Friday: '(آدینه) ناهید شید', // or just 'آدینه' depending on your preference
   Saturday: 'شنبه (کیوان شید)',
 };
 
