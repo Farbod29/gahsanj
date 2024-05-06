@@ -38,7 +38,7 @@ const ClocksPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   return (
-    <div className="bg-white p-3">
+    <div className="p-3 bg-transparent">
       <div className="flex flex-row items-center">
         {' '}
         {/* Changed to flex row */}

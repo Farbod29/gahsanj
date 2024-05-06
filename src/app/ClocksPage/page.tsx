@@ -86,7 +86,6 @@ const ClocksPage = () => {
             </div>
           </div>
           {/* CLOCKS */}
-          {/* CLOCKS */}
           <div className="flex flex-col items-center mb-4 w-1/2 md:w-1/6">
             {/* <div className="text-black text-xxxxs md:text-xs ">Berlin</div> */}
             <ReactClockNoSSR timeZone="Europe/Berlin" size={clockSize} />

@@ -1,14 +1,14 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import jalaali from "jalaali-js";
+'use client';
+import React, { useState, useEffect } from 'react';
+import jalaali from 'jalaali-js';
 
 // Helper function to convert numbers to Persian
 const toPersianDigits = (num: number) => {
-  const persianNumbers = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return String(num)
-    .split("")
+    .split('')
     .map((digit) => persianNumbers[+digit])
-    .join("");
+    .join('');
 };
 
 // Mapping Gregorian weekdays to Jalaali weekdays
@@ -22,20 +22,20 @@ const gregorianToJalaaliWeekDayMap: { [key: number]: number } = {
   6: 5,
 };
 function toPersianNums(numString: string) {
-  const persianNums = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  const persianNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
 }
 
 // Get the Persian name of today
 const getTodayPersianName = (): string => {
   const persianWeekDays: string[] = [
-    "(دوشنبه) مهشید",
-    "(سه‌شنبه)  بهرامشید",
-    "(چهار‌شنبه) تیرشید",
-    "(پنج‌شنبه) مزدشید",
-    "ناهیدشید (آدینه) ",
-    "(یک‌شنبه)  کیوان",
-    "(دوشنبه) مهرشید",
+    '(دوشنبه) مهشید',
+    '(سه‌شنبه)  بهرامشید',
+    '(چهار‌شنبه) تیرشید',
+    '(پنج‌شنبه) مزدشید',
+    'ناهیدشید (آدینه) ',
+    '(یک‌شنبه)  کیوان',
+    '(دوشنبه) مهرشید',
   ];
   const today = new Date();
   type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -49,20 +49,20 @@ function convertToIraniMelli(date: Date) {
   const { jy, jm, jd } = jalaali.toJalaali(date);
   const iraniMelli = jy - 1396;
   return toPersianNums(
-    `${iraniMelli}/${jm < 10 ? "0" + jm : jm}/${jd < 10 ? "0" + jd : jd}`
+    `${iraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
   );
 }
 
 // The main component
 function PersianCalendar() {
   const persianWeekDays = [
-    { day: "مه", dayShort: "د", HejriDay: "دوشنبه" },
-    { day: "بهرام", dayShort: "س", HejriDay: "سه‌شنبه" },
-    { day: "تیر", dayShort: "چ", HejriDay: "چهارشنبه" },
-    { day: "مزد", dayShort: "پ", HejriDay: "پنج‌شنبه" },
-    { day: "ناهید", dayShort: "ج", HejriDay: "آدینه" },
-    { day: "کیوان", dayShort: "ش", HejriDay: "شنبه" },
-    { day: "مهر", dayShort: "ی", HejriDay: "یکشنبه" },
+    { day: 'مه', dayShort: 'د', HejriDay: 'دوشنبه', dayLatinShort: 'Mo' },
+    { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه', dayLatinShort: 'Tu' },
+    { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه', dayLatinShort: 'W' },
+    { day: 'مزد', dayShort: 'پ', HejriDay: 'پنج‌شنبه', dayLatinShort: 'Th' },
+    { day: 'ناهید', dayShort: 'ج', HejriDay: 'آدینه', dayLatinShort: 'Fr' },
+    { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه', dayLatinShort: 'Sa' },
+    { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه', dayLatinShort: 'Su' },
   ];
 
   // Current date states
@@ -116,18 +116,18 @@ function PersianCalendar() {
 
   // List of Jalaali months
   const jalaaliMonths = [
-    "فروردین",
-    "اردیبهشت",
-    "خرداد",
-    "تیر",
-    "مرداد",
-    "شهریور",
-    "مهر",
-    "آبان",
-    "آذر",
-    "دی",
-    "بهمن",
-    "اسفند",
+    'فروردین',
+    'اردیبهشت',
+    'خرداد',
+    'تیر',
+    'مرداد',
+    'شهریور',
+    'مهر',
+    'آبان',
+    'آذر',
+    'دی',
+    'بهمن',
+    'اسفند',
   ];
 
   // Determine the first day of the month
@@ -174,7 +174,7 @@ function PersianCalendar() {
             </p>
             <div className="flex gap-12">
               <p className="text-sm sm:text-xl pt-3">{NameOfTheDay}</p>
-              <p className="text-sm sm:text-xl pt-3">{IraniMelli}</p>{" "}
+              <p className="text-sm sm:text-xl pt-3">{IraniMelli}</p>{' '}
               {/* This will now show the correct date */}
             </div>
           </span>
@@ -191,9 +191,12 @@ function PersianCalendar() {
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.day}
               </span>
-              <span className="text-sm sm:text-xl text-gray-500">شید</span>
+              {/* <span className="text-sm sm:text-xl text-gray-500">شید</span> */}
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.dayShort}
+              </span>
+              <span className="text-sm sm:text-xl text-gray-500">
+                {day.dayLatinShort}
               </span>
             </div>
           ))}
@@ -213,8 +216,8 @@ function PersianCalendar() {
                 key={index}
                 className={`border rounded text-center px-3 p-3 flex items-center justify-center relative ${
                   isToday
-                    ? "border-red-500 bg-[#f7f7f7] text-black font-bold border-2 p-1 rounded"
-                    : "text-gray-500"
+                    ? 'border-red-500 bg-[#f7f7f7] text-black font-bold border-2 p-1 rounded'
+                    : 'text-gray-500'
                 }`}
               >
                 <span className="font-bold">{toPersianDigits(day)}</span>

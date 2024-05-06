@@ -56,13 +56,13 @@ function convertToIraniMelli(date: Date) {
 // The main component
 function PersianCalendar() {
   const persianWeekDays = [
-    { day: 'مه', dayShort: 'د', HejriDay: 'دوشنبه' },
-    { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه' },
-    { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه' },
-    { day: 'مزد', dayShort: 'پ', HejriDay: 'پنج‌شنبه' },
-    { day: 'ناهید', dayShort: 'ج', HejriDay: 'آدینه' },
-    { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه' },
-    { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه' },
+    { day: 'مه', dayShort: 'د', HejriDay: 'دوشنبه', dayLatinShort: 'Mo' },
+    { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه', dayLatinShort: 'Tu' },
+    { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه', dayLatinShort: 'W' },
+    { day: 'مزد', dayShort: 'پ', HejriDay: 'پنج‌شنبه', dayLatinShort: 'Th' },
+    { day: 'ناهید', dayShort: 'ج', HejriDay: 'آدینه', dayLatinShort: 'Fr' },
+    { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه', dayLatinShort: 'Sa' },
+    { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه', dayLatinShort: 'Su' },
   ];
 
   // Current date states
@@ -194,6 +194,9 @@ function PersianCalendar() {
               <span className="text-sm sm:text-xl text-gray-500">شید</span>
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.dayShort}
+              </span>
+              <span className="text-sm sm:text-xl text-gray-500">
+                {day.dayLatinShort}
               </span>
             </div>
           ))}
