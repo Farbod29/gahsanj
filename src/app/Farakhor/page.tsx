@@ -1,124 +1,206 @@
+// First line in the file
 'use client';
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import jalaali from 'jalaali-js';
+import Image from 'next/image';
 
 interface Occasion {
-  [key: string]: string;
+  NumberOfTheDay: string;
+  shortTitle: string;
+  title: string;
+  modalStatus: boolean;
+  text: string;
+  logo: string;
+  imagesLink: string;
+  extraLinks: string[];
 }
 
 interface Occasions {
-  [key: string]: Occasion;
+  [key: string]: {
+    [key: string]: Occasion;
+  };
 }
 
-// Your occasions JSON data
-const occasionsData: Occasions = {
-  فروردین: {
-    '۱': 'فروردین جشن نوروز/جشن سال نو',
-    '۲': 'عیدنوروز',
-    '۳': 'عیدنوروز',
-    '۴': 'عیدنوروز',
-    '۶': 'روز امید، روز شادباش نویسی',
-    '۸': 'روز جهانی تئاتر [ 27 March ]',
-    '۱۰': 'جشن آبانگاه',
-    '۱۳': 'جشن سیزده به در',
-    '۱۷': 'سروش روز،جشن سروشگان',
-    '۱۹': 'روز جهانی بهداشت [ 7 April ]',
-    '۲۳': 'روز دندانپزشک',
-    '۲۵': 'روز بزرگداشت عطار نیشابوری',
-    '۳۰': 'روز علوم آزمایشگاهی، زاد روز حکیم سید اسماعیل جرجانی',
-  },
-  اردیبهشت: {
-    '۱': 'روز بزرگداشت سعدی',
-    '۳': 'جشن گیاه آوری؛ روز زمین [ 22 April ]',
-    '۸': 'روز جهانی طراحی و گرافیک [ 27 April ]',
-    '۹': 'روز ملی روانشناس و مشاور',
-    '۱۰': 'جشن چهلم نوروز؛ روز ملی خلیج فارس',
-    '۱۲': 'روز معلم',
-    '۱۵': 'جشن میانه بهار/جشن بهاربد؛ روز شیراز',
-    '۱۶': 'روز جهانی ماما [ 5 May ]',
-    '۱۹': 'روز جهانی صلیب سرخ و هلال احمر [ 8 May ]',
-    '۲۲': 'زادروز مریم میرزاخانی ریاضیدان ایرانی، روز جهانی زن در ریاضیات',
-    '۲۵': 'روز بزرگداشت فردوسی',
-    '۲۷': 'روز ارتباطات و روابط عمومی',
-    '۲۸': 'روز بزرگداشت حکیم عمر خیام',
-    '۲۹': 'روز جهانی موزه و میراث فرهنگی [ 18 May ]',
-  },
-  خرداد: {},
-  تیر: {},
-  مرداد: {},
-  شهریور: {},
-  مهر: {},
-  آبان: {},
-  آذر: {},
-  دی: {},
-  بهمن: {},
-  اسفند: {},
-};
-
 const Occasions: React.FC = () => {
-  const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion>({});
+  const [currentMonthEvents, setCurrentMonthEvents] = useState<
+    Record<string, Occasion>
+  >({});
   const [currentMonthName, setCurrentMonthName] = useState<string>('');
-  const monthNames = [
-    'فروردین',
-    'اردیبهشت',
-    'خرداد',
-    'تیر',
-    'مرداد',
-    'شهریور',
-    'مهر',
-    'آبان',
-    'آذر',
-    'دی',
-    'بهمن',
-    'اسفند',
-  ];
+  const [allOccasions, setAllOccasions] = useState<Occasions | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<Occasion | null>(null);
+
+  const monthNames = useMemo(
+    () => [
+      'فروردین',
+      'اردیبهشت',
+      'خرداد',
+      'تیر',
+      'مرداد',
+      'شهریور',
+      'مهر',
+      'آبان',
+      'آذر',
+      'دی',
+      'بهمن',
+      'اسفند',
+    ],
+    []
+  );
 
   useEffect(() => {
-    const today = new Date();
-    const jToday = jalaali.toJalaali(today);
-    updateMonth(jToday.jm - 1);
-  }, []);
+    const fetchOccasions = async () => {
+      if (!allOccasions) {
+        const response = await fetch(
+          'https://raw.githubusercontent.com/GahshomarFar/Gahshomar-Database/main/Farakhor.JSON'
+        );
+        const data: Occasions = await response.json();
+        setAllOccasions(data);
+
+        const today = new Date();
+        const jToday = jalaali.toJalaali(today);
+        const newName = monthNames[jToday.jm - 1];
+        setCurrentMonthEvents(data[newName] || {});
+        setCurrentMonthName(newName);
+      }
+    };
+
+    fetchOccasions();
+  }, [allOccasions, monthNames]);
 
   const updateMonth = (monthIndex: number) => {
     const newName = monthNames[monthIndex];
-    setCurrentMonthEvents(occasionsData[newName]);
-    setCurrentMonthName(newName);
+    if (allOccasions) {
+      setCurrentMonthEvents(allOccasions[newName] || {});
+      setCurrentMonthName(newName);
+    }
   };
 
-  const handleNextMonth = () => {
-    const currentMonthIndex = monthNames.indexOf(currentMonthName);
-    const nextMonthIndex = (currentMonthIndex + 1) % monthNames.length;
-    updateMonth(nextMonthIndex);
+  const handleDayClick = (occasion: Occasion) => {
+    if (occasion.modalStatus) {
+      setModalContent(occasion);
+      setModalVisible(true);
+    }
   };
 
-  const handlePreviousMonth = () => {
-    const currentMonthIndex = monthNames.indexOf(currentMonthName);
-    const previousMonthIndex =
-      (currentMonthIndex - 1 + monthNames.length) % monthNames.length;
-    updateMonth(previousMonthIndex);
+  const toPersianNum = (num: string) => {
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return num
+      .toString()
+      .split('')
+      .map((digit) => persianNumbers[parseInt(digit, 10)] || digit)
+      .join('');
+  };
+
+  const gregorianMonthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  const getGregorianDate = (jYear: number, jMonth: number, jDay: number) => {
+    // Convert Jalaali date to Gregorian
+    const { gy, gm, gd } = jalaali.toGregorian(jYear, jMonth, jDay);
+
+    // Fetch the Gregorian month name using the gm (1-based index)
+    const monthName = gregorianMonthNames[gm - 1];
+
+    // Return the formatted date with day and month name
+    return `${gd} ${monthName}`;
   };
 
   return (
-    <div className="bg-[#1cd2d5] flex flex-col">
-      <div className="bg-[#FF7F50] shadow rounded-lg p-12 w-full text-center text-2xl text-bold text-white fixed mr-8 flex justify-between items-center">
-        <button onClick={handlePreviousMonth}>&lt;</button>
+    <div className="bg-white flex flex-col items-center justify-center p-2">
+      <div className="bg-[#FF7F50] shadow-lg rounded-lg p-12 w-full text-center text-2xl font-bold text-white fixed top-0 flex justify-between items-center">
+        <button
+          onClick={() =>
+            updateMonth(
+              (monthNames.indexOf(currentMonthName) - 1 + monthNames.length) %
+                monthNames.length
+            )
+          }
+        >
+          &lt;
+        </button>
         <h1>{`فراخورهای ماه ${currentMonthName}`}</h1>
-        <button onClick={handleNextMonth}>&gt;</button>
+        <button
+          onClick={() =>
+            updateMonth(
+              (monthNames.indexOf(currentMonthName) + 1) % monthNames.length
+            )
+          }
+        >
+          &gt;
+        </button>
       </div>
-      <div className="flex flex-col items-center mt-36">
+      <div
+        className="grid grid-cols-3 gap-4 mt-36 w-full p-4"
+        style={{ direction: 'rtl' }}
+      >
         {Object.entries(currentMonthEvents).map(([day, event]) => (
           <div
             key={day}
-            className="bg-white shadow rounded-lg p-4 mb-4 w-full md:w-1/2 text-right"
+            onClick={() => handleDayClick(event)}
+            className="relative cursor-pointer bg-[#E0E0E0] shadow-md rounded-lg p-4 text-center"
+            style={{ width: '130px', height: '120px' }}
           >
-            <div className="text-gray-700">
-              <div className="font-semibold">{day}</div>
-              <div>{event}</div>
+            <div className="absolute bottom-0 left-0 w-[40px] h-[40px] flex items-center justify-center pb-2">
+              {event.logo && ( // Check if `event.logo` is not an empty string
+                <Image
+                  src={event.logo}
+                  alt=""
+                  width={30} // Specify width
+                  height={30} // Specify height
+                  layout="responsive"
+                />
+              )}
+            </div>
+            <div className="text-[#FF8200] font-semibold text-4xl absolute top-0 left-0 pt-2 pl-12">
+              {toPersianNum(day)}
+              <div className="absolute top-0 right-0 pt-2 pr-2 text-xs"></div>
+              <span className="text-[#707070] text-lg">
+                {toPersianNum(currentMonthName)}
+              </span>
+            </div>
+            <div className="text-[#373636] mt-7 text-xl pb-3 mb-3">
+              {event.shortTitle}
+            </div>
+            <div className="text-[#2a5b71] ">
+              {getGregorianDate(
+                new Date().getFullYear(),
+                monthNames.indexOf(currentMonthName) + 1,
+                parseInt(day)
+              )}
             </div>
           </div>
         ))}
       </div>
+      {modalVisible && modalContent && (
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-lg"
+          style={{ width: '600px', height: '600px' }}
+        >
+          <h1 className="text-xl font-bold text-[#393939]">
+            {modalContent.title}
+          </h1>
+          <p className="text-[#707070]">{modalContent.text}</p>
+          <button
+            className="mt-4 px-4 py-2 bg-[#FF8200] text-white rounded"
+            onClick={() => setModalVisible(false)}
+          >
+            Close
+          </button>
+        </div>
+      )}
     </div>
   );
 };

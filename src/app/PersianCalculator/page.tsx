@@ -7,12 +7,12 @@ const Calculator: FC = () => {
     <div>
       <iframe
         id="myIframe"
-        src="https://okcalc.com/fa"
-        width="600"
+        src="https://okcalc.com/fa" // Ensure this URL is served over HTTPS
+        width="700"
         height="420"
         title="Online Calculator"
-        frameBorder="0" // Optional: Adds a border around the iframe. Set to "0" to have no border.
-        allowFullScreen // Optional: Allow the iframe content to go full screen.
+        frameBorder="0"
+        allowFullScreen
       ></iframe>
     </div>
   );
