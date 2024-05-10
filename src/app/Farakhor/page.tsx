@@ -143,17 +143,19 @@ const Occasions: React.FC = () => {
         </button>
       </div>
       <div
-        className="grid grid-cols-3 gap-4 mt-36 w-full p-4"
+        className="grid grid-cols-3 gap-5 mt-32 ml-3 w-full p-2"
         style={{ direction: 'rtl' }}
+
+        //////////////////////////////////BOXEX///////////////
       >
         {Object.entries(currentMonthEvents).map(([day, event]) => (
           <div
             key={day}
             onClick={() => handleDayClick(event)}
-            className="relative cursor-pointer bg-[#E0E0E0] shadow-md rounded-lg p-4 text-center"
-            style={{ width: '130px', height: '120px' }}
+            className="relative cursor-pointer bg-[#E0E0E0] shadow-md rounded-lg p-2 text-center"
+            style={{ width: '130px', height: '130px' }}
           >
-            <div className="absolute bottom-0 left-0 w-[40px] h-[40px] flex items-center justify-center pb-2">
+            <div className="absolute bottom-0 left-2 w-[50px] h-[50px] flex items-center justify-center pb-2 ">
               {event.logo && ( // Check if `event.logo` is not an empty string
                 <Image
                   src={event.logo}
@@ -164,17 +166,34 @@ const Occasions: React.FC = () => {
                 />
               )}
             </div>
-            <div className="text-[#FF8200] font-semibold text-4xl absolute top-0 left-0 pt-2 pl-12">
-              {toPersianNum(day)}
-              <div className="absolute top-0 right-0 pt-2 pr-2 text-xs"></div>
-              <span className="text-[#707070] text-lg">
+            <div className="absolute top-0 left-0 pt-2 pl-7 flex items-center">
+              <span className="text-[#FF8200] font-semibold text-3xl">
+                {toPersianNum(day)}
+              </span>
+              <span className="text-[#707070] text-lg ml-1 mr-1">
+                {/* Margin left for spacing */}
                 {toPersianNum(currentMonthName)}
               </span>
             </div>
-            <div className="text-[#373636] mt-7 text-xl pb-3 mb-3">
-              {event.shortTitle}
+            <div className="text-[#373636] mt-7 text-xl pb-1 mb-1">
+              <div
+                style={{
+                  fontSize:
+                    event.shortTitle.length > 16
+                      ? '0.69rem'
+                      : event.shortTitle.length > 12
+                      ? '0.79rem'
+                      : event.shortTitle.length > 8
+                      ? '0.875rem'
+                      : event.shortTitle.length > 7
+                      ? '1.275rem'
+                      : '1.3rem',
+                }}
+              >
+                {event.shortTitle}
+              </div>
             </div>
-            <div className="text-[#2a5b71] ">
+            <div className="text-[#2a5b71] ml-2 mb-[40px] absolute top-24 left-1/2  ">
               {getGregorianDate(
                 new Date().getFullYear(),
                 monthNames.indexOf(currentMonthName) + 1,
