@@ -11,7 +11,7 @@ interface Occasion {
   modalStatus: boolean;
   text: string;
   logo: string;
-  imagesLink: string;
+  modalImagesLink: string;
   extraLinks: string[];
 }
 
@@ -87,6 +87,7 @@ const Occasions: React.FC = () => {
   const handleDayClick = (occasion: Occasion) => {
     if (occasion.modalStatus) {
       setModalContent(occasion);
+      console.log(modalContent);
       setModalVisible(true);
     }
   };
@@ -130,7 +131,7 @@ const Occasions: React.FC = () => {
 
   return (
     <div className="bg-white flex flex-col items-center justify-center pt-24">
-      <div className="bg-[#FF7F50] shadow-lg rounded-lg px-4 py-7 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
+      <div className="bg-[#50bbd5button ] shadow-lg rounded-lg px-4 py-7 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
         <button
           onClick={() =>
             updateMonth(
@@ -230,25 +231,31 @@ const Occasions: React.FC = () => {
         })}
       </div>
       {modalVisible && modalContent && (
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 sm:p-8 rounded-lg shadow-lg"
-          style={{
-            width: '90%',
-            maxWidth: '600px',
-            height: 'auto',
-            maxHeight: '600px',
-          }}
-        >
-          <h1 className="text-lg sm:text-xl font-bold text-[#393939]">
-            {modalContent.title}
-          </h1>
-          <p className="text-sm sm:text-[#707070]">{modalContent.text}</p>
-          <button
-            className="mt-2 sm:mt-4 px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded"
-            onClick={() => setModalVisible(false)}
-          >
-            بستن
-          </button>
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-4 sm:p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center">
+            <h1 className="text-xl sm:text-3xl font-bold text-[#393939] mb-4 text-center">
+              {modalContent.title}
+            </h1>
+            <div className="w-52 mb-4">
+              <Image
+                src={modalContent.modalImagesLink}
+                alt="imageLink"
+                className="h-full sm-logo:w-[30px] sm-logo:h-[20px] w-2"
+                layout="responsive"
+                width={30}
+                height={30}
+              />
+            </div>
+            <p className="text-sm sm:text-[#707070] mb-4 text-justify">
+              {modalContent.text}
+            </p>
+            <button
+              className="px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded"
+              onClick={() => setModalVisible(false)}
+            >
+              بستن
+            </button>
+          </div>
         </div>
       )}
     </div>
