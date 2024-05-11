@@ -48,6 +48,14 @@ const Occasions: React.FC = () => {
     []
   );
 
+  const getTodayGregorian = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1; // getMonth() returns 0-based index
+    const year = today.getFullYear();
+    return `${day} ${gregorianMonthNames[month - 1]}`; // Assuming you want to match the format "day monthName"
+  };
+
   useEffect(() => {
     const fetchOccasions = async () => {
       if (!allOccasions) {
@@ -115,12 +123,14 @@ const Occasions: React.FC = () => {
     const monthName = gregorianMonthNames[gm - 1];
 
     // Return the formatted date with day and month name
-    return `${gd} ${monthName}`;
+    return `${gd - 1} ${monthName}`;
   };
 
+  const todayGregorian = getTodayGregorian(); // Call this outside the render loop to avoid recomputation
+
   return (
-    <div className="bg-white flex flex-col items-center justify-center p-2">
-      <div className="bg-[#FF7F50] shadow-lg rounded-lg p-12 w-full text-center text-2xl font-bold text-white fixed top-0 flex justify-between items-center">
+    <div className="bg-white flex flex-col items-center justify-center pt-24">
+      <div className="bg-[#FF7F50] shadow-lg rounded-lg px-4 py-7 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
         <button
           onClick={() =>
             updateMonth(
@@ -128,95 +138,116 @@ const Occasions: React.FC = () => {
                 monthNames.length
             )
           }
+          className="text-4xl md:text-5xl" // Make the buttons larger
         >
           &lt;
         </button>
-        <h1>{`فراخورهای ماه ${currentMonthName}`}</h1>
+        <h1>فراخورهای ماه {currentMonthName}</h1>
         <button
           onClick={() =>
             updateMonth(
               (monthNames.indexOf(currentMonthName) + 1) % monthNames.length
             )
           }
+          className="text-4xl md:text-5xl" // Make the buttons larger
         >
           &gt;
         </button>
       </div>
-      <div
-        className="grid grid-cols-3 gap-5 mt-32 ml-3 w-full p-2"
-        style={{ direction: 'rtl' }}
 
-        //////////////////////////////////BOXEX///////////////
+      {/* /////////////GRIDS//////////////// */}
+      <div
+        className="grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10"
+        style={{ direction: 'rtl' }}
       >
-        {Object.entries(currentMonthEvents).map(([day, event]) => (
-          <div
-            key={day}
-            onClick={() => handleDayClick(event)}
-            className="relative cursor-pointer bg-[#E0E0E0] shadow-md rounded-lg p-2 text-center"
-            style={{ width: '130px', height: '130px' }}
-          >
-            <div className="absolute bottom-0 left-2 w-[50px] h-[50px] flex items-center justify-center pb-2 ">
-              {event.logo && ( // Check if `event.logo` is not an empty string
-                <Image
-                  src={event.logo}
-                  alt=""
-                  width={30} // Specify width
-                  height={30} // Specify height
-                  layout="responsive"
-                />
-              )}
-            </div>
-            <div className="absolute top-0 left-0 pt-2 pl-7 flex items-center">
-              <span className="text-[#FF8200] font-semibold text-3xl">
-                {toPersianNum(day)}
-              </span>
-              <span className="text-[#707070] text-lg ml-1 mr-1">
-                {/* Margin left for spacing */}
-                {toPersianNum(currentMonthName)}
-              </span>
-            </div>
-            <div className="text-[#373636] mt-7 text-xl pb-1 mb-1">
-              <div
-                style={{
-                  fontSize:
-                    event.shortTitle.length > 16
-                      ? '0.69rem'
-                      : event.shortTitle.length > 12
-                      ? '0.79rem'
-                      : event.shortTitle.length > 8
-                      ? '0.875rem'
-                      : event.shortTitle.length > 7
-                      ? '1.275rem'
-                      : '1.3rem',
-                }}
-              >
-                {event.shortTitle}
+        {Object.entries(currentMonthEvents).map(([day, event]) => {
+          const eventDate = getGregorianDate(
+            new Date().getFullYear(),
+            monthNames.indexOf(currentMonthName) + 1,
+            parseInt(day)
+          );
+          const isToday = eventDate === todayGregorian; // Compare event date with today's date
+
+          return (
+            <div
+              key={day}
+              onClick={() => handleDayClick(event)}
+              className={`relative cursor-pointer ${
+                isToday
+                  ? 'bg-[#e7e1b5] border-2 border-[#8a5d25] shadow-lg'
+                  : 'bg-[#E0E0E0]'
+              } shadow-md rounded-lg p-2 text-center`}
+              style={{ width: '100%', maxWidth: '300px', height: 'auto' }}
+            >
+              <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[30px] lg:h-[70px]  logoSsize sm:w-16 xs:w-8  customsizefologosite xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 customsizefologosite">
+                {event.logo && (
+                  <Image
+                    src={event.logo}
+                    alt="Logo Of the Day"
+                    width={50} // Default width
+                    height={50} // Default height
+                    className="w-full h-full sm-logo:w-[20px] sm-logo:h-[20px]" // Make logo smaller at 572px breakpoint
+                    layout="responsive"
+                  />
+                )}
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                <span className="text-[#FF8200] text-3xl sm:text-3xl font-bold">
+                  {toPersianNum(day)}
+                </span>
+                <span className="text-[#707070] text-sm sm:text-lg ">
+                  {toPersianNum(currentMonthName)}
+                </span>
+                <div
+                  className="text-[#373636] text-xl sm:text-xl font-bold B14-SE2"
+                  style={{
+                    fontSize:
+                      event.shortTitle.length > 16
+                        ? '0.79rem'
+                        : event.shortTitle.length > 12
+                        ? '0.99rem'
+                        : event.shortTitle.length > 8
+                        ? '1.0rem'
+                        : event.shortTitle.length > 7
+                        ? '1.175rem'
+                        : '1.3rem',
+                  }}
+                >
+                  {event.shortTitle}
+                </div>
+
+                <div
+                  className="relative"
+                  style={{ height: '32px', position: 'relative' }}
+                >
+                  <div className="text-[#2a5b71] B14-SE1 absluteEnmonth ">
+                    {eventDate}
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="text-[#2a5b71] ml-2 mb-[40px] absolute top-24 left-1/2  ">
-              {getGregorianDate(
-                new Date().getFullYear(),
-                monthNames.indexOf(currentMonthName) + 1,
-                parseInt(day)
-              )}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       {modalVisible && modalContent && (
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-lg"
-          style={{ width: '600px', height: '600px' }}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 sm:p-8 rounded-lg shadow-lg"
+          style={{
+            width: '90%',
+            maxWidth: '600px',
+            height: 'auto',
+            maxHeight: '600px',
+          }}
         >
-          <h1 className="text-xl font-bold text-[#393939]">
+          <h1 className="text-lg sm:text-xl font-bold text-[#393939]">
             {modalContent.title}
           </h1>
-          <p className="text-[#707070]">{modalContent.text}</p>
+          <p className="text-sm sm:text-[#707070]">{modalContent.text}</p>
           <button
-            className="mt-4 px-4 py-2 bg-[#FF8200] text-white rounded"
+            className="mt-2 sm:mt-4 px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded"
             onClick={() => setModalVisible(false)}
           >
-            Close
+            بستن
           </button>
         </div>
       )}

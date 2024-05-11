@@ -25,6 +25,12 @@ const config: Config = {
         '0.1': '1.3325rem', // for very fine adjustments
         '3': '0.575rem', // you can add more as needed
       },
+      screens: {
+        xs: '430px', // Custom breakpoint for 430px wide screens
+        xm: '375px', // Custom breakpoint for iPhone SE and similar devices
+        se: '375px', // targeting iPhone SE specifically
+        iphone14: '430px', // targeting iPhone 14 specifically
+      },
     },
   },
   plugins: [],
