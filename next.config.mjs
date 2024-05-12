@@ -2,7 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['irantasvir.com', 'miro.medium.com'],
+    remotePatterns: [
+      { hostname: 'irantasvir.com' },
+      { hostname: 'miro.medium.com' },
+      { hostname: 'www.imgonline.com.ua' },
+      { hostname: 'www.imgonline.com' },
+    ],
   },
 };
 
