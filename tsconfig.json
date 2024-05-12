@@ -1,26 +1,39 @@
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
+    "allowJs": true, // Allows JavaScript files to be included in your TypeScript project
+    "skipLibCheck": true, // Skips type checking of declaration files (*.d.ts)
+    "strict": true, // Enables all strict type-checking options
+    "noEmit": true, // No files will be generated on compilation
+    "esModuleInterop": true, // Enables importing CommonJS modules as ES modules
+    "module": "esnext", // Uses the latest ECMAScript module standard
+    "moduleResolution": "node", // Corrected to "node" for proper resolution of modules
+    "resolveJsonModule": true, // Allows JSON files to be imported directly
+    "isolatedModules": true, // Ensures each file can be transpiled independently
+    "jsx": "preserve", // Preserves JSX; required as Next.js handles its own JSX transformation
+    "incremental": true, // Enables incremental compilation by saving information about previous compilations
+    "noImplicitAny": false,
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"] // Shortcut to reference files from the src directory
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types" // Assuming you may place custom types in this directory
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts", // Includes Next.js type definitions
+    "**/*.ts", // Include all TypeScript files
+    "**/*.tsx", // Include all TypeScript React files
+    "src/**/*.d.ts", // Include all TypeScript declaration files in src
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules" // Exclude node_modules from TypeScript compilation
+  ]
 }
