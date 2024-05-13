@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import jalaali from 'jalaali-js';
-import ImageDownloader from '../../components/ImageDownloader/ImageDownloader';
 
 //import logo from 'Users/farbodaprin/Desktop/iranian-gah-shomar2/public/assets/logo-gahshomar-yellow.png';
 import Image from 'next/image';
