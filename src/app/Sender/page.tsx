@@ -3,7 +3,7 @@ import Link from 'next/link';
 const SomePage = () => {
   return (
     <section>
-      <h1>Some page</h1>
+      <h1>Sender to server side Receiver </h1>
       <Link
         href={{
           pathname: '/Receiver',
@@ -15,12 +15,12 @@ const SomePage = () => {
         Go to another page
       </Link>
 
-      <h1>Some page client </h1>
+      <h1>Sender to server side Receiver </h1>
       <Link
         href={{
           pathname: '/ReceiverClient',
           query: {
-            search: 'Sosis bandari',
+            search: 'Sosis bandari22',
           },
         }}
       >
