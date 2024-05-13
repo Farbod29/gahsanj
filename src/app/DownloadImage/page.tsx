@@ -1,42 +1,110 @@
-'use client';
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+// 'use client';
+// import React, { useRef, useState, useCallback, useEffect } from 'react';
+// import Image from 'next/image';
+// import html2canvas from 'html2canvas';
+// import { useSearchParams } from 'next/navigation';
+// import Link from 'next/link';
+// import { Suspense } from 'react';
+
+// export default function Page() {
+//   const searchParams = useSearchParams();
+//   // console.log(searchParams);
+//   console.log(searchParams.get('paramDates')); // Logs "search"
+//   console.log(searchParams.get('paramName')); // Logs "search"
+//   console.log(searchParams.get('PersianWeekday')); // Logs "search"
+//   console.log(searchParams.get('PersianMonth')); // Logs "search"
+//   const gahshomariDates = searchParams.get('paramDates');
+//   const gahshomariName = searchParams.get('paramName');
+//   const gahshomariWeekday = searchParams.get('PersianWeekday');
+//   const gahshomariMonth = searchParams.get('PersianMonth');
+//   const ref = useRef(null);
+//   const screenshotRef = useRef(null); // Reference for the offscreen screenshot version
+//   const [loaded, setLoaded] = useState(false);
+//   const [isScreenshotMode, setIsScreenshotMode] = useState(false);
+
+//   useEffect(() => {
+//     function handleResize() {
+//       setLoaded(false); // Trigger a reload of the image when resizing
+//       setTimeout(() => setLoaded(true), 100); // Delay to ensure image reloads correctly
+//     }
+//     window.addEventListener('resize', handleResize);
+//     return () => window.removeEventListener('resize', handleResize);
+//   }, []);
+
+//   const handleLoad = useCallback(() => {
+//     console.log('Image has loaded');
+//     setLoaded(true);
+//   }, []);
+
+//   const downloadScreenshot = useCallback(() => {
+//     console.log('Attempting to take screenshot, ref:', screenshotRef.current);
+//     if (screenshotRef.current) {
+//       html2canvas(screenshotRef.current, { scale: 1 }).then((canvas) => {
+//         const image = canvas.toDataURL('image/png');
+//         const link = document.createElement('a');
+//         link.href = image;
+//         link.download = 'screenshot.png';
+//         link.click();
+//       });
+//     } else {
+//       console.error('Screenshot ref is not attached or image not loaded');
+//     }
+//   }, []);
+
+//   const clickLeft = useCallback(() => {
+//     console.log('click Left');
+//   }, []);
+
+//   const clickRight = useCallback(() => {
+//     console.log('click Right');
+//   }, []);
+
+//   return (
+//     <Suspense fallback={<div>Loading...</div>}>
+
+//     </Suspense>
+//   );
+// }
+
+'use client'; // This directive ensures the component executes client-side only
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  Suspense,
+} from 'react';
 import Image from 'next/image';
 import html2canvas from 'html2canvas';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation'; // Ensures this is used client-side
 import Link from 'next/link';
 
-export default function Page() {
-  const searchParams = useSearchParams();
-  // console.log(searchParams);
-  console.log(searchParams.get('paramDates')); // Logs "search"
-  console.log(searchParams.get('paramName')); // Logs "search"
-  console.log(searchParams.get('PersianWeekday')); // Logs "search"
-  console.log(searchParams.get('PersianMonth')); // Logs "search"
-  const gahshomariDates = searchParams.get('paramDates');
-  const gahshomariName = searchParams.get('paramName');
-  const gahshomariWeekday = searchParams.get('PersianWeekday');
-  const gahshomariMonth = searchParams.get('PersianMonth');
+function ClientOnlyPage() {
+  const searchParams = useSearchParams() as unknown as URLSearchParams;
+  const gahshomariDates = searchParams.get('paramDates') || 'No Date';
+  const gahshomariName = searchParams.get('paramName') || 'No Name';
+  const gahshomariWeekday = searchParams.get('PersianWeekday') || 'No Weekday';
+  const gahshomariMonth = searchParams.get('PersianMonth') || 'No Month';
+
   const ref = useRef(null);
-  const screenshotRef = useRef(null); // Reference for the offscreen screenshot version
+  const screenshotRef = useRef(null);
   const [loaded, setLoaded] = useState(false);
   const [isScreenshotMode, setIsScreenshotMode] = useState(false);
 
   useEffect(() => {
-    function handleResize() {
-      setLoaded(false); // Trigger a reload of the image when resizing
-      setTimeout(() => setLoaded(true), 100); // Delay to ensure image reloads correctly
-    }
+    const handleResize = () => {
+      setLoaded(false); // Reset load state to trigger reload
+      setTimeout(() => setLoaded(true), 100); // Delay to ensure state updates correctly
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleLoad = useCallback(() => {
-    console.log('Image has loaded');
     setLoaded(true);
   }, []);
 
   const downloadScreenshot = useCallback(() => {
-    console.log('Attempting to take screenshot, ref:', screenshotRef.current);
     if (screenshotRef.current) {
       html2canvas(screenshotRef.current, { scale: 1 }).then((canvas) => {
         const image = canvas.toDataURL('image/png');
@@ -48,14 +116,6 @@ export default function Page() {
     } else {
       console.error('Screenshot ref is not attached or image not loaded');
     }
-  }, []);
-
-  const clickLeft = useCallback(() => {
-    console.log('click Left');
-  }, []);
-
-  const clickRight = useCallback(() => {
-    console.log('click Right');
   }, []);
 
   return (
@@ -94,7 +154,7 @@ export default function Page() {
           <span> -{gahshomariDates}</span>
           <span> -{gahshomariMonth}</span>
           <span> -{gahshomariWeekday}</span>
-          <span> / {gahshomariName}</span>
+          <span> /{gahshomariName}</span>
         </div>
       </div>
       {/* ==============Offscreen div for screenshot ================*/}
@@ -116,36 +176,19 @@ export default function Page() {
         />
         <div
           style={{
-            position: 'absolute',
-            top: '20%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: 'white',
-            fontSize: '48px',
-            zIndex: 2,
+            top: '7%', // Keeps the top boundary starting from 10% of the parent element's height
+            left: '50%', // Centers horizontally
+            transform: 'translate(-50%, -20%)', // Increase the negative translate Y value to move text higher
           }}
+          className="absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap"
         >
-          <div
-            className="text-9xl"
-            style={{
-              position: 'absolute',
-              top: '10%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              display: 'flex',
-              justifyContent: 'center',
-              color: 'white',
-              fontSize: '20px',
-              zIndex: 2,
-              whiteSpace: 'nowrap', // Add this line
-            }}
-          >
-            <span>-{gahshomariName}</span>
-            <span>-{gahshomariDates}</span>
-            <span>-{gahshomariWeekday}</span>
-          </div>
+          <span> - {gahshomariDates}</span>
+          <span> - {gahshomariMonth}</span>
+          <span> - {gahshomariWeekday}</span>
+          <span> / {gahshomariName}</span>
         </div>
       </div>
+
       {/* ==============Offscreen div for screenshot ================*/}
       <div
         style={{
@@ -220,7 +263,7 @@ export default function Page() {
               viewBox="0 0 144 79"
             >
               <g
-                onClick={clickRight}
+                // onClick={clickRight}
                 id="Polygon_1"
                 data-name="Polygon 1"
                 transform="translate(144) rotate(90)"
@@ -237,7 +280,7 @@ export default function Page() {
                 />
               </g>
               <g
-                onClick={clickLeft}
+                // onClick={clickLeft}
                 id="Polygon_2"
                 data-name="Polygon 2"
                 transform="translate(0 79) rotate(-90)"
@@ -296,5 +339,13 @@ export default function Page() {
         {/* <p className="text-xxxxs">© 2024 گاهشمار. All rights reserved.</p> */}
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ClientOnlyPage />
+    </Suspense>
   );
 }
