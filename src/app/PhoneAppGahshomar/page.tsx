@@ -4,20 +4,11 @@ import jalaali from 'jalaali-js';
 import Link from 'next/link';
 
 //import logo from 'Users/farbodaprin/Desktop/iranian-gah-shomar2/public/assets/logo-gahshomar-yellow.png';
-import Image from 'next/image';
 
 function toPersianNums(numString: string) {
   const persianNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
 }
-
-const handleBoxClick = (year: string, weekday: string) => {
-  // Handle the click event here
-  // You can perform any action you want, such as opening a modal or navigating to a different page
-  // For now, let's log the clicked year and weekday
-  console.log('Clicked Year:', year);
-  console.log('Clicked Weekday:', weekday);
-};
 
 const jalaaliMonths = [
   'فروردین',
@@ -34,20 +25,20 @@ const jalaaliMonths = [
   'اسفند',
 ];
 
-function determineClockSize(): number {
-  const screenWidth = window.innerWidth;
-
-  if (screenWidth <= 480) {
-    // Phone size
-    return 80;
-  } else if (screenWidth <= 768) {
-    // iPad size
-    return 90;
-  } else {
-    // Larger screens
-    return 120;
-  }
-}
+const monthIndices: { [key: string]: string } = {
+  '۰۱': 'فروردین',
+  '۰۲': 'اردیبهشت',
+  '۰۳': 'خرداد',
+  '۰۴': 'تیر',
+  '۰۵': 'مرداد',
+  '۰۶': 'شهریور',
+  '۰۷': 'مهر',
+  '۰۸': 'آبان',
+  '۰۹': 'آذر',
+  '۱۰': 'دی',
+  '۱۱': 'بهمن',
+  '۱۲': 'اسفند',
+};
 
 export default function Home() {
   // Helper component for rendering tabs
@@ -62,19 +53,24 @@ export default function Home() {
       {name}
     </button>
   );
-
-  const [showClocks, setShowClocks] = useState(false);
+  function getMonthName(monthNumber: string): string | null {
+    const monthName = monthIndices[String(monthNumber)];
+    return typeof monthName === 'string' ? monthName : null;
+  }
   const [PersianWeekday, setPersianWeekday] = useState('');
   const [hejriweekday, setHejriWeekday] = useState('');
   const [Georgianweekday, setGeorgianWeekday] = useState('');
 
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
-  const [currentMonth, setCurrentMonth] = useState(jToday.jm);
+  const [currentPersianMonth, setCurrentPersianMonth] = useState<string | null>(
+    ''
+  );
+  const [currentLatinMonth, setCurrentLatinMonth] = useState('');
   const [activeTab, setActiveTab] = useState('گاهشمار'); // State to track active tab
   const [dates, setDates] = useState({
     europeanDate: '',
-    jalaliDate: '',
+    Jdate: '',
     pahlaviYear: '',
     IranianDiako: '',
     IraniMithra: '',
@@ -83,18 +79,10 @@ export default function Home() {
   });
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowClocks(true);
-    }, 1000); // Set the delay here
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     const today = new Date();
     setDates({
       europeanDate: today.toLocaleDateString('en-GB'),
-      jalaliDate: convertToJalali(today),
+      Jdate: convertToJalali(today),
       pahlaviYear: convertToPahlavi(today),
       IranianDiako: convertToIranianDiako(today),
       IraniMithra: convertToIraniMithra(today),
@@ -103,11 +91,13 @@ export default function Home() {
     });
   }, []);
 
-  function convertToJalali(date: Date) {
+  function convertToJalali(date: Date): [string, string] {
     const { jy, jm, jd } = jalaali.toJalaali(date);
-    return toPersianNums(
+    const monthName = jalaaliMonths[jm - 1]; // Get the month name
+    const JdateString = toPersianNums(
       `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
+    return [JdateString, monthName];
   }
 
   function convertToPahlavi(date: Date) {
@@ -169,14 +159,6 @@ export default function Home() {
     Saturday: 'شنبه',
   };
 
-  const handleBoxClick = (year: string, weekday: string) => {
-    // Handle the click event here
-    // You can perform any action you want, such as opening a modal or navigating to a different page
-    // For now, let's log the clicked year and weekday
-    console.log('Clicked Year:', year);
-    console.log('Clicked Weekday:', weekday);
-  };
-
   function getTodayPersianName(): string {
     const today = new Date();
     const gregorianWeekdays = [
@@ -206,6 +188,23 @@ export default function Home() {
     const todayName = gregorianWeekdays[today.getDay()];
     return persianHejriDays[todayName]; // Now TypeScript knows that todayName is a valid key for persianWeekdays
   }
+
+  function extractMonth(dateString: string): string | null {
+    // Split the date string by "/"
+    const components = dateString.split('/');
+
+    // Access the second element (index 1) of the components array
+    const monthNumber = components[1];
+
+    // Pass the month number to the getMonthName function
+    return getMonthName(monthNumber);
+  }
+
+  useEffect(() => {
+    // Extract the month name when the component mounts
+    const monthName = extractMonth(dates.IraniMelli) || '';
+    setCurrentPersianMonth(monthName);
+  }, []);
 
   function getTodayGeorgianName(): string {
     const today = new Date();
@@ -244,6 +243,7 @@ export default function Home() {
               paramDates: dates.IraniMelli,
               paramName: 'ایران نو',
               PersianWeekday: PersianWeekday,
+              PersianMonth: currentPersianMonth,
             },
           }}
         >
@@ -262,7 +262,7 @@ export default function Home() {
         <div className="w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-3 md:space-y-0 md:space-x-4">
           <div
             className="bg-[#FFFFFF] p-4 rounded-xl flex-1"
-            onClick={() => handleBoxClick(dates.ilami, getTodayPersianName())}
+            // onClick={() => handleBoxClick(dates.ilami, getTodayPersianName())}
           >
             <p className="text-sm md:text-lg lg:text-2xl text-[#1C39BB] text-center">
               {dates.ilami}
@@ -300,7 +300,7 @@ export default function Home() {
           </div>
           <div className="bg-[#FFFFFF] p-4 rounded-xl flex-1">
             <p className="text-sm md:text-lg lg:text-2xl text-[#1C39BB] text-center">
-              {dates.jalaliDate}
+              {dates.Jdate}
             </p>
             <p className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
               هجری

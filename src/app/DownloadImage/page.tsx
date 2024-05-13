@@ -3,20 +3,11 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import html2canvas from 'html2canvas';
 import { useSearchParams } from 'next/navigation';
-
-// const SomeClientComponent = () => {
-//   const searchParams = useSearchParams();
-//   console.log(searchParams.get('search')); // Logs "search"
-//   const AAAA = searchParams.get('search');
-//   return (
-//     <main className="flex min-h-screen w-full flex-col items-center px-2 sm:px-4 md:px-8">
-//       <p>{AAAA}</p>
-//     </main>
-//   );
-// };
+import Link from 'next/link';
 
 export default function Page() {
   const searchParams = useSearchParams();
+  // console.log(searchParams);
   console.log(searchParams.get('paramDates')); // Logs "search"
   console.log(searchParams.get('paramName')); // Logs "search"
   console.log(searchParams.get('PersianWeekday')); // Logs "search"
@@ -87,17 +78,20 @@ export default function Page() {
         <div
           style={{
             position: 'absolute',
-            top: '50%',
+            top: '10%',
             left: '50%',
-            transform: 'translate(-50%, -50%)',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            justifyContent: 'center',
             color: 'white',
-            fontSize: '24px',
+            fontSize: '20px',
             zIndex: 2,
+            whiteSpace: 'nowrap', // Add this line
           }}
         >
-          <div>ایران نو</div>
-          ۷/۰۲/۲۳
-          <div>مهر شید / یکشنبه</div>
+          <span>-{gahshomariWeekday}</span>
+          <span>-{gahshomariName}</span>
+          <span>-{gahshomariDates}</span>
         </div>
       </div>
       {/* ==============Offscreen div for screenshot ================*/}
@@ -128,9 +122,25 @@ export default function Page() {
             zIndex: 2,
           }}
         >
-          <div className="text-9xl">ایران نو</div>
-          ۷/۰۲/۲۳
-          <div>مهر شید / یکشنبه</div>
+          <div
+            className="text-9xl"
+            style={{
+              position: 'absolute',
+              top: '10%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '20px',
+              zIndex: 2,
+              whiteSpace: 'nowrap', // Add this line
+            }}
+          >
+            <span>-{gahshomariName}</span>
+            <span>-{gahshomariDates}</span>
+            <span>-{gahshomariWeekday}</span>
+          </div>
         </div>
       </div>
       {/* ==============Offscreen div for screenshot ================*/}
@@ -146,11 +156,12 @@ export default function Page() {
           zIndex: 10,
         }}
       >
-        <div className="flex  justify-between">
-          <button
-            className="pl-2 pt-2"
-            onClick={downloadScreenshot}
-            disabled={!loaded}
+        <div className="flex  justify-between pl-3">
+          <Link
+            href={{
+              pathname: '/PhoneAppGahshomar',
+            }}
+
             // className="bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out z-50 self-start"
           >
             <svg
@@ -191,7 +202,7 @@ export default function Page() {
             </svg>
             <p className="pt-2"></p>
             بازگشت
-          </button>
+          </Link>
           <button
             disabled={!loaded}
             // className="bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out z-50 self-start"

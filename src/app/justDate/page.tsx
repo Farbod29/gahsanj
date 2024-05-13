@@ -31,7 +31,7 @@ type WeekdayKey =
   | 'Saturday';
 const persianWeekdays: { [key in WeekdayKey]: string } = {
   Sunday: 'یکشنبه (مهر شید)',
-  Monday: 'دوشنبه (مه شید)',
+  Monday: 'دوشنبه (مهشید)',
   Tuesday: 'سه شنبه (بهرام شید)',
   Wednesday: 'چهار شنبه (تیر شید)',
   Thursday: 'پنج شنبه (اورمزد شید)',
