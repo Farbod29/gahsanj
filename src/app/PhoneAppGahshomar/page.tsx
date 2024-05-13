@@ -63,9 +63,8 @@ export default function Home() {
 
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
-  const [currentPersianMonth, setCurrentPersianMonth] = useState<string | null>(
-    ''
-  );
+  const [currentPersianMonth, setCurrentPersianMonth] = useState('');
+  //const [currentPersianMonth, setCurrentPersianMonth] = useState<string | null>(
   const [currentLatinMonth, setCurrentLatinMonth] = useState('');
   const [activeTab, setActiveTab] = useState('گاهشمار'); // State to track active tab
   const [dates, setDates] = useState({
@@ -91,13 +90,22 @@ export default function Home() {
     });
   }, []);
 
-  function convertToJalali(date: Date): [string, string] {
+  function getJanaliMonth(date: Date): [string] {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const monthName = jalaaliMonths[jm - 1]; // Get the month name
     const JdateString = toPersianNums(
       `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
-    return [JdateString, monthName];
+    return [monthName];
+  }
+
+  function convertToJalali(date: Date): [string] {
+    const { jy, jm, jd } = jalaali.toJalaali(date);
+    const monthName = jalaaliMonths[jm - 1]; // Get the month name
+    const JdateString = toPersianNums(
+      `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
+    );
+    return [JdateString];
   }
 
   function convertToPahlavi(date: Date) {
@@ -140,13 +148,13 @@ export default function Home() {
     );
   }
   const persianWeekdays: { [key: string]: string } = {
-    Sunday: '   مهر شید  / یکشنبه',
-    Monday: '  مهشید /دوشنبه',
-    Tuesday: '   بهرام شید / سه شنبه ',
-    Wednesday: ' چهار شنبه  تیر شید ',
-    Thursday: ' پنج شنبه اورمزد شید',
+    Sunday: ' مهر شید ',
+    Monday: '  مهشید ',
+    Tuesday: ' بهرام شید ',
+    Wednesday: ' تیر شید ',
+    Thursday: ' اورمزد شید',
     Friday: ' (ناهید شید (آدینه', // or 'ناهید شید' depending on your preference
-    Saturday: 'شنبه  کیوان شید',
+    Saturday: '  کیوان شید',
   };
 
   const persianHejriDays: { [key: string]: string } = {
@@ -202,7 +210,12 @@ export default function Home() {
 
   useEffect(() => {
     // Extract the month name when the component mounts
-    const monthName = extractMonth(dates.IraniMelli) || '';
+    // const monthName = extractMonth(dates.IraniMelli) || '';
+    // setCurrentPersianMonth(monthName);
+    const today = new Date();
+    const monthArray = getJanaliMonth(today); // This will be an array e.g., ['اردیبهشت']
+    const monthName = monthArray[0];
+    console.log(monthName);
     setCurrentPersianMonth(monthName);
   }, []);
 

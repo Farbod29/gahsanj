@@ -11,9 +11,11 @@ export default function Page() {
   console.log(searchParams.get('paramDates')); // Logs "search"
   console.log(searchParams.get('paramName')); // Logs "search"
   console.log(searchParams.get('PersianWeekday')); // Logs "search"
+  console.log(searchParams.get('PersianMonth')); // Logs "search"
   const gahshomariDates = searchParams.get('paramDates');
   const gahshomariName = searchParams.get('paramName');
   const gahshomariWeekday = searchParams.get('PersianWeekday');
+  const gahshomariMonth = searchParams.get('PersianMonth');
   const ref = useRef(null);
   const screenshotRef = useRef(null); // Reference for the offscreen screenshot version
   const [loaded, setLoaded] = useState(false);
@@ -89,9 +91,10 @@ export default function Page() {
             whiteSpace: 'nowrap', // Add this line
           }}
         >
-          <span>-{gahshomariWeekday}</span>
-          <span>-{gahshomariName}</span>
-          <span>-{gahshomariDates}</span>
+          <span> -{gahshomariDates}</span>
+          <span> -{gahshomariMonth}</span>
+          <span> -{gahshomariWeekday}</span>
+          <span> / {gahshomariName}</span>
         </div>
       </div>
       {/* ==============Offscreen div for screenshot ================*/}
@@ -156,8 +159,9 @@ export default function Page() {
           zIndex: 10,
         }}
       >
-        <div className="flex  justify-between pl-3">
+        <div className="flex justify-between pl-3 ">
           <Link
+            className="pt-2"
             href={{
               pathname: '/PhoneAppGahshomar',
             }}
