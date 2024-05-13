@@ -2,8 +2,27 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import html2canvas from 'html2canvas';
+import { useSearchParams } from 'next/navigation';
+
+// const SomeClientComponent = () => {
+//   const searchParams = useSearchParams();
+//   console.log(searchParams.get('search')); // Logs "search"
+//   const AAAA = searchParams.get('search');
+//   return (
+//     <main className="flex min-h-screen w-full flex-col items-center px-2 sm:px-4 md:px-8">
+//       <p>{AAAA}</p>
+//     </main>
+//   );
+// };
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  console.log(searchParams.get('paramDates')); // Logs "search"
+  console.log(searchParams.get('paramName')); // Logs "search"
+  console.log(searchParams.get('PersianWeekday')); // Logs "search"
+  const gahshomariDates = searchParams.get('paramDates');
+  const gahshomariName = searchParams.get('paramName');
+  const gahshomariWeekday = searchParams.get('PersianWeekday');
   const ref = useRef(null);
   const screenshotRef = useRef(null); // Reference for the offscreen screenshot version
   const [loaded, setLoaded] = useState(false);

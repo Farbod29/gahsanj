@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import jalaali from 'jalaali-js';
+import Link from 'next/link';
 
 //import logo from 'Users/farbodaprin/Desktop/iranian-gah-shomar2/public/assets/logo-gahshomar-yellow.png';
 import Image from 'next/image';
@@ -63,6 +64,9 @@ export default function Home() {
   );
 
   const [showClocks, setShowClocks] = useState(false);
+  const [PersianWeekday, setPersianWeekday] = useState('');
+  const [hejriweekday, setHejriWeekday] = useState('');
+  const [Georgianweekday, setGeorgianWeekday] = useState('');
 
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
@@ -147,12 +151,22 @@ export default function Home() {
   }
   const persianWeekdays: { [key: string]: string } = {
     Sunday: '   مهر شید  / یکشنبه',
-    Monday: '  مه شید /دوشنبه',
+    Monday: '  مهشید /دوشنبه',
     Tuesday: '   بهرام شید / سه شنبه ',
     Wednesday: ' چهار شنبه  تیر شید ',
     Thursday: ' پنج شنبه اورمزد شید',
     Friday: ' (ناهید شید (آدینه', // or 'ناهید شید' depending on your preference
     Saturday: 'شنبه  کیوان شید',
+  };
+
+  const persianHejriDays: { [key: string]: string } = {
+    Sunday: 'یکشنبه',
+    Monday: 'دوشنبه',
+    Tuesday: 'سه شنبه ',
+    Wednesday: 'چهار شنبه',
+    Thursday: 'پنج شنبه  ',
+    Friday: 'آدینه', // or 'ناهید شید' depending on your preference
+    Saturday: 'شنبه',
   };
 
   const handleBoxClick = (year: string, weekday: string) => {
@@ -178,21 +192,73 @@ export default function Home() {
     return persianWeekdays[todayName]; // Now TypeScript knows that todayName is a valid key for persianWeekdays
   }
 
+  function getTodayHejriName(): string {
+    const today = new Date();
+    const gregorianWeekdays = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+    const todayName = gregorianWeekdays[today.getDay()];
+    return persianHejriDays[todayName]; // Now TypeScript knows that todayName is a valid key for persianWeekdays
+  }
+
+  function getTodayGeorgianName(): string {
+    const today = new Date();
+    const gregorianWeekdays = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+    const todayName = gregorianWeekdays[today.getDay()];
+    return todayName; // Now TypeScript knows that todayName is a valid key for persianWeekdays
+  }
+  useEffect(() => {
+    const setVariables = () => {
+      setPersianWeekday(getTodayPersianName());
+      setGeorgianWeekday(getTodayGeorgianName());
+      setHejriWeekday(getTodayHejriName());
+    };
+    setVariables();
+  }, []); // Empty dependency array means this effect runs once on mount
+
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-[#1cd2d5] px-2 sm:px-4 md:px-8">
       <div className="w-full max-w-4xl mx-auto p-3 pb-2">
-        <div className="text-center bg-[#FFFFFF] p-4 rounded-xl">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#32127A] md:pb-8 font-bold">
-            ایران نو
-          </h2>
-          <p className="text-xl md:text-4xl pt-2 lg:text-5xl text-[#1C39BB] pb-1 md:pb-3">
-            {dates.IraniMelli}
-          </p>
-          <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
-            {getTodayPersianName()}
-          </p>
-        </div>
+        <h1 className="text-center m-2 text-4xl text-white p-2 pb-2">
+          تولید فرتور با گاهشماری انتخابی شما
+        </h1>
 
+        <Link
+          href={{
+            pathname: '/DownloadImage',
+            query: {
+              paramDates: dates.IraniMelli,
+              paramName: 'ایران نو',
+              PersianWeekday: PersianWeekday,
+            },
+          }}
+        >
+          <div className=" bg-[#FFFFFF] p-4 rounded-xl cursor: pointer hover:bg-[#dce4ff]">
+            <p className="text-sm md:text-lg lg:text-2xl text-[#1C39BB] text-center">
+              {dates.IraniMelli}
+            </p>
+            <p className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
+              ایران نو
+            </p>
+            <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
+              {getTodayPersianName()}
+            </p>
+          </div>
+        </Link>
         <div className="w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-3 md:space-y-0 md:space-x-4">
           <div
             className="bg-[#FFFFFF] p-4 rounded-xl flex-1"
@@ -201,44 +267,58 @@ export default function Home() {
             <p className="text-sm md:text-lg lg:text-2xl text-[#1C39BB] text-center">
               {dates.ilami}
             </p>
-            <h3 className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
+            <p className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
               عیلامی
-            </h3>
+            </p>
+            <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
+              {getTodayPersianName()}
+            </p>
           </div>
           <div className="bg-[#FFFFFF] p-4 rounded-xl flex-1">
             <p className="text-sm md:text-lg lg:text-2xl text-[#1C39BB] text-center">
               {dates.pahlaviYear}
             </p>
-            <h3 className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
+            <p className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
               هخامنشی
-            </h3>
+            </p>
+            <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
+              {getTodayPersianName()}
+            </p>
           </div>
         </div>
-
         <div className="w-full flex flex-col md:flex-row mt-4 space-y-4 md:space-y-0 md:space-x-4">
           <div className="bg-[#FFFFFF] p-4 rounded-xl flex-1">
             <p className="text-sm md:text-lg lg:text-2xl text-[#1C39BB] text-center">
               {dates.IranianDiako}
             </p>
-            <h3 className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
+            <p className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
               مادی
-            </h3>
+            </p>
+            <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
+              {getTodayPersianName()}
+            </p>
           </div>
           <div className="bg-[#FFFFFF] p-4 rounded-xl flex-1">
             <p className="text-sm md:text-lg lg:text-2xl text-[#1C39BB] text-center">
               {dates.jalaliDate}
             </p>
-            <h3 className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
+            <p className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
               هجری
-            </h3>
+            </p>
+            <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
+              {getTodayHejriName()}
+            </p>
           </div>
           <div className="bg-[#FFFFFF] p-4 rounded-xl flex-1">
             <p className="text-sm md:text-lg lg:text-2xl text-[#1C39BB] text-center">
               {dates.europeanDate}
             </p>
-            <h3 className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
+            <p className="text-lg md:text-xl lg:text-4xl text-[#32127A] text-center mt-2">
               میلادی
-            </h3>
+            </p>
+            <p className="text-md md:text-4xl lg:text-5xl text-[#1C39BB]">
+              {getTodayGeorgianName()}
+            </p>
           </div>
         </div>
       </div>

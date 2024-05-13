@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const SomePage = () => {
+const Sender = () => {
   return (
     <section>
       <h1>Sender to server side Receiver </h1>
@@ -8,19 +8,19 @@ const SomePage = () => {
         href={{
           pathname: '/Receiver',
           query: {
-            search: 'search',
+            search: 'AAAA server',
           },
         }}
       >
         Go to another page
       </Link>
 
-      <h1>Sender to server side Receiver </h1>
+      <h1>Sender to client side Receiver </h1>
       <Link
         href={{
           pathname: '/ReceiverClient',
           query: {
-            search: 'Sosis bandari22',
+            search: 'BBBB client',
           },
         }}
       >
@@ -30,4 +30,4 @@ const SomePage = () => {
   );
 };
 
-export default SomePage;
+export default Sender;
