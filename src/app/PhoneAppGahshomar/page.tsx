@@ -243,9 +243,9 @@ export default function Home() {
   }); // Empty dependency array means this effect runs once on mount
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center bg-[#1cd2d5] px-2 sm:px-4 md:px-8">
-      <div className="w-full max-w-4xl mx-auto p-3 pb-2">
-        <h1 className="text-center m-2 text-4xl text-white p-2 pb-2">
+    <main className="flex min-h-screen w-full flex-col items-center bg-[#1cd2d5] px-2 sm:px-4 md:px-2">
+      <div className="w-full max-w-4xl mx-auto p-3 pb-1">
+        <h1 className="text-center m- text-4xl text-white p-2 pb-2">
           تولید فرتور با گاهشماری انتخابی شما
         </h1>
         <Link
@@ -259,19 +259,19 @@ export default function Home() {
             },
           }}
         >
-          <div className=" bg-[#FFFFFF] p-3 rounded-xl cursor: pointer hover:bg-[#dce4ff]">
-            <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center">
+          <div className=" bg-[#FFFFFF] p-1.5 rounded-xl cursor: pointer hover:bg-[#dce4ff]">
+            <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center mt-1">
               {dates.IraniMelli}
             </p>
-            <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-2">
+            <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-1">
               ایران نو
             </p>
-            <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB]">
+            <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB] pl-3">
               {getTodayPersianName()}
             </p>
           </div>
         </Link>
-        <div className="w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-3 md:space-y-0 md:space-x-4">
+        <div className="w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-2 md:space-y-0 md:space-x-4">
           <Link
             href={{
               pathname: '/DownloadImage',
@@ -284,16 +284,16 @@ export default function Home() {
             }}
           >
             <div
-              className="bg-[#FFFFFF] p-3 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0 md:ml-0"
+              className="bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0 md:ml-0"
               // onClick={() => handleBoxClick(dates.ilami, getTodayPersianName())}
             >
-              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center">
+              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center mt-1">
                 {dates.ilami}
               </p>
-              <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-2">
+              <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-1">
                 عیلامی
               </p>
-              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB]">
+              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB] pl-3">
                 {getTodayPersianName()}
               </p>
             </div>
@@ -309,14 +309,14 @@ export default function Home() {
               },
             }}
           >
-            <div className="bg-[#FFFFFF] p-3 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0">
-              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center">
+            <div className="bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0">
+              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center mt-1">
                 {dates.pahlaviYear}
               </p>
-              <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-2">
+              <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-1">
                 هخامنشی
               </p>
-              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB]">
+              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB] pl-3">
                 {getTodayPersianName()}
               </p>
             </div>
@@ -334,14 +334,14 @@ export default function Home() {
               },
             }}
           >
-            <div className="bg-[#FFFFFF] p-3 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-0 md:mt-0">
-              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center">
+            <div className="bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-0 md:mt-0">
+              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center mt-1">
                 {dates.IranianDiako}
               </p>
               <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-0">
                 مادی
               </p>
-              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB]">
+              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB] pl-3">
                 {getTodayPersianName()}
               </p>
             </div>
@@ -357,14 +357,14 @@ export default function Home() {
               },
             }}
           >
-            <div className="bg-[#FFFFFF] p-3 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-0 md:mt-0">
-              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center">
+            <div className="bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-0 md:mt-0">
+              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center mt-1">
                 {dates.Jdate}
               </p>
               <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-0">
                 هجری
               </p>
-              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB]">
+              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB] pl-3">
                 {getTodayHejriName()}
               </p>
             </div>
@@ -380,14 +380,14 @@ export default function Home() {
               },
             }}
           >
-            <div className="bg-[#FFFFFF] p-3 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-0 md:mt-0">
-              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center">
+            <div className="bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-0 md:mt-0">
+              <p className="text-sm md:text-lg lg:text-xl text-[#1C39BB] text-center mt-1">
                 {dates.europeanDate}
               </p>
               <p className="text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-0">
                 میلادی
               </p>
-              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB]">
+              <p className="text-xl md:text-2xl lg:text-3xl text-[#1C39BB] pl-3">
                 {getTodayGeorgianName()}
               </p>
             </div>

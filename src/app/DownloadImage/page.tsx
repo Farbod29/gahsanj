@@ -1,71 +1,3 @@
-// 'use client';
-// import React, { useRef, useState, useCallback, useEffect } from 'react';
-// import Image from 'next/image';
-// import html2canvas from 'html2canvas';
-// import { useSearchParams } from 'next/navigation';
-// import Link from 'next/link';
-// import { Suspense } from 'react';
-
-// export default function Page() {
-//   const searchParams = useSearchParams();
-//   // console.log(searchParams);
-//   console.log(searchParams.get('paramDates')); // Logs "search"
-//   console.log(searchParams.get('paramName')); // Logs "search"
-//   console.log(searchParams.get('PersianWeekday')); // Logs "search"
-//   console.log(searchParams.get('PersianMonth')); // Logs "search"
-//   const gahshomariDates = searchParams.get('paramDates');
-//   const gahshomariName = searchParams.get('paramName');
-//   const gahshomariWeekday = searchParams.get('PersianWeekday');
-//   const gahshomariMonth = searchParams.get('PersianMonth');
-//   const ref = useRef(null);
-//   const screenshotRef = useRef(null); // Reference for the offscreen screenshot version
-//   const [loaded, setLoaded] = useState(false);
-//   const [isScreenshotMode, setIsScreenshotMode] = useState(false);
-
-//   useEffect(() => {
-//     function handleResize() {
-//       setLoaded(false); // Trigger a reload of the image when resizing
-//       setTimeout(() => setLoaded(true), 100); // Delay to ensure image reloads correctly
-//     }
-//     window.addEventListener('resize', handleResize);
-//     return () => window.removeEventListener('resize', handleResize);
-//   }, []);
-
-//   const handleLoad = useCallback(() => {
-//     console.log('Image has loaded');
-//     setLoaded(true);
-//   }, []);
-
-//   const downloadScreenshot = useCallback(() => {
-//     console.log('Attempting to take screenshot, ref:', screenshotRef.current);
-//     if (screenshotRef.current) {
-//       html2canvas(screenshotRef.current, { scale: 1 }).then((canvas) => {
-//         const image = canvas.toDataURL('image/png');
-//         const link = document.createElement('a');
-//         link.href = image;
-//         link.download = 'screenshot.png';
-//         link.click();
-//       });
-//     } else {
-//       console.error('Screenshot ref is not attached or image not loaded');
-//     }
-//   }, []);
-
-//   const clickLeft = useCallback(() => {
-//     console.log('click Left');
-//   }, []);
-
-//   const clickRight = useCallback(() => {
-//     console.log('click Right');
-//   }, []);
-
-//   return (
-//     <Suspense fallback={<div>Loading...</div>}>
-
-//     </Suspense>
-//   );
-// }
-
 'use client'; // This directive ensures the component executes client-side only
 import React, {
   useRef,
@@ -83,26 +15,55 @@ function ClientOnlyPage() {
   const searchParams = useSearchParams() as unknown as URLSearchParams;
   const gahshomariDates = searchParams.get('paramDates') || 'No Date';
   const gahshomariName = searchParams.get('paramName') || 'No Name';
+  const [images, setImages] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const gahshomariWeekday = searchParams.get('PersianWeekday') || 'No Weekday';
   const gahshomariMonth = searchParams.get('PersianMonth') || 'No Month';
 
   const ref = useRef(null);
   const screenshotRef = useRef(null);
-  const [loaded, setLoaded] = useState(false);
-  const [isScreenshotMode, setIsScreenshotMode] = useState(false);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setLoaded(false); // Reset load state to trigger reload
-      setTimeout(() => setLoaded(true), 100); // Delay to ensure state updates correctly
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const [isScreenshotMode, setIsScreenshotMode] = useState(false);
 
   const handleLoad = useCallback(() => {
     setLoaded(true);
   }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setLoaded(false); // Reset load state to trigger reload
+      setTimeout(handleLoad, 100); // Use handleLoad to set loaded to true
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleLoad]);
+
+  // Fetching images from the JSON hosted on GitHub
+  useEffect(() => {
+    fetch(
+      'https://raw.githubusercontent.com/GahshomarFar/Gahshomar-Database/main/AlbumAI.json'
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const nameImages = data[gahshomariName];
+        if (nameImages) {
+          const validImages = nameImages
+            .map((item) => item[Object.keys(item)[0]])
+            .filter(
+              (url) => url.startsWith('http://') || url.startsWith('https://')
+            );
+          setImages(validImages);
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to fetch images', error);
+      });
+  }, [gahshomariName]);
 
   const downloadScreenshot = useCallback(() => {
     if (screenshotRef.current) {
@@ -118,11 +79,21 @@ function ClientOnlyPage() {
     }
   }, []);
 
+  const goLeft = useCallback(() => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
+  }, [images.length]);
+
+  const goRight = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  }, [images.length]);
+
   return (
     <div className="flex flex-col h-screen justify-between">
       <div
         ref={ref}
-        className="flex-grow"
+        className="flex-grow relative"
         style={{
           width: '100%',
           height: 'auto',
@@ -131,7 +102,10 @@ function ClientOnlyPage() {
         }}
       >
         <Image
-          src="https://irantasvir.com/wp-content/uploads/2024/05/museum-day.jpg"
+          src={
+            images[currentIndex] ||
+            'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
+          }
           alt="Decorative background"
           layout="fill"
           objectFit="cover"
@@ -168,7 +142,10 @@ function ClientOnlyPage() {
         }}
       >
         <Image
-          src="https://irantasvir.com/wp-content/uploads/2024/05/museum-day.jpg"
+          src={
+            images[currentIndex] ||
+            'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
+          }
           alt="Decorative background"
           layout="fill"
           objectFit="cover"
@@ -263,7 +240,7 @@ function ClientOnlyPage() {
               viewBox="0 0 144 79"
             >
               <g
-                // onClick={clickRight}
+                onClick={goRight}
                 id="Polygon_1"
                 data-name="Polygon 1"
                 transform="translate(144) rotate(90)"
@@ -280,11 +257,12 @@ function ClientOnlyPage() {
                 />
               </g>
               <g
-                // onClick={clickLeft}
-                id="Polygon_2"
-                data-name="Polygon 2"
+                onClick={goLeft}
                 transform="translate(0 79) rotate(-90)"
                 fill="#c3f3ff"
+                style={{ cursor: 'pointer' }} // Add cursor pointer for usability
+                id="Polygon_2"
+                data-name="Polygon 2"
               >
                 <path
                   d="M 56.84225463867188 68.5 L 20.15774536132812 68.5 C 18.41312217712402 68.5 16.79034423828125 68.06375122070312 15.33447742462158 67.20336151123047 C 13.97280025482178 66.39865112304688 12.81792259216309 65.24235534667969 11.99470043182373 63.8594970703125 C 11.17147731781006 62.47663116455078 10.70551109313965 60.91022872924805 10.64718914031982 59.32962036132812 C 10.5848331451416 57.63967514038086 10.97488880157471 56.00517654418945 11.80652236938477 54.47151947021484 L 30.14877700805664 20.64553070068359 C 31.83681106567383 17.53252983093262 34.95876693725586 15.67401885986328 38.5 15.67401885986328 C 42.04122161865234 15.67401885986328 45.16317749023438 17.53252983093262 46.85122299194336 20.64554214477539 L 65.1934814453125 54.47151947021484 C 66.02510833740234 56.00517654418945 66.41516876220703 57.63967514038086 66.35281372070312 59.32962036132812 C 66.29448699951172 60.91022872924805 65.82852172851562 62.47663116455078 65.00530242919922 63.8594970703125 C 64.18207550048828 65.24235534667969 63.02719879150391 66.39865112304688 61.66552352905273 67.20336151123047 C 60.20965576171875 68.06375122070312 58.58687591552734 68.5 56.84225463867188 68.5 Z"
@@ -296,6 +274,12 @@ function ClientOnlyPage() {
                   fill="#465677"
                 />
               </g>
+              <button onClick={goLeft} disabled={!loaded}>
+                &lt; Previous
+              </button>
+              <button onClick={goRight} disabled={!loaded}>
+                Next &gt;
+              </button>
             </svg>
             دگرگونی فرتور
           </button>
