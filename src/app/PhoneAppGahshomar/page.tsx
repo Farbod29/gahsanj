@@ -250,7 +250,7 @@ export default function Home() {
         </h1>
         <Link
           href={{
-            pathname: '/DownloadImage',
+            pathname: '/DownloadImageFake',
             query: {
               paramDates: dates.IraniMelli,
               paramName: 'ایران نو',
@@ -274,7 +274,7 @@ export default function Home() {
         <div className="w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-2 md:space-y-0 md:space-x-4">
           <Link
             href={{
-              pathname: '/DownloadImage',
+              pathname: '/DownloadImageFake',
               query: {
                 paramDates: dates.ilami,
                 paramName: 'عیلامی',
@@ -300,7 +300,7 @@ export default function Home() {
           </Link>
           <Link
             href={{
-              pathname: '/DownloadImage',
+              pathname: '/DownloadImageFake',
               query: {
                 paramDates: dates.pahlaviYear,
                 paramName: 'هخامنشی',
@@ -325,7 +325,7 @@ export default function Home() {
         <div className="w-full flex flex-col md:flex-row mt-4 space-y-4 md:space-y-0 md:space-x-4">
           <Link
             href={{
-              pathname: '/DownloadImage',
+              pathname: '/DownloadImageFake',
               query: {
                 paramDates: dates.IranianDiako,
                 paramName: 'مادی',
@@ -348,7 +348,7 @@ export default function Home() {
           </Link>
           <Link
             href={{
-              pathname: '/DownloadImage',
+              pathname: '/DownloadImageFake',
               query: {
                 paramDates: dates.Jdate,
                 paramName: 'هجری',
@@ -371,7 +371,7 @@ export default function Home() {
           </Link>
           <Link
             href={{
-              pathname: '/DownloadImage',
+              pathname: '/DownloadImageFake',
               query: {
                 paramDates: dates.europeanDate,
                 paramName: 'میلادی',

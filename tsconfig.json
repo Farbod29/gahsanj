@@ -34,7 +34,8 @@
     "**/*.tsx", // Include all TypeScript React files
     "src/**/*.d.ts", // Include all TypeScript declaration files in src
     ".next/types/**/*.ts",
-    "src/components/buttonComponent/ButtonComponent.js"
+    "src/components/buttonComponent/ButtonComponent.js",
+    "src/app/api/route.tsx"
   ],
   "exclude": [
     "node_modules" // Exclude node_modules from TypeScript compilation
