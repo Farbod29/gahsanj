@@ -183,7 +183,7 @@ function ClientOnlyPage() {
           <Link
             className="pt-2"
             href={{
-              pathname: '/https://gahshomar.com/',
+              pathname: 'https://gahshomar.com/',
             }}
 
             // className="bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out z-50 self-start"
