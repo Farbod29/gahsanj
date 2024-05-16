@@ -69,7 +69,7 @@ export default function Home() {
           <br />
         </div>
         <div className="text-center p-4 rounded-xl flex justify-center items-center">
-          <div className="text-center pl-4 text-[#ff7f50] text-2xl justify-center items-center">
+          <div className="text-center pl-4 text-[#FF8200] text-2xl justify-center items-center">
             {dates.weekday}
           </div>
         </div>

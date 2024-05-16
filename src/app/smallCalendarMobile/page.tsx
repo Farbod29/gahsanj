@@ -161,7 +161,7 @@ function PersianCalendar() {
         dir="rtl"
         className="max-w-md mx-auto rounded-lg overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full"
       >
-        <div className="flex justify-between items-center bg-[#FF7F50] text-white p-3">
+        <div className="flex justify-between items-center bg-[#FF8200] text-white p-3">
           <button
             onClick={goToPreviousMonth}
             className="p-2 text-4xl sm:text-8xl"
