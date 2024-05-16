@@ -19,14 +19,6 @@ export async function GET(req: NextRequest) {
     const db = client.db('Ghahshomar');
     const collection = db.collection('AlbumAI');
     const category = req.nextUrl.searchParams.get('category');
-
-    if (!category) {
-      return NextResponse.json(
-        { message: 'Category is required' },
-        { status: 400 }
-      );
-    }
-
     const documents = await collection.find({ category }).toArray();
 
     if (documents.length > 0) {

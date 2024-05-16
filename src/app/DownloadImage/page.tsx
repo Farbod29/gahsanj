@@ -183,7 +183,7 @@ function ClientOnlyPage() {
           <Link
             className="pt-2"
             href={{
-              pathname: '/PhoneAppGahshomar',
+              pathname: '/https://gahshomar.com/',
             }}
 
             // className="bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out z-50 self-start"
@@ -194,19 +194,55 @@ function ClientOnlyPage() {
               height="59.83"
               viewBox="0 0 59.83 59.83"
             >
+              <defs>
+                <clipPath id="clip-path">
+                  <rect
+                    id="Rectangle_18"
+                    data-name="Rectangle 18"
+                    width="39.529"
+                    height="44.576"
+                    transform="translate(49 -24)"
+                    fill="none"
+                  />
+                </clipPath>
+              </defs>
               <g
-                id="Group_26"
-                data-name="Group 26"
+                id="Group_30"
+                data-name="Group 30"
+                transform="translate(-27.85 18.628)"
+              >
+                <g
+                  id="Group_27"
+                  data-name="Group 27"
+                  transform="translate(-10 11)"
+                  clip-path="url(#clip-path)"
+                >
+                  <path
+                    id="Path_312"
+                    data-name="Path 312"
+                    d="M18.016.826.826,19.6H5.154V36.252h9.268v-8.9h7.186v8.9h9.268V19.6h4.329Z"
+                    transform="translate(49.749 -19.964)"
+                    fill="#c3f3ff"
+                    stroke="#c3f3ff"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                  />
+                </g>
+              </g>
+              <g
+                id="Group_31"
+                data-name="Group 31"
                 transform="translate(0 -9.585)"
               >
                 <g
                   id="Home_icon"
                   data-name="Home icon"
                   transform="translate(0 9.585)"
-                  fill="#c2f3ff"
+                  fill="none"
                 >
                   <path
-                    d="M 40.83000183105469 57.33000183105469 L 19 57.33000183105469 C 14.59269046783447 57.33000183105469 10.44918060302734 55.61370086669922 7.332740783691406 52.49726104736328 C 4.216300964355469 49.38082122802734 2.500000953674316 45.23731231689453 2.500000953674316 40.83000183105469 L 2.500000953674316 19 C 2.500000953674316 14.59269046783447 4.216300964355469 10.44918060302734 7.332740783691406 7.332740783691406 C 10.44918060302734 4.216300964355469 14.59269046783447 2.500000953674316 19 2.500000953674316 L 40.83000183105469 2.500000953674316 C 45.23731231689453 2.500000953674316 49.38082122802734 4.216300964355469 52.49726104736328 7.332740783691406 C 55.61370086669922 10.44918060302734 57.33000183105469 14.59269046783447 57.33000183105469 19 L 57.33000183105469 40.83000183105469 C 57.33000183105469 45.23731231689453 55.61370086669922 49.38082122802734 52.49726104736328 52.49726104736328 C 49.38082122802734 55.61370086669922 45.23731231689453 57.33000183105469 40.83000183105469 57.33000183105469 Z"
+                    d="M19,0H40.83a19,19,0,0,1,19,19V40.83a19,19,0,0,1-19,19H19a19,19,0,0,1-19-19V19A19,19,0,0,1,19,0Z"
                     stroke="none"
                   />
                   <path
@@ -215,16 +251,8 @@ function ClientOnlyPage() {
                     fill="#465677"
                   />
                 </g>
-                <path
-                  id="Path_311"
-                  data-name="Path 311"
-                  d="M36.306,32.789l-5.891,5.3V11.311a2.584,2.584,0,0,0-5.138,0V38.088l-5.891-5.3a2.776,2.776,0,0,0-3.633,0,2.151,2.151,0,0,0,0,3.268L26.029,45.3c.023.021.054.028.077.046a2.6,2.6,0,0,0,.755.462h0a2.822,2.822,0,0,0,.984.169,2.744,2.744,0,0,0,1.816-.677l10.277-9.245a2.15,2.15,0,0,0,0-3.268,2.776,2.776,0,0,0-3.633,0Z"
-                  transform="translate(57.342 10.919) rotate(90)"
-                  fill="#465677"
-                />
               </g>
             </svg>
-            <p className="pt-2"></p>
             بازگشت
           </Link>
           <button
