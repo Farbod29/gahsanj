@@ -3,7 +3,16 @@ import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  const client = new MongoClient(process.env.MONGODB_URI || '', {});
+  const uri = process.env.MONGODB_URI || '';
+  if (!uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
+    console.error('Invalid MongoDB URI:', uri);
+    return NextResponse.json(
+      { message: 'Configuration error' },
+      { status: 500 }
+    );
+  }
+
+  const client = new MongoClient(uri, {});
 
   try {
     await client.connect();
