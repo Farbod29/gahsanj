@@ -34,8 +34,8 @@ const getTodayPersianName = (): string => {
     '(چهار‌شنبه) تیرشید',
     '(پنج‌شنبه) مزدشید',
     'ناهیدشید (آدینه) ',
-    '(یک‌شنبه)  کیوان',
-    '(دوشنبه) مهرشید',
+    '(شنبه)  کیوان',
+    '(یک‌شنبه) مهر',
   ];
   const today = new Date();
   type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -191,7 +191,7 @@ function PersianCalendar() {
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.day}
               </span>
-              <span className="text-sm sm:text-xl text-gray-500">شید</span>
+              {/* <span className="text-sm sm:text-xl text-gray-500">شید</span> */}
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.dayShort}
               </span>
