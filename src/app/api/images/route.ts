@@ -4,7 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const client = new MongoClient(
-    process.env.MONGODB_URI || 'your-default-mongodb-uri',
+    process.env.MONGODB_URI ||
+      'mongodb+srv://farhad:PJemNmrQXB1uTVPF@gahshomar.kczessk.mongodb.net/Ghahshomar',
     {}
   );
 
