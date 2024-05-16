@@ -3,10 +3,10 @@ import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  const client = new MongoClient(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  const client = new MongoClient(
+    process.env.MONGODB_URI || 'your-default-mongodb-uri',
+    {}
+  );
 
   try {
     await client.connect();
