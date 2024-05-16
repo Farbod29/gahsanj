@@ -3,17 +3,21 @@ import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  const client = new MongoClient(
-    process.env.MONGODB_URI ||
-      'mongodb+srv://farhad:PJemNmrQXB1uTVPF@gahshomar.kczessk.mongodb.net/Ghahshomar',
-    {}
-  );
+  const client = new MongoClient(process.env.MONGODB_URI || '', {});
 
   try {
     await client.connect();
     const db = client.db('Ghahshomar');
     const collection = db.collection('AlbumAI');
     const category = req.nextUrl.searchParams.get('category');
+
+    if (!category) {
+      return NextResponse.json(
+        { message: 'Category is required' },
+        { status: 400 }
+      );
+    }
+
     const documents = await collection.find({ category }).toArray();
 
     if (documents.length > 0) {
