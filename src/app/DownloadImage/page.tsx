@@ -29,6 +29,7 @@ function ClientOnlyPage() {
   const handleLoad = useCallback(() => {
     setLoaded(true);
   }, []);
+
   useEffect(() => {
     const handleResize = () => {
       setLoaded(false); // Reset load state to trigger reload
@@ -38,31 +39,35 @@ function ClientOnlyPage() {
     return () => window.removeEventListener('resize', handleResize);
   }, [handleLoad]);
 
-  // Fetching images from the JSON hosted on GitHub
+  // Fetching images from the backend API
   useEffect(() => {
-    fetch(
-      'https://raw.githubusercontent.com/GahshomarFar/Gahshomar-Database/main/AlbumAI.json'
-    )
-      .then((response) => {
+    const fetchImages = async () => {
+      try {
+        const response = await fetch(
+          `/api/images?category=${encodeURIComponent(gahshomariName)}`
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Failed to fetch images');
         }
-        return response.json();
-      })
-      .then((data) => {
-        const nameImages = data[gahshomariName];
-        if (nameImages) {
-          const validImages = nameImages
-            .map((item) => item[Object.keys(item)[0]])
+        const data = await response.json();
+        if (data && data.length > 0) {
+          // Flatten the nested images arrays
+          const validImages = data
+            .flatMap((doc) => doc.images)
+            .map((item) => item.url)
             .filter(
-              (url) => url.startsWith('http://') || url.startsWith('https://')
+              (url) =>
+                url && (url.startsWith('http://') || url.startsWith('https://'))
             );
           setImages(validImages);
+          setLoaded(true);
         }
-      })
-      .catch((error) => {
-        console.error('Failed to fetch images', error);
-      });
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    };
+
+    fetchImages();
   }, [gahshomariName]);
 
   const downloadScreenshot = useCallback(() => {
