@@ -245,7 +245,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-[#1cd2d5] px-2 sm:px-4 md:px-2">
       <div className="w-full max-w-4xl mx-auto p-3 pb-1">
-        <h1 className="text-center m- text-4xl text-white p-2 pb-2">
+        <h1 className="text-center m- text-xl text-white p-2 pb-2">
           برای دریافت فرتور امروز، گاهشماری خود را انتخاب کنید
         </h1>
         <Link

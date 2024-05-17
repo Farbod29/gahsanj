@@ -58,7 +58,13 @@
       }
     ]
   },
-  "cSpell.words": ["datepicker", "jalali", "Kellner", "wojtekmaj"],
+  "cSpell.words": [
+    "customsizefologosite",
+    "datepicker",
+    "jalali",
+    "Kellner",
+    "wojtekmaj"
+  ],
   "bracketPairColorizer.colorMode": "Independent"
 }
 // {

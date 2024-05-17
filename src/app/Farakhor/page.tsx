@@ -176,11 +176,11 @@ const Occasions: React.FC = () => {
               className={`relative cursor-pointer ${
                 isToday
                   ? 'bg-[#e7e1b5] border-2 border-[#8a5d25] shadow-lg'
-                  : 'bg-[#E0E0E0]'
+                  : 'bg-[#FFFFFF]'
               } shadow-md rounded-lg p-2 text-center`}
               style={{ width: '100%', maxWidth: '300px', height: 'auto' }}
             >
-              <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[30px] lg:h-[70px]  logoSsize sm:w-16 xs:w-8  customsizefologosite xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 customsizefologosite">
+              <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[30px] lg:h-[70px]  logoSize sm:w-16 xs:w-8  customsizefologosite xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 customsizefologosite">
                 {event.logo && (
                   <Image
                     src={event.logo}
