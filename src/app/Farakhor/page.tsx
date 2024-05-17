@@ -130,7 +130,7 @@ const Occasions: React.FC = () => {
   const todayGregorian = getTodayGregorian(); // Call this outside the render loop to avoid recomputation
 
   return (
-    <div className="bg-white flex flex-col items-center justify-center pt-24">
+    <div className=" flex flex-col items-center justify-center pt-24">
       <div className="bg-[#FF8200] shadow-lg rounded-lg px-4 py-7 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
         <button
           onClick={() =>
