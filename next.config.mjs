@@ -7,6 +7,10 @@ const nextConfig = {
       { hostname: 'miro.medium.com' },
       { hostname: 'www.imgonline.com.ua' },
       { hostname: 'www.imgonline.com' },
+      { hostname: 'gahshomar.com' },
+      {
+        hostname: 'https://gahshomar.com',
+      },
     ],
   },
   async rewrites() {
