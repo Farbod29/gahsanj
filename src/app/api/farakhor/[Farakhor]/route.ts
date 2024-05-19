@@ -2,6 +2,7 @@ import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
+  console.log('MONGODB_URI2:', process.env.MONGODB_URI2);
   const uri2 = process.env.MONGODB_URI2 || '';
   console.log('MONGODB_URI2:', uri2); // Log the URI to verify it's being loaded
 
