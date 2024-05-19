@@ -2,64 +2,34 @@ import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  console.log('MONGODB_URI2:', process.env.MONGODB_URI2);
-  const uri2 = process.env.MONGODB_URI2 || '';
-  console.log('MONGODB_URI2:', uri2); // Log the URI to verify it's being loaded
+  const uri = process.env.MONGODB_URI2 || '';
+  console.log('MONGODB_URI2:', uri);
 
-  if (!uri2.startsWith('mongodb://') && !uri2.startsWith('mongodb+srv://')) {
-    console.error('Invalid MongoDB URI:', uri2);
+  if (!uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
+    console.error('Invalid MongoDB URI:', uri);
     return NextResponse.json(
-      { message: 'Configuration error', uri: uri2 },
+      { message: 'Configuration error', uri: uri },
       { status: 500 }
     );
   }
 
-  const client = new MongoClient(uri2, {});
+  const client = new MongoClient(uri, {});
 
   try {
-    console.log('Connecting to MongoDB...');
     await client.connect();
-    console.log('Connected to MongoDB');
-
     const db = client.db('Gahshomari2');
     const collection = db.collection('Farakhor');
-
-    const { pathname } = new URL(req.url);
-    const segments = pathname.split('/');
-    const month = decodeURIComponent(segments[segments.length - 1]);
-    console.log('Month:', month);
-
-    let query = {};
-
-    if (month && month !== 'Farakhor') {
-      query = { Month: month };
-    }
-
-    console.log('Query:', query);
-    const documents = await collection.find(query).toArray();
-    console.log('Documents found:', documents.length);
-
-    if (documents.length > 0) {
-      return NextResponse.json(documents);
-    } else {
-      return NextResponse.json(
-        { message: 'No documents found', query },
-        { status: 404 }
-      );
-    }
-  } catch (error) {
-    console.error('Database connection error:', error);
+    const documents = await collection.find({}).limit(1).toArray();
+    return NextResponse.json({ message: 'Connected successfully', documents });
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
+    console.error('Database connection error:', errorMessage);
     return NextResponse.json(
-      { message: 'Server error', error: error.message },
+      { message: 'Server error', error: errorMessage },
       { status: 500 }
     );
   } finally {
-    try {
-      console.log('Closing MongoDB connection...');
-      await client.close();
-      console.log('MongoDB connection closed');
-    } catch (closeError) {
-      console.error('Error closing MongoDB connection:', closeError);
-    }
+    await client.close();
   }
 }
