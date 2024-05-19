@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   if (!uri2.startsWith('mongodb://') && !uri2.startsWith('mongodb+srv://')) {
     console.error('Invalid MongoDB URI:', uri2);
     return NextResponse.json(
-      { message: 'Configuration error' },
+      { message: 'Configuration error', uri: uri2 },
       { status: 500 }
     );
   }
@@ -16,13 +16,17 @@ export async function GET(req: NextRequest) {
   const client = new MongoClient(uri2, {});
 
   try {
+    console.log('Connecting to MongoDB...');
     await client.connect();
+    console.log('Connected to MongoDB');
+
     const db = client.db('Gahshomari2');
     const collection = db.collection('Farakhor');
 
     const { pathname } = new URL(req.url);
     const segments = pathname.split('/');
     const month = decodeURIComponent(segments[segments.length - 1]);
+    console.log('Month:', month);
 
     let query = {};
 
@@ -30,20 +34,31 @@ export async function GET(req: NextRequest) {
       query = { Month: month };
     }
 
+    console.log('Query:', query);
     const documents = await collection.find(query).toArray();
+    console.log('Documents found:', documents.length);
 
     if (documents.length > 0) {
       return NextResponse.json(documents);
     } else {
       return NextResponse.json(
-        { message: 'No documents found' },
+        { message: 'No documents found', query },
         { status: 404 }
       );
     }
   } catch (error) {
     console.error('Database connection error:', error);
-    return NextResponse.json({ message: 'Server error' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Server error', error: error.message },
+      { status: 500 }
+    );
   } finally {
-    await client.close();
+    try {
+      console.log('Closing MongoDB connection...');
+      await client.close();
+      console.log('MongoDB connection closed');
+    } catch (closeError) {
+      console.error('Error closing MongoDB connection:', closeError);
+    }
   }
 }
