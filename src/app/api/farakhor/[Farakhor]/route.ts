@@ -2,25 +2,50 @@ import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  const uri = process.env.MONGODB_URI2 || '';
-  console.log('MONGODB_URI2:', uri);
+  const uri2 = process.env.MONGODB_URI2 || '';
+  console.log('MONGODB_URI2:', uri2); // Log the URI to verify it's being loaded
 
-  if (!uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
-    console.error('Invalid MongoDB URI:', uri);
+  if (!uri2.startsWith('mongodb://') && !uri2.startsWith('mongodb+srv://')) {
+    console.error('Invalid MongoDB URI:', uri2);
     return NextResponse.json(
-      { message: 'Configuration error', uri: uri },
+      { message: 'Configuration error', uri: uri2 },
       { status: 500 }
     );
   }
 
-  const client = new MongoClient(uri, {});
+  const client = new MongoClient(uri2, {});
 
   try {
+    console.log('Connecting to MongoDB...');
     await client.connect();
+    console.log('Connected to MongoDB');
+
     const db = client.db('Gahshomari2');
     const collection = db.collection('Farakhor');
-    const documents = await collection.find({}).limit(1).toArray();
-    return NextResponse.json({ message: 'Connected successfully', documents });
+
+    const { pathname } = new URL(req.url);
+    const segments = pathname.split('/');
+    const month = decodeURIComponent(segments[segments.length - 1]);
+    console.log('Month:', month);
+
+    let query = {};
+
+    if (month && month !== 'Farakhor') {
+      query = { Month: month };
+    }
+
+    console.log('Query:', query);
+    const documents = await collection.find(query).toArray();
+    console.log('Documents found:', documents.length);
+
+    if (documents.length > 0) {
+      return NextResponse.json(documents);
+    } else {
+      return NextResponse.json(
+        { message: 'No documents found', query },
+        { status: 404 }
+      );
+    }
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : 'Unknown error';
@@ -30,6 +55,12 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   } finally {
-    await client.close();
+    try {
+      console.log('Closing MongoDB connection...');
+      await client.close();
+      console.log('MongoDB connection closed');
+    } catch (closeError) {
+      console.error('Error closing MongoDB connection:', closeError);
+    }
   }
 }

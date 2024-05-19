@@ -42,14 +42,6 @@ const Occasions: React.FC = () => {
     []
   );
 
-  const getTodayGregorian = () => {
-    const today = new Date();
-    const day = today.getDate();
-    const month = today.getMonth() + 1; // getMonth() returns 0-based index
-    const year = today.getFullYear();
-    return `${day} ${gregorianMonthNames[month - 1]}`; // Assuming you want to match the format "day monthName"
-  };
-
   const fetchOccasions = async (monthName: string) => {
     setLoading(true);
     try {
@@ -112,17 +104,14 @@ const Occasions: React.FC = () => {
   ];
 
   const getGregorianDate = (jYear: number, jMonth: number, jDay: number) => {
-    // Convert Jalaali date to Gregorian
     const { gy, gm, gd } = jalaali.toGregorian(jYear, jMonth, jDay);
-
-    // Fetch the Gregorian month name using the gm (1-based index)
     const monthName = gregorianMonthNames[gm - 1];
-
-    // Return the formatted date with day and month name
-    return `${gd - 1} ${monthName}`;
+    return `${gd} ${monthName}`;
   };
 
-  const todayGregorian = getTodayGregorian(); // Call this outside the render loop to avoid recomputation
+  const todayGregorian = `${new Date().getDate()} ${
+    gregorianMonthNames[new Date().getMonth()]
+  }`;
 
   return (
     <div className="flex flex-col items-center justify-center pt-24">
@@ -142,7 +131,8 @@ const Occasions: React.FC = () => {
         <button
           onClick={() =>
             updateMonth(
-              (monthNames.indexOf(currentMonthName) - 1) % monthNames.length
+              (monthNames.indexOf(currentMonthName) - 1 + monthNames.length) %
+                monthNames.length
             )
           }
           className="text-4xl md:text-5xl"
@@ -164,8 +154,8 @@ const Occasions: React.FC = () => {
               monthNames.indexOf(currentMonthName) + 1,
               event.DayNumber
             );
-            const isToday = eventDate === todayGregorian; // Compare event date with today's date
-            const logo = event.Logo || '/path/to/default/logo.png'; // Replace with your default logo path
+            const isToday = eventDate === todayGregorian;
+            const logo = event.Logo || '/default-logo.png'; // Use a valid path
 
             return (
               <div
@@ -241,7 +231,7 @@ const Occasions: React.FC = () => {
             <div className="w-52 mb-4">
               <Image
                 src={
-                  modalContent.ModalImageLink || '/path/to/default/image.png'
+                  modalContent.ModalImageLink || 'https://picsum.photos/536/354'
                 }
                 alt="Modal Image"
                 className="h-full sm-logo:w-[30px] sm-logo:h-[20px] w-2"

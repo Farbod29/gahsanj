@@ -8,6 +8,7 @@ const nextConfig = {
       { hostname: 'www.imgonline.com.ua' },
       { hostname: 'www.imgonline.com' },
       { hostname: 'gahshomar.com' },
+      { hostname: 'https://picsum.photos' },
       {
         hostname: 'https://gahshomar.com',
       },
