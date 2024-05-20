@@ -2,6 +2,7 @@
 
 import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
+import jalaali from 'jalaali-js';
 
 console.log('Initial test log to ensure file is executed');
 
@@ -32,7 +33,21 @@ export async function GET(req: NextRequest) {
     );
     console.log('Category:', category);
 
-    const documents = await collection.find({ category }).toArray();
+    const today = new Date();
+    const jToday = jalaali.toJalaali(today);
+    const todayJalali = `${String(jToday.jm).padStart(2, '0')}/${String(
+      jToday.jd
+    ).padStart(2, '0')}`;
+    console.log('Today (Jalali):', todayJalali);
+
+    const documents = await collection
+      .find({
+        category: { $in: [category, 'general'] },
+        $or: [{ activeDates: 'allDays' }, { activeDates: todayJalali }],
+      })
+      .sort({ order: 1 })
+      .toArray();
+
     console.log('Documents found:', documents);
 
     if (documents.length > 0) {
