@@ -7,7 +7,7 @@ import jalaali from 'jalaali-js';
 console.log('Initial test log to ensure file is executed');
 
 export async function GET(req: NextRequest) {
-  console.log('Environment Variables:', process.env);
+  // console.log('Environment Variables:', process.env);
 
   const uri = process.env.MONGODB_URI1 || '';
   if (!uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   }
-  console.log('MONGODB_URI1:', uri);
+  // console.log('MONGODB_URI1:', uri);
 
   const client = new MongoClient(uri, {});
 
@@ -31,12 +31,12 @@ export async function GET(req: NextRequest) {
     const category = decodeURIComponent(
       req.nextUrl.pathname.split('/').pop() || ''
     );
-    console.log('Category:', category);
+    // console.log('Category:', category);
 
     const today = new Date();
     const jToday = jalaali.toJalaali(today);
-    const todayJalali = `${String(jToday.jm).padStart(2, '0')}/${String(
-      jToday.jd
+    const todayJalali = `${String(jToday.jd).padStart(2, '0')}/${String(
+      jToday.jm
     ).padStart(2, '0')}`;
     console.log('Today (Jalali):', todayJalali);
 
@@ -48,10 +48,20 @@ export async function GET(req: NextRequest) {
       .sort({ order: 1 })
       .toArray();
 
-    console.log('Documents found:', documents);
+    // console.log('Documents found:', documents);
 
-    if (documents.length > 0) {
-      const response = documents.map((doc) => ({
+    const filteredDocuments = documents.filter((doc) => {
+      if (doc.activeDates === 'allDays' || doc.activeDates === todayJalali) {
+        // console.log('Including document:', doc);
+        return true;
+      } else {
+        console.log('Excluding document due to date mismatch:', doc);
+        return false;
+      }
+    });
+
+    if (filteredDocuments.length > 0) {
+      const response = filteredDocuments.map((doc) => ({
         category: doc.category,
         imagesUrl: doc.imagesUrl,
         activeDates: doc.activeDates,

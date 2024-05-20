@@ -18,12 +18,12 @@ export default function Page() {
   }, []);
 
   const handleLoad = useCallback(() => {
-    console.log('Image has loaded');
+    //console.log('Image has loaded');
     setLoaded(true);
   }, []);
 
   const downloadScreenshot = useCallback(() => {
-    console.log('Attempting to take screenshot, ref:', screenshotRef.current);
+    //console.log('Attempting to take screenshot, ref:', screenshotRef.current);
     if (screenshotRef.current) {
       html2canvas(screenshotRef.current, { scale: 1 }).then((canvas) => {
         const image = canvas.toDataURL('image/png');
@@ -38,11 +38,11 @@ export default function Page() {
   }, []);
 
   const clickLeft = useCallback(() => {
-    console.log('click Left');
+    //console.log('click Left');
   }, []);
 
   const clickRight = useCallback(() => {
-    console.log('click Right');
+    //console.log('click Right');
   }, []);
 
   return (

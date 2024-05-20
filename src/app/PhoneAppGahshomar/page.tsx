@@ -215,7 +215,7 @@ export default function Home() {
     const today = new Date();
     const monthName = getJanaliMonth(today); // This will be an array e.g., ['اردیبهشت']
     // const monthName = monthArray[0];
-    console.log(monthName);
+    //console.log(monthName);
     setCurrentPersianMonth(monthName);
   }, []);
 

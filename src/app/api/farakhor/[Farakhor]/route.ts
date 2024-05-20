@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const uri2 = process.env.MONGODB_URI2 || '';
-  console.log('MONGODB_URI2:', uri2); // Log the URI to verify it's being loaded
+  //console.log('MONGODB_URI2:', uri2); // Log the URI to verify it's being loaded
 
   if (!uri2.startsWith('mongodb://') && !uri2.startsWith('mongodb+srv://')) {
     console.error('Invalid MongoDB URI:', uri2);
@@ -16,9 +16,9 @@ export async function GET(req: NextRequest) {
   const client = new MongoClient(uri2, {});
 
   try {
-    console.log('Connecting to MongoDB...');
+    //console.log('Connecting to MongoDB...');
     await client.connect();
-    console.log('Connected to MongoDB');
+    //console.log('Connected to MongoDB');
 
     const db = client.db('Gahshomari2');
     const collection = db.collection('Farakhor');
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     const { pathname } = new URL(req.url);
     const segments = pathname.split('/');
     const month = decodeURIComponent(segments[segments.length - 1]);
-    console.log('Month:', month);
+    //console.log('Month:', month);
 
     let query = {};
 
@@ -34,9 +34,9 @@ export async function GET(req: NextRequest) {
       query = { Month: month };
     }
 
-    console.log('Query:', query);
+    //console.log('Query:', query);
     const documents = await collection.find(query).toArray();
-    console.log('Documents found:', documents.length);
+    //console.log('Documents found:', documents.length);
 
     if (documents.length > 0) {
       return NextResponse.json(documents);
@@ -56,9 +56,9 @@ export async function GET(req: NextRequest) {
     );
   } finally {
     try {
-      console.log('Closing MongoDB connection...');
+      //console.log('Closing MongoDB connection...');
       await client.close();
-      console.log('MongoDB connection closed');
+      //console.log('MongoDB connection closed');
     } catch (closeError) {
       console.error('Error closing MongoDB connection:', closeError);
     }
