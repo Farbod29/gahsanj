@@ -1,4 +1,5 @@
-//src/app/api/ImagesAI/[category]/route.ts
+// src/app/api/ImagesAI/[category]/route.ts
+
 import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -35,7 +36,13 @@ export async function GET(req: NextRequest) {
     console.log('Documents found:', documents);
 
     if (documents.length > 0) {
-      return NextResponse.json(documents);
+      const response = documents.map((doc) => ({
+        category: doc.category,
+        imagesUrl: doc.imagesUrl,
+        activeDates: doc.activeDates,
+        order: doc.order,
+      }));
+      return NextResponse.json(response);
     } else {
       return NextResponse.json(
         { message: 'No documents found' },
