@@ -155,7 +155,7 @@ const Occasions: React.FC = () => {
               event.DayNumber
             );
             const isToday = eventDate === todayGregorian;
-            const logo = event.Logo || '/default-logo.png'; // Use a valid path
+            const logo = event.Logo || '/https://picsum.photos/536/35'; // Use a valid path
 
             return (
               <div
@@ -168,10 +168,10 @@ const Occasions: React.FC = () => {
                     ? 'bg-[#222c56] border-2 border-[#8a5d25] shadow-lg'
                     : 'bg-[#FFFFFF]'
                 }
-                shadow-md rounded-lg p-2 text-center`}
-                style={{ width: '100%', maxWidth: '300px', height: 'auto' }}
+              shadow-md rounded-lg p-2 text-center`}
+                style={{ width: '100%', maxWidth: '350px', height: 'auto' }} // Adjusted maxWidth to 350px
               >
-                <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[30px] lg:h-[70px] logoSize sm:w-16 xs:w-8 customsizefologosite xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 customsizefologosite">
+                <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[30px] lg:h-[70px] sm:w-16 xs:w-8 customsizefologosite xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 customsizefologosite">
                   {logo && (
                     <Image
                       src={logo}

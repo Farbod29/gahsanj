@@ -17,7 +17,6 @@
   font-display: swap;
 }
 
-/* Add this to your CSS file */
 .spinner {
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
@@ -51,13 +50,6 @@
   font-family: 'Hamishe', serif;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
 .rtl-text {
   direction: rtl; /* Right-to-left text direction */
   text-align: right; /* Align text to the right side of the container */
@@ -75,8 +67,8 @@
     padding-right: 5px;
   }
   .absluteEnmonth {
-    right: 19;
-    bottom: 12;
+    right: 19px; /* Added 'px' */
+    bottom: 12px; /* Added 'px' */
   }
 }
 
@@ -86,22 +78,33 @@
   }
 }
 
+@media (min-width: 640px) {
+  .customsizefologosite {
+    max-width: 250px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .customsizefologosite {
+    max-width: 350px;
+  }
+}
+
 @media (min-width: 375px) and (max-width: 413px) {
-  /* Added 'px' to 413 */
   .grid.gC2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 body {
   /* background: #1cd2d5; */
   /* color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-    
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
+    to bottom,
+    transparent,
+    rgb(var(--background-end-rgb))
+  )
+  rgb(var(--background-start-rgb)); */
 }
 
 @layer utilities {
