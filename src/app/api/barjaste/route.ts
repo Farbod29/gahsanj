@@ -1,3 +1,4 @@
+// app/api/barjaste/route.ts
 import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -20,45 +21,18 @@ export async function GET(req: NextRequest) {
     const db = client.db('Gahshomari2');
     const collection = db.collection('Farakhor');
 
-    const { pathname } = new URL(req.url);
-    const segments = pathname.split('/');
-    const month = decodeURIComponent(segments[segments.length - 1]);
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
 
-    let query = {};
-
-    if (month && month !== 'Farakhor') {
-      query = { Month: month };
-    }
+    const query = { date: todayStr, type: 'برجسته' };
 
     const documents = await collection.find(query).toArray();
 
-    // Format the Georgian date
-    const formattedDocuments = documents.map((doc) => {
-      const [day, month] = doc.Georgian.split(',');
-      const georgianDate = `${parseInt(day)} ${
-        [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December',
-        ][parseInt(month) - 1]
-      }`;
-      return { ...doc, GeorgianDay: georgianDate };
-    });
-
-    if (formattedDocuments.length > 0) {
-      return NextResponse.json(formattedDocuments);
+    if (documents.length > 0) {
+      return NextResponse.json(documents);
     } else {
       return NextResponse.json(
-        { message: 'No documents found', query },
+        { message: 'No events found', query },
         { status: 404 }
       );
     }
