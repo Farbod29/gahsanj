@@ -1,44 +1,61 @@
-// app/api/barjaste/route.ts
-import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
+import { MongoClient } from 'mongodb';
+
+export interface Occasion {
+  _id: {
+    $oid: string;
+  };
+  Month: string;
+  DayNumber: number;
+  PersianDayNumber: string;
+  Georgian: string;
+  GeorgianDay?: string;
+  EventTitle: string;
+  ShortTitle: string;
+  ModalStatus: boolean;
+  Text: string;
+  ModalImageLink: string;
+  Logo: string;
+}
+
+const uri2 = process.env.MONGODB_URI2 || '';
+
+if (!uri2.startsWith('mongodb://') && !uri2.startsWith('mongodb+srv://')) {
+  console.error('Invalid MongoDB URI:', uri2);
+}
+
+const client = new MongoClient(uri2);
 
 export async function GET(req: NextRequest) {
-  const uri2 = process.env.MONGODB_URI2 || '';
-
-  if (!uri2.startsWith('mongodb://') && !uri2.startsWith('mongodb+srv://')) {
-    console.error('Invalid MongoDB URI:', uri2);
-    return NextResponse.json(
-      { message: 'Configuration error', uri: uri2 },
-      { status: 500 }
-    );
-  }
-
-  const client = new MongoClient(uri2);
-
   try {
     await client.connect();
-
     const db = client.db('Gahshomari2');
-    const collection = db.collection('Farakhor');
+    const collection = db.collection<Occasion>('Farakhor');
 
+    // Get today's date in Gregorian format
     const today = new Date();
-    const todayStr = today.toISOString().split('T')[0];
+    const todayDay = today.getDate().toString().padStart(2, '0'); // Pad day with leading zero if needed
+    const todayMonth = (today.getMonth() + 1).toString().padStart(2, '0'); // Pad month with leading zero if needed
+    const todayGeorgian = `${todayDay},${todayMonth}`;
 
-    const query = { date: todayStr, type: 'برجسته' };
+    // Find documents that match today's date
+    const documents = await collection
+      .find({ Georgian: todayGeorgian })
+      .toArray();
 
-    const documents = await collection.find(query).toArray();
+    // Extract the ShortTitles
+    const shortTitles = documents.map((doc) => doc.ShortTitle);
 
-    if (documents.length > 0) {
-      return NextResponse.json(documents);
+    if (shortTitles.length > 0) {
+      return NextResponse.json(shortTitles);
     } else {
       return NextResponse.json(
-        { message: 'No events found', query },
+        { message: 'No documents found for today' },
         { status: 404 }
       );
     }
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = (error as Error).message || 'Unknown error';
     console.error('Database connection error:', errorMessage);
     return NextResponse.json(
       { message: 'Server error', error: errorMessage },
@@ -52,5 +69,3 @@ export async function GET(req: NextRequest) {
     }
   }
 }
-
-export default GET;

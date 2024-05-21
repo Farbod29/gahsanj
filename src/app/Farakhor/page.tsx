@@ -106,8 +106,8 @@ const Occasions: React.FC = () => {
   }`;
 
   return (
-    <div className="flex flex-col items-center justify-center pt-24">
-      <div className="bg-[#FF8200] shadow-lg rounded-lg px-4 py-7 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
+    <div className="flex flex-col items-center justify-center pt-20">
+      <div className="bg-[#FF8200] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
         <button
           onClick={() =>
             updateMonth(
@@ -160,7 +160,8 @@ const Occasions: React.FC = () => {
                 style={{ width: '100%', maxWidth: '350px', height: 'auto' }} // Adjusted maxWidth to 350px
               >
                 {/* <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[20px] lg:h-[70px] sm:w-[40px] xs:w-8  "> */}
-                <div className="absolute bottom-0 top-20 left-3 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 m-1 customsizefologosite xs:mt-4">
+                {/* <div className="absolute bottom-0 xl:top-[65px] sm:top-[75px] left-3 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10"> */}
+                <div className="absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl:2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7 ">
                   {/* //customsizefologosite */}
                   {logo && (
                     <Image

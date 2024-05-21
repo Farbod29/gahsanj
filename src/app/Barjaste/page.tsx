@@ -1,50 +1,48 @@
-// app/barjaste/page.tsx
 'use client';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
-type Event = {
-  name: string;
-  date: string;
-  type: string;
-};
+import React, { useEffect, useState } from 'react';
 
 const Barjaste: React.FC = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [shortTitles, setShortTitles] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchShortTitles = async () => {
       try {
-        const response = await axios.get<Event[]>('/api/barjaste');
-        setEvents(response.data);
+        const response = await fetch('/api/barjaste');
+        const data = await response.json();
+        setShortTitles(data);
       } catch (error) {
-        console.error('Error fetching events:', error);
-        setEvents([]);
+        console.error('Error fetching short titles:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEvents();
+    fetchShortTitles();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (events.length === 0) {
-    return <div></div>; // Show nothing if no events exist
-  }
-
   return (
-    <div>
-      <h1>برجسته های امروز</h1>
-      <ul>
-        {events.map((event, index) => (
-          <li key={index}>{event.name}</li> // Adjust according to your event schema
-        ))}
-      </ul>
+    <div className="flex flex-col items-center justify-center pt-24">
+      <h1 className="text-2xl font-bold mb-4 text-white">برجسته های امروز</h1>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <ul className="list-disc text-white">
+          {shortTitles.length > 0 ? (
+            shortTitles.map((title, index) => (
+              <li key={index} className="text-lg">
+                {title}
+              </li>
+            ))
+          ) : (
+            <li className="text-lg text-white">
+              {' '}
+              برای امروز فراخوری موجود نیست{' '}
+            </li>
+          )}
+        </ul>
+      )}
     </div>
   );
 };
