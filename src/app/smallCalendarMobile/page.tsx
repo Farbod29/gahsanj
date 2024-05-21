@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import jalaali from 'jalaali-js';
+import MyModal from '@/components/modal/Modal';
 
 // Helper function to convert numbers to Persian
 const toPersianDigits = (num: number) => {
@@ -162,6 +163,9 @@ function PersianCalendar() {
         className="max-w-md mx-auto rounded-lg overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full"
       >
         <div className="flex justify-between items-center bg-[#FF8200] text-white p-3">
+          <div className="absolute top-4">
+            <MyModal />
+          </div>
           <button
             onClick={goToPreviousMonth}
             className="p-2 text-4xl sm:text-8xl"

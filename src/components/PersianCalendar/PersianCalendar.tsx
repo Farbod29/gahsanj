@@ -1,10 +1,10 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import jalaali from 'jalaali-js';
-import { getTime } from 'date-fns';
 
 interface PersianCalendarProps {
   IraniMelli: string;
-  NameOfTheDay: string; // Define the type of NameOfTheDay here
+  NameOfTheDay: string;
 }
 
 const PersianCalendar: React.FC<PersianCalendarProps> = ({
@@ -17,11 +17,10 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
     { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه' },
     { day: 'مزد', dayShort: 'پ', HejriDay: 'پنجشنبه' },
     { day: 'آدینه', dayShort: 'ج', HejriDay: 'جمعه' },
-    { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنیه' },
+    { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه' },
     { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه' },
   ];
 
-  // Helper function to convert numbers to Persian
   const toPersianDigits = (num: number): string => {
     const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     return num
@@ -31,7 +30,6 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
       .join('');
   };
 
-  // Initialize today's date
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
 
@@ -39,14 +37,12 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
   const [currentYear, setCurrentYear] = useState(jToday.jy);
 
   useEffect(() => {
-    // Convert IraniMelli to a number before setting it to currentYear
     const yearAsNumber = Number(IraniMelli);
     if (!isNaN(yearAsNumber)) {
       setCurrentYear(yearAsNumber);
     }
   }, [IraniMelli]);
 
-  // Function to generate the days of the month
   const generateMonthDays = (year: number, month: number): number[] => {
     const daysInMonth = jalaali.jalaaliMonthLength(year, month);
     return Array.from({ length: daysInMonth }, (_, i) => i + 1);
@@ -54,7 +50,6 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
 
   const days = generateMonthDays(currentYear, currentMonth);
 
-  // Navigate to the previous month
   const goToPreviousMonth = () => {
     setCurrentMonth(currentMonth === 1 ? 12 : currentMonth - 1);
     if (currentMonth === 1) {
@@ -62,7 +57,6 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
     }
   };
 
-  // Navigate to the next month
   const goToNextMonth = () => {
     setCurrentMonth(currentMonth === 12 ? 1 : currentMonth + 1);
     if (currentMonth === 12) {
@@ -120,10 +114,9 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
     <div
       key={`empty-${index}`}
       className="border rounded text-center p-3 text-gray-500 opacity-50"
-    >
-      {/* Render empty cells or previous month's days */}
-    </div>
+    />
   ));
+
   return (
     <div
       dir="rtl"
@@ -162,8 +155,7 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
             </span>
           </div>
         ))}
-        {emptySlots}{' '}
-        {/* Render the empty slots before the first day of the month */}
+        {emptySlots}
         {days.map((day, index) => {
           const isToday =
             jToday.jd === day &&
