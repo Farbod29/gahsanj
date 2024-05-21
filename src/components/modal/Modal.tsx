@@ -16,7 +16,7 @@ const MyModal: React.FC = () => {
   return (
     <div>
       <button onClick={openModal} className="text-xs">
-        ⓘ چرا؟
+        ⓘ راهنما
       </button>
       <Dialog
         open={isOpen}
@@ -81,6 +81,8 @@ const MyModal: React.FC = () => {
                   <a
                     href="https://www.youtube.com/watch?v=XFguDZXoFJA"
                     className="text-blue-600"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Video Link
                   </a>
@@ -160,7 +162,7 @@ const MyModal: React.FC = () => {
                 </p>
                 <br />
                 <p className="text-xxxxs">
-                  محمود روح‌الامینی
+                  سرچشمه ها: محمود روح‌الامینی
                   <br />
                   انتشارات آگاه سال چاپ یک سال پیش از ایران نو ،
                   <br /> شومیز رقعی ۲۰۷ صفحه گردآوری فرهاد درخشان
