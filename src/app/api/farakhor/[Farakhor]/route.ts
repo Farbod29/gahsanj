@@ -63,8 +63,7 @@ export async function GET(req: NextRequest) {
       );
     }
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = (error as Error).message || 'Unknown error';
     console.error('Database connection error:', errorMessage);
     return NextResponse.json(
       { message: 'Server error', error: errorMessage },
@@ -78,5 +77,3 @@ export async function GET(req: NextRequest) {
     }
   }
 }
-
-export default GET;
