@@ -159,14 +159,16 @@ const Occasions: React.FC = () => {
               shadow-md rounded-lg p-2 text-center`}
                 style={{ width: '100%', maxWidth: '350px', height: 'auto' }} // Adjusted maxWidth to 350px
               >
-                <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[20px] lg:h-[70px] sm:w-16 xs:w-8 customsizefologosite xs:left-0 sm:h-[60px] h-[40px] flex items-center justify-center pb-2 pl:2 customsizefologosite">
+                {/* <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[20px] lg:h-[70px] sm:w-[40px] xs:w-8  "> */}
+                <div className="absolute bottom-0 top-20 left-3 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 m-1 customsizefologosite xs:mt-4">
+                  {/* //customsizefologosite */}
                   {logo && (
                     <Image
                       src={logo}
                       alt="Logo Of the Day"
                       width={50} // Default width
                       height={50} // Default height
-                      className="w-full h-full sm-logo:w-[20px] sm-logo:h-[20px]" // Make logo smaller at 572px breakpoint
+                      className="w-[30px] h-full sm-logo:w-[20px] sm-logo:h-[20px] sm-logo:h-[20px]" // Make logo smaller at 572px breakpoint
                       layout="responsive"
                     />
                   )}
