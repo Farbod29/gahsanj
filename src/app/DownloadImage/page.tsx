@@ -14,6 +14,8 @@ import Link from 'next/link';
 function ClientOnlyPage() {
   const searchParams = useSearchParams() as unknown as URLSearchParams;
   const gahshomariDates = searchParams.get('paramDates') || 'No Date';
+  console.log('xxxxxxxxxxxxx');
+
   const gahshomariName = searchParams.get('paramName') || 'No Name';
   const [images, setImages] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,7 +31,25 @@ function ClientOnlyPage() {
   const handleLoad = useCallback(() => {
     setLoaded(true);
   }, []);
+  // let day = '۲۳';
+  let sanitizedDay = '۲۳';
 
+  // Step 2: Split the day into two parts
+  const dayParts = sanitizedDay.split('');
+
+  // Step 3: Build the final day string based on the conditions
+  let finalDay = '';
+  if (dayParts.length === 2) {
+    if (dayParts[0] !== '۰') {
+      finalDay = dayParts.join('');
+    } else {
+      finalDay = dayParts[1];
+    }
+  } else {
+    finalDay = sanitizedDay;
+  }
+  // console.log('xxxxxxxxxxxxx');
+  // console.log(sanitizedDay);
   useEffect(() => {
     const handleResize = () => {
       setLoaded(false); // Reset load state to trigger reload
@@ -96,7 +116,7 @@ function ClientOnlyPage() {
   }, [images.length]);
 
   return (
-    <div className="flex flex-col h-screen justify-between">
+    <div className="flex flex-col h-screen justify-between ">
       <div
         ref={ref}
         className="flex-grow relative"
@@ -119,7 +139,7 @@ function ClientOnlyPage() {
           onLoad={handleLoad}
         />
         <div
-          className="drop-shadow-lg text-cyan-600"
+          className="drop-shadow-lg text-cyan-600 "
           style={{
             position: 'absolute',
             top: '10%',
@@ -134,14 +154,16 @@ function ClientOnlyPage() {
             textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
           }}
         >
-          <span> {gahshomariName}</span>
-          <span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </span>
-          <span> {year} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <span> - &nbsp;&nbsp;&nbsp;&nbsp;{gahshomariMonth}</span>
-          <span> {day}</span>
-          <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{gahshomariWeekday}</span>
+          <div className="rtl flex flex-row-reverse">
+            <span>{gahshomariWeekday}</span>
+            <span className="mx-1">-</span>
+            <span>{finalDay}</span>
+            <span className="mx-1">{gahshomariMonth}</span>
+            <span className="mx-1">-</span>
+            <span className="mx-1">{'سال'}</span>
+            <span className="mx-1"> {year}</span>
+            <span className="mx-1">{gahshomariName}</span>
+          </div>
         </div>
       </div>
       {/* ==============Offscreen div for screenshot ================*/}
@@ -173,14 +195,17 @@ function ClientOnlyPage() {
           }}
           className="absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap"
         >
-          <span> {gahshomariName}</span>
-          <span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </span>
-          <span> {year} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <span> - &nbsp;&nbsp;&nbsp;&nbsp;{gahshomariMonth}</span>
-          <span> {day}</span>
-          <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{gahshomariWeekday}</span>
+          <div className="rtl flex flex-row-reverse">
+            <span>{gahshomariWeekday}</span>
+            <span className="mx-1">-</span>
+            <span>{day}</span>
+            <span>{gahshomariMonth}</span>
+            <span className="mx-1">-</span>
+            <span>{'سال'}</span>
+            <span>{year}</span>
+            <span className="mx-1"></span>
+            <span>{gahshomariName}</span>
+          </div>
         </div>
       </div>
 
