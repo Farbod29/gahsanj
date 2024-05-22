@@ -9,6 +9,8 @@ const nextConfig = {
       { hostname: 'www.imgonline.com' },
       { hostname: 'gahshomar.com' },
       { hostname: 'https://picsum.photos' },
+      { hostname: 'http://news.bbc.co.uk/' },
+      { hostname: 'https://fa.wikipedia.org/' },
       {
         hostname: 'https://gahshomar.com',
       },

@@ -24,6 +24,15 @@ const Occasions: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<Occasion | null>(null);
 
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
   const monthNames = useMemo(
     () => [
       'فروردین',
@@ -47,9 +56,15 @@ const Occasions: React.FC = () => {
     try {
       const response = await fetch(`/api/farakhor/${monthName}`);
       const data: Occasion[] = await response.json();
-      setCurrentMonthEvents(
-        Array.isArray(data) ? data.filter((event) => event.ShortTitle) : []
-      );
+      const filteredData = Array.isArray(data)
+        ? data.filter((event) => event.ShortTitle)
+        : [];
+      filteredData.sort((a, b) => {
+        const dateA = new Date(a.GeorgianDay);
+        const dateB = new Date(b.GeorgianDay);
+        return dateA.getTime() - dateB.getTime();
+      });
+      setCurrentMonthEvents(filteredData);
     } catch (error) {
       console.error('Error fetching occasions:', error);
       setCurrentMonthEvents([]);
@@ -159,11 +174,8 @@ const Occasions: React.FC = () => {
               shadow-md rounded-lg p-2 text-center`}
                 style={{ width: '100%', maxWidth: '350px', height: 'auto' }} // Adjusted maxWidth to 350px
               >
-                {/* <div className="absolute bottom-0 left-3 sm-logo:left-2 w-[20px] lg:h-[70px] sm:w-[40px] xs:w-8  "> */}
-                {/* <div className="absolute bottom-0 xl:top-[65px] sm:top-[75px] left-3 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[40px] flex items-center justify-center pb-2 pl:2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10"> */}
                 <div className="absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl:2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7 ">
-                  {/* //customsizefologosite */}
-                  {logo && (
+                  {isValidUrl(logo) && (
                     <Image
                       src={logo}
                       alt="Logo Of the Day"
@@ -182,7 +194,6 @@ const Occasions: React.FC = () => {
                     {toPersianNum(currentMonthName)}
                   </span>
                   <div
-                    // className="text-[#373636] text-xl sm:text-xl font-bold B14-SE2 "
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
                     } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636]'}
