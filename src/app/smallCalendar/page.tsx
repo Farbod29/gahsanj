@@ -30,11 +30,11 @@ function toPersianNums(numString: string) {
 // Get the Persian name of today
 const getTodayPersianName = (): string => {
   const persianWeekDays: string[] = [
-    '(دوشنبه) مهشید',
-    '(سه‌شنبه)  بهرامشید',
-    '(چهار‌شنبه) تیرشید',
-    '(پنج‌شنبه) مزدشید',
-    'ناهیدشید (آدینه) ',
+    '(دوشنبه) مهروز',
+    '(سه‌شنبه)  بهرامروز',
+    '(چهار‌شنبه) تیرروز',
+    '(پنج‌شنبه) مزدروز',
+    'ناهیدروز (آدینه) ',
     '(شنبه)  کیوان',
     '(یک‌شنبه) مهر',
   ];
@@ -61,7 +61,7 @@ function PersianCalendar() {
     { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه', dayLatinShort: 'Tu' },
     { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه', dayLatinShort: 'W' },
     { day: 'مزد', dayShort: 'پ', HejriDay: 'پنج‌شنبه', dayLatinShort: 'Th' },
-    { day: 'ناهید', dayShort: 'ج', HejriDay: 'آدینه', dayLatinShort: 'Fr' },
+    { day: 'ناهید', dayShort: 'آ', HejriDay: 'آدینه', dayLatinShort: 'Fr' },
     { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه', dayLatinShort: 'Sa' },
     { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه', dayLatinShort: 'Su' },
   ];
@@ -195,7 +195,7 @@ function PersianCalendar() {
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.day}
               </span>
-              {/* <span className="text-sm sm:text-xl text-gray-500">شید</span> */}
+              {/* <span className="text-sm sm:text-xl text-gray-500">روز</span> */}
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.dayShort}
               </span>

@@ -148,13 +148,13 @@ export default function Home() {
     );
   }
   const persianWeekdays: { [key: string]: string } = {
-    Sunday: ' مهر شید ',
-    Monday: '  مهشید ',
-    Tuesday: ' بهرام شید ',
-    Wednesday: ' تیر شید ',
-    Thursday: ' اورمزد شید',
-    Friday: ' (ناهید شید (آدینه', // or 'ناهید شید' depending on your preference
-    Saturday: '  کیوان شید',
+    Sunday: ' مهر روز ',
+    Monday: '  مهروز ',
+    Tuesday: ' بهرام روز ',
+    Wednesday: ' تیر روز ',
+    Thursday: ' اورمزد روز',
+    Friday: ' (ناهید روز (آدینه', // or 'ناهید روز' depending on your preference
+    Saturday: '  کیوان روز',
   };
 
   const persianHejriDays: { [key: string]: string } = {
@@ -163,7 +163,7 @@ export default function Home() {
     Tuesday: 'سه شنبه ',
     Wednesday: 'چهار شنبه',
     Thursday: 'پنج شنبه  ',
-    Friday: 'آدینه', // or 'ناهید شید' depending on your preference
+    Friday: 'آدینه', // or 'ناهید روز' depending on your preference
     Saturday: 'شنبه',
   };
 

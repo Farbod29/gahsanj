@@ -16,7 +16,7 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
     { day: 'بهرام', dayShort: 'س', HejriDay: 'سه شنبه' },
     { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه' },
     { day: 'مزد', dayShort: 'پ', HejriDay: 'پنجشنبه' },
-    { day: 'آدینه', dayShort: 'ج', HejriDay: 'جمعه' },
+    { day: 'آدینه', dayShort: 'آ', HejriDay: 'جمعه' },
     { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه' },
     { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه' },
   ];

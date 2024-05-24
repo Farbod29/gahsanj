@@ -11,7 +11,7 @@ const ReactClockNoSSR = dynamic(
 
 const ClocksPage = () => {
   // Initialize the clock size with a default value
-  const [clockSize, setClockSize] = useState<number>(60);
+  const [clockSize, setClockSize] = useState<number>(90);
   const [containerSize, setContainerSize] = useState<number>(110); // Initialize container size
 
   useEffect(() => {
@@ -20,13 +20,13 @@ const ClocksPage = () => {
       const screenWidth = window.innerWidth;
 
       if (screenWidth <= 480) {
-        return 60;
-      } else if (screenWidth <= 768) {
         return 90;
+      } else if (screenWidth <= 768) {
+        return 100;
       } else if (screenWidth <= 1800) {
-        return 80;
+        return 120;
       }
-      return 100; // Return default size if no condition is met
+      return 140; // Return default size if no condition is met
     }
 
     function determineContainerSize(clockSize: number): number {
@@ -52,7 +52,7 @@ const ClocksPage = () => {
     <div className="p-3 bg-transparent">
       <div className="flex flex-row items-center justify-center">
         {/* Clock for Berlin */}
-        <div className="flex flex-col items-center mr-4">
+        {/* <div className="flex flex-col items-center mr-4">
           <div
             className="flex items-center justify-center rounded-full border-8 border-[#FD821D] bg-white"
             style={{
@@ -63,7 +63,7 @@ const ClocksPage = () => {
             <ReactClockNoSSR timeZone="Europe/Berlin" size={clockSize} />
           </div>
           <div className="text-white text-sm mt-2">محلی</div>
-        </div>
+        </div> */}
         {/* Clock for Tehran */}
         <div className="flex flex-col items-center">
           <div

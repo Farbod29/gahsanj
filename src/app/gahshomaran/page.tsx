@@ -1,27 +1,27 @@
-"use client";
-import { useEffect, useState } from "react";
-import jalaali from "jalaali-js";
+'use client';
+import { useEffect, useState } from 'react';
+import jalaali from 'jalaali-js';
 //import logo from 'Users/farbodaprin/Desktop/iranian-gah-shomar2/public/assets/logo-gahshomar-yellow.png';
-import Image from "next/image";
+import Image from 'next/image';
 
 function toPersianNums(numString: string) {
-  const persianNums = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  const persianNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
 }
 
 const jalaaliMonths = [
-  "فروردین",
-  "اردیبهشت",
-  "خرداد",
-  "تیر",
-  "مرداد",
-  "شهریور",
-  "مهر",
-  "آبان",
-  "آذر",
-  "دی",
-  "بهمن",
-  "اسفند",
+  'فروردین',
+  'اردیبهشت',
+  'خرداد',
+  'تیر',
+  'مرداد',
+  'شهریور',
+  'مهر',
+  'آبان',
+  'آذر',
+  'دی',
+  'بهمن',
+  'اسفند',
 ];
 
 function determineClockSize(): number {
@@ -45,7 +45,7 @@ export default function Home() {
   const Tab = ({ name }: { name: string }) => (
     <button
       className={`p-3 rounded-lg  hover:bg-[#32127A] ${
-        activeTab === name ? "bg-[#1C39BB] text-white" : "bg-gray-200"
+        activeTab === name ? 'bg-[#1C39BB] text-white' : 'bg-gray-200'
       }`}
       onClick={() => setActiveTab(name)}
     >
@@ -58,15 +58,15 @@ export default function Home() {
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
   const [currentMonth, setCurrentMonth] = useState(jToday.jm);
-  const [activeTab, setActiveTab] = useState("گاهشمار"); // State to track active tab
+  const [activeTab, setActiveTab] = useState('گاهشمار'); // State to track active tab
   const [dates, setDates] = useState({
-    europeanDate: "",
-    jalaliDate: "",
-    pahlaviYear: "",
-    IranianDiako: "",
-    IraniMithra: "",
-    IraniMelli: "",
-    ilami: "",
+    europeanDate: '',
+    jalaliDate: '',
+    pahlaviYear: '',
+    IranianDiako: '',
+    IraniMithra: '',
+    IraniMelli: '',
+    ilami: '',
   });
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function Home() {
   useEffect(() => {
     const today = new Date();
     setDates({
-      europeanDate: today.toLocaleDateString("en-GB"),
+      europeanDate: today.toLocaleDateString('en-GB'),
       jalaliDate: convertToJalali(today),
       pahlaviYear: convertToPahlavi(today),
       IranianDiako: convertToIranianDiako(today),
@@ -93,7 +93,7 @@ export default function Home() {
   function convertToJalali(date: Date) {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     return toPersianNums(
-      `${jy}/${jm < 10 ? "0" + jm : jm}/${jd < 10 ? "0" + jd : jd}`
+      `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -101,7 +101,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const pYear = jy + 1180;
     return toPersianNums(
-      `${pYear}/${jm < 10 ? "0" + jm : jm}/${jd < 10 ? "0" + jd : jd}`
+      `${pYear}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -109,7 +109,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IranianDiako = jy + 1321;
     return toPersianNums(
-      `${IranianDiako}/${jm < 10 ? "0" + jm : jm}/${jd < 10 ? "0" + jd : jd}`
+      `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -117,7 +117,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IranianDiako = jy + 3821;
     return toPersianNums(
-      `${IranianDiako}/${jm < 10 ? "0" + jm : jm}/${jd < 10 ? "0" + jd : jd}`
+      `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -125,7 +125,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IraniMithraYear = jy + 6359;
     return toPersianNums(
-      `${IraniMithraYear}/${jm < 10 ? "0" + jm : jm}/${jd < 10 ? "0" + jd : jd}`
+      `${IraniMithraYear}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -133,29 +133,29 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IraniMelli = jy - 1396;
     return toPersianNums(
-      `${IraniMelli}/${jm < 10 ? "0" + jm : jm}/${jd < 10 ? "0" + jd : jd}`
+      `${IraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
   const persianWeekdays: { [key: string]: string } = {
-    Sunday: "   مهر شید  / یکشنبه",
-    Monday: "  مه شید /دوشنبه",
-    Tuesday: "   بهرام شید / سه شنبه ",
-    Wednesday: " چهار شنبه  تیر شید ",
-    Thursday: " پنج شنبه اورمزد شید",
-    Friday: " ناهید شید آدینه", // or 'ناهید شید' depending on your preference
-    Saturday: "شنبه  کیوان شید",
+    Sunday: '   مهر روز  / یکشنبه',
+    Monday: '  مه روز /دوشنبه',
+    Tuesday: '   بهرام روز / سه شنبه ',
+    Wednesday: ' چهار شنبه  تیر روز ',
+    Thursday: ' پنج شنبه اورمزد روز',
+    Friday: ' ناهید روز آدینه', // or 'ناهید روز' depending on your preference
+    Saturday: 'شنبه  کیوان روز',
   };
 
   function getTodayPersianName(): string {
     const today = new Date();
     const gregorianWeekdays = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
     ];
     const todayName = gregorianWeekdays[today.getDay()];
     return persianWeekdays[todayName]; // Now TypeScript knows that todayName is a valid key for persianWeekdays

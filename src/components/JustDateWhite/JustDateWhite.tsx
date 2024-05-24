@@ -39,7 +39,7 @@ const persianWeekdays: { [key in WeekdayKey]: string } = {
   Saturday: 'شنبه (کیوان روز)',
 };
 
-export default function Home() {
+export default function JustDateWhite() {
   const [dates, setDates] = useState({
     day: '',
     monthName: '',
@@ -61,17 +61,17 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center px-2 sm:px-4 md:px-8">
+    <main className="flexw-full flex-col items-center px-2 sm:px-4 md:px-8 z-10">
       <div className="w-full max-w-4xl mx-auto mt-2">
-        <div className=" justify-center items-center text-center text-xl md:text-4xl lg:text-5xl text-[#108ba8] flex flex-row-reverse">
-          <div className="pl-4">{dates.day}</div>
+        <div className="justify-center items-center text-center text-3xl md:text-2xl lg:text-2xl text-[#ffffff] flex flex-row-reverse -mt-4">
+          <div className="p-1">{dates.day}</div>
           <div>{dates.monthName}</div>
           <br />
         </div>
-        <div className="text-center p-4 rounded-xl flex justify-center items-center">
-          <div className="text-center pl-4 text-[#ff7f50] text-2xl justify-center items-center">
-            {dates.weekday}
-          </div>
+      </div>
+      <div className="text-center p-4 rounded-xl flex justify-center items-center">
+        <div className="text-center text-[#ffffff] text-4xl justify-center items-center p-0 xm:text-xl lg:text-3xl">
+          {dates.weekday}
         </div>
       </div>
     </main>

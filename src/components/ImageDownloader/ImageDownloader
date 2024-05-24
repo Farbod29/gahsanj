@@ -77,7 +77,7 @@ export default function Page() {
         >
           <div>ایران نو</div>
           ۷/۰۲/۲۳
-          <div>مهر شید / یکشنبه</div>
+          <div>مهر روز / یکشنبه</div>
         </div>
       </div>
       {/* ==============Offscreen div for screenshot ================*/}
@@ -110,7 +110,7 @@ export default function Page() {
         >
           <div className="text-9xl">ایران نو</div>
           ۷/۰۲/۲۳
-          <div>مهر شید / یکشنبه</div>
+          <div>مهر روز / یکشنبه</div>
         </div>
       </div>
       {/* ==============Offscreen div for screenshot ================*/}

@@ -19,7 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${Hamishe.variable}`}>
-      <body className="Hamishe min-h-screen flex flex-col bg-[#333863]">
+      {/* <body className="Hamishe min-h-screen flex flex-col bg-[#333863]"> */}
+      <body className="Hamishe min-h-screen flex flex-col">
         <main className="flex-grow">{children}</main>
         <Footer /> {/* Add Footer component */}
       </body>

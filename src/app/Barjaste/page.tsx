@@ -37,8 +37,7 @@ const Barjaste: React.FC = () => {
             ))
           ) : (
             <li className="text-lg text-white">
-              {' '}
-              برای امروز فراخوری موجود نیست{' '}
+              برای امروز فراخوری موجود نیست
             </li>
           )}
         </ul>

@@ -30,11 +30,11 @@ function toPersianNums(numString: string) {
 // Get the Persian name of today
 const getTodayPersianName = (): string => {
   const persianWeekDays: string[] = [
-    '(دوشنبه) مهشید',
-    '(سه‌شنبه)  بهرامشید',
-    '(چهار‌شنبه) تیرشید',
-    '(پنج‌شنبه) مزدشید',
-    'ناهیدشید (آدینه) ',
+    '(دوشنبه) مهروز',
+    '(سه‌شنبه)  بهرامروز',
+    '(چهار‌شنبه) تیرروز',
+    '(پنج‌شنبه) مزدروز',
+    'ناهیدروز (آدینه) ',
     '(شنبه)  کیوان',
     '(یک‌شنبه) مهر',
   ];
@@ -61,7 +61,7 @@ function PersianCalendar() {
     { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه', dayLatinShort: 'Tu' },
     { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه', dayLatinShort: 'W' },
     { day: 'مزد', dayShort: 'پ', HejriDay: 'پنج‌شنبه', dayLatinShort: 'Th' },
-    { day: 'ناهید', dayShort: 'ج', HejriDay: 'آدینه', dayLatinShort: 'Fr' },
+    { day: 'ناهید', dayShort: 'آ', HejriDay: 'آدینه', dayLatinShort: 'Fr' },
     { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه', dayLatinShort: 'Sa' },
     { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه', dayLatinShort: 'Su' },
   ];
@@ -151,19 +151,21 @@ function PersianCalendar() {
   const emptySlots = Array.from({ length: offset }, (_, index) => (
     <div
       key={`empty-${index}`}
-      className="border rounded text-center p-3 text-gray-500 opacity-50"
+      className=" rounded text-center p-3 text-gray-500 opacity-50"
     ></div>
   ));
 
   // Render the component
   return (
-    <div className="w-full h-full bg-[#333863]">
+    <main className="p-4 bg-[#333863] min-h-screen ">
       <div
         dir="rtl"
-        className="max-w-md mx-auto rounded-lg overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full"
+        className="max-w-md mx-auto overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full rounded-md"
       >
-        <h3 className="text-white bg-[#333863]">گاهشمار جدولی</h3>
-        <div className="flex justify-between items-center bg-[#333862] text-white p-3">
+        <h3 className="text-white bg-[#333863] border-4 border-[#333863] border-t-0">
+          گاهشمار جدولی
+        </h3>
+        <div className="flex justify-between items-center bg-[#373D70]  text-white p-3 ">
           <div className="absolute top-4"></div>
           <button
             onClick={goToPreviousMonth}
@@ -194,7 +196,7 @@ function PersianCalendar() {
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.day}
               </span>
-              {/* <span className="text-sm sm:text-xl text-gray-500">شید</span> */}
+              {/* <span className="text-sm sm:text-xl text-gray-500">روز</span> */}
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.dayShort}
               </span>
@@ -217,9 +219,9 @@ function PersianCalendar() {
             return (
               <div
                 key={index}
-                className={`border rounded text-center px-3 p-3 flex items-center justify-center relative ${
+                className={`rounded text-center px-3 p-3 flex items-center justify-center relative ${
                   isToday
-                    ? 'border-[#FD821D] bg-[#f7f7f7] text-black font-bold border-2 p-1 rounded'
+                    ? 'border-[#FD821D]  text-black font-bold border-2 p-1 rounded'
                     : 'text-gray-500'
                 }`}
               >
@@ -235,7 +237,7 @@ function PersianCalendar() {
           <MyModal />
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
