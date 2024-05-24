@@ -1,7 +1,9 @@
+// src/app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import { Hamishe } from '../../public/fonts/fonts';
+import Footer from '../components/Footer/Footer'; // Import Footer component
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${Hamishe.variable}`}>
-      <body className={'Hamishe'}>{children}</body>
+      <body className="Hamishe min-h-screen flex flex-col bg-[#333863]">
+        <main className="flex-grow">{children}</main>
+        <Footer /> {/* Add Footer component */}
+      </body>
     </html>
   );
 }

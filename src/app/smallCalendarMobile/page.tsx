@@ -157,15 +157,14 @@ function PersianCalendar() {
 
   // Render the component
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-[#333863]">
       <div
         dir="rtl"
         className="max-w-md mx-auto rounded-lg overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full"
       >
-        <div className="flex justify-between items-center bg-[#FF8200] text-white p-3">
-          <div className="absolute top-4">
-            <MyModal />
-          </div>
+        <h3 className="text-white bg-[#333863]">گاهشمار جدولی</h3>
+        <div className="flex justify-between items-center bg-[#333862] text-white p-3">
+          <div className="absolute top-4"></div>
           <button
             onClick={goToPreviousMonth}
             className="p-2 text-4xl sm:text-8xl"
@@ -220,7 +219,7 @@ function PersianCalendar() {
                 key={index}
                 className={`border rounded text-center px-3 p-3 flex items-center justify-center relative ${
                   isToday
-                    ? 'border-red-500 bg-[#f7f7f7] text-black font-bold border-2 p-1 rounded'
+                    ? 'border-[#FD821D] bg-[#f7f7f7] text-black font-bold border-2 p-1 rounded'
                     : 'text-gray-500'
                 }`}
               >
@@ -231,6 +230,9 @@ function PersianCalendar() {
               </div>
             );
           })}
+        </div>
+        <div className="mr-4">
+          <MyModal />
         </div>
       </div>
     </div>
