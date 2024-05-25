@@ -121,8 +121,8 @@ const Occasions: React.FC = () => {
   }`;
 
   return (
-    <div className="flex flex-col items-center justify-center pt-20 pb-24">
-      <div className="bg-[#FF8200] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
+    <div className="flex flex-col items-center justify-center pt-24 pb-24">
+      <div className="bg-[#333863] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
         <button
           onClick={() =>
             updateMonth(
@@ -187,7 +187,7 @@ const Occasions: React.FC = () => {
                   )}
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <span className="text-[#FF8200] text-3xl sm:text-3xl font-bold">
+                  <span className="text-[#333863] text-3xl sm:text-3xl font-bold">
                     {toPersianNum(event.DayNumber.toString())}
                   </span>
                   <span className="text-[#CAB9B9] text-sm sm:text-lg ">
@@ -254,7 +254,7 @@ const Occasions: React.FC = () => {
               {modalContent.Text}
             </p>
             <button
-              className="px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded"
+              className="px-3 sm:px-4 py-1 sm:py-2 bg-[#333863] text-white rounded"
               onClick={() => setModalVisible(false)}
             >
               بستن

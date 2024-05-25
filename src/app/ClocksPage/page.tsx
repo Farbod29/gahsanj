@@ -1,11 +1,11 @@
 // src/app/ClocksPage/page.tsx
-'use client';
-import dynamic from 'next/dynamic';
-import React, { useState, useEffect } from 'react';
+"use client";
+import dynamic from "next/dynamic";
+import React, { useState, useEffect } from "react";
 
-// Dynamically import ReactClock with SSR disabled
+// Dynamically import ReactClock with SSR disab   led
 const ReactClockNoSSR = dynamic(
-  () => import('@/components/react-clock/ReactClock'),
+  () => import("@/components/react-clock/ReactClock"),
   { ssr: false }
 );
 
@@ -32,10 +32,10 @@ const ClocksPage = () => {
     const handleResize = () => {
       setClockSize(determineClockSize());
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup the event listener when the component unmounts
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
     <div>
