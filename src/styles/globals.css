@@ -18,9 +18,7 @@
 
 .bg-pattern {
   position: absolute;
-
   /* background-image: url('/assets/pattern.png'); */
-  background-size: fill;
   background-repeat: repeat;
   background-position: center;
   opacity: 1; /* Adjust opacity as needed */

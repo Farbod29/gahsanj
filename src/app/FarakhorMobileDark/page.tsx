@@ -1,7 +1,7 @@
-"use client";
-import React, { useState, useEffect, useMemo } from "react";
-import jalaali from "jalaali-js";
-import Image from "next/image";
+'use client';
+import React, { useState, useEffect, useMemo } from 'react';
+import jalaali from 'jalaali-js';
+import Image from 'next/image';
 
 interface Occasion {
   DayNumber: number;
@@ -19,7 +19,7 @@ interface Occasion {
 
 const Occasions: React.FC = () => {
   const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion[]>([]);
-  const [currentMonthName, setCurrentMonthName] = useState<string>("");
+  const [currentMonthName, setCurrentMonthName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<Occasion | null>(null);
@@ -35,20 +35,20 @@ const Occasions: React.FC = () => {
 
   const monthNames = useMemo(
     () => [
-      "فروردین",
-      "اردیبهشت",
-      "خرداد",
-      "تیر",
-      "مرداد",
-      "شهریور",
-      "مهر",
-      "آبان",
-      "آذر",
-      "دی",
-      "بهمن",
-      "اسفند",
+      'فروردین',
+      'اردیبهشت',
+      'خرداد',
+      'تیر',
+      'مرداد',
+      'شهریور',
+      'مهر',
+      'آبان',
+      'آذر',
+      'دی',
+      'بهمن',
+      'اسفند',
     ],
-    []
+    [],
   );
 
   const fetchOccasions = async (monthName: string) => {
@@ -66,7 +66,7 @@ const Occasions: React.FC = () => {
       });
       setCurrentMonthEvents(filteredData);
     } catch (error) {
-      console.error("Error fetching occasions:", error);
+      console.error('Error fetching occasions:', error);
       setCurrentMonthEvents([]);
     } finally {
       setLoading(false);
@@ -95,39 +95,39 @@ const Occasions: React.FC = () => {
   };
 
   const toPersianNum = (num: string) => {
-    const persianNumbers = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     return num
       .toString()
-      .split("")
+      .split('')
       .map((digit) => persianNumbers[parseInt(digit, 10)] || digit)
-      .join("");
+      .join('');
   };
 
   const todayGregorian = `${new Date().getDate()} ${
     [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ][new Date().getMonth()]
   }`;
 
   return (
-    <div className="flex flex-col items-center justify-center pt-24 pb-24">
-      <div className="bg-[#333863] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
+    <div className="bg-[#333863] min-h-screen flex flex-col items-center justify-center pt-24 pb-24">
+      <div className="bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10">
         <button
           onClick={() =>
             updateMonth(
               (monthNames.indexOf(currentMonthName) + 1 + monthNames.length) %
-                monthNames.length
+                monthNames.length,
             )
           }
           className="text-4xl md:text-5xl"
@@ -139,7 +139,7 @@ const Occasions: React.FC = () => {
           onClick={() =>
             updateMonth(
               (monthNames.indexOf(currentMonthName) - 1 + monthNames.length) %
-                monthNames.length
+                monthNames.length,
             )
           }
           className="text-4xl md:text-5xl"
@@ -149,30 +149,29 @@ const Occasions: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="mt-10 text-center">Loading...</div>
+        <div className="mt-10 text-center text-white">Loading...</div>
       ) : (
         <div
-          className="grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10"
-          style={{ direction: "rtl" }}
+          className="bg-[#333863] min-h-screen grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10"
+          style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event) => {
             const eventDate = event.GeorgianDay;
             const isToday = eventDate === todayGregorian;
-            const logo = event.Logo || "/https://picsum.photos/536/35"; // Use a valid path
+            const logo = event.Logo || '/https://picsum.photos/536/35'; // Use a valid path
 
             return (
               <div
                 key={event.DayNumber}
                 onClick={() => handleDayClick(event)}
                 className={`relative ${
-                  event.ModalStatus ? "cursor-pointer" : "cursor-default"
+                  event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
                 } ${
                   isToday
-                    ? "bg-[#07748C] border-4 border-[#393837] shadow-lg"
-                    : "bg-[#FFFFFF]"
-                }
-              shadow-md rounded-lg p-2 text-center`}
-                style={{ width: "100%", maxWidth: "350px", height: "auto" }} // Adjusted maxWidth to 350px
+                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
+                    : 'bg-[#FFFFFF]'
+                } shadow-md rounded-lg p-2 text-center`}
+                style={{ width: '100%', maxWidth: '350px', height: 'auto' }} // Adjusted maxWidth to 350px
               >
                 <div className="absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl:2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7 ">
                   {isValidUrl(logo) && (
@@ -187,7 +186,9 @@ const Occasions: React.FC = () => {
                   )}
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <span className="text-[#333863] text-3xl sm:text-3xl font-bold">
+                  <span
+                    className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'} text-center`}
+                  >
                     {toPersianNum(event.DayNumber.toString())}
                   </span>
                   <span className="text-[#CAB9B9] text-sm sm:text-lg ">
@@ -195,33 +196,31 @@ const Occasions: React.FC = () => {
                   </span>
                   <div
                     className={`relative ${
-                      event.ModalStatus ? "cursor-pointer" : "cursor-default"
-                    } ${isToday ? "text-[#FFFFFF] " : "text-[#373636]"}
-                   text-center`}
+                      event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
+                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636]'} text-center`}
                     style={{
                       fontSize:
                         event.ShortTitle.length > 16
-                          ? "0.79rem"
+                          ? '0.79rem'
                           : event.ShortTitle.length > 12
-                          ? "0.99rem"
-                          : event.ShortTitle.length > 8
-                          ? "1.0rem"
-                          : event.ShortTitle.length > 7
-                          ? "1.175rem"
-                          : "1.3rem",
+                            ? '0.99rem'
+                            : event.ShortTitle.length > 8
+                              ? '1.0rem'
+                              : event.ShortTitle.length > 7
+                                ? '1.175rem'
+                                : '1.3rem',
                     }}
                   >
                     {event.ShortTitle}
                   </div>
-
                   <div
                     className="relative"
-                    style={{ height: "32px", position: "relative" }}
+                    style={{ height: '32px', position: 'relative' }}
                   >
                     <div
                       className={`text-[#2a5b71] B14-SE1 absluteEnmonth} ${
-                        isToday ? "text-black " : "text-[#2a5b71]"
-                      }shadow-md rounded-lg p-2 text-center`}
+                        isToday ? 'text-white ' : 'text-[#2a5b71]'
+                      } shadow-md rounded-lg p-2 text-center`}
                     >
                       {eventDate}
                     </div>
@@ -241,7 +240,7 @@ const Occasions: React.FC = () => {
             <div className="w-52 mb-4">
               <Image
                 src={
-                  modalContent.ModalImageLink || "https://picsum.photos/536/354"
+                  modalContent.ModalImageLink || 'https://picsum.photos/536/354'
                 }
                 alt="Modal Image"
                 className="h-full sm-logo:w-[30px] sm-logo:h-[20px] w-2"

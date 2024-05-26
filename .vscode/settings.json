@@ -9,7 +9,7 @@
     "activityBarBadge.background": "#094969",
     "activityBar.activeBorder": "#5cc7fd",
     "activityBar.activeFocusBorder": "#5cc7fd",
-    "activityBar.foreground": "#5cddfd", // hover icon
+    "activityBar.foreground": "#5cddfd",
     "activityBar.inactiveForeground": "#87aa88",
     "activityBar.activeBackground": "#057c50",
     "activityBar.activeForeground": "#57574e",
@@ -35,7 +35,6 @@
     "terminal.ansiWhite": "#4D4D4C",
     "terminal.ansiYellow": "#b19945"
   },
-  /// sdasdasdsad
   "editor.tokenColorCustomizations": {
     "textMateRules": [
       {
@@ -66,10 +65,9 @@
     "Kellner",
     "wojtekmaj"
   ],
-  "bracketPairColorizer.colorMode": "Independent"
+  "bracketPairColorizer.colorMode": "Independent",
+  "editor.formatOnSave": true,
+  "prettier.singleQuote": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single"
 }
-// {
-//     "workbench.colorCustomizations": {
-
-//     }
-// }

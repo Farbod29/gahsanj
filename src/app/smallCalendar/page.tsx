@@ -50,7 +50,7 @@ function convertToIraniMelli(date: Date) {
   const { jy, jm, jd } = jalaali.toJalaali(date);
   const iraniMelli = jy - 1396;
   return toPersianNums(
-    `${iraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
+    `${iraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
   );
 }
 
@@ -101,17 +101,17 @@ function PersianCalendar() {
   const convertToGregorianDay = (
     jalaaliYear: number,
     jalaaliMonth: number,
-    jalaaliDay: number
+    jalaaliDay: number,
   ) => {
     const gregorianDate = jalaali.toGregorian(
       jalaaliYear,
       jalaaliMonth,
-      jalaaliDay
+      jalaaliDay,
     );
     return new Date(
       gregorianDate.gy,
       gregorianDate.gm - 1,
-      gregorianDate.gd
+      gregorianDate.gd,
     ).getDate();
   };
 
@@ -135,12 +135,12 @@ function PersianCalendar() {
   const firstDayOfJalaaliMonth = jalaali.toGregorian(
     currentYear,
     currentMonth,
-    1
+    1,
   );
   const firstDayDate = new Date(
     firstDayOfJalaaliMonth.gy,
     firstDayOfJalaaliMonth.gm - 1,
-    firstDayOfJalaaliMonth.gd
+    firstDayOfJalaaliMonth.gd,
   );
   const firstDayOfWeek = firstDayDate.getDay() - 1;
 
@@ -199,7 +199,7 @@ function PersianCalendar() {
               <span className="text-sm sm:text-xl text-gray-500">
                 {day.dayShort}
               </span>
-              <span className="text-sm sm:text-xl text-gray-500">
+              <span className="text-sm sm:text-xl text-gray-600">
                 {day.dayLatinShort}
               </span>
             </div>
@@ -213,7 +213,7 @@ function PersianCalendar() {
             const gregorianDay = convertToGregorianDay(
               currentYear,
               currentMonth,
-              day
+              day,
             );
             return (
               <div
@@ -225,7 +225,7 @@ function PersianCalendar() {
                 }`}
               >
                 <span className="font-bold">{toPersianDigits(day)}</span>
-                <span className="text-xxxxs absolute top-0 left-0 mt-6 ml-0.5">
+                <span className="text-[12px] absolute top-0 left-0 mt-6 ml-0.5">
                   {gregorianDay}
                 </span>
               </div>

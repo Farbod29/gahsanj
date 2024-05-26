@@ -1,22 +1,23 @@
 // src/components/Footer.tsx
-"use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Icon from "../FooterIcons/FooterIcons";
+'use client';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Icon from '../FooterIcons/FooterIcons';
 
 const Footer = () => {
   const pathname = usePathname();
 
   const buttons = [
-    { path: "/", label: "", icon: "home" },
-    { path: "/smallCalendarMobile", label: "", icon: "calendar" },
+    { path: '/', label: '', icon: 'home' },
+    { path: '/smallCalendarMobile', label: '', icon: 'calendar' },
     {
-      path: "/FarakhorMobileDark",
-      label: "",
-      icon: "FarakhorMobileDark",
+      path: '/FarakhorMobileDark',
+      label: '',
+      icon: 'FarakhorMobileDark',
     },
-    { path: "/contact", label: "", icon: "contact" },
-    { path: "/profile", label: "", icon: "profile" },
+    // { path: "/contact", label: "", icon: "contact" },
+    // { path: "/profile", label: "", icon: "profile" },
+    { path: '/gahshomaranDark', label: '', icon: 'gahshomaranDark' },
   ];
 
   return (
@@ -30,12 +31,12 @@ const Footer = () => {
           <Icon
             name={button.icon}
             className={`w-6 h-6 ${
-              pathname === button.path ? "text-[#FD821D]" : "text-white"
+              pathname === button.path ? 'text-[#FD821D]' : 'text-white'
             }`}
           />
           <span
             className={`${
-              pathname === button.path ? "text-[#FD821D]" : "text-white"
+              pathname === button.path ? 'text-[#FD821D]' : 'text-white'
             } no-underline`}
           >
             {button.label}

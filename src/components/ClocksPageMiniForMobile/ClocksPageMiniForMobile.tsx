@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 // Dynamically import ReactClock with SSR disabled
 const ReactClockNoSSR = dynamic(
   () => import('@/components/react-clock/ReactClock'),
-  { ssr: false }
+  { ssr: false },
 );
 
 const ClocksPage = () => {
@@ -20,7 +20,7 @@ const ClocksPage = () => {
       const screenWidth = window.innerWidth;
 
       if (screenWidth <= 480) {
-        return 90;
+        return 80;
       } else if (screenWidth <= 768) {
         return 100;
       } else if (screenWidth <= 1800) {
@@ -30,7 +30,7 @@ const ClocksPage = () => {
     }
 
     function determineContainerSize(clockSize: number): number {
-      return clockSize + 19; // Add 30 to the clock size for the container size
+      return clockSize + 16; // Add 30 to the clock size for the container size
     }
 
     const newClockSize = determineClockSize();
@@ -49,7 +49,7 @@ const ClocksPage = () => {
   }, []);
 
   return (
-    <div className="p-3 bg-transparent">
+    <div className="p-2 bg-transparent">
       <div className="flex flex-row items-center justify-center">
         {/* Clock for Berlin */}
         {/* <div className="flex flex-col items-center mr-4">
@@ -75,7 +75,7 @@ const ClocksPage = () => {
           >
             <ReactClockNoSSR timeZone="Asia/Tehran" size={clockSize} />
           </div>
-          <div className="text-white text-sm mt-2">تهران</div>
+          <div className="text-white text-sm mt-0">تهران</div>
         </div>
       </div>
     </div>

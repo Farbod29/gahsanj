@@ -39,7 +39,7 @@ function determineClockSize(): number {
   }
 }
 
-export default function Home() {
+export default function GahshomaranDark() {
   // Helper component for rendering tabs
 
   const Tab = ({ name }: { name: string }) => (
@@ -162,10 +162,11 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center px-2 sm:px-4 md:px-8 mt-4">
-      <div className="w-full max-w-4xl mx-auto mt-19 ">
-        <div className="text-center bg-[#daeafd] p-4 rounded-2xl">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#000000] md:pb-8 font-bold m-19 ">
+    <main className="flex min-h-screen w-full flex-col items-center px-2 sm:px-4 md:px-8 p-5 bg-[#333863]">
+      <h2 className="p-8 my-2 text-2xl text-white">گاهشماران ایرانی</h2>
+      <div className="w-full max-w-2xl mx-auto px-2">
+        <div className="text-center bg-[#FFFFFF] p-3 rounded-2xl mb-4">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#000000] md:pb-8 font-bold m-19">
             ایران نو
           </h2>
           <p className="text-xl md:text-4xl pt-2 lg:text-5xl text-[#000000] pb-1 md:pb-3">
@@ -175,47 +176,47 @@ export default function Home() {
             {getTodayPersianName()}
           </p>
         </div>
+        <div className="flex flex-col md:flex-row md:space-x-4">
+          <div className="bg-[#FFFFFF] p-3 rounded-2xl w-full md:flex-1 mb-3 md:mb-0">
+            <p className="text-md lg:text-2xl text-[#000000] text-center">
+              {dates.ilami}
+            </p>
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mt-1">
+              عیلامی
+            </h3>
+          </div>
+          <div className="bg-[#FFFFFF] p-3 rounded-2xl w-full md:flex-1 mb-4 md:mb-0">
+            <p className="text-md lg:text-2xl text-[#000000] text-center">
+              {dates.pahlaviYear}
+            </p>
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mt-1">
+              (شاهنشاهی) هخامنشی
+            </h3>
+          </div>
+        </div>
 
-        <div className="bg-[#daeafd] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
-          <p className="text sm:text-x lg:text-2xl text-[#000000] text-center">
-            {dates.ilami}
-          </p>
-          <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2">
-            عیلامی
-          </h3>
-        </div>
-        <div className="bg-[#daeafd] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
-          <p className="text sm:text-x lg:text-2xl text-[#000000] text-center">
-            {dates.pahlaviYear}
-          </p>
-          <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2">
-            (شاهنشاهی) هخامنشی
-          </h3>
-        </div>
-        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full  md:mt-8">
-          <div className="bg-[#daeafd] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
-            <p className="text sm:text-x lg:text-2xl text-[#000000] text-center">
+        <div className="flex flex-col md:flex-row md:space-x-4 lg:mt-4 md:mt-4">
+          <div className="bg-[#FFFFFF] p-3 rounded-2xl w-full md:flex-1 mb-4 md:mb-0">
+            <p className="text-md lg:text-2xl text-[#000000] text-center">
               {dates.IranianDiako}
             </p>
-            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2">
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center md:mt-2 lg:mt-2">
               مادی
             </h3>
           </div>
-        </div>
-        <div className="flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full ">
-          <div className="bg-[#daeafd] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
-            <p className="text sm:text-x lg:text-2xl text-[#000000] text-center">
+          <div className="bg-[#FFFFFF] p-3 rounded-2xl w-full md:flex-1 mb-4 md:mb-0">
+            <p className="text-md lg:text-2xl text-[#000000] text-center">
               {dates.jalaliDate}
             </p>
-            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2">
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mt-1">
               هجری خورشیدی
             </h3>
           </div>
-          <div className="bg-[#daeafd] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center">
-            <p className="text sm:text-x lg:text-2xl text-[#000000] text-center">
+          <div className="bg-[#FFFFFF] p-3 rounded-2xl w-full md:flex-1 mb-3 md:mb-0">
+            <p className="text-md lg:text-2xl text-[#000000] text-center">
               {dates.europeanDate}
             </p>
-            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2">
+            <h3 className="text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mt-1">
               میلادی
             </h3>
           </div>

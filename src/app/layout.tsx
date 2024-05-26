@@ -18,7 +18,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   // List of routes where you want to show the footer
-  const footerRoutes = ["/", "/smallCalendarMobile", "/FarakhorMobileDark"];
+  const footerRoutes = [
+    "/",
+    "/smallCalendarMobile",
+    "/FarakhorMobileDark",
+    "/gahshomaranDark",
+  ];
 
   return (
     <html lang="en" className={`${Hamishe.variable}`}>
@@ -41,7 +46,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 function ClientOnly({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const footerRoutes = ["/", "/smallCalendarMobile", "/FarakhorMobileDark"];
+  const footerRoutes = [
+    "/",
+    "/smallCalendarMobile",
+    "/FarakhorMobileDark",
+    "/gahshomaranDark",
+  ];
 
   return (
     <>

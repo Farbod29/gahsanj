@@ -19,7 +19,7 @@ const Icon = ({ name, className = "" }: IconProps) => {
           fill="currentColor"
         >
           <defs>
-            <clipPath id="clip-path">
+            <clipPath id="clipPath">
               <rect
                 id="Rectangle_7"
                 data-name="Rectangle 7"
@@ -29,7 +29,7 @@ const Icon = ({ name, className = "" }: IconProps) => {
               />
             </clipPath>
           </defs>
-          <g id="Group_16" data-name="Group 16" clipPath="url(#clip-path)">
+          <g id="Group_16" data-name="Group 16" clipPath="url(#clipPath)">
             <path
               id="Path_100"
               data-name="Path 100"
@@ -107,15 +107,66 @@ const Icon = ({ name, className = "" }: IconProps) => {
           </g>
         </svg>
       );
-    case "contact":
+    case "gahshomaranDark":
       return (
         <svg
           className={className}
+          id="Component_13_12"
+          data-name="Component 13 – 12"
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
+          width="22.934"
+          height="22.934"
+          viewBox="0 0 22.934 22.934"
           fill="currentColor"
         >
-          <path d="M21 8V7l-3 2-2-2 2-2h-1l-2 2-2-2-2 2-2-2-2 2-2-2-3 3v1l2 2-2 2v1l3-3 2 2 2-2 2 2 2-2 2 2 2-2 3 3v-1l-2-2 2-2zM12 13c-2.33 0-7 1.17-7 3.5V18h14v-1.5c0-2.33-4.67-3.5-7-3.5z" />
+          <defs>
+            <clipPath id="clipPath">
+              <rect
+                id="Rectangle_6"
+                data-name="Rectangle 6"
+                width="22.934"
+                height="22.934"
+                fill="none"
+              />
+            </clipPath>
+          </defs>
+          <g id="Group_14" data-name="Group 14" clipPath="url(#clipPath)">
+            <path
+              id="Path_95"
+              data-name="Path 95"
+              d="M11.467,22.934a27.434,27.434,0,0,1-5.525-.564A6.9,6.9,0,0,1,.564,16.993a27.346,27.346,0,0,1,0-11.051A6.9,6.9,0,0,1,5.942.564a27.344,27.344,0,0,1,11.051,0,.649.649,0,0,1,.332.179L22.192,5.61a.656.656,0,0,1,.179.332,27.362,27.362,0,0,1,0,11.051,6.9,6.9,0,0,1-5.378,5.378,27.443,27.443,0,0,1-5.526.564m0-21.623a26.175,26.175,0,0,0-5.262.537A5.589,5.589,0,0,0,1.848,6.2a26.055,26.055,0,0,0,0,10.524,5.591,5.591,0,0,0,4.357,4.357,26.074,26.074,0,0,0,10.524,0,5.589,5.589,0,0,0,4.356-4.357A26.046,26.046,0,0,0,21.125,6.4L16.538,1.81a26.143,26.143,0,0,0-5.071-.5"
+              transform="translate(0 0)"
+              fill="currentColor"
+            />
+            <path
+              id="Path_96"
+              data-name="Path 96"
+              d="M36.113,8h-2.9a3.2,3.2,0,0,1-3.2-3.2V1.9a.656.656,0,0,1,1.311,0V4.8A1.89,1.89,0,0,0,33.21,6.687h2.9a.655.655,0,1,1,0,1.311"
+              transform="translate(-14.477 -0.598)"
+              fill="currentColor"
+            />
+            <path
+              id="Path_97"
+              data-name="Path 97"
+              d="M21.9,31.234H11.476a.655.655,0,1,1,0-1.311H21.9a.655.655,0,0,1,0,1.311"
+              transform="translate(-5.22 -14.434)"
+              fill="currentColor"
+            />
+            <path
+              id="Path_98"
+              data-name="Path 98"
+              d="M21.9,22.2H11.476a.655.655,0,1,1,0-1.311H21.9a.655.655,0,0,1,0,1.311"
+              transform="translate(-5.22 -10.075)"
+              fill="currentColor"
+            />
+            <path
+              id="Path_99"
+              data-name="Path 99"
+              d="M15.133,13.162H11.476a.655.655,0,1,1,0-1.311h3.656a.655.655,0,1,1,0,1.311"
+              transform="translate(-5.22 -5.717)"
+              fill="currentColor"
+            />
+          </g>
         </svg>
       );
     case "profile":
