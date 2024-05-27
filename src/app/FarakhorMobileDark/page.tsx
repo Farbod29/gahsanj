@@ -220,7 +220,7 @@ const Occasions: React.FC = () => {
                     <div
                       className={`text-[#2a5b71] B14-SE1 absluteEnmonth} ${
                         isToday ? 'text-white ' : 'text-[#2a5b71]'
-                      } shadow-md rounded-lg p-2 text-center`}
+                      }  p-2 text-center`}
                     >
                       {eventDate}
                     </div>
