@@ -19,27 +19,28 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   // List of routes where you want to show the footer
   const footerRoutes = [
-    "/",
-    "/smallCalendarMobile",
-    "/FarakhorMobileDark",
-    "/gahshomaranDark",
-    "/ExtraTools",
-    "/AiGenerator",
+    '/',
+    '/smallCalendarMobile',
+    '/FarakhorMobileDark',
+    '/gahshomaranDark',
+    '/ExtraTools',
+    '/AiGenerator',
+    '/PhoneAppGahshomar',
   ];
 
   return (
-    <html lang="en" className={`${Hamishe.variable}`}>
+    <html lang='en' className={`${Hamishe.variable}`}>
       <Head>
         <title>{String(metadata.title)}</title>
         <meta
-          name="description"
-          content={metadata.description || "Default Description"}
+          name='description'
+          content={metadata.description || 'Default Description'}
         />
         {/* Add other meta tags here as needed */}
       </Head>
-      <body className="Hamishe min-h-screen flex flex-col">
-        <main className="flex-grow">{children}</main>
-        {footerRoutes.includes(pathname) && <Footer />}{" "}
+      <body className='Hamishe min-h-screen flex flex-col'>
+        <main className='flex-grow'>{children}</main>
+        {footerRoutes.includes(pathname) && <Footer />}{' '}
         {/* Conditionally render Footer */}
       </body>
     </html>
@@ -49,12 +50,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 function ClientOnly({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const footerRoutes = [
-    "/",
-    "/smallCalendarMobile",
-    "/FarakhorMobileDark",
-    "/gahshomaranDark",
-    "/ExtraTools",
-    "/AiGenerator",
+    '/',
+    '/smallCalendarMobile',
+    '/FarakhorMobileDark',
+    '/gahshomaranDark',
+    '/ExtraTools',
+    '/AiGenerator',
+    '/PhoneAppGahshomar',
   ];
 
   return (

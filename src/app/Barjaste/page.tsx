@@ -23,22 +23,19 @@ const Barjaste: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center pt-24">
-      <h1 className="text-2xl font-bold mb-4 text-white">برجسته های امروز</h1>
+    <div className='flex flex-col items-center justify-center pt-24'>
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <ul className="list-disc text-white">
+        <ul className='list-disc text-white'>
           {shortTitles.length > 0 ? (
             shortTitles.map((title, index) => (
-              <li key={index} className="text-lg">
+              <li key={index} className='text-lg'>
                 {title}
               </li>
             ))
           ) : (
-            <li className="text-lg text-white">
-              برای امروز فراخوری موجود نیست
-            </li>
+            <li className='text-lg text-white'></li>
           )}
         </ul>
       )}

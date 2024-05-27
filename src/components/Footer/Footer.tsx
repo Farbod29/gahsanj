@@ -12,8 +12,8 @@ const Footer = () => {
     { path: '/smallCalendarMobile', label: '', icon: 'calendar' },
     { path: '/FarakhorMobileDark', label: '', icon: 'FarakhorMobileDark' },
     // { path: '/gahshomaranDark', label: '', icon: 'gahshomaranDark' },
-    { path: '/ExtraTools', label: '', icon: 'ExtraTools' },
     { path: '/AiGenerator', label: '', icon: 'AiGenerator' },
+    { path: '/ExtraTools', label: '', icon: 'ExtraTools' },
   ];
 
   return (

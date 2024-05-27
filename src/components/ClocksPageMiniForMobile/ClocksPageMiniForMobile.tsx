@@ -49,33 +49,19 @@ const ClocksPage = () => {
   }, []);
 
   return (
-    <div className="p-2 bg-transparent">
-      <div className="flex flex-row items-center justify-center">
-        {/* Clock for Berlin */}
-        {/* <div className="flex flex-col items-center mr-4">
+    <div className='p-2 bg-transparent'>
+      <div className='flex flex-row items-center justify-center'>
+        <div className='flex flex-col items-center'>
           <div
-            className="flex items-center justify-center rounded-full border-8 border-[#FD821D] bg-white"
+            className='flex items-center justify-center rounded-full border-8 border-[#FD821D] bg-white'
             style={{
               width: `${containerSize}px`,
               height: `${containerSize}px`,
             }}
           >
-            <ReactClockNoSSR timeZone="Europe/Berlin" size={clockSize} />
+            <ReactClockNoSSR timeZone='Asia/Tehran' size={clockSize} />
           </div>
-          <div className="text-white text-sm mt-2">محلی</div>
-        </div> */}
-        {/* Clock for Tehran */}
-        <div className="flex flex-col items-center">
-          <div
-            className="flex items-center justify-center rounded-full border-8 border-[#FD821D] bg-white"
-            style={{
-              width: `${containerSize}px`,
-              height: `${containerSize}px`,
-            }}
-          >
-            <ReactClockNoSSR timeZone="Asia/Tehran" size={clockSize} />
-          </div>
-          <div className="text-white text-sm mt-0">تهران</div>
+          <div className='text-white text-sm mt-2'>ایران</div>
         </div>
       </div>
     </div>
