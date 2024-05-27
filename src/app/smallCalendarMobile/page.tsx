@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import jalaali from 'jalaali-js';
-import MyModal from '@/components/modal/Modal';
+import MyModal from '@/components/modalInfoCalendar/modalInfoCalendar';
 
 // Helper function to convert numbers to Persian
 const toPersianDigits = (num: number) => {
