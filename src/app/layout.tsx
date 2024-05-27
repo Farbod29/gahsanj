@@ -24,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     "/FarakhorMobileDark",
     "/gahshomaranDark",
     "/ExtraTools",
+    "/AiGenerator",
   ];
 
   return (
@@ -53,6 +54,7 @@ function ClientOnly({ children }: { children: ReactNode }) {
     "/FarakhorMobileDark",
     "/gahshomaranDark",
     "/ExtraTools",
+    "/AiGenerator",
   ];
 
   return (

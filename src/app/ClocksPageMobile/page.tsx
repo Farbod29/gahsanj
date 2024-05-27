@@ -30,8 +30,9 @@ const ClocksPage = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+  
   const clocks = [
+    { timeZone: "userTimeZone", cityFA: "محلی" },
     { timeZone: "America/Los_Angeles", cityFA: "لس آنجلس" },
     { timeZone: "America/Toronto", cityFA: "تورنتو" },
     { timeZone: "Europe/Berlin", cityFA: "برلین" },

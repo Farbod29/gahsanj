@@ -10,15 +10,10 @@ const Footer = () => {
   const buttons = [
     { path: '/', label: '', icon: 'home' },
     { path: '/smallCalendarMobile', label: '', icon: 'calendar' },
-    {
-      path: '/FarakhorMobileDark',
-      label: '',
-      icon: 'FarakhorMobileDark',
-    },
-    // { path: "/contact", label: "", icon: "contact" },
-    // { path: "/profile", label: "", icon: "profile" },
-    { path: '/gahshomaranDark', label: '', icon: 'gahshomaranDark' },
+    { path: '/FarakhorMobileDark', label: '', icon: 'FarakhorMobileDark' },
+    // { path: '/gahshomaranDark', label: '', icon: 'gahshomaranDark' },
     { path: '/ExtraTools', label: '', icon: 'ExtraTools' },
+    { path: '/AiGenerator', label: '', icon: 'AiGenerator' },
   ];
 
   return (
