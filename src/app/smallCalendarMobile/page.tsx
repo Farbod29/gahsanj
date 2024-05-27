@@ -219,9 +219,9 @@ function PersianCalendar() {
             return (
               <div
                 key={index}
-                className={`rounded text-center px-3 p-3 flex items-center justify-center relative ${
+                className={`border rounded text-center px-3 p-3 flex items-center justify-center relative ${
                   isToday
-                    ? 'border-[#FD821D]  text-black font-bold border-2 p-1 rounded'
+                    ? 'border-[#FD821D] text-black font-bold border-2 p-1 rounded'
                     : 'text-gray-500'
                 }`}
               >
