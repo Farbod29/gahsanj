@@ -162,10 +162,10 @@ export default function GahshomaranDark() {
   }
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center px-2 sm:px-4 md:px-8 p-5 bg-[#333863]">
-      <h2 className="p-8 my-2 text-2xl text-white">گاهشماران ایرانی</h2>
+    <main className="flex min-h-screen w-full flex-col items-center px-2 sm:px-4 md:px-8 p-4 bg-[#333863] pb-14">
+      <h2 className="p-3 my-1 text-2xl text-white">گاهشماران ایرانی</h2>
       <div className="w-full max-w-2xl mx-auto px-2">
-        <div className="text-center bg-[#FFFFFF] p-3 rounded-2xl mb-4">
+        <div className="text-center bg-[#FFFFFF] p-3 rounded-2xl mb-3">
           <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#000000] md:pb-8 font-bold m-19">
             ایران نو
           </h2>

@@ -40,26 +40,26 @@ const ClocksPage = () => {
   return (
     <div className="p-3 bg-transparent">
       <div className="flex flex-row items-center">
-        {' '}
+
         {/* Changed to flex row */}
         {/* Clock for Berlin */}
         <div className="flex flex-col items-center mr-4">
-          {' '}
+  
           {/* Added margin for spacing between clocks */}
-          <ReactClockNoSSR timeZone="Europe/Berlin" size={clockSize} />
+          <ReactClockNoSSR timeZone="userTimeZone" size={clockSize} />
           <div className="text-sm mt-2">
-            {' '}
+    
             {/* Added margin-top for spacing between clock and text */}
             محلی
           </div>
         </div>
         {/* Clock for Tehran */}
         <div className="flex flex-col items-center">
-          {' '}
+  
           {/* Directly following the first clock */}
           <ReactClockNoSSR timeZone="Asia/Tehran" size={clockSize} />
           <div className="text-sm mt-2">
-            {' '}
+    
             {/* Text alignment and spacing */}
             تهران
           </div>

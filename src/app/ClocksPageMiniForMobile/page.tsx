@@ -46,7 +46,7 @@ const ClocksPage = () => {
         <div className="flex flex-col items-center mr-4">
           {' '}
           {/* Added margin for spacing between clocks */}
-          <ReactClockNoSSR timeZone="Europe/Berlin" size={clockSize} />
+          <ReactClockNoSSR timeZone="userTimeZone" size={clockSize} />
           <div className="text-sm mt-2">
             {' '}
             {/* Added margin-top for spacing between clock and text */}

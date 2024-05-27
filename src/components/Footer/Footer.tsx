@@ -18,6 +18,7 @@ const Footer = () => {
     // { path: "/contact", label: "", icon: "contact" },
     // { path: "/profile", label: "", icon: "profile" },
     { path: '/gahshomaranDark', label: '', icon: 'gahshomaranDark' },
+    { path: '/ExtraTools', label: '', icon: 'ExtraTools' },
   ];
 
   return (

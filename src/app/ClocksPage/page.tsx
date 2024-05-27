@@ -46,7 +46,7 @@ const ClocksPage = () => {
           {/* Repeat this block for each clock */}
           <div className="flex flex-col items-center mb-4">
             {/* <div className="text-black text-xxxxs md:text-xs ">Local</div> */}
-            <ReactClockNoSSR timeZone="Europe/Berlin" size={clockSize} />
+            <ReactClockNoSSR timeZone="userTimeZone" size={clockSize} />
             <div className="text-black text-lg md:text-xs text-xxxxs ">
               محلی
             </div>

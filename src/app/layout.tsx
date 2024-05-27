@@ -23,6 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     "/smallCalendarMobile",
     "/FarakhorMobileDark",
     "/gahshomaranDark",
+    "/ExtraTools",
   ];
 
   return (
@@ -51,6 +52,7 @@ function ClientOnly({ children }: { children: ReactNode }) {
     "/smallCalendarMobile",
     "/FarakhorMobileDark",
     "/gahshomaranDark",
+    "/ExtraTools",
   ];
 
   return (
