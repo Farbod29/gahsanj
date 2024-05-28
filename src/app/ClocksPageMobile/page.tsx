@@ -1,3 +1,5 @@
+//here is clicksPageMobile page
+
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -10,7 +12,7 @@ const ReactClockNoSSR = dynamic(
   { ssr: false }
 );
 
-const ClocksPage = () => {
+const ClocksPageMobile = () => {
   const [clockSize, setClockSize] = useState<number>(90);
   const [containerSize, setContainerSize] = useState<number>(110); // Initialize container size
   const [localTimeZone, setLocalTimeZone] = useState<string>('');
@@ -103,4 +105,4 @@ const ClocksPage = () => {
   );
 };
 
-export default ClocksPage;
+export default ClocksPageMobile;

@@ -225,8 +225,8 @@ function PersianCalendar() {
                     : 'text-gray-500'
                 }`}
               >
-                <span className="font-bold">{toPersianDigits(day)}</span>
-                <span className="text-[12px] absolute top-0 left-0 mt-6 ml-0.5">
+                <span className='font-bold'>{toPersianDigits(day)}</span>
+                <span className='text-[12px] absolute top-0 left-0 mt-7 ml-1'>
                   {gregorianDay}
                 </span>
               </div>

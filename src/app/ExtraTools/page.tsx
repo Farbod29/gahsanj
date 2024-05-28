@@ -3,12 +3,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import GeneralModal from '@/components/GeneralModal/GeneralModal';
 import Image from 'next/image';
+import ClocksPageMobile from '../ClocksPageMobile/page';
 
 const ExtraTools = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState('');
+  const [modalContent, setModalContent] = useState<JSX.Element | string>('');
 
-  const handleOpenModal = (content) => {
+  const handleOpenModal = (content: JSX.Element | string) => {
     setModalContent(content);
     setIsModalOpen(true);
   };
@@ -19,16 +20,14 @@ const ExtraTools = () => {
   };
 
   return (
-    <main className='flex flex-col items-center min-h-screen px-2 py-3 bg-[#333863] md:px-8'>
+    <main className='flex flex-col items-center min-h-screen px-2 py-3 bg-[#333863] md:px-8 pb-12'>
       <div className='w-full max-w-md space-y-4 py-3 p-2'>
-        {/* <Link href='/contact-us' legacyBehavior passHref> */}
         <div
           className='bg-[#7F84B4] rounded-2xl p-9 text-white text-end block'
           onClick={() => handleOpenModal('تماس ')}
         >
           تماس با گاه‌شمار
         </div>
-        {/* </Link> */}
         <Link
           href='https://www.instagram.com/gahshomar.iran/?igsh=MW52MHcwcWpnY2QyNA%3D%3D'
           legacyBehavior
@@ -39,8 +38,8 @@ const ExtraTools = () => {
           </a>
         </Link>
         <div
-          className='bg-[#7F84B4] rounded-2xl p-9 text-white text-end'
-          onClick={() => handleOpenModal('ساعت های جهانی')}
+          className='bg-[#7F84B4] rounded-2xl p-11 text-white text-end'
+          onClick={() => handleOpenModal(<ClocksPageMobile />)}
         >
           ساعت های جهانی
         </div>
@@ -63,15 +62,15 @@ const ExtraTools = () => {
           <Image
             src={'/assets/gahname.png'}
             alt='گاه نامه'
-            width={370} // Adjusted width for larger logo
-            height={150} // Adjusted height for larger logo
+            width={370}
+            height={150}
           />
         </div>
       </div>
 
       {isModalOpen && (
         <GeneralModal isOpen={isModalOpen} onClose={handleCloseModal}>
-          <div className='text-white p-9'>{modalContent}</div>
+          {modalContent}
         </GeneralModal>
       )}
     </main>
