@@ -1,7 +1,9 @@
-"use client";
-import React, { useState, useEffect, useMemo } from "react";
-import jalaali from "jalaali-js";
-import Image from "next/image";
+// pages/Occasions.js
+'use client';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import jalaali from 'jalaali-js';
+import Image from 'next/image';
+import { findPreviousDay } from '@/utils/findPreviousDay'; // Import the utility function
 
 interface Occasion {
   DayNumber: number;
@@ -19,10 +21,12 @@ interface Occasion {
 
 const Occasions: React.FC = () => {
   const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion[]>([]);
-  const [currentMonthName, setCurrentMonthName] = useState<string>("");
+  const [currentMonthName, setCurrentMonthName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<Occasion | null>(null);
+  const [previousDay, setPreviousDay] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const isValidUrl = (url: string) => {
     try {
@@ -35,18 +39,18 @@ const Occasions: React.FC = () => {
 
   const monthNames = useMemo(
     () => [
-      "فروردین",
-      "اردیبهشت",
-      "خرداد",
-      "تیر",
-      "مرداد",
-      "شهریور",
-      "مهر",
-      "آبان",
-      "آذر",
-      "دی",
-      "بهمن",
-      "اسفند",
+      'فروردین',
+      'اردیبهشت',
+      'خرداد',
+      'تیر',
+      'مرداد',
+      'شهریور',
+      'مهر',
+      'آبان',
+      'آذر',
+      'دی',
+      'بهمن',
+      'اسفند',
     ],
     []
   );
@@ -56,6 +60,7 @@ const Occasions: React.FC = () => {
     try {
       const response = await fetch(`/api/farakhor/${monthName}`);
       const data: Occasion[] = await response.json();
+      console.log('Occasion', data);
       const filteredData = Array.isArray(data)
         ? data.filter((event) => event.ShortTitle)
         : [];
@@ -65,8 +70,9 @@ const Occasions: React.FC = () => {
         return dateA.getTime() - dateB.getTime();
       });
       setCurrentMonthEvents(filteredData);
+      setPreviousDay(findPreviousDay(filteredData)); // Set the previous day using the utility function
     } catch (error) {
-      console.error("Error fetching occasions:", error);
+      console.error('Error fetching occasions:', error);
       setCurrentMonthEvents([]);
     } finally {
       setLoading(false);
@@ -80,6 +86,48 @@ const Occasions: React.FC = () => {
     setCurrentMonthName(newName);
     fetchOccasions(newName);
   }, [monthNames]);
+
+  useEffect(() => {
+    if (previousDay && !loading && currentMonthEvents.length > 0) {
+      const today = new Date();
+
+      const [prevDay, prevMonth] = previousDay.split(',');
+
+      // Create a combined sorted array of all events
+      const allEvents = currentMonthEvents.slice().sort((a, b) => {
+        const dateA = new Date(a.GeorgianDay);
+        const dateB = new Date(b.GeorgianDay);
+        return dateA.getTime() - dateB.getTime();
+      });
+
+      const scrollIndex = allEvents.findIndex((event) => {
+        const eventDate = new Date(event.GeorgianDay);
+        return (
+          eventDate.getDate() === parseInt(prevDay, 10) &&
+          eventDate.getMonth() + 1 === parseInt(prevMonth, 10)
+        );
+      });
+
+      if (scrollIndex !== -1) {
+        const previousEvent = allEvents[scrollIndex];
+        console.log('Previous Event Date:', previousEvent.GeorgianDay);
+
+        if (scrollRef.current) {
+          const elementToScroll = scrollRef.current.children[
+            scrollIndex
+          ] as HTMLDivElement;
+          const yOffset = -100; // Adjust this value to your needs
+          const y =
+            elementToScroll.getBoundingClientRect().top +
+            window.scrollY +
+            yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      } else {
+        console.log('No previous event found');
+      }
+    }
+  }, [loading, currentMonthEvents, previousDay]);
 
   const updateMonth = (monthIndex: number) => {
     const newName = monthNames[monthIndex];
@@ -95,28 +143,28 @@ const Occasions: React.FC = () => {
   };
 
   const toPersianNum = (num: string) => {
-    const persianNumbers = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     return num
       .toString()
-      .split("")
+      .split('')
       .map((digit) => persianNumbers[parseInt(digit, 10)] || digit)
-      .join("");
+      .join('');
   };
 
   const todayGregorian = `${new Date().getDate()} ${
     [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ][new Date().getMonth()]
   }`;
 
@@ -149,20 +197,23 @@ const Occasions: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className='mt-10 text-center'>Loading...</div>
+        <div className='mt-10 text-center'>
+          ... در حال بارگزاری فراخور های پیش رو...
+        </div>
       ) : (
         <div
+          ref={scrollRef}
           className='grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
           style={{ direction: 'rtl' }}
         >
-          {currentMonthEvents.map((event) => {
+          {currentMonthEvents.map((event, index) => {
             const eventDate = event.GeorgianDay;
             const isToday = eventDate === todayGregorian;
             const logo = event.Logo || '/https://picsum.photos/536/35'; // Use a valid path
 
             return (
               <div
-                key={event.DayNumber}
+                key={`${event.DayNumber}-${event.GeorgianDay}-${index}`}
                 onClick={() => handleDayClick(event)}
                 className={`relative ${
                   event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
@@ -171,7 +222,7 @@ const Occasions: React.FC = () => {
                     ? 'bg-[#07748C] border-4 border-[#393837] shadow-lg'
                     : 'bg-[#FFFFFF]'
                 }
-              shadow-md rounded-lg p-2 text-center`}
+            shadow-md rounded-lg p-2 text-center`}
                 style={{ width: '100%', maxWidth: '350px', height: 'auto' }} // Adjusted maxWidth to 350px
               >
                 <div className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl:2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7 '>
@@ -197,7 +248,7 @@ const Occasions: React.FC = () => {
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
                     } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636]'}
-                   text-center`}
+                 text-center`}
                     style={{
                       fontSize:
                         event.ShortTitle.length > 16

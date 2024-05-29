@@ -1,9 +1,9 @@
-// pages/Occasions.js
+// Farakhor7Days(occazaions7Days)
+
 'use client';
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import jalaali from 'jalaali-js';
 import Image from 'next/image';
-import { findPreviousDay } from '@/utils/findPreviousDay'; // Import the utility function
 
 interface Occasion {
   DayNumber: number;
@@ -25,8 +25,6 @@ const Occasions: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<Occasion | null>(null);
-  const [previousDay, setPreviousDay] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const isValidUrl = (url: string) => {
     try {
@@ -58,9 +56,8 @@ const Occasions: React.FC = () => {
   const fetchOccasions = async (monthName: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/farakhor/${monthName}`);
+      const response = await fetch(`/api/farakhor7Days/${monthName}`);
       const data: Occasion[] = await response.json();
-      console.log('Occasion', data);
       const filteredData = Array.isArray(data)
         ? data.filter((event) => event.ShortTitle)
         : [];
@@ -70,7 +67,6 @@ const Occasions: React.FC = () => {
         return dateA.getTime() - dateB.getTime();
       });
       setCurrentMonthEvents(filteredData);
-      setPreviousDay(findPreviousDay(filteredData)); // Set the previous day using the utility function
     } catch (error) {
       console.error('Error fetching occasions:', error);
       setCurrentMonthEvents([]);
@@ -86,48 +82,6 @@ const Occasions: React.FC = () => {
     setCurrentMonthName(newName);
     fetchOccasions(newName);
   }, [monthNames]);
-
-  useEffect(() => {
-    if (previousDay && !loading && currentMonthEvents.length > 0) {
-      const today = new Date();
-
-      const [prevDay, prevMonth] = previousDay.split(',');
-
-      // Create a combined sorted array of all events
-      const allEvents = currentMonthEvents.slice().sort((a, b) => {
-        const dateA = new Date(a.GeorgianDay);
-        const dateB = new Date(b.GeorgianDay);
-        return dateA.getTime() - dateB.getTime();
-      });
-
-      const scrollIndex = allEvents.findIndex((event) => {
-        const eventDate = new Date(event.GeorgianDay);
-        return (
-          eventDate.getDate() === parseInt(prevDay, 10) &&
-          eventDate.getMonth() + 1 === parseInt(prevMonth, 10)
-        );
-      });
-
-      if (scrollIndex !== -1) {
-        const previousEvent = allEvents[scrollIndex];
-        console.log('Previous Event Date:', previousEvent.GeorgianDay);
-
-        if (scrollRef.current) {
-          const elementToScroll = scrollRef.current.children[
-            scrollIndex
-          ] as HTMLDivElement;
-          const yOffset = -100; // Adjust this value to your needs
-          const y =
-            elementToScroll.getBoundingClientRect().top +
-            window.scrollY +
-            yOffset;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      } else {
-        console.log('No previous event found');
-      }
-    }
-  }, [loading, currentMonthEvents, previousDay]);
 
   const updateMonth = (monthIndex: number) => {
     const newName = monthNames[monthIndex];
@@ -169,8 +123,8 @@ const Occasions: React.FC = () => {
   }`;
 
   return (
-    <div className='bg-[#333863] min-h-screen flex flex-col items-center justify-center pt-24 pb-24'>
-      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
+    <div className='bg-[#333863]  flex flex-col items-center justify-center pt-1 pb-12'>
+      {/* <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <button
           onClick={() =>
             updateMonth(
@@ -194,26 +148,23 @@ const Occasions: React.FC = () => {
         >
           &gt;
         </button>
-      </div>
+      </div> */}
 
       {loading ? (
-        <div className='mt-10 text-center text-white'>
-          ... در حال بارگزاری فراخور های پیش رو
-        </div>
+        <div className='mt-10 text-center text-white'>Loading...</div>
       ) : (
         <div
-          ref={scrollRef}
-          className='grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
+          className='bg-[#333863] grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-1 mt:p-1'
           style={{ direction: 'rtl' }}
         >
-          {currentMonthEvents.map((event, index) => {
+          {currentMonthEvents.map((event) => {
             const eventDate = event.GeorgianDay;
             const isToday = eventDate === todayGregorian;
             const logo = event.Logo || '/https://picsum.photos/536/35'; // Use a valid path
 
             return (
               <div
-                key={`${event.DayNumber}-${event.GeorgianDay}-${index}`}
+                key={event.DayNumber}
                 onClick={() => handleDayClick(event)}
                 className={`relative ${
                   event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
@@ -222,9 +173,9 @@ const Occasions: React.FC = () => {
                     ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
                     : 'bg-[#FFFFFF]'
                 } shadow-md rounded-lg p-2 text-center`}
-                style={{ width: '100%', maxWidth: '350px', height: 'auto' }} // Adjusted maxWidth to 350px
+                style={{ width: '100%', maxWidth: '200px', height: '125px' }} // Adjusted maxWidth to 350px
               >
-                <div className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl-2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7'>
+                <div className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl:2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7 '>
                   {isValidUrl(logo) && (
                     <Image
                       src={logo}
@@ -248,8 +199,7 @@ const Occasions: React.FC = () => {
                   <div
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636]'}
-               text-center`}
+                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636]'} text-center`}
                     style={{
                       fontSize:
                         event.ShortTitle.length > 16
@@ -265,15 +215,14 @@ const Occasions: React.FC = () => {
                   >
                     {event.ShortTitle}
                   </div>
-
                   <div
                     className='relative'
                     style={{ height: '32px', position: 'relative' }}
                   >
                     <div
-                      className={`text-[#2a5b71] B14-SE1 absluteEnmonth ${
-                        isToday ? 'text-black ' : 'text-[#2a5b71]'
-                      }shadow-md rounded-lg p-2 text-center`}
+                      className={`text-[#2a5b71] B14-SE1 absluteEnmonth} ${
+                        isToday ? 'text-white ' : 'text-[#2a5b71]'
+                      }  p-2 text-center`}
                     >
                       {eventDate}
                     </div>
@@ -286,7 +235,7 @@ const Occasions: React.FC = () => {
       )}
       {modalVisible && modalContent && (
         <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50'>
-          <div className='bg-white p-4 sm:p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center'>
+          <div className='bg-white p-2 sm:p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center'>
             <h1 className='text-xl sm:text-3xl font-bold text-[#393939] mb-4 text-center'>
               {modalContent.EventTitle}
             </h1>
@@ -303,13 +252,13 @@ const Occasions: React.FC = () => {
               />
             </div>
             <p
-              className='text-sm sm:text-[#707070] mb-4 text-justify text-end'
+              className='text-sm sm:text-[#707070] mb-4 text-justify'
               dir='rtl'
             >
               {modalContent.Text}
             </p>
             <button
-              className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded'
+              className='px-3 sm:px-4 py-1 sm:py-2 bg-[#333863] text-white rounded'
               onClick={() => setModalVisible(false)}
             >
               بستن

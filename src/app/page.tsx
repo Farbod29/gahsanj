@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import ClocksPage from '@/components/ClocksPageMiniForMobile/ClocksPageMiniForMobile';
 import JustDateWhiteApp from '@/components/JustDateWhiteApp/JustDateWhiteApp';
-import Barjaste from './Barjaste/page';
+// import Barjaste from './Barjaste/page';
 import ClocksModal from '@/components/ClocksModal/ClocksModal';
+import Occasions from './Farakhor7Days/page';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,9 +44,9 @@ const Home = () => {
       <ClocksModal isOpen={isModalOpen} onClose={handleCloseModal} />
 
       <h1 className='text-white text-xl mt-4 ' dir='rtl'>
-        برجسته های پیش رو
+        برجسته های پیش رو :
       </h1>
-      <Barjaste />
+      <Occasions />
     </main>
   );
 };
