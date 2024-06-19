@@ -29,8 +29,8 @@ const client = new MongoClient(uri2);
 export async function GET(req: NextRequest) {
   try {
     await client.connect();
-    const db = client.db('Gahshomari2');
-    const collection = db.collection<Occasion>('Farakhor');
+    const db = client.db('farakhor');
+    const collection = db.collection<Occasion>('farakhorCollection');
 
     // Get today's date in Gregorian format
     const today = new Date();

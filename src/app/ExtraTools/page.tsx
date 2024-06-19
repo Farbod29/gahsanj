@@ -26,6 +26,12 @@ const ExtraTools = () => {
           className='bg-[#7F84B4] rounded-2xl p-9 text-white text-end block'
           onClick={() => handleOpenModal('تماس ')}
         >
+          <Image
+            src={'/assets/contact.png'}
+            alt='گاه نامه'
+            width={40}
+            height={40}
+          />
           تماس با گاه‌شمار
         </div>
         <Link
@@ -34,6 +40,12 @@ const ExtraTools = () => {
           passHref
         >
           <a className='bg-[#7F84B4] rounded-2xl p-9 text-white text-end block'>
+            <Image
+              src={'/assets/insta.png'}
+              alt='گاه نامه'
+              width={40}
+              height={40}
+            />
             اینستاگرام
           </a>
         </Link>
@@ -41,10 +53,22 @@ const ExtraTools = () => {
           className='bg-[#7F84B4] rounded-2xl p-11 text-white text-end'
           onClick={() => handleOpenModal(<ClocksPageMobile />)}
         >
+          <Image
+            src={'/assets/clock.png'}
+            alt='گاه نامه'
+            width={40}
+            height={40}
+          />
           ساعت های جهانی
         </div>
         <Link href='/gahshomaranDark' legacyBehavior passHref>
           <a className='bg-[#7F84B4] rounded-2xl p-9 text-white text-end block'>
+            <Image
+              src={'/assets/clock.png'}
+              alt='سرآغازها'
+              width={40}
+              height={40}
+            />
             سرآغازها
           </a>
         </Link>
@@ -52,6 +76,12 @@ const ExtraTools = () => {
           className='bg-[#7F84B4] rounded-2xl p-9 text-white text-end'
           onClick={() => handleOpenModal('تبدیل تاریخ')}
         >
+          <Image
+            src={'/assets/Replay.png'}
+            alt='تبدیل تاریخ'
+            width={40}
+            height={40}
+          />
           تبدیل تاریخ
         </div>
 

@@ -18,8 +18,8 @@ export async function GET(req: NextRequest) {
   try {
     await client.connect();
 
-    const db = client.db('Gahshomari2');
-    const collection = db.collection('Farakhor');
+    const db = client.db('farakhor');
+    const collection = db.collection('farakhorCollection');
 
     const { pathname } = new URL(req.url);
     const segments = pathname.split('/');
