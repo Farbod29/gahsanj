@@ -86,7 +86,7 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
     'اردیبهشت',
     'خرداد',
     'تیر',
-    'امرداد',
+    'اَمُرداد',
     'شهریور',
     'مهر',
     'آبان',
