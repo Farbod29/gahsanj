@@ -54,7 +54,7 @@ const ExtraTools = () => {
           onClick={() => handleOpenModal(<ClocksPageMobile />)}
         >
           <Image
-            src={'/assets/clock.png'}
+            src={'/assets/CLOCK.png'}
             alt='گاه نامه'
             width={40}
             height={40}
