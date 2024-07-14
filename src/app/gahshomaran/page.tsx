@@ -165,14 +165,6 @@ export default function Home() {
   return (
     <main className='flex min-h-screen w-full flex-col items-center px-2 sm:px-4 md:px-8 mt-4'>
       <div className='w-full max-w-4xl mx-auto mt-19 '>
-        <div className='text-center bg-[#ffffff] p-3 rounded-2xl'>
-          <h2 className='text-3xl md:text-4xl lg:text-4xl text-[#000000] md:pb-8 font-bold m-19 '></h2>
-          <p className='text-xl md:text-4xl pt-2 lg:text-4xl text-[#000000] pb-1 md:pb-3'></p>
-          <p className='text-md md:text-4xl lg:text-4xl text-[#000000]'>
-            {/* {getTodayPersianName()} */}
-          </p>
-        </div>
-
         <div className='bg-[#ffffff] p-3 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center'>
           <p className='text sm:text-xl lg:text-2xl text-[#000000] text-center'>
             {dates.IraniMelli}
