@@ -94,7 +94,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const monthName = jalaaliMonths[jm - 1]; // Get the month name
     const JdateString = toPersianNums(
-      `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+      `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
     return monthName;
   }
@@ -103,7 +103,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const monthName = jalaaliMonths[jm - 1]; // Get the month name
     const JdateString = toPersianNums(
-      `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+      `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
     return JdateString;
   }
@@ -112,7 +112,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const pYear = jy + 1180;
     return toPersianNums(
-      `${pYear}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+      `${pYear}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -120,7 +120,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IranianDiako = jy + 1321;
     return toPersianNums(
-      `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+      `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -128,7 +128,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IranianDiako = jy + 3821;
     return toPersianNums(
-      `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+      `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -136,7 +136,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IraniMithraYear = jy + 6359;
     return toPersianNums(
-      `${IraniMithraYear}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+      `${IraniMithraYear}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
 
@@ -144,7 +144,7 @@ export default function Home() {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IraniMelli = jy - 1396;
     return toPersianNums(
-      `${IraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+      `${IraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
   }
   const persianWeekdays: { [key: string]: string } = {
@@ -303,7 +303,7 @@ export default function Home() {
               pathname: '/DownloadImage',
               query: {
                 paramDates: dates.pahlaviYear,
-                paramName: '(شاهنشاهی) هخامنشی',
+                paramName: '(پادشاهی) هخامنشی',
                 PersianWeekday: PersianWeekday,
                 PersianMonth: currentPersianMonth,
               },
@@ -314,7 +314,7 @@ export default function Home() {
                 {dates.pahlaviYear}
               </p>
               <p className='text-lg md:text-xl lg:text-2xl text-[#32127A] text-center mt-1'>
-                (شاهنشاهی) هخامنشی
+                (پادشاهی) هخامنشی
               </p>
               <p className='text-xl md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
                 {getTodayPersianName()}
