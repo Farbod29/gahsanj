@@ -116,10 +116,10 @@ function ClientOnlyPage() {
   }, [images.length]);
 
   return (
-    <div className="flex flex-col h-screen justify-between ">
+    <div className='flex flex-col h-screen justify-between '>
       <div
         ref={ref}
-        className="flex-grow relative"
+        className='flex-grow relative'
         style={{
           width: '100%',
           height: 'auto',
@@ -127,19 +127,19 @@ function ClientOnlyPage() {
           objectFit: 'cover',
         }}
       >
-        {!loaded && <div className="spinner"></div>}
+        {!loaded && <div className='spinner'></div>}
         <Image
           src={
             images[currentIndex] ||
             'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
           }
-          alt="Decorative background"
-          layout="fill"
-          objectFit="cover"
+          alt='Decorative background'
+          layout='fill'
+          objectFit='cover'
           onLoad={handleLoad}
         />
         <div
-          className="drop-shadow-lg text-cyan-600 "
+          className='drop-shadow-lg text-cyan-600 '
           style={{
             position: 'absolute',
             top: '10%',
@@ -154,15 +154,15 @@ function ClientOnlyPage() {
             textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
           }}
         >
-          <div className="rtl flex flex-row-reverse">
+          <div className='rtl flex flex-row-reverse'>
             <span>{gahshomariWeekday}</span>
-            <span className="mx-1">-</span>
+            <span className='mx-1'>-</span>
             <span>{finalDay}</span>
-            <span className="mx-1">{gahshomariMonth}</span>
-            <span className="mx-1">-</span>
-            <span className="mx-1">{'سال'}</span>
-            <span className="mx-1"> {year}</span>
-            <span className="mx-1">{gahshomariName}</span>
+            <span className='mx-1'>{gahshomariMonth}</span>
+            <span className='mx-1'>-</span>
+            <span className='mx-1'>{'سال'}</span>
+            <span className='mx-1'> {year}</span>
+            <span className='mx-1'>{gahshomariName}</span>
           </div>
         </div>
       </div>
@@ -181,9 +181,9 @@ function ClientOnlyPage() {
             images[currentIndex] ||
             'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
           }
-          alt="Decorative background"
-          layout="fill"
-          objectFit="cover"
+          alt='Decorative background'
+          layout='fill'
+          objectFit='cover'
           onLoad={handleLoad}
         />
         <div
@@ -193,17 +193,17 @@ function ClientOnlyPage() {
             transform: 'translate(-50%, -20%)',
             textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
           }}
-          className="absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap"
+          className='absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap'
         >
-          <div className="rtl flex flex-row-reverse">
+          <div className='rtl flex flex-row-reverse'>
             <span>{gahshomariWeekday}</span>
-            <span className="mx-1">-</span>
+            <span className='mx-1'>-</span>
             <span>{day}</span>
             <span>{gahshomariMonth}</span>
-            <span className="mx-1">-</span>
+            <span className='mx-1'>-</span>
             <span>{'سال'}</span>
             <span>{year}</span>
-            <span className="mx-1"></span>
+            <span className='mx-1'></span>
             <span>{gahshomariName}</span>
           </div>
         </div>
@@ -222,22 +222,50 @@ function ClientOnlyPage() {
           textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
         }}
       >
-        <div className="flex justify-between pl-3">
+        <div className='flex justify-between pl-3'>
           <Link
-            className="pt-2"
+            className='pt-2'
             href={{
               pathname: 'https://gahshomar.com/',
             }}
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="59.83"
-              height="59.83"
-              viewBox="0 0 59.83 59.83"
+              id='Component_1_14'
+              data-name='Component 1 – 14'
+              xmlns='http://www.w3.org/2000/svg'
+              width='20.883'
+              height='22.902'
+              viewBox='0 0 20.883 22.902'
+              fill='currentColor'
             >
-              {/* SVG content */}
+              <defs>
+                <clipPath id='clipPath'>
+                  <rect
+                    id='Rectangle_7'
+                    data-name='Rectangle 7'
+                    width='20.883'
+                    height='22.902'
+                  />
+                </clipPath>
+              </defs>
+              <g id='Group_16' data-name='Group 16' clipPath='url(#clipPath)'>
+                <path
+                  id='Path_100'
+                  data-name='Path 100'
+                  d='M15.4,22.9H5.479A5.484,5.484,0,0,1,0,17.423V9.558A5.46,5.46,0,0,1,2,5.327L6.961,1.245a5.487,5.487,0,0,1,6.961,0l4.963,4.082a5.46,5.46,0,0,1,2,4.231v7.865A5.484,5.484,0,0,1,15.4,22.9M10.442,1.526a3.943,3.943,0,0,0-2.51.9L2.968,6.506a3.939,3.939,0,0,0-1.44,3.052v7.865a3.955,3.955,0,0,0,3.951,3.951H15.4a3.955,3.955,0,0,0,3.951-3.951V9.558a3.939,3.939,0,0,0-1.44-3.052L12.952,2.424a3.943,3.943,0,0,0-2.51-.9'
+                  transform='translate(0 0)'
+                  fill='currentColor'
+                />
+                <path
+                  id='Path_101'
+                  data-name='Path 101'
+                  d='M13.683,33.828a.764.764,0,0,1-.764-.764V25.657a2.434,2.434,0,0,1,2.431-2.431h2.337a2.434,2.434,0,0,1,2.431,2.431v2.87a.764.764,0,1,1-1.527,0v-2.87a.905.905,0,0,0-.9-.9H15.35a.905.905,0,0,0-.9.9v7.407a.764.764,0,0,1-.764.764'
+                  transform='translate(-6.077 -10.926)'
+                  fill='currentColor'
+                />
+              </g>
             </svg>
-            بازگشت
+            {/* بازگشت */}
           </Link>
           <button disabled={!loaded} onClick={goLeft}>
             &lt; Previous
@@ -246,19 +274,19 @@ function ClientOnlyPage() {
             Next &gt;
           </button>
           <button
-            className="pr-3 pt-2"
+            className='pr-3 pt-2'
             onClick={downloadScreenshot}
             disabled={!loaded}
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="69.08"
-              height="64.481"
-              viewBox="0 0 69.08 64.481"
+              xmlns='http://www.w3.org/2000/svg'
+              width='69.08'
+              height='64.481'
+              viewBox='0 0 69.08 64.481'
             >
               {/* SVG content */}
             </svg>
-            <p className="pt-2">بارگزاری</p>
+            <p className='pt-2'>بارگزاری</p>
           </button>
         </div>
       </div>
