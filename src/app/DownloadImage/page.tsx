@@ -7,6 +7,7 @@ import React, {
   Suspense,
 } from 'react';
 import Image from 'next/image';
+import jalaali from 'jalaali-js';
 import html2canvas from 'html2canvas';
 import { useSearchParams } from 'next/navigation'; // Ensures this is used client-side
 import Link from 'next/link';
@@ -32,24 +33,26 @@ function ClientOnlyPage() {
     setLoaded(true);
   }, []);
   // let day = '۲۳';
-  let sanitizedDay = '۲۳';
+  // let sanitizedDay = '۲۳';
 
-  // Step 2: Split the day into two parts
-  const dayParts = sanitizedDay.split('');
-
-  // Step 3: Build the final day string based on the conditions
-  let finalDay = '';
-  if (dayParts.length === 2) {
-    if (dayParts[0] !== '۰') {
-      finalDay = dayParts.join('');
-    } else {
-      finalDay = dayParts[1];
-    }
-  } else {
-    finalDay = sanitizedDay;
+  function toPersianNums(numString) {
+    const persianNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
   }
-  // console.log('xxxxxxxxxxxxx');
-  // console.log(sanitizedDay);
+
+  function getPersianDayNumber(date = new Date()) {
+    const jDate = jalaali.toJalaali(date);
+    return jDate.jd; // This returns the day number in the Persian calendar
+  }
+
+  function getPersianDayNumberInPersian(date = new Date()) {
+    const dayNumber = getPersianDayNumber(date);
+    return toPersianNums(dayNumber.toString());
+  }
+
+  const today = new Date();
+  const finalDay = getPersianDayNumberInPersian(today);
+
   useEffect(() => {
     const handleResize = () => {
       setLoaded(false); // Reset load state to trigger reload
@@ -155,14 +158,14 @@ function ClientOnlyPage() {
           }}
         >
           <div className='rtl flex flex-row-reverse'>
-            <span>{gahshomariWeekday}</span>
+            {/* <span>{gahshomariWeekday}</span>
             <span className='mx-1'>-</span>
-            <span>{finalDay}</span>
+            <span>{finalDay}</span> */}
             <span className='mx-1'>{gahshomariMonth}</span>
-            <span className='mx-1'>-</span>
+            {/* <span className='mx-1'>-</span>
             <span className='mx-1'>{'سال'}</span>
             <span className='mx-1'> {year}</span>
-            <span className='mx-1'>{gahshomariName}</span>
+            <span className='mx-1'>{gahshomariName}</span> */}
           </div>
         </div>
       </div>
@@ -196,15 +199,15 @@ function ClientOnlyPage() {
           className='absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap'
         >
           <div className='rtl flex flex-row-reverse'>
-            <span>{gahshomariWeekday}</span>
+            <span className='mx-1'>{gahshomariMonth}</span>
+            {/* <span>{gahshomariWeekday}</span>
             <span className='mx-1'>-</span>
-            <span>{day}</span>
-            <span>{gahshomariMonth}</span>
+            <span>{finalDay}</span>
+         
             <span className='mx-1'>-</span>
-            <span>{'سال'}</span>
-            <span>{year}</span>
-            <span className='mx-1'></span>
-            <span>{gahshomariName}</span>
+            <span className='mx-1'>{'سال'}</span>
+            <span className='mx-1'> {year}</span>
+            <span className='mx-1'>{gahshomariName}</span> */}
           </div>
         </div>
       </div>
