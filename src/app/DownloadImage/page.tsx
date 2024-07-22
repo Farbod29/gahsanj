@@ -11,6 +11,11 @@ import jalaali from 'jalaali-js';
 import html2canvas from 'html2canvas';
 import { useSearchParams } from 'next/navigation'; // Ensures this is used client-side
 import Link from 'next/link';
+import ArrowLeft from '../../../public/assets/ArrowLeft.svg';
+import ArrowRight from '../../../public/assets/ArrowRight.svg';
+import DownloadIcon from '../../../public/assets/DownloadIcon.svg';
+import Home from '../../../public/assets/Home.svg';
+import Calendar from '../../../public/assets/calendar.svg';
 
 function decodeHtmlEntities(text) {
   const element = document.createElement('div');
@@ -43,26 +48,11 @@ function ClientOnlyPage() {
   const handleLoad = useCallback(() => {
     setLoaded(true);
   }, []);
-  // let day = '۲۳';
-  // let sanitizedDay = '۲۳';
-
-  function toPersianNums(numString) {
-    const persianNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
-  }
 
   function getPersianDayNumber(date = new Date()) {
     const jDate = jalaali.toJalaali(date);
     return jDate.jd; // This returns the day number in the Persian calendar
   }
-
-  function getPersianDayNumberInPersian(date = new Date()) {
-    const dayNumber = getPersianDayNumber(date);
-    return toPersianNums(dayNumber.toString());
-  }
-
-  const today = new Date();
-  const finalDay = getPersianDayNumberInPersian(today);
 
   useEffect(() => {
     const handleResize = () => {
@@ -130,7 +120,7 @@ function ClientOnlyPage() {
   }, [images.length]);
 
   return (
-    <div className='flex flex-col h-screen justify-between '>
+    <div className='flex flex-col h-screen justify-between'>
       <div
         ref={ref}
         className='flex-grow relative'
@@ -218,98 +208,35 @@ function ClientOnlyPage() {
                 </span>
               </div>
             </div>
-            {/* <span>{gahshomariWeekday}</span>
-            <span className='mx-1'>-</span>
-            <span>{finalDay}</span>
-          
-            <span className='mx-1'>-</span>
-            <span className='mx-1'>{'سال'}</span>
-            <span className='mx-1'> {year}</span>
-            <span className='mx-1'>{gahshomariName}</span> */}
           </div>
         </div>
       </div>
 
       <div
+        className='fixed bottom-0 w-full flex justify-center items-center p-4 bg-[#373D70] text-white'
         style={{
-          position: 'fixed',
-          bottom: 0,
-          width: '100%',
-          textAlign: 'center',
-          padding: '10px 0',
-          backgroundColor: 'rgba(0, 0, 0, 0.3)',
-          color: 'white',
-          zIndex: 10,
           textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
         }}
       >
-        <div className='flex justify-between pl-3'>
-          <Link
-            className='pt-2'
-            href={{
-              pathname: 'https://gahshomar.com/',
-            }}
-          >
-            <svg
-              id='Component_1_14'
-              data-name='Component 1 – 14'
-              xmlns='http://www.w3.org/2000/svg'
-              width='20.883'
-              height='22.902'
-              viewBox='0 0 20.883 22.902'
-              fill='currentColor'
-            >
-              <defs>
-                <clipPath id='clipPath'>
-                  <rect
-                    id='Rectangle_7'
-                    data-name='Rectangle 7'
-                    width='20.883'
-                    height='22.902'
-                  />
-                </clipPath>
-              </defs>
-              <g id='Group_16' data-name='Group 16' clipPath='url(#clipPath)'>
-                <path
-                  id='Path_100'
-                  data-name='Path 100'
-                  d='M15.4,22.9H5.479A5.484,5.484,0,0,1,0,17.423V9.558A5.46,5.46,0,0,1,2,5.327L6.961,1.245a5.487,5.487,0,0,1,6.961,0l4.963,4.082a5.46,5.46,0,0,1,2,4.231v7.865A5.484,5.484,0,0,1,15.4,22.9M10.442,1.526a3.943,3.943,0,0,0-2.51.9L2.968,6.506a3.939,3.939,0,0,0-1.44,3.052v7.865a3.955,3.955,0,0,0,3.951,3.951H15.4a3.955,3.955,0,0,0,3.951-3.951V9.558a3.939,3.939,0,0,0-1.44-3.052L12.952,2.424a3.943,3.943,0,0,0-2.51-.9'
-                  transform='translate(0 0)'
-                  fill='currentColor'
-                />
-                <path
-                  id='Path_101'
-                  data-name='Path 101'
-                  d='M13.683,33.828a.764.764,0,0,1-.764-.764V25.657a2.434,2.434,0,0,1,2.431-2.431h2.337a2.434,2.434,0,0,1,2.431,2.431v2.87a.764.764,0,1,1-1.527,0v-2.87a.905.905,0,0,0-.9-.9H15.35a.905.905,0,0,0-.9.9v7.407a.764.764,0,0,1-.764.764'
-                  transform='translate(-6.077 -10.926)'
-                  fill='currentColor'
-                />
-              </g>
-            </svg>
-            {/* بازگشت */}
-          </Link>
-          <button disabled={!loaded} onClick={goLeft}>
-            &lt; Previous
-          </button>
-          <button disabled={!loaded} onClick={goRight}>
-            Next &gt;
-          </button>
-          <button
-            className='pr-3 pt-2'
-            onClick={downloadScreenshot}
-            disabled={!loaded}
-          >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='69.08'
-              height='64.481'
-              viewBox='0 0 69.08 64.481'
-            >
-              {/* SVG content */}
-            </svg>
-            <p className='pt-2'>بارگزاری</p>
-          </button>
-        </div>
+        <Link className='mx-4' href='/'>
+          <Home width={39.046} height={23.726} />
+        </Link>
+        <Link className='mx-4' href='/PhoneAppGahshomar'>
+          <Calendar width={39.046} height={23.726} />
+        </Link>
+        <button className='mx-4' disabled={!loaded} onClick={goLeft}>
+          <ArrowLeft width={39.046} height={23.726} />
+        </button>
+        <button className='mx-4' disabled={!loaded} onClick={goRight}>
+          <ArrowRight width={39.046} height={23.726} />
+        </button>
+        <button
+          className='mx-4'
+          onClick={downloadScreenshot}
+          disabled={!loaded}
+        >
+          <DownloadIcon width={39.046} height={23.726} />
+        </button>
       </div>
     </div>
   );
