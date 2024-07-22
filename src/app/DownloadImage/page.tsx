@@ -14,7 +14,7 @@ import Link from 'next/link';
 import ArrowLeft from '../../../public/assets/ArrowLeft.svg';
 import ArrowRight from '../../../public/assets/ArrowRight.svg';
 import DownloadIcon from '../../../public/assets/DownloadIcon.svg';
-import Home from '../../../public/assets/Home.svg';
+import Home from '../../../public/assets/home.svg';
 import Calendar from '../../../public/assets/calendar.svg';
 
 function decodeHtmlEntities(text) {
