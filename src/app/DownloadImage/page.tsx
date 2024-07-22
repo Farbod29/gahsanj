@@ -12,10 +12,20 @@ import html2canvas from 'html2canvas';
 import { useSearchParams } from 'next/navigation'; // Ensures this is used client-side
 import Link from 'next/link';
 
+function decodeHtmlEntities(text) {
+  const element = document.createElement('div');
+  if (text) {
+    element.innerHTML = text;
+  }
+  return element.innerText || element.textContent;
+}
+
 function ClientOnlyPage() {
   const searchParams = useSearchParams() as unknown as URLSearchParams;
   const gahshomariDates = searchParams.get('paramDates') || 'No Date';
   console.log('xxxxxxxxxxxxx');
+  const line1 = searchParams.get('line1') || 'No Line 1';
+  const line2 = searchParams.get('line2') || 'No Line 2';
 
   const gahshomariName = searchParams.get('paramName') || 'No Name';
   const [images, setImages] = useState<string[]>([]);
@@ -23,6 +33,7 @@ function ClientOnlyPage() {
   const [loaded, setLoaded] = useState(false);
   const gahshomariWeekday = searchParams.get('PersianWeekday') || 'No Weekday';
   const gahshomariMonth = searchParams.get('PersianMonth') || 'No Month';
+  const paramDates = searchParams.get('paramDates') || 'No Month';
   const [year, day] = gahshomariDates.split('/');
   const ref = useRef(null);
   const screenshotRef = useRef<HTMLDivElement | null>(null);
@@ -157,15 +168,13 @@ function ClientOnlyPage() {
             textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
           }}
         >
-          <div className='rtl flex flex-row-reverse'>
-            {/* <span>{gahshomariWeekday}</span>
-            <span className='mx-1'>-</span>
-            <span>{finalDay}</span> */}
-            <span className='mx-1'>{gahshomariMonth}</span>
-            {/* <span className='mx-1'>-</span>
-            <span className='mx-1'>{'سال'}</span>
-            <span className='mx-1'> {year}</span>
-            <span className='mx-1'>{gahshomariName}</span> */}
+          <div dir='rtl'>
+            <div dir='rtl' className='text-center'>
+              <span>{decodeHtmlEntities(line1)}</span>
+            </div>
+            <div dir='rtl' className='text-center '>
+              <span>{decodeHtmlEntities(line2)}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -199,11 +208,20 @@ function ClientOnlyPage() {
           className='absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap'
         >
           <div className='rtl flex flex-row-reverse'>
-            <span className='mx-1'>{gahshomariMonth}</span>
+            <div dir='rtl'>
+              <div dir='rtl' className='text-center'>
+                <span>{decodeHtmlEntities(line1)}</span>
+              </div>
+              <div dir='rtl' className='text-center '>
+                <span className='inline-block mx-2'>
+                  {decodeHtmlEntities(line2)}
+                </span>
+              </div>
+            </div>
             {/* <span>{gahshomariWeekday}</span>
             <span className='mx-1'>-</span>
             <span>{finalDay}</span>
-         
+          
             <span className='mx-1'>-</span>
             <span className='mx-1'>{'سال'}</span>
             <span className='mx-1'> {year}</span>

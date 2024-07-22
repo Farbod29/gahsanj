@@ -41,7 +41,9 @@ const monthIndices: { [key: string]: string } = {
   '۱۲': 'اسفند',
 };
 
-const gregorianMonths = {
+
+
+const gregorianMonthsPersianText = {
   1: 'ژانویه (Jan)',
   2: 'فوریه (Feb)',
   3: 'مارس (Mar)',
@@ -57,7 +59,7 @@ const gregorianMonths = {
 };
 
 function getGregorianMonth(monthNumber) {
-  return gregorianMonths[monthNumber] || 'Invalid month';
+  return gregorianMonthsPersianText[monthNumber] || 'Invalid month';
 }
 
 const persianMonths = {
@@ -95,15 +97,21 @@ function getPersianDate() {
 
 // console.log(getPersianDate());
 
-const persianWeekdays = {
+const persianWeekdaysBaboli = {
   0: 'یکشنبه',
   1: 'دوشنبه',
   2: 'سه‌شنبه',
   3: 'چهارشنبه',
   4: 'پنج‌شنبه',
-  5: 'جمعه',
+  5: 'آدینه',
   6: 'شنبه',
 };
+
+function getTodayPersianWeekdayBaboli(): string {
+  const today = new Date();
+  const weekday = today.getDay(); // Get the day of the week (0 for Sunday, 1 for Monday, etc.)
+  return persianWeekdaysBaboli[weekday]; // Return the corresponding Persian weekday name
+}
 
 const englishWeekdaysShort = {
   0: 'Sun',
@@ -123,22 +131,26 @@ function getPersianDateText() {
   const weekday = today.getDay();
 
   const persianMonth = persianMonths[month];
-  const persianWeekday = persianWeekdays[weekday];
+  const persianWeekdaysBaboli2 = persianWeekdaysBaboli[weekday];
   const englishWeekdayShort = englishWeekdaysShort[weekday];
   const persianDayNum = toPersianNums(day.toString());
   const persianYear = toPersianNums(year.toString());
 
-  return `${persianDayNum} ${persianMonth} (${persianWeekday} - ${englishWeekdayShort}) سال ${persianYear} میلادی`;
+  return `${persianDayNum} ${persianMonth} (${persianWeekdaysBaboli2} - ${englishWeekdayShort}) سال ${persianYear} میلادی`;
 }
 
-function getMiladiText(dates: { europeanDate: string }): string {
+interface MiladiText {
+  line1: string;
+  line2: string;
+}
+function getMiladiText(dates: { europeanDate: string }): MiladiText {
   const today = new Date();
   const month = today.getMonth() + 1; // getMonth() returns month index starting from 0
   const day = today.getDate();
   const year = today.getFullYear();
   const weekday = today.getDay();
 
-  const persianWeekday = persianWeekdays[weekday];
+  const persianWeekday = persianWeekdaysBaboli[weekday];
   const englishWeekdayShort = englishWeekdaysShort[weekday];
   const europeanDate = dates.europeanDate; // Read the European date from state
 
@@ -147,9 +159,17 @@ function getMiladiText(dates: { europeanDate: string }): string {
   const persianYear = toPersianNums(year.toString());
 
   // Get Persian month name
-  const persianMonth = gregorianMonths[month];
+  const gregorianMonthsPersianText1 = gregorianMonthsPersianText[month];
 
-  return `میلادی  (${englishWeekdayShort}) , ${persianDay} ${persianMonth}, سال ${persianYear}  ${persianWeekday} امروز `;
+  const part1 = ` ${persianWeekday} `;
+  const part2 = `(${englishWeekdayShort})`;
+  const part3 = `${persianDay}`;
+  const part4 = `${gregorianMonthsPersianText1}`;
+
+  const line1 = `${part1} ${part2}, ${part3} ${part4}`;
+  const line2 = `سال ${persianYear} میلادی`;
+
+  return { line1, line2 };
 }
 
 function getTodayPersianZaratostianDays(day: number): string {
@@ -192,7 +212,10 @@ function getTodayPersianZaratostianDays(day: number): string {
 
 export default function Home() {
   // Helper component for rendering tabs
-
+  const [dateParts, setDateParts] = useState<MiladiText>({
+    line1: '',
+    line2: '',
+  });
   const Tab = ({ name }: { name: string }) => (
     <button
       className={`p-3 rounded-lg  hover:bg-[#32127A] ${
@@ -227,6 +250,7 @@ export default function Home() {
     IraniMelli: '',
     ilami: '',
     zoroastrianYear: '',
+    ilamiYear: '',
   });
 
   useEffect(() => {
@@ -237,15 +261,16 @@ export default function Home() {
       pahlaviYear: convertToPahlavi(today),
       IranianDiako: convertToIranianDiako(today),
       IraniMithra: convertToIraniMithra(today),
-      IraniMelli: convertToIraniMelli(today),
+      IraniMelli: convertToIraniMelliSimple(today),
       ilami: convertToIlami(today),
       zoroastrianYear: convertToZoroastrian(today),
+      ilamiYear: convertToIlamiYear(today),
     });
   }, []);
 
   useEffect(() => {
     if (dates.europeanDate) {
-      console.log(getMiladiText(dates));
+      // console.log(getMiladiText(dates));
     }
   }, [dates]);
   function getJanaliMonth(date: Date): string {
@@ -257,6 +282,20 @@ export default function Home() {
     return monthName;
   }
 
+  function convertToIraniMelliYear(date: Date) {
+    const { jy } = jalaali.toJalaali(date);
+    const IraniMelliYear = jy - 1396;
+    return IraniMelliYear.toString();
+  }
+
+  function convertToIraniMelliSimple(date: Date) {
+    const { jy, jm, jd } = jalaali.toJalaali(date);
+    const IraniMelli = jy - 1396;
+    return toPersianNums(
+      `${IraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
+    );
+  }
+
   function getTodayZaratustrianName(): string {
     const today = new Date();
     const { jd } = jalaali.toJalaali(today);
@@ -265,11 +304,15 @@ export default function Home() {
 
   function convertToJalali(date: Date): string {
     const { jy, jm, jd } = jalaali.toJalaali(date);
-    const monthName = jalaaliMonths[jm - 1]; // Get the month name
     const JdateString = toPersianNums(
       `${jy}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
     return JdateString;
+  }
+
+  function convertToJalaliYear(date: Date) {
+    const { jy } = jalaali.toJalaali(date);
+    return jy.toString();
   }
 
   function convertToPahlavi(date: Date) {
@@ -280,12 +323,24 @@ export default function Home() {
     );
   }
 
+  function convertToPahlaviYear(date: Date) {
+    const { jy } = jalaali.toJalaali(date);
+    const pYear = jy + 1180;
+    return pYear.toString();
+  }
+
   function convertToZoroastrian(date: Date) {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const zoroastrianYear = jy + 2359;
     return toPersianNums(
       `${zoroastrianYear}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
+  }
+
+  function convertToZoroastrianYear(date: Date) {
+    const { jy } = jalaali.toJalaali(date);
+    const zoroastrianYear = jy + 2359;
+    return zoroastrianYear.toString();
   }
 
   function convertToIranianDiako(date: Date) {
@@ -296,12 +351,24 @@ export default function Home() {
     );
   }
 
+  function convertToIranianDiakoYear(date: Date) {
+    const { jy } = jalaali.toJalaali(date);
+    const IranianDiako = jy + 1321;
+    return IranianDiako.toString();
+  }
+
   function convertToIlami(date: Date) {
     const { jy, jm, jd } = jalaali.toJalaali(date);
-    const IranianDiako = jy + 3821;
+    const IranianILAMI = jy + 3821;
     return toPersianNums(
-      `${IranianDiako}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
+      `${IranianILAMI}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
     );
+  }
+
+  function convertToIlamiYear(date: Date) {
+    const { jy } = jalaali.toJalaali(date);
+    const IranianILAMI = jy + 3821;
+    return IranianILAMI.toString();
   }
 
   function convertToIraniMithra(date: Date) {
@@ -312,13 +379,35 @@ export default function Home() {
     );
   }
 
-  function convertToIraniMelli(date: Date) {
+  function convertToIraniMithraYear(date: Date) {
+    const { jy, jm, jd } = jalaali.toJalaali(date);
+    const IranianILAMI = jy + 6359;
+    return IranianILAMI.toString();
+  }
+
+  function convertToIraniMelli(date: Date): {
+    persianDay: string;
+    monthName: string;
+    persianYear: string;
+  } {
     const { jy, jm, jd } = jalaali.toJalaali(date);
     const IraniMelli = jy - 1396;
-    return toPersianNums(
-      `${IraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
-    );
+    const persianDay = toPersianNums(jd.toString());
+    const persianYear = toPersianNums(IraniMelli.toString());
+    const monthName = jalaaliMonths[jm - 1];
+    return { persianDay, monthName, persianYear };
   }
+  function getFormattedDatIraniMelliYear(date: Date): string {
+    const { persianYear } = convertToIraniMelli(date);
+
+    return ` سال ${persianYear} ایران نو`;
+  }
+  function getFormattedDatIraniMelliMonthAndDay(date: Date): string {
+    const { persianDay, monthName } = convertToIraniMelli(date);
+
+    return ` ${persianDay} , ${monthName}  `;
+  }
+
   const persianWeekdays: { [key: string]: string } = {
     Sunday: ' مهر روز ',
     Monday: '  مهروز ',
@@ -354,13 +443,6 @@ export default function Home() {
     return persianWeekdays[todayName]; // Now TypeScript knows that todayName is a valid key for persianWeekdays
   }
 
-  function getTodayMiladiName2(): string {
-    const today = new Date();
-    const gregorianWeekdays = ['Sun', 'Mon', 'Tus', 'Wen', 'Thu', 'Fri', 'Sat'];
-    const todayName = gregorianWeekdays[today.getDay()];
-    return todayName; // Now TypeScript knows that todayName is a valid key for persianWeekdays
-  }
-
   function getTodayHejriName(): string {
     const today = new Date();
     const gregorianWeekdays = [
@@ -388,13 +470,18 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // Extract the month name when the component mounts
-    // const monthName = extractMonth(dates.IraniMelli) || '';
-    // setCurrentPersianMonth(monthName);
+    const today = new Date();
+    const dates = {
+      europeanDate: today.toLocaleDateString('en-GB'),
+      // other date conversions...
+    };
+    const miladiText = getMiladiText(dates);
+    setDateParts(miladiText);
+  }, []);
+  useEffect(() => {
     const today = new Date();
     const monthName = getJanaliMonth(today); // This will be an array e.g., ['اردیبهشت']
-    // const monthName = monthArray[0];
-    //console.log(monthName);
+
     setCurrentPersianMonth(monthName);
   }, []);
 
@@ -428,6 +515,8 @@ export default function Home() {
           برای دریافت فرتور امروز، گاهشماری خود را انتخاب کنید
         </h1>
 
+        {/* // 'iran-nov' ============ مهرروز (دوشنبه) ،۱  اَمُرداد سال ۷ ایران نو =========== > 'ایران نو',  */}
+
         <Link
           key='iran-nov'
           href={{
@@ -435,8 +524,8 @@ export default function Home() {
             query: {
               paramDates: dates.IraniMelli,
               paramName: 'ایران نو',
-              PersianWeekday: PersianWeekday,
-              PersianMonth: currentPersianMonth,
+              line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+              line2: `سال\u2003${toPersianNums(convertToIraniMelliYear(today))}\u2003 ایران نو`,
             },
           }}
         >
@@ -461,8 +550,8 @@ export default function Home() {
               query: {
                 paramDates: dates.ilami,
                 paramName: 'عیلامی',
-                PersianWeekday: PersianWeekday,
-                PersianMonth: currentPersianMonth,
+                line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                line2: `سال\u2003${toPersianNums(convertToIlamiYear(today))}\u2003 عیلامی`,
               },
             }}
           >
@@ -483,14 +572,14 @@ export default function Home() {
           </Link>
 
           <Link
-            key='zoroastrian-year' // Add unique key
+            key='zoroastrian' // Add unique key
             href={{
               pathname: '/DownloadImage',
               query: {
                 paramDates: dates.zoroastrianYear,
                 paramName: 'زرتشتی',
-                PersianWeekday: getTodayZaratustrianName(),
-                PersianMonth: currentPersianMonth,
+                line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                line2: `سال\u2003${toPersianNums(convertToZoroastrianYear(today))}\u2003 زرتشتی`,
               },
             }}
           >
@@ -511,14 +600,14 @@ export default function Home() {
           </Link>
 
           <Link
-            key='pahlavi-year' // Add unique key
+            key='pahlavi' // Add unique key
             href={{
               pathname: '/DownloadImage',
               query: {
                 paramDates: dates.pahlaviYear,
-                paramName: '(پادشاهی) هخامنشی',
-                PersianWeekday: PersianWeekday,
-                PersianMonth: currentPersianMonth,
+                paramName: 'پادشاهی',
+                line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                line2: `سال\u2003${toPersianNums(convertToPahlaviYear(today))}\u2003 پادشاهی`,
               },
             }}
           >
@@ -543,8 +632,8 @@ export default function Home() {
               query: {
                 paramDates: dates.IranianDiako,
                 paramName: 'مادی',
-                PersianWeekday: PersianWeekday,
-                PersianMonth: currentPersianMonth,
+                line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                line2: `سال\u2003${toPersianNums(convertToIranianDiakoYear(today))}\u2003 مادی`,
               },
             }}
           >
@@ -561,14 +650,14 @@ export default function Home() {
             </div>
           </Link>
           <Link
-            key='jalali-date' // Add unique key
+            key='jalali' // Add unique key
             href={{
               pathname: '/DownloadImage',
               query: {
                 paramDates: dates.Jdate,
                 paramName: 'هجری خورشیدی',
-                PersianWeekday: PersianWeekday,
-                PersianMonth: currentPersianMonth,
+                line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                line2: `سال\u2003${toPersianNums(convertToJalaliYear(today))}\u2003 هجری خورشیدی`,
               },
             }}
           >
@@ -592,10 +681,9 @@ export default function Home() {
             href={{
               pathname: '/DownloadImage',
               query: {
-                paramDates: getMiladiText(dates),
                 paramName: 'میلادی',
-                PersianWeekday: georgianWeekday,
-                PersianMonth: currentPersianMonth,
+                line1: dateParts.line1.split('  ').join('\u2003'),
+                line2: dateParts.line2.split(' ').join('\u2003'),
               },
             }}
           >
@@ -606,8 +694,8 @@ export default function Home() {
               <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-0'>
                 میلادی
               </p>
-              <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
-                {/* {dates.georgianWeekday} */}
+              <p className='text-sm md:text-2xla lg:text-3xl text-[#1C39BB] pl-3'>
+                {georgianWeekday}
               </p>
             </div>
           </Link>
