@@ -405,7 +405,7 @@ export default function Home() {
   function getFormattedDatIraniMelliMonthAndDay(date: Date): string {
     const { persianDay, monthName } = convertToIraniMelli(date);
 
-    return ` ${persianDay} , ${monthName}  `;
+    return ` ${persianDay}  ${monthName}  `;
   }
 
   const persianWeekdays: { [key: string]: string } = {

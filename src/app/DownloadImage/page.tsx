@@ -107,10 +107,10 @@ function ClientOnlyPage() {
       const screenshotDiv = screenshotRef.current;
       if (screenshotDiv && loaded) {
         html2canvas(screenshotDiv, { scale: 1 }).then((canvas) => {
-          const image = canvas.toDataURL('image/png');
+          const image = canvas.toDataURL('image/jpeg', 0.8); // Adjust quality (0.8 = 80%)
           const link = document.createElement('a');
           link.href = image;
-          link.download = 'screenshot.png';
+          link.download = 'screenshot.jpg'; // Change file extension
           link.click();
         });
       } else {
