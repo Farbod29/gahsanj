@@ -28,14 +28,14 @@ function decodeHtmlEntities(text) {
 function ClientOnlyPage() {
   const searchParams = useSearchParams() as unknown as URLSearchParams;
   const gahshomariDates = searchParams.get('paramDates') || 'No Date';
-  console.log('xxxxxxxxxxxxx');
   const line1 = searchParams.get('line1') || 'No Line 1';
   const line2 = searchParams.get('line2') || 'No Line 2';
-
   const gahshomariName = searchParams.get('paramName') || 'No Name';
   const [images, setImages] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
+  const [additionalText, setAdditionalText] = useState(''); // Add state for additional text
+  const [displayedAdditionalText, setDisplayedAdditionalText] = useState(''); // State for the displayed additional text
   const gahshomariWeekday = searchParams.get('PersianWeekday') || 'No Weekday';
   const gahshomariMonth = searchParams.get('PersianMonth') || 'No Month';
   const paramDates = searchParams.get('paramDates') || 'No Month';
@@ -43,11 +43,13 @@ function ClientOnlyPage() {
   const ref = useRef(null);
   const screenshotRef = useRef<HTMLDivElement | null>(null);
 
-  const [isScreenshotMode, setIsScreenshotMode] = useState(false);
-
   const handleLoad = useCallback(() => {
     setLoaded(true);
   }, []);
+
+  const handleAddLine = () => {
+    setDisplayedAdditionalText(additionalText); // Update the displayed text when the button is clicked
+  };
 
   function getPersianDayNumber(date = new Date()) {
     const jDate = jalaali.toJalaali(date);
@@ -165,6 +167,9 @@ function ClientOnlyPage() {
             <div dir='rtl' className='text-center '>
               <span>{decodeHtmlEntities(line2)}</span>
             </div>
+            <div dir='rtl' className='text-center '>
+              <span>{decodeHtmlEntities(displayedAdditionalText)}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -207,41 +212,73 @@ function ClientOnlyPage() {
                   {decodeHtmlEntities(line2)}
                 </span>
               </div>
+              <div dir='rtl' className='text-center '>
+                <span className='inline-block mx-2'>
+                  {decodeHtmlEntities(displayedAdditionalText)}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div
-        className='fixed bottom-0 w-full flex justify-center items-center p-4 bg-[#373D70] text-white'
-        style={{
-          textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
-        }}
-      >
-        <Link className='mx-4' href='/'>
-          <Home width={39.046} height={23.726} />
-        </Link>
-        <Link className='mx-4' href='/PhoneAppGahshomar'>
-          <Calendar width={39.046} height={23.726} />
-        </Link>
-        <button className='mx-4' disabled={!loaded} onClick={goLeft}>
-          <ArrowLeft width={39.046} height={23.726} />
-        </button>
-        <button className='mx-4' disabled={!loaded} onClick={goRight}>
-          <ArrowRight width={39.046} height={23.726} />
-        </button>
-        <button
-          className='mx-4'
-          onClick={downloadScreenshot}
-          disabled={!loaded}
-        >
-          <DownloadIcon width={39.046} height={23.726} />
-        </button>
+      <div className='fixed bottom-0 w-full bg-[#373D70] text-white'>
+        <div className='flex flex-col sm:flex-row justify-center items-center p-4'>
+          <div className='sm:hidden mb-4 flex items-center justify-center'>
+            <input
+              type='text'
+              value={additionalText}
+              onChange={(e) => setAdditionalText(e.target.value)}
+              placeholder='متن جدید'
+              className='px-2 py-1 rounded-md text-black'
+            />
+            <button
+              onClick={handleAddLine}
+              className='ml-2 px-3 py-1 bg-white text-[#373D70] rounded-md'
+            >
+              +
+            </button>
+          </div>
+          <div className='flex justify-center items-center'>
+            <Link className='mx-4' href='/'>
+              <Home width={39.046} height={23.726} />
+            </Link>
+            <Link className='mx-4' href='/PhoneAppGahshomar'>
+              <Calendar width={39.046} height={23.726} />
+            </Link>
+            <button className='mx-4' disabled={!loaded} onClick={goLeft}>
+              <ArrowLeft width={39.046} height={23.726} />
+            </button>
+            <button className='mx-4' disabled={!loaded} onClick={goRight}>
+              <ArrowRight width={39.046} height={23.726} />
+            </button>
+            <button
+              className='mx-4'
+              onClick={downloadScreenshot}
+              disabled={!loaded}
+            >
+              <DownloadIcon width={39.046} height={23.726} />
+            </button>
+          </div>
+          <div className='hidden sm:flex items-center sm:mb-0 mb-4'>
+            <input
+              type='text'
+              value={additionalText}
+              onChange={(e) => setAdditionalText(e.target.value)}
+              placeholder='متن جدید'
+              className='px-2 py-1 rounded-md text-black'
+            />
+            <button
+              onClick={handleAddLine}
+              className='ml-2 px-3 py-1 bg-white text-[#373D70] rounded-md'
+            >
+              +
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
 export default function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
