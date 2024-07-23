@@ -78,13 +78,13 @@ const ClocksPageMobile = () => {
   ];
 
   return (
-    <div className='p-4 bg-[#7F84B4] min-h-screen rounded-lg'>
+    <div className='p-4 bg-[#102755] min-h-screen rounded-lg bg-opacity-30'>
       <div className='grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-3 justify-items-center'>
         {clocks.map((clock, index) => (
           <div className='flex flex-col items-center mb-4' key={index}>
             {/* Analog clock */}
             <div
-              className='flex items-center justify-center rounded-full border-8 border-[#FD821D] bg-white mb-2'
+              className='flex items-center justify-center rounded-full border-8 border-[#272626] bg-white mb-2'
               style={{
                 width: `${containerSize}px`,
                 height: `${containerSize}px`,
