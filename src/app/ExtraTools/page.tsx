@@ -19,9 +19,8 @@ const Box: React.FC<BoxProps> = ({ text, iconSrc, altText, onClick, link }) => {
   const { height } = useWindowDimensions();
 
   let boxHeight = 'h-16';
-  let iconSize = 'w-9 h-9';
+  let iconSize = 'w-8 h-8';
   let textSize = 'text-sm';
-  let boxWidth = 'w-full';
 
   if (height >= 667) {
     boxHeight = 'h-20';
@@ -35,13 +34,13 @@ const Box: React.FC<BoxProps> = ({ text, iconSrc, altText, onClick, link }) => {
   }
   if (height >= 896) {
     boxHeight = 'h-28';
-    iconSize = 'w-14 h-14';
+    iconSize = 'w-12 h-12';
     textSize = 'text-xl';
   }
 
   const content = (
     <div
-      className={`bg-[#7F84B4] rounded-xl p-2 text-white flex items-center justify-between ${boxHeight} ${boxWidth} gap-x-4`}
+      className={`bg-[#7F84B4] rounded-xl p-2 text-white flex items-center justify-between ${boxHeight} gap-x-4`}
       onClick={onClick}
     >
       <div className={`flex items-center ${iconSize} pl-4`}>
