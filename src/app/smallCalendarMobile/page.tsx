@@ -157,50 +157,50 @@ function PersianCalendar() {
 
   // Render the component
   return (
-    <main className="p-4 bg-[#333863] min-h-screen ">
+    <main className='p-2 bg-[#333863] min-h-screen overflow-hidden flex justify-center'>
       <div
-        dir="rtl"
-        className="max-w-md mx-auto overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full rounded-md"
+        dir='rtl'
+        className='max-w-md mx-auto overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full rounded-md h-full flex flex-col'
       >
-        <h3 className="text-white bg-[#333863] border-4 border-[#333863] border-t-0">
+        <h3 className='text-white bg-[#333863] border-4 border-[#333863] border-t-0'>
           گاهشمار جدولی
         </h3>
-        <div className="flex justify-between items-center bg-[#373D70]  text-white p-3 ">
-          <div className="absolute top-4"></div>
+        <div className='flex justify-between items-center bg-[#373D70]  text-white p-3 '>
+          <div className='absolute top-4'></div>
           <button
             onClick={goToPreviousMonth}
-            className="p-2 text-4xl sm:text-8xl"
+            className='p-2 text-4xl sm:text-8xl'
           >
             ‹
           </button>
-          <span className="p-3 ml-3 items-center pt-4 pb-4">
-            <p className="text-4xl sm:text-6xl pb-1 pt-2">
+          <span className='p-3 ml-3 items-center pt-4 pb-4'>
+            <p className='text-4xl sm:text-6xl pb-1 pt-2'>
               {jalaaliMonths[currentMonth - 1]}
             </p>
-            <div className="flex gap-12">
-              <p className="text-sm sm:text-xl pt-3">{NameOfTheDay}</p>
-              <p className="text-sm sm:text-xl pt-3">{IraniMelli}</p>{' '}
+            <div className='flex gap-12'>
+              <p className='text-sm sm:text-xl pt-3'>{NameOfTheDay}</p>
+              <p className='text-sm sm:text-xl pt-3'>{IraniMelli}</p>{' '}
               {/* This will now show the correct date */}
             </div>
           </span>
-          <button onClick={goToNextMonth} className="p-2 text-4xl sm:text-8xl">
+          <button onClick={goToNextMonth} className='p-2 text-4xl sm:text-8xl'>
             ›
           </button>
         </div>
-        <div className="grid grid-cols-7 gap-1 p-4">
+        <div className='grid grid-cols-7 gap-1 p-4 flex-grow overflow-y-auto'>
           {persianWeekDays.map((day, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-center px-4"
+              className='flex flex-col items-center justify-center px-4'
             >
-              <span className="text-sm sm:text-xl text-gray-500">
+              <span className='text-sm sm:text-xl text-gray-500'>
                 {day.day}
               </span>
               {/* <span className="text-sm sm:text-xl text-gray-500">روز</span> */}
-              <span className="text-sm sm:text-xl text-gray-500">
+              <span className='text-sm sm:text-xl text-gray-500'>
                 {day.dayShort}
               </span>
-              <span className="text-xs sm:text-xl text-gray-600">
+              <span className='text-xs sm:text-xl text-gray-600'>
                 {day.dayLatinShort}
               </span>
             </div>
@@ -214,7 +214,7 @@ function PersianCalendar() {
             const gregorianDay = convertToGregorianDay(
               currentYear,
               currentMonth,
-              day,
+              day
             );
             return (
               <div
@@ -233,7 +233,7 @@ function PersianCalendar() {
             );
           })}
         </div>
-        <div className="mr-4">
+        <div className='mr-4 flex-none'>
           <MyModal />
         </div>
       </div>
