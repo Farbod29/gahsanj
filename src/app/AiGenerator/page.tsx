@@ -18,15 +18,15 @@ const AiGenerator = () => {
   };
 
   return (
-    <main className='flex flex-col items-center justify-between p-4 bg-[#333863] min-h-screen '>
-      <div className='flex flex-col items-center justify-start flex-grow mt-40'>
+    <main className='flex flex-col items-center justify-between p-4 bg-[#333863] min-h-screen overflow-hidden'>
+      <div className='flex flex-col items-center justify-start flex-grow mt-20 flex-shrink-0'>
         <Image
           src={'/assets/LogoMobile.png'}
           alt='AI Generator'
-          width={150} // Adjusted width for larger logo
-          height={150} // Adjusted height for larger logo
+          width={150}
+          height={150}
         />
-        <h1 className='text-white text-lg mb-6 mt-12 text-center' dir='rtl'>
+        <h1 className='text-white text-lg mb-6 mt-6 text-center' dir='rtl'>
           در اینجا میتوانید برگه روزشمار
           <br />
           با گاهشمار و پس زمینه انتخابی خود را بسازید
@@ -34,7 +34,7 @@ const AiGenerator = () => {
       </div>
       <Link href='/PhoneAppGahshomar' legacyBehavior passHref>
         <button
-          className='bg-[#FF8200] text-white py-5 px-32 rounded-lg mb-20'
+          className='bg-[#FF8200] text-white py-3 px-20 rounded-lg mb-12 flex-shrink-0'
           dir='rtl'
         >
           شروع کن

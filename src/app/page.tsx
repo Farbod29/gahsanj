@@ -52,3 +52,5 @@ const Home = () => {
 };
 
 export default Home;
+
+// Add the following CSS styles to your global stylesheet or within a CSS module

@@ -124,37 +124,11 @@ const Occasions: React.FC = () => {
 
   return (
     <div className='bg-[#333863]  flex flex-col items-center justify-center pt-1 pb-12'>
-      {/* <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
-        <button
-          onClick={() =>
-            updateMonth(
-              (monthNames.indexOf(currentMonthName) + 1 + monthNames.length) %
-                monthNames.length
-            )
-          }
-          className='text-4xl md:text-5xl'
-        >
-          &lt;
-        </button>
-        <h1>فراخورهای ماه {currentMonthName}</h1>
-        <button
-          onClick={() =>
-            updateMonth(
-              (monthNames.indexOf(currentMonthName) - 1 + monthNames.length) %
-                monthNames.length
-            )
-          }
-          className='text-4xl md:text-5xl'
-        >
-          &gt;
-        </button>
-      </div> */}
-
       {loading ? (
         <div className='mt-10 text-center text-white'>Loading...</div>
       ) : (
         <div
-          className='bg-[#333863] grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-1 mt:p-1'
+          className='bg-[#333863] grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-1 mt:p-1'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event) => {
@@ -172,28 +146,17 @@ const Occasions: React.FC = () => {
                   isToday
                     ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
                     : 'bg-[#FFFFFF]'
-                } shadow-md rounded-lg p-2 text-center`}
-                style={{ width: '100%', maxWidth: '200px', height: '125px' }} // Adjusted maxWidth to 350px
+                } shadow-md rounded-lg p-2 text-center sm:max-w-[150px] sm:h-[100px] md:max-w-[200px] md:h-[125px]`}
               >
-                <div className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl:2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7 '>
-                  {isValidUrl(logo) && (
-                    <Image
-                      src={logo}
-                      alt='Logo Of the Day'
-                      width={50} // Default width
-                      height={50} // Default height
-                      className='w-[30px] h-full sm-logo:w-[20px] sm-logo:h-[20px] sm-logo:h-[20px]' // Make logo smaller at 572px breakpoint
-                      layout='responsive'
-                    />
-                  )}
-                </div>
                 <div className='flex flex-col items-center justify-center'>
                   <span
-                    className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'} text-center`}
+                    className={`text-3xl sm:text-3xl font-bold ${
+                      isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'
+                    } text-center`}
                   >
                     {toPersianNum(event.DayNumber.toString())}
                   </span>
-                  <span className='text-[#CAB9B9] text-sm sm:text-lg '>
+                  <span className='text-[#CAB9B9] text-sm sm:text-lg'>
                     {toPersianNum(currentMonthName)}
                   </span>
                   <div
@@ -220,7 +183,7 @@ const Occasions: React.FC = () => {
                     style={{ height: '32px', position: 'relative' }}
                   >
                     <div
-                      className={`text-[#2a5b71] B14-SE1 absluteEnmonth} ${
+                      className={`text-[#2a5b71] B14-SE1 absluteEnmonth ${
                         isToday ? 'text-white ' : 'text-[#2a5b71]'
                       }  p-2 text-center`}
                     >
