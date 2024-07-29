@@ -36,7 +36,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           name='description'
           content={metadata.description || 'Default Description'}
         />
-        {/* Add other meta tags here as needed */}
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+        <link
+          href='https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap'
+          rel='stylesheet'
+        />
       </Head>
       <body className='Hamishe min-h-screen flex flex-col'>
         <main className='flex-grow'>{children}</main>
