@@ -19,12 +19,13 @@ const Box: React.FC<BoxProps> = ({ text, iconSrc, altText, onClick, link }) => {
   const { height } = useWindowDimensions();
 
   let boxHeight = 'h-16';
-  let iconSize = 'w-8 h-8';
+  let iconSize = 'w-9 h-9';
   let textSize = 'text-sm';
+  let boxWidth = 'w-full';
 
   if (height >= 667) {
     boxHeight = 'h-20';
-    iconSize = 'w-9 h-9';
+    iconSize = 'w-10 h-10';
     textSize = 'text-base';
   }
   if (height >= 844) {
@@ -34,13 +35,13 @@ const Box: React.FC<BoxProps> = ({ text, iconSrc, altText, onClick, link }) => {
   }
   if (height >= 896) {
     boxHeight = 'h-28';
-    iconSize = 'w-12 h-12';
+    iconSize = 'w-14 h-14';
     textSize = 'text-xl';
   }
 
   const content = (
     <div
-      className={`bg-[#7F84B4] rounded-xl p-2 text-white flex items-center justify-between ${boxHeight} gap-x-4`}
+      className={`bg-[#7F84B4] rounded-xl p-2 text-white flex items-center justify-between ${boxHeight} ${boxWidth} gap-x-4`}
       onClick={onClick}
     >
       <div className={`flex items-center ${iconSize} pl-4`}>
@@ -74,8 +75,8 @@ const ExtraTools = () => {
   };
 
   return (
-    <main className='flex flex-col items-center min-h-screen px-2 py-3 bg-[#333863] overflow-hidden'>
-      <div className='w-full max-w-md space-y-3 py-3 p-2'>
+    <main className='flex flex-col items-center min-h-screen h-screen overflow-hidden px-2 py-3 bg-[#333863]'>
+      <div className='w-full max-w-md space-y-3 py-3 p-2 flex flex-col flex-grow'>
         <Box
           text='تماس با گاه‌شمار'
           iconSrc='/assets/contact.png'
@@ -108,14 +109,14 @@ const ExtraTools = () => {
         />
 
         <div
-          className='flex flex-col items-center justify-start flex-grow mt-8'
+          className={`flex flex-col items-center justify-start flex-grow mt-8 w-full`}
           onClick={() => handleOpenModal('گاه نامه')}
         >
           <Image
             src={'/assets/gahname.png'}
             alt='گاه نامه'
-            width={300}
-            height={100}
+            width={400}
+            height={400}
             className='md:w-[320px] md:h-[120px] lg:w-[370px] lg:h-[150px] xl:w-[400px] xl:h-[170px]'
           />
         </div>
