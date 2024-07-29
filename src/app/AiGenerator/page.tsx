@@ -34,7 +34,7 @@ const AiGenerator = () => {
       </div>
       <Link href='/PhoneAppGahshomar' legacyBehavior passHref>
         <button
-          className='bg-[#FF8200] text-white py-3 px-20 rounded-lg mb-12 flex-shrink-0'
+          className='bg-[#FF8200] text-white py-3 px-20 rounded-lg mb-36 flex-shrink-0'
           dir='rtl'
         >
           شروع کن

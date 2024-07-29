@@ -84,7 +84,7 @@ const ClocksPageMobile = () => {
           <div className='flex flex-col items-center mb-4' key={index}>
             {/* Analog clock */}
             <div
-              className='flex items-center justify-center rounded-full border-8 border-[#272626] bg-white mb-2'
+              className='flex items-center justify-center rounded-full border-8 border-[#a6a6a6] bg-white mb-2'
               style={{
                 width: `${containerSize}px`,
                 height: `${containerSize}px`,

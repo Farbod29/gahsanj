@@ -19,22 +19,22 @@ const Box: React.FC<BoxProps> = ({ text, iconSrc, altText, onClick, link }) => {
   const { height } = useWindowDimensions();
 
   let boxHeight = 'h-16';
-  let iconSize = 'w-8 h-8';
+  let iconSize = 'w-10 h-10';
   let textSize = 'text-sm';
 
   if (height >= 667) {
     boxHeight = 'h-20';
-    iconSize = 'w-10 h-10';
+    iconSize = 'w-14 h-14';
     textSize = 'text-base';
   }
   if (height >= 844) {
     boxHeight = 'h-24';
-    iconSize = 'w-12 h-12';
+    iconSize = 'w-16 h-16';
     textSize = 'text-lg';
   }
   if (height >= 896) {
     boxHeight = 'h-28';
-    iconSize = 'w-12 h-12';
+    iconSize = 'w-16 h-16';
     textSize = 'text-xl';
   }
 

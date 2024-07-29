@@ -15,47 +15,63 @@ const MyModal: React.FC = () => {
 
   return (
     <div>
-      <button onClick={openModal} className="text-xs">
+      <button onClick={openModal} className='text-xs'>
         ⓘ راهنما
       </button>
       <Dialog
         open={isOpen}
         onClose={closeModal}
-        className="fixed inset-0 z-10 overflow-y-auto"
+        className='fixed inset-0 z-10 overflow-y-auto'
       >
-        <div className="min-h-screen px-4 text-center">
+        <div className='min-h-screen px-4 text-center'>
           {/* This element is to trick the browser into centering the modal contents. */}
           <span
-            className="inline-block h-screen align-middle"
-            aria-hidden="true"
+            className='inline-block h-screen align-middle'
+            aria-hidden='true'
           ></span>
 
           <div
-            className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-right align-middle transition-all transform bg-white shadow-xl rounded-2xl"
-            dir="rtl"
+            className='relative inline-block w-full max-w-md p-6 my-8 overflow-hidden text-right align-middle transition-all transform bg-white shadow-xl rounded-2xl'
+            dir='rtl'
           >
+            <button
+              type='button'
+              className='absolute top-2 left-2 text-gray-400 hover:text-gray-600 text-3xl'
+              onClick={closeModal}
+            >
+              &times;
+            </button>
             <Dialog.Title
-              as="h3"
-              className="text-lg font-medium leading-6 text-gray-900"
+              as='h3'
+              className='text-lg font-medium leading-6 text-gray-900'
             >
               نام روزهای هفته از کجا آمده است؟
             </Dialog.Title>
-            <div className="mt-2">
-              <p className="text-sm text-gray-500 ">
+            <div className='mt-2'>
+              <p className='text-sm text-gray-500 '>
                 <br />
-                <h2 className=" font-medium leading-6 text-gray-900">
+                <h2 className=' font-medium leading-6 text-gray-900'>
                   دوشنبه: مه روز - مهروز:
                 </h2>
-                <p className="text-justify text-right leading-relaxed">
+                <p className='text-justify text-right leading-relaxed'>
+                  نام روز های اول هفته سغدی ها (قومی ایرانی در نواحی تاجیکستان
+                  کنونی) طبق گزارش بیرونی به نگارش هننیگ Henning (1939, p. 94).
+                  از آیین مهری بوده وکمتر از تقویم سی روزه ساسانیان تاثییر
+                  داشته. روز یکشنبه کنونی را مهر زمانه (میهر جمان) مینامیدند. به
+                  دوشنبه ، مان شمانجیر میگفتند. مان در ایران شرقی همان ماه است.
+                  در واقع در زبان انگلیسی از واژه اوستایی مان استفاده کرده برای
+                  روز دو شنبه، مان دی.
+                </p>
+                <p className='text-justify text-right leading-relaxed'>
                   این روز نیز بر گرفته از آین میترائیسم یا مهر پرستی است و به
                   طور کلی مهر و ماه و خورروز از عوامل قدرت وصلابت در آئین
                   مهرپرستی به جساب می آیند.
                 </p>
                 <br />
-                <h2 className=" font-medium leading-6 text-gray-900">
+                <h2 className=' font-medium leading-6 text-gray-900'>
                   سه شنبه, بهرام روز:
                 </h2>
-                <p className="text-justify text-right leading-relaxed">
+                <p className='text-justify text-right leading-relaxed'>
                   همچنان کلمه «روز» به مهنای نور و روشنایی است بهرام علاوه بر
                   اینکه یکی از سیاره های منظومه شمسی است یکی از ایزدان ایران
                   باستان نیز به حساب می آید «بهرام» خدای جنگ و پیروزی است و به
@@ -65,10 +81,10 @@ const MyModal: React.FC = () => {
                 </p>
                 <p>
                   <br />
-                  <h2 className=" font-medium leading-6 text-gray-900">
+                  <h2 className=' font-medium leading-6 text-gray-900'>
                     چهارشنبه: تیر روز:
                   </h2>
-                  <p className="text-justify text-right leading-relaxed">
+                  <p className='text-justify text-right leading-relaxed'>
                     تیر برگرفته از تیشتر در زبان پهلوی است. ستاره تیشتر مهم ترین
                     ستاره ایران باستان استژ نیاکان ما ایزد تیر راخدای محافظ
                     باران میدانستند در واقع اهورا مزدا به «تیر» فرمان میداد تا
@@ -79,19 +95,19 @@ const MyModal: React.FC = () => {
                     ستاره شباهنگ ( تيشتر ـ سیریوس ).
                   </p>
                   <a
-                    href="https://www.youtube.com/watch?v=XFguDZXoFJA"
-                    className="text-blue-600"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href='https://www.youtube.com/watch?v=XFguDZXoFJA'
+                    className='text-blue-600'
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
                     Video Link
                   </a>
                   <br />
                   <br />
-                  <h2 className="font-medium leading-6 text-gray-900">
+                  <h2 className='font-medium leading-6 text-gray-900'>
                     پنجشنبه: اورمزد روز:
                   </h2>
-                  <p className="text-justify text-right leading-relaxed">
+                  <p className='text-justify text-right leading-relaxed'>
                     اورمزد روز در واقع همان اهورا مزدا است و روز پنجشنبه را به
                     نام اهورا مزدا نامگذاری کردند اَهورامَزدا (به اوستایی:
                     «مَزدا اَهورَه») (و نیز با نام‌های: اهورا، اورمَزد، هورمَزد،
@@ -104,7 +120,7 @@ const MyModal: React.FC = () => {
                     است.
                   </p>
                   <br />
-                  <p className="text-xxxxs">
+                  <p className='text-xxxxs'>
                     نگاه کنید به اوستا، یسنا ۲۸،
                     <br />
                     بندِ یکم کانون اروپایی برای آموزش جهان بینی زرتشت
@@ -112,10 +128,10 @@ const MyModal: React.FC = () => {
                     Williams, Zoroastrianism.
                   </p>
                   <br />
-                  <h2 className="font-medium leading-6 text-gray-900">
+                  <h2 className='font-medium leading-6 text-gray-900'>
                     جمعه (آدینه) : ناهید روز, زهره:
                   </h2>
-                  <p className="text-justify text-right leading-relaxed">
+                  <p className='text-justify text-right leading-relaxed'>
                     منظور از الهه ناهید در واقع همان آناهیتا است که خداوند آب
                     است و همچنین میخواهد آب را به عنوان نمادی از لطف پروردگار در
                     نظر بیآورد اما ما در هر ماه از سال جشنهای باستانی داریم یعنی
@@ -127,10 +143,10 @@ const MyModal: React.FC = () => {
                     نزدیک‌ترین فاصله را با مدار زمین را دارد.
                   </p>
                   <br />
-                  <h2 className="font-medium leading-6 text-gray-900">
+                  <h2 className='font-medium leading-6 text-gray-900'>
                     شنبه یا کیوان روز:
                   </h2>
-                  <p className="text-justify text-right leading-relaxed">
+                  <p className='text-justify text-right leading-relaxed'>
                     در فرهنگ پارسی، نامگذاری روزهای هفته با اساطیر و نجوم پیوند
                     خورده است&nbsp;: شنبه به کیوان روز معروف است، زیرا کیوان، که
                     در فرهنگ غربی به آن زحل گفته می‌شود، پس از مشتری بزرگترین
@@ -142,11 +158,11 @@ const MyModal: React.FC = () => {
                   </p>
 
                   <br />
-                  <h2 className="font-medium leading-6 text-gray-900">
+                  <h2 className='font-medium leading-6 text-gray-900'>
                     یکشنبه: مهر روز :
                   </h2>
 
-                  <p className="text-justify text-right leading-relaxed">
+                  <p className='text-justify text-right leading-relaxed'>
                     : یکشنبه، روزی است که به ایزد مهریا خورروز نامگذاری شده،
                     ایزدی که نماد عهد و پیمان و راستی در فرهنگ ایران باستان بود.
                     مهرپرستی یا میترائیسم، آیینی باستانی است که ریشه‌های عمیقی
@@ -161,20 +177,32 @@ const MyModal: React.FC = () => {
                   </p>
                 </p>
                 <br />
-                <p className="text-xxxxs">
+                <p className='text-xxxxs'>
                   سرچشمه ها: محمود روح‌الامینی
                   <br />
                   انتشارات آگاه سال چاپ یک سال پیش از ایران نو ،
                   <br /> شومیز رقعی ۲۰۷ صفحه گردآوری فرهاد درخشان
                   <br />
+                  Abu Rayhān Biruni, al-Āṯār-al bāqiā ʿan al-qorun al-ḵālia, ed.
+                  C. E. Sachau, repr. Leipzig, 1923; tr. C. E. Sachau, The
+                  Chronology of the Ancient Nations, London, 1879; repr.
+                  Frankfurt, 1969; Pers. tr. A. Dānā Serešt, Tehran, 1973. ایلیا
+                  <br />
+                  گرشویچ ؛ کوشش علمی برای شناخت زبان‌های اوستایی 6.2 /ā∂ēnē/
+                   آدینه نیز یک واژه امانتی از پارسی میانه است که در روزه های
+                  مانوی (هنینگ، 1945) برای ناهید روز (جمعه) با املای مختلف نوشته
+                  شده است (ʾʾdynʾh: p. 141, no. 1.4.14; ʾʾdyng: p. 151.15"
+                  کوندرا و همکاران، 1997، ص 197). (Gharib, 1998, p. 11).
+                  (Henning, 1945, p. 154, No. 5):
+                  https://www.iranicaonline.org/articles/hafta-week-history-of-the-weeky-calendar-in-iran-1
                 </p>
               </p>
             </div>
 
-            <div className="mt-4">
+            <div className='mt-4'>
               <button
-                type="button"
-                className="inline-flex justify-end px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                type='button'
+                className='inline-flex justify-end px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'
                 onClick={closeModal}
               >
                 بستن
