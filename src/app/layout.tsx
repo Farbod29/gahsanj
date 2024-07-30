@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           content={metadata.description || 'Default Description'}
         />
         <link rel='preconnect' href='https://fonts.googleapis.com' />
-        <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+
         <link
           href='https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap'
           rel='stylesheet'

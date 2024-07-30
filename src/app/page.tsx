@@ -24,18 +24,13 @@ const Home = () => {
 
   const handleScroll = () => {
     if (occasionsRef.current) {
-      const scrollTop = occasionsRef.current.scrollTop;
-      setIsScrolled(scrollTop > 0);
     }
   };
 
   useEffect(() => {
     const occasionsEl = occasionsRef.current;
     if (occasionsEl) {
-      occasionsEl.addEventListener('scroll', handleScroll);
-      return () => {
-        occasionsEl.removeEventListener('scroll', handleScroll);
-      };
+      return () => {};
     }
   }, []);
 
