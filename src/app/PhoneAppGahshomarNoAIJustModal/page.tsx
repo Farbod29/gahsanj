@@ -218,7 +218,7 @@ export default function Home() {
 
   const openModal = (title, line1, line2, yearType) => {
     const description = getDescription(yearType);
-    setModalContent({ title, line1, line2, description });
+    setModalContent({ title, line1, line2 });
     setModalIsOpen(true);
   };
   // Helper component for rendering tabs
@@ -541,10 +541,10 @@ export default function Home() {
   return (
     <main className='flex min-h-screen w-full flex-col items-center bg-[#333863] px-2 sm:px-4 md:px-2 pb-14'>
       <div className='w-full max-w-4xl mx-auto p-3 pb-1'>
-        <h1 className='text-center m- text-sm text-white p-2 pb-2'>
+        <h1 className='text-center text-sm text-white p-2 pb-2'>
           برای دریافت فرتور امروز، گاهشماری خود را انتخاب کنید
         </h1>
-        {/* // 'iran-nov' ============ مهرروز (دوشنبه) ،۱  اَمُرداد سال ۷ ایران نو =========== > 'ایران نو',  */}
+        {/* 'iran-nov' ============ مهرروز (دوشنبه) ،۱  اَمُرداد سال ۷ ایران نو =========== > 'ایران نو',  */}
         <div className='w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-2 md:space-y-0 md:space-x-4'>
           <button
             key='iran-nov'
@@ -552,7 +552,8 @@ export default function Home() {
               openModal(
                 'ایران نو',
                 `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-                `سال\u2003${toPersianNums(convertToIraniMelliYear(today))}\u2003 ایران نو`
+                `سال\u2003${toPersianNums(convertToIraniMelliYear(today))}\u2003 ایران نو`,
+                'ilamxxxxxxxi'
               )
             }
             className='bg-[#FFFFFF] p-1.5 rounded-xl cursor-pointer hover:bg-[#dce4ff]'
@@ -570,79 +571,75 @@ export default function Home() {
         </div>
 
         <div className='w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-2 md:space-y-0 md:space-x-4'>
-  <button
-    key='ilami'
-    onClick={() =>
-      openModal(
-        'عیلامی',
-        `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-        `سال\u2003${toPersianNums(convertToIlamiYear(today))}\u2003 عیلامی`,
-        'ilami'
-      )
-    }
-  >
-    <div className='bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0 md:ml-0'>
-      <p className='text-sm md:text-lg lg:text-sm text-[#1C39BB] text-center mt-1'>
-        {dates.ilami}
-      </p>
-      <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
-        عیلامی
-      </p>
-      <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
-        {getTodayPersianName()}
-      </p>
-    </div>
-  </button>
+          <button
+            key='ilami'
+            onClick={() =>
+              openModal(
+                'عیلامی',
+                `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                `سال\u2003${toPersianNums(convertToIlamiYear(today))}\u2003 عیلامی`,
+                'ilami'
+              )
+            }
+            className='bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0 md:ml-0'
+          >
+            <p className='text-sm md:text-lg lg:text-sm text-[#1C39BB] text-center mt-1'>
+              {dates.ilami}
+            </p>
+            <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
+              عیلامی
+            </p>
+            <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
+              {getTodayPersianName()}
+            </p>
+          </button>
 
-  <button
-    key='zoroastrian'
-    onClick={() =>
-      openModal(
-        'زرتشتی',
-        `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-        `سال\u2003${toPersianNums(convertToZoroastrianYear(today))}\u2003 زرتشتی`,
-        'zoroastrian'
-      )
-    }
-  >
-    <div className='bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0 md:ml-0'>
-      <p className='text-sm md:text-lg lg:text-sm text-[#1C39BB] text-center mt-1'>
-        {dates.zoroastrianYear}
-      </p>
-      <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
-        زرتشتی
-      </p>
-      <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
-        {getTodayZaratustrianName()}
-      </p>
-    </div>
-  </button>
+          <button
+            key='zoroastrian'
+            onClick={() =>
+              openModal(
+                'زرتشتی',
+                `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                `سال\u2003${toPersianNums(convertToZoroastrianYear(today))}\u2003 زرتشتی`,
+                'zoroastrian'
+              )
+            }
+            className='bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0 md:ml-0'
+          >
+            <p className='text-sm md:text-lg lg:text-sm text-[#1C39BB] text-center mt-1'>
+              {dates.zoroastrianYear}
+            </p>
+            <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
+              زرتشتی
+            </p>
+            <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
+              {getTodayZaratustrianName()}
+            </p>
+          </button>
 
-  <button
-    key='pahlavi'
-    onClick={() =>
-      openModal(
-        'پادشاهی',
-        `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-        `سال\u2003${toPersianNums(convertToPahlaviYear(today))}\u2003 پادشاهی`,
-        'pahlavi'
-      )
-    }
-  >
-    <div className='bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0'>
-      <p className='text-sm md:text-lg lg:text-sm text-[#1C39BB] text-center mt-1'>
-        {dates.pahlaviYear}
-      </p>
-      <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
-        (پادشاهی) هخامنشی
-      </p>
-      <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
-        {getTodayPersianName()}
-      </p>
-    </div>
-  </button>
-</div>
-        </Modal>
+          <button
+            key='pahlavi'
+            onClick={() =>
+              openModal(
+                'پادشاهی',
+                `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                `سال\u2003${toPersianNums(convertToPahlaviYear(today))}\u2003 پادشاهی`,
+                'pahlavi'
+              )
+            }
+            className='bg-[#FFFFFF] p-1.5 rounded-xl flex-1 cursor-pointer hover:bg-[#dce4ff] mt-2 md:mt-0'
+          >
+            <p className='text-sm md:text-lg lg:text-sm text-[#1C39BB] text-center mt-1'>
+              {dates.pahlaviYear}
+            </p>
+            <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
+              (پادشاهی) هخامنشی
+            </p>
+            <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
+              {getTodayPersianName()}
+            </p>
+          </button>
+        </div>
       </div>
     </main>
   );
