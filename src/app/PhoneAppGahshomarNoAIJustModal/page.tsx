@@ -481,13 +481,14 @@ export default function Home() {
       <div>
         <h1 className='text-xl font-bold mb-4'>ایلامی</h1>
         <p className='text-lg mb-4'>
-          گاه‌شمار (عیلامی) ایلامی یکی از قدیمی‌ترین گاه‌شمارهای ایرانی است که
-          در دوران ایلام باستان (حدود 3200 تا 539 قبل از میلاد) مورد استفاده
-          قرار می‌گرفت. ایلامیان که یکی از تمدن‌های باستانی در جنوب غربی ایران
-          بودند، از این گاه‌شمار برای تعیین تاریخ و زمان استفاده می‌کردند.
+          گاه‌شمارایلامی یکی از قدیمی‌ترین گاه‌شمارهای ایرانی است که در دوران
+          ایلام باستان (حدود 3200 تا 539 قبل از میلاد) مورد استفاده قرار
+          می‌گرفت. ایلامیان که یکی از تمدن‌های باستانی در جنوب غربی ایران بودند،
+          از این گاه‌شمار برای تعیین تاریخ و زمان استفاده می‌کردند.
           <br />
-          آقای دکتر عبدالمجید ارفعی: «ایلام را نباید با «ع» نوشت بلکه باید با
-          «الف» .نوشت، زیرا در زبان ایلامی «ع» نداریم.
+          از دیدگاه دکتر مجید ارفعی آقای دکتر عبدالمجید ارفعی باستان شناس و
+          مترجم زبان های اکدی: «ایلام را نباید با «ع» نوشت بلکه باید با «الف»
+          .نوشت، زیرا در زبان ایلامی «ع» نداریم.
         </p>
 
         <h2 className='text-3xl font-semibold mt-6 mb-2 '>
@@ -611,7 +612,7 @@ export default function Home() {
           <li className='text-lg text-left' dir='ltr'>
             Alden, J. R., & Mince, L. (2016). `Itinerant potters and the
             transmission of ceramic technologies and styles during the
-            Proto-Elamite period in Iran``. Journal of Archaeological Science:
+            Proto-Elamite period in Iran`. Journal of Archaeological Science:
             Reports, 5, 471-481.
           </li>
         </ul>

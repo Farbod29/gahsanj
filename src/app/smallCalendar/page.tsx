@@ -29,14 +29,14 @@ function toPersianNums(numString: string) {
 
 // Get the Persian name of today
 const getTodayPersianName = (): string => {
-  const persianWeekDays: string[] = [
-    '(دوشنبه) مهروز',
-    '(سه‌شنبه)  بهرامروز',
-    '(چهار‌شنبه) تیرروز',
-    '(پنج‌شنبه) مزدروز',
-    'ناهیدروز (آدینه) ',
-    '(شنبه)  کیوان',
-    '(یک‌شنبه) مهر',
+  const persianWeekDays = [
+    'مهر روز  / یکشنبه',
+    'مه روز / دوشنبه',
+    'بهرام روز / سه‌شنبه',
+    'تیر روز / چهارشنبه',
+    'اورمزد روز / پنج‌شنبه',
+    'ناهید روز / جمعه',
+    'تیرشید روز / شنبه',
   ];
   const today = new Date();
   type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
