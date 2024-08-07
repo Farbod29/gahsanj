@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Icon from '../FooterIcons/FooterIcons';
+import { useState } from 'react';
 
 const Footer = () => {
   const pathname = usePathname();
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const buttons = [
     { path: '/', label: '', icon: 'home' },
@@ -14,6 +16,24 @@ const Footer = () => {
     { path: '/AiGenerator', label: '', icon: 'AiGenerator' },
     { path: '/ExtraTools', label: '', icon: 'ExtraTools' },
   ];
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(
+          `Error attempting to enable full-screen mode: ${err.message}`
+        );
+      });
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen().catch((err) => {
+        console.error(
+          `Error attempting to disable full-screen mode: ${err.message}`
+        );
+      });
+      setIsFullscreen(false);
+    }
+  };
 
   return (
     <footer className='fixed bottom-0 w-full p-4 flex justify-around bg-[#373D70]'>
@@ -38,6 +58,16 @@ const Footer = () => {
           </span>
         </Link>
       ))}
+      <button
+        onClick={toggleFullscreen}
+        className='flex flex-col items-center text-white'
+      >
+        <Icon
+          name={isFullscreen ? 'exit_fullscreen' : 'fullscreen'}
+          className='w-6 h-6'
+        />
+        <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
+      </button>
     </footer>
   );
 };

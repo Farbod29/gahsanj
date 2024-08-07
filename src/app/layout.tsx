@@ -36,8 +36,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           name='description'
           content={metadata.description || 'Default Description'}
         />
+        <meta name='theme-color' content='#4c5494' />
+        <meta name='msapplication-navbutton-color' content='#4c5494' />
+        <meta name='apple-mobile-web-app-status-bar-style' content='#4c5494' />
         <link rel='preconnect' href='https://fonts.googleapis.com' />
-
         <link
           href='https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap'
           rel='stylesheet'
