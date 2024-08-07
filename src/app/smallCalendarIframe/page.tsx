@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import jalaali from 'jalaali-js';
 import MyModal from '@/components/modalInfoCalendar/modalInfoCalendar';
+import ModalAlert from '@/components/ModalAlert/ModalAlert';
 
 // Helper function to convert numbers to Persian
 const toPersianDigits = (num) => {
@@ -75,6 +76,8 @@ function PersianCalendar() {
 
   // Current date states
   const today = new Date();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const [currentMonth, setCurrentMonth] = useState(jalaali.toJalaali(today).jm);
   const [currentYear, setCurrentYear] = useState(jalaali.toJalaali(today).jy);
   const NameOfTheDay = getTodayPersianName();
@@ -243,6 +246,12 @@ function PersianCalendar() {
               );
             })}
           </div>
+          <ModalAlert
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          >
+            <p>{modalMessage}</p>
+          </ModalAlert>
           <div className='flex justify-between items-end mt-3 mr-80'>
             <div className='flex justify-between items-center mt-4'>
               {/* <button
@@ -268,9 +277,10 @@ function PersianCalendar() {
                   currentMonth === jalaali.toJalaali(today).jm &&
                   currentYear === jalaali.toJalaali(today).jy
                 ) {
-                  alert(
+                  setModalMessage(
                     `شما همینک نیز در ماه ${jalaaliMonths[currentMonth - 1]} ${jalaali.toJalaali(today).jy} هستید.`
                   );
+                  setIsModalOpen(true);
                 } else {
                   resetToCurrentMonth();
                 }

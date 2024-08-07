@@ -8,8 +8,7 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      // IranNastaliq: ['var(--font-IranNastaliq)'],
-      hamishe: ['Hamishe', 'sans-serif'], // Existing font configuration
+      hamishe: ['Hamishe', 'sans-serif'],
     },
     extend: {
       backgroundImage: {
@@ -18,21 +17,23 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       fontSize: {
-        xxxxs: '0.4rem', // Custom extra extra extra small font size
-        verysmall: '0.5rem', // Custom extra extra extra small font size
+        xxxxs: '0.4rem',
+        verysmall: '0.5rem',
       },
       spacing: {
-        '0.1': '1.3325rem', // for very fine adjustments
-        '3': '0.575rem', // you can add more as needed
+        '0.1': '1.3325rem',
+        '3': '0.575rem',
       },
       screens: {
-        xs: '430px', // Custom breakpoint for 430px wide screens
-        xm: '375px', // Custom breakpoint for iPhone SE and similar devices
-        se: '375px', // targeting iPhone SE specifically
-        'h-md': { raw: '(min-height: 667px)' }, // Example for iPhone SE and similar
-        'h-lg': { raw: '(min-height: 844px)' }, // Example for iPhone 12 Pro and similar
-        'h-xl': { raw: '(min-height: 896px)' }, // Example for even larger screens
-        iphone14: '430px', // targeting iPhone 14 specifically
+        xs: '430px',
+        xm: '375px',
+        se: '375px',
+        'h-md': { raw: '(min-height: 667px)' },
+        'h-lg': { raw: '(min-height: 844px)' },
+        'h-xl': { raw: '(min-height: 896px)' },
+        iphone14: '430px',
+        ipad: '768px',
+        ipadair: '820px',
       },
     },
   },

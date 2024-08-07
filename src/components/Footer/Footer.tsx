@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Icon from '../FooterIcons/FooterIcons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Footer = () => {
   const pathname = usePathname();
@@ -34,6 +34,25 @@ const Footer = () => {
       setIsFullscreen(false);
     }
   };
+
+  useEffect(() => {
+    const requestFullscreen = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch((err) => {
+          console.error(
+            `Error attempting to enable full-screen mode: ${err.message}`
+          );
+        });
+      }
+    };
+
+    // Add an event listener to request full-screen mode on user interaction
+    document.addEventListener('click', requestFullscreen);
+
+    return () => {
+      document.removeEventListener('click', requestFullscreen);
+    };
+  }, []);
 
   return (
     <footer className='fixed bottom-0 w-full p-4 flex justify-around bg-[#373D70]'>

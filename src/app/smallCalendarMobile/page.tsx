@@ -1,10 +1,11 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import jalaali from 'jalaali-js';
 import MyModal from '@/components/modalInfoCalendar/modalInfoCalendar';
+import ModalAlert from '@/components/ModalAlert/ModalAlert';
 
 // Helper function to convert numbers to Persian
-const toPersianDigits = (num: number) => {
+const toPersianDigits = (num) => {
   const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return String(num)
     .split('')
@@ -13,7 +14,7 @@ const toPersianDigits = (num: number) => {
 };
 
 // Mapping Gregorian weekdays to Jalaali weekdays
-const gregorianToJalaaliWeekDayMap: { [key: number]: number } = {
+const gregorianToJalaaliWeekDayMap = {
   0: 6,
   1: 0,
   2: 1,
@@ -22,14 +23,15 @@ const gregorianToJalaaliWeekDayMap: { [key: number]: number } = {
   5: 4,
   6: 5,
 };
-function toPersianNums(numString: string) {
+
+function toPersianNums(numString) {
   const persianNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
 }
 
 // Get the Persian name of today
-const getTodayPersianName = (): string => {
-  const persianWeekDays: string[] = [
+const getTodayPersianName = () => {
+  const persianWeekDays = [
     '(دوشنبه) مهروز',
     '(سه‌شنبه)  بهرامروز',
     '(چهار‌شنبه) تیرروز',
@@ -39,18 +41,24 @@ const getTodayPersianName = (): string => {
     '(یک‌شنبه) مهر',
   ];
   const today = new Date();
-  type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-  const dayOfWeek: WeekDay = today.getDay() as WeekDay;
+  const dayOfWeek = today.getDay();
   return persianWeekDays[gregorianToJalaaliWeekDayMap[dayOfWeek]];
 };
 
 // Convert to the Iranian year
-
-function convertToIraniMelli(date: Date) {
+function convertToIraniMelli(date) {
   const { jy, jm, jd } = jalaali.toJalaali(date);
   const iraniMelli = jy - 1396;
   return toPersianNums(
-    `${iraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+    `${iraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
+  );
+}
+
+function convertToPahlavi(date) {
+  const { jy, jm, jd } = jalaali.toJalaali(date);
+  const pYear = jy + 1180;
+  return toPersianNums(
+    `${pYear}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
   );
 }
 
@@ -68,13 +76,16 @@ function PersianCalendar() {
 
   // Current date states
   const today = new Date();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const [currentMonth, setCurrentMonth] = useState(jalaali.toJalaali(today).jm);
   const [currentYear, setCurrentYear] = useState(jalaali.toJalaali(today).jy);
   const NameOfTheDay = getTodayPersianName();
   const IraniMelli = convertToIraniMelli(today);
+  const padeshahi = convertToPahlavi(today);
 
   // Function to generate the days of the current month
-  const generateMonthDays = (year: number, month: number) => {
+  const generateMonthDays = (year, month) => {
     const daysInMonth = jalaali.jalaaliMonthLength(year, month);
     return Array.from({ length: daysInMonth }, (_, i) => i + 1);
   };
@@ -97,21 +108,24 @@ function PersianCalendar() {
     }
   };
 
+  // Reset function
+  const resetToCurrentMonth = () => {
+    const today = new Date();
+    setCurrentMonth(jalaali.toJalaali(today).jm);
+    setCurrentYear(jalaali.toJalaali(today).jy);
+  };
+
   // Convert Jalaali date to Gregorian day
-  const convertToGregorianDay = (
-    jalaaliYear: number,
-    jalaaliMonth: number,
-    jalaaliDay: number,
-  ) => {
+  const convertToGregorianDay = (jalaaliYear, jalaaliMonth, jalaaliDay) => {
     const gregorianDate = jalaali.toGregorian(
       jalaaliYear,
       jalaaliMonth,
-      jalaaliDay,
+      jalaaliDay
     );
     return new Date(
       gregorianDate.gy,
       gregorianDate.gm - 1,
-      gregorianDate.gd,
+      gregorianDate.gd
     ).getDate();
   };
 
@@ -135,12 +149,12 @@ function PersianCalendar() {
   const firstDayOfJalaaliMonth = jalaali.toGregorian(
     currentYear,
     currentMonth,
-    1,
+    1
   );
   const firstDayDate = new Date(
     firstDayOfJalaaliMonth.gy,
     firstDayOfJalaaliMonth.gm - 1,
-    firstDayOfJalaaliMonth.gd,
+    firstDayOfJalaaliMonth.gd
   );
   const firstDayOfWeek = firstDayDate.getDay() - 1;
 
@@ -151,10 +165,11 @@ function PersianCalendar() {
   const emptySlots = Array.from({ length: offset }, (_, index) => (
     <div
       key={`empty-${index}`}
-      className=" rounded text-center p-3 text-gray-500 opacity-50"
+      className=' rounded text-center p-3 text-gray-500 opacity-50'
     ></div>
   ));
 
+  // Render the component
   // Render the component
   return (
     <main className='p-2 bg-[#333863] min-h-screen overflow-hidden flex flex-col justify-start'>
@@ -175,10 +190,10 @@ function PersianCalendar() {
               <p className='text-4xl sm:text-6xl pb-1 pt-2'>
                 {jalaaliMonths[currentMonth - 1]}
               </p>
-              <div className='flex gap-12'>
-                <p className='text-sm sm:text-xl pt-3'>{NameOfTheDay}</p>
-                <p className='text-sm sm:text-xl pt-3'>{IraniMelli}</p>{' '}
-                {/* This will now show the correct date */}
+              <div className='flex gap-1 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl'>
+                <p className='pt-1'>{NameOfTheDay}</p>
+                <p className='pt-1'>{padeshahi}</p>
+                <p className='pt-1'>{'پادشاهی'}</p>
               </div>
             </span>
             <button
@@ -197,7 +212,6 @@ function PersianCalendar() {
                 <span className='text-sm sm:text-xl text-gray-500'>
                   {day.day}
                 </span>
-                {/* <span className="text-sm sm:text-xl text-gray-500">روز</span> */}
                 <span className='text-sm sm:text-xl text-gray-500'>
                   {day.dayShort}
                 </span>
@@ -234,6 +248,51 @@ function PersianCalendar() {
               );
             })}
           </div>
+          <ModalAlert
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          >
+            <p>{modalMessage}</p>
+          </ModalAlert>
+          <div className='flex justify-between items-end mt-3 mr-80'>
+            <div className='flex justify-between items-center mt-4'>
+              {/* <button
+                onClick={resetToCurrentMonth}
+                className={`p-2 text-sm sm:text-xl rounded transition-colors duration-300 ${
+                  currentMonth === jalaali.toJalaali(today).jm &&
+                  currentYear === jalaali.toJalaali(today).jy
+                    ? 'bg-[#373D70] text-white'
+                    : 'bg-[#333863] text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
+                }`}
+              >
+                برو به امروز
+              </button> */}
+            </div>
+          </div>
+          <div
+            className='flex justify-start items-start pl-4 sm:pl-6 md:pl-8 lg:pl-10'
+            dir='ltr'
+          >
+            <button
+              onClick={() => {
+                if (
+                  currentMonth === jalaali.toJalaali(today).jm &&
+                  currentYear === jalaali.toJalaali(today).jy
+                ) {
+                  setModalMessage(
+                    `شما همینک نیز در ماه ${jalaaliMonths[currentMonth - 1]} ${jalaali.toJalaali(today).jy} هستید.`
+                  );
+                  setIsModalOpen(true);
+                } else {
+                  resetToCurrentMonth();
+                }
+              }}
+              className='ml-3 p-2 text-xs sm:text-sm rounded transition-colors duration-300 bg-[#333863] text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
+            >
+              برو به امروز
+            </button>
+          </div>
+
           <div className='mr-4 flex-none'>
             <MyModal />
           </div>

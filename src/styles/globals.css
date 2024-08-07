@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* src/styles/globals.css */
-
+/* Import custom fonts */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
 
 .fontXXX {
@@ -16,7 +15,6 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-/* Add these styles to your global stylesheet or a CSS module */
 .scroll-shadow {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
@@ -26,22 +24,20 @@
   border-color: #707070;
   background-color: transparent;
   border-style: solid;
-  border-radius: 50%; /* Ensures the element is circular */
+  border-radius: 50%;
 }
 
 .bg-pattern {
   position: absolute;
-  /* background-image: url('/assets/pattern.png'); */
   background-repeat: repeat;
   background-position: center;
-  opacity: 1; /* Adjust opacity as needed */
-  border-radius: 0; /* Match the border-radius of the container */
+  opacity: 1;
+  border-radius: 0;
 }
 
 @font-face {
   font-family: 'Hamishe';
   src: url('/fonts/Hamishe/Hamishe.otf') format('opentype');
-  /* Add other formats if available */
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -53,11 +49,10 @@
   border-top: 4px solid #000;
   width: 50px;
   height: 50px;
-  -webkit-animation: spin 1s linear infinite; /* Safari */
+  -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
 }
 
-/* Safari */
 @-webkit-keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
@@ -81,10 +76,11 @@
 }
 
 .rtl-text {
-  direction: rtl; /* Right-to-left text direction */
-  text-align: right; /* Align text to the right side of the container */
+  direction: rtl;
+  text-align: right;
 }
 
+/* Media Queries */
 @media (min-width: 375px) and (max-width: 430px) {
   .B14-SE1 {
     padding-left: 52px;
@@ -97,8 +93,8 @@
     padding-right: 5px;
   }
   .absluteEnmonth {
-    right: 19px; /* Added 'px' */
-    bottom: 12px; /* Added 'px' */
+    right: 19px;
+    bottom: 12px;
   }
 }
 
@@ -126,28 +122,10 @@
   }
 }
 
-/* body {
-  margin: 0;
-  overflow: hidden;
-}
-
-html, body, #__next {
-  height: 100%;
-  width: 100%;
-}
-
-.bg-pattern {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.custom-border {
-  border: 1px solid white; /* Adjust as needed */
-
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Custom Media Query for iPad Air */
+@media (min-width: 819px) and (max-width: 821px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: rem;
   }
 }

@@ -135,6 +135,14 @@ const Occasions: React.FC = () => {
     fetchOccasions(newName);
   };
 
+  const resetToToday = () => {
+    const today = new Date();
+    const jToday = jalaali.toJalaali(today);
+    const newName = monthNames[jToday.jm - 1];
+    setCurrentMonthName(newName);
+    fetchOccasions(newName);
+  };
+
   const handleDayClick = (occasion: Occasion) => {
     if (occasion.ModalStatus) {
       setModalContent(occasion);
@@ -171,17 +179,26 @@ const Occasions: React.FC = () => {
   return (
     <div className='bg-[#333863] min-h-screen flex flex-col items-center justify-center pt-24 pb-24'>
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
-        <button
-          onClick={() =>
-            updateMonth(
-              (monthNames.indexOf(currentMonthName) + 1 + monthNames.length) %
-                monthNames.length
-            )
-          }
-          className='text-4xl md:text-5xl'
-        >
-          &lt;
-        </button>
+        <div className='flex items-center'>
+          <button
+            onClick={() =>
+              updateMonth(
+                (monthNames.indexOf(currentMonthName) + 1 + monthNames.length) %
+                  monthNames.length
+              )
+            }
+            className='text-4xl md:text-5xl'
+          >
+            &lt;
+          </button>
+          <button
+            onClick={resetToToday}
+            className='ml-12 p-2 text-2xl sm:text-xl rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
+          >
+            برو به امروز
+          </button>
+        </div>
+
         <h1>فراخورهای ماه {currentMonthName}</h1>
         <button
           onClick={() =>
@@ -203,7 +220,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
+          className='grid grid-cols-2 se:grid-cols-3 iphone14:grid-cols-3 lg:grid-cols-6 ipad:grid-cols-3 ipadair:grid-cols-3 gap-4 ipad:gap-3 ipadair:gap-3 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
