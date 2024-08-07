@@ -32,11 +32,11 @@ function toPersianNums(numString) {
 // Get the Persian name of today
 const getTodayPersianName = () => {
   const persianWeekDays = [
-    '(دوشنبه) مهروز',
-    '(سه‌شنبه)  بهرامروز',
+    '(دوشنبه) مه شید',
+    '(سه‌شنبه)  بهرامشید',
     '(چهار‌شنبه) تیرشید',
-    '(پنج‌شنبه) مزدروز',
-    'ناهیدروز (آدینه) ',
+    '(پنج‌شنبه) مزدشید',
+    'ناهیدشید (آدینه) ',
     '(شنبه)  کیوان',
     '(یک‌شنبه) مهر',
   ];
@@ -265,7 +265,7 @@ function PersianCalendar() {
                     : 'bg-[#333863] text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
                 }`}
               >
-                برو به امروز
+                برو به امشید
               </button> */}
             </div>
           </div>

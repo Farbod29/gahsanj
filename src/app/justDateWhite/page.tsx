@@ -30,13 +30,13 @@ type WeekdayKey =
   | 'Friday'
   | 'Saturday';
 const persianWeekdays: { [key in WeekdayKey]: string } = {
-  Sunday: 'یکشنبه (مهر روز)',
-  Monday: 'دوشنبه (مهروز)',
-  Tuesday: 'سه شنبه (بهرام روز)',
-  Wednesday: 'چهار شنبه (تیر روز)',
-  Thursday: 'پنج شنبه (اورمزد روز)',
-  Friday: '(آدینه) ناهید روز', // or just 'آدینه' depending on your preference
-  Saturday: 'شنبه (کیوان روز)',
+  Sunday: 'یکشنبه (مهر شید)',
+  Monday: 'دوشنبه (مهشید)',
+  Tuesday: 'سه شنبه (بهرام شید)',
+  Wednesday: 'چهار شنبه (تیر شید)',
+  Thursday: 'پنج شنبه (اورمزد شید)',
+  Friday: '(آدینه) ناهید شید', // or just 'آدینه' depending on your preference
+  Saturday: 'شنبه (کیوان شید)',
 };
 
 export default function Home() {

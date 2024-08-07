@@ -51,7 +51,7 @@ const MyModal: React.FC = () => {
               <p className='text-sm text-gray-500 '>
                 <br />
                 <h2 className=' font-medium leading-6 text-gray-900'>
-                  دوشنبه: مه روز - مهروز:
+                  دوشنبه: مهشید - مهروز:
                 </h2>
                 <p className='text-justify text-right leading-relaxed'>
                   نام روز های اول هفته سغدی ها (قومی ایرانی در نواحی تاجیکستان
@@ -144,7 +144,7 @@ const MyModal: React.FC = () => {
                   </p>
                   <br />
                   <h2 className='font-medium leading-6 text-gray-900'>
-                    شنبه یا کیوان روز:
+                    شنبه یا کیوان شید:
                   </h2>
                   <p className='text-justify text-right leading-relaxed'>
                     در فرهنگ پارسی، نامگذاری روزهای هفته با اساطیر و نجوم پیوند
@@ -159,7 +159,7 @@ const MyModal: React.FC = () => {
 
                   <br />
                   <h2 className='font-medium leading-6 text-gray-900'>
-                    یکشنبه: مهر روز :
+                    یکشنبه: مهر شید :
                   </h2>
 
                   <p className='text-justify text-right leading-relaxed'>
