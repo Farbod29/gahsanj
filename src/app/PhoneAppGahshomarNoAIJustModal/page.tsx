@@ -609,9 +609,9 @@ export default function Home() {
             </a>
           </li>
           <li className='text-lg text-left' dir='ltr'>
-            Alden, J. R., & Mince, L. (2016). "Itinerant potters and the
+            Alden, J. R., & Mince, L. (2016). `Itinerant potters and the
             transmission of ceramic technologies and styles during the
-            Proto-Elamite period in Iran." Journal of Archaeological Science:
+            Proto-Elamite period in Iran``. Journal of Archaeological Science:
             Reports, 5, 471-481.
           </li>
         </ul>
