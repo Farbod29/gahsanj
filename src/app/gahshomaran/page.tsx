@@ -178,7 +178,7 @@ export default function Home() {
             {dates.ilami}
           </p>
           <h3 className='text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2'>
-            عیلامی
+            ایلامی
           </h3>
         </div>
 

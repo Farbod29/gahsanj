@@ -18,28 +18,6 @@ const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
-  useEffect(() => {
-    const requestFullscreen = () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch((err) => {
-          console.error(
-            `Error attempting to enable full-screen mode: ${err.message}`
-          );
-        });
-      }
-    };
-
-    // Call the function on mount
-    requestFullscreen();
-
-    // Add an event listener to request full-screen mode on user interaction
-    document.addEventListener('click', requestFullscreen);
-
-    return () => {
-      document.removeEventListener('click', requestFullscreen);
-    };
-  }, []);
-
   // List of routes where you want to show the footer
   const footerRoutes = [
     '/',
@@ -59,9 +37,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           name='description'
           content={metadata.description || 'Default Description'}
         />
-        <meta name='theme-color' content='#4c5494' />
-        <meta name='msapplication-navbutton-color' content='#4c5494' />
-        <meta name='apple-mobile-web-app-status-bar-style' content='#4c5494' />
+        {/* <meta name='theme-color' content='#4c5494' /> */}
+        {/* <meta name='msapplication-navbutton-color' content='#4c5494' />
+        <meta name='apple-mobile-web-app-status-bar-style' content='#4c5494' /> */}
         <link rel='manifest' href='/manifest.json' />
         <link
           rel='icon'

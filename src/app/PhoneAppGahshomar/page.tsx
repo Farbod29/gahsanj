@@ -549,9 +549,9 @@ export default function Home() {
               pathname: '/DownloadImage',
               query: {
                 paramDates: dates.ilami,
-                paramName: 'عیلامی',
+                paramName: 'ایلامی',
                 line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-                line2: `سال\u2003${toPersianNums(convertToIlamiYear(today))}\u2003 عیلامی`,
+                line2: `سال\u2003${toPersianNums(convertToIlamiYear(today))}\u2003 ایلامی`,
               },
             }}
           >
@@ -563,7 +563,7 @@ export default function Home() {
                 {dates.ilami}
               </p>
               <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
-                عیلامی
+                ایلامی
               </p>
               <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
                 {getTodayPersianName()}

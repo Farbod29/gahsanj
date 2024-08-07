@@ -214,11 +214,12 @@ export default function Home() {
     title: '',
     line1: '',
     line2: '',
+    description: '',
   });
 
   const openModal = (title, line1, line2, yearType) => {
     const description = getDescription(yearType);
-    setModalContent({ title, line1, line2 });
+    setModalContent({ title, line1, line2, description });
     setModalIsOpen(true);
   };
   // Helper component for rendering tabs
@@ -426,13 +427,13 @@ export default function Home() {
   }
 
   const persianWeekdays: { [key: string]: string } = {
-    Sunday: ' مهر روز ',
-    Monday: '  مهروز ',
-    Tuesday: ' بهرام روز ',
-    Wednesday: ' تیر روز ',
-    Thursday: ' اورمزد روز',
-    Friday: ' (ناهید روز (آدینه', // or 'ناهید روز' depending on your preference
-    Saturday: '  کیوان روز',
+    Sunday: ' مهر شید ',
+    Monday: '  مهشید ',
+    Tuesday: ' بهرام شید ',
+    Wednesday: ' تیر شید ',
+    Thursday: ' اورمزد شید',
+    Friday: ' (ناهید شید (آدینه', // or 'ناهید شید' depending on your preference
+    Saturday: '  کیوان شید',
   };
 
   const persianHejriDays: { [key: string]: string } = {
@@ -475,9 +476,152 @@ export default function Home() {
     return persianHejriDays[todayName]; // Now TypeScript knows that todayName is a valid key for persianWeekdays
   }
 
+  const ElamiYearDescription = () => {
+    return (
+      <div>
+        <h1 className='text-xl font-bold mb-4'>ایلامی</h1>
+        <p className='text-lg mb-4'>
+          گاه‌شمار (عیلامی) ایلامی یکی از قدیمی‌ترین گاه‌شمارهای ایرانی است که
+          در دوران ایلام باستان (حدود 3200 تا 539 قبل از میلاد) مورد استفاده
+          قرار می‌گرفت. ایلامیان که یکی از تمدن‌های باستانی در جنوب غربی ایران
+          بودند، از این گاه‌شمار برای تعیین تاریخ و زمان استفاده می‌کردند.
+          <br />
+          آقای دکتر عبدالمجید ارفعی: «ایلام را نباید با «ع» نوشت بلکه باید با
+          «الف» .نوشت، زیرا در زبان ایلامی «ع» نداریم.
+        </p>
+
+        <h2 className='text-3xl font-semibold mt-6 mb-2 '>
+          ویژگی‌های گاه‌شمار ایلامی
+        </h2>
+        <ul className='list-disc list-inside mb-4'>
+          <li className='text-lg'>
+            <strong>ماه‌ها و روزها</strong>: ایلامیان نیز مانند بسیاری از
+            تمدن‌های باستانی، از یک تقویم قمری-خورشیدی استفاده می‌کردند. ماه‌های
+            تقویم ایلامی احتمالاً 29 یا 30 روز داشتند که بر اساس مشاهدات ماه
+            تنظیم می‌شدند.
+          </li>
+          <li className='text-lg'>
+            <strong>سالیانه</strong>: سال ایلامی احتمالاً 12 ماه داشته است که
+            مجموعاً حدود 354 روز می‌شد. برای تنظیم تفاوت بین سال قمری و سال
+            خورشیدی، هر چند سال یکبار ماه کبیسه‌ای به سال اضافه می‌کردند.
+          </li>
+          <li className='text-lg'>
+            <strong>کاربرد</strong>: گاه‌شمار ایلامی به‌ویژه در مراسم دینی،
+            کشاورزی و امور دولتی کاربرد داشت. برخی از متون مذهبی و اداری ایلامی
+            که بر روی لوح‌های گلی نگاشته شده‌اند، تاریخ‌گذاری شده‌اند که
+            نشان‌دهنده استفاده گسترده از این تقویم است.
+          </li>
+          <li className='text-lg'>
+            <strong>متون و لوح‌ها</strong>: ایلامیان بر روی لوح‌های گلی به خط
+            میخی، تاریخ‌ها و رویدادهای مهم را ثبت می‌کردند. این لوح‌ها حاوی
+            اطلاعاتی درباره فعالیت‌های دولتی، مراسم مذهبی و معاملات تجاری هستند.
+          </li>
+          <li className='text-lg'>
+            <strong>خط و زبان</strong>: زبان ایلامی که یکی از زبان‌های باستانی
+            ایران است، به خط میخی نگاشته می‌شد. این خط از خطوط بسیار پیچیده و
+            باستانی است که کشف و رمزگشایی آن اطلاعات زیادی درباره تقویم ایلامی
+            به‌دست آورده است.
+          </li>
+        </ul>
+
+        <h2 className='text-3xl font-semibold mt-6 mb-2'>
+          نمونه‌هایی از آثار ایلامی
+        </h2>
+        <ul className='list-disc list-inside mb-4'>
+          <li className='text-lg'>
+            <strong>مجسمه‌ها و سنگ‌نگاره‌ها</strong>: ایلامیان آثار هنری بسیار
+            زیبایی مانند مجسمه‌های سنگی و فلزی خلق کرده‌اند که برخی از آن‌ها
+            دارای کتیبه‌هایی با تاریخ‌های ایلامی هستند.
+          </li>
+          <li className='text-lg'>
+            <strong>لوح‌های گلی</strong>: بسیاری از این لوح‌ها در حفاری‌های
+            باستان‌شناسی کشف شده‌اند و حاوی متون حقوقی، اداری و مذهبی هستند که
+            تاریخ‌گذاری شده‌اند.
+          </li>
+        </ul>
+
+        <h2 className='text-3xl font-semibold mt-6 mb-2'>
+          اهمیت گاه‌شمار ایلامی
+        </h2>
+        <p className='text-lg mb-4'>
+          گاه‌شمار ایلامی نقش مهمی در تاریخ‌نگاری و مطالعه تاریخ باستان ایران
+          دارد. با بررسی این گاه‌شمار، می‌توان به اطلاعات دقیق‌تری درباره
+          رویدادها و تحولات تاریخی ایلام و دیگر تمدن‌های همجوار دست یافت.
+        </p>
+        <ul className='list-disc list-inside mb-4'>
+          <li className='text-lg'>
+            <strong>لوح‌های گلی</strong>: بسیاری از اطلاعات ما درباره گاه‌شمار
+            ایلامی از طریق لوح‌های گلی به دست آمده است.
+          </li>
+          <li className='text-lg'>
+            <strong>آثار باستان‌شناسی</strong>: حفاری‌های باستان‌شناسی در مناطق
+            مختلف ایلام باستان، مانند شوش و سیلک، اطلاعات مهمی درباره این
+            گاه‌شمار فراهم کرده‌اند.
+          </li>
+        </ul>
+
+        <h2 className='text-3xl font-semibold mt-6 mb-2'>منابع:</h2>
+        <ul className='list-disc list-inside mb-4'>
+          <li className='text-lg'>
+            <a
+              href='https://kherada.com/Dman.aspx?Id=2007'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-blue-600 hover:underline'
+            >
+              ارفعی، عبدالمجید. «بخشی از گفتگوهای چند سال پیش دربارهٔ ایلام /
+              ایلام با دکتر عبدالمجید ارفعی». وبگاه خردگان. دریافت‌شده در ۱۹ اوت
+              ۲۰۲۰. عیلام را
+            </a>
+            نباید با «ع» نوشت بلکه باید با «الف» نوشت، زیرا در زبان ایلامی «ع»
+            نداریم.
+          </li>
+          <li className='text-lg'>
+            <a
+              href='https://ensani.ir/fa/article/376461/%D9%86%D9%82%D8%B4-%D8%B3%D8%B1%D8%B2%D9%85%DB%8C%D9%86-%D9%87%D8%A7%DB%8C-%D8%B4%D8%B1%D9%82%DB%8C-%D8%A7%DB%8C%D9%84%D8%A7%D9%85-%D8%A7%D9%8E%D8%B1%D8%AC%D8%A7%D9%86-%D9%88-%D8%A7%DB%8C%D8%B0%D9%87-%D8%AF%D8%B1-%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84-%D9%81%D8%B1%D9%87%D9%86%DA%AF-%D8%A7%DB%8C%D9%84%D8%A7%D9%85-%D9%86%D9%88-%D8%A8%D9%87-%D9%BE%D8%A7%D8%B1%D8%B3'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-blue-600 hover:underline'
+            >
+              ↑ «نقش سرزمین‌های شرقی ایلام: اَرجان و ایذه، در انتقال فرهنگ ایلام
+              نو به پارس». پرتال جامع علوم انسانی.
+            </a>
+          </li>
+          <li className='text-lg'>
+            <a
+              href='https://ensani.ir/fa/article/346108/%D9%88%D8%B6%D8%B9%DB%8C%D8%AA-%D8%B3%DB%8C%D8%A7%D8%B3%DB%8C-%D8%A7%DB%8C%D9%84%D8%A7%D9%85-%D8%A8%D8%B9%D8%AF-%D8%A7%D8%B2-%D8%B3%D9%82%D9%88%D8%B7-%D8%AA%D8%A7-%D8%A8%D8%B1%D8%A2%D9%85%D8%AF%D9%86-%D9%87%D8%AE%D8%A7%D9%85%D9%86%D8%B4%DB%8C%D8%A7%D9%86-550-646-%D9%BE.%D9%85-'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-blue-600 hover:underline'
+            >
+              ↑ «وضعیت سیاسی ایلام بعد از سقوط تا برآمدن هخامنشیان (۵۵۰–۶۴۶ پ.
+              م)». پرتال جامع علوم انسانی.
+            </a>
+          </li>
+          <li className='text-lg'>
+            <a
+              href='https://ensani.ir/fa/article/357348/%D8%AF%DA%AF%D8%B1%D8%AF%DB%8C%D8%B3%DB%8C-%D8%AE%D8%AF%D8%A7%DB%8C%D8%A7%D9%86-%D8%AF%D8%B1-%D8%A7%DB%8C%D9%84%D8%A7%D9%85-%D8%A8%D8%A7%D8%B3%D8%AA%D8%A7%D9%86'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-blue-600 hover:underline'
+            >
+              ↑ «دگردیسی خدایان در عیلام باستان». پرتال جامع علوم انسانی.
+            </a>
+          </li>
+          <li className='text-lg text-left' dir='ltr'>
+            Alden, J. R., & Mince, L. (2016). "Itinerant potters and the
+            transmission of ceramic technologies and styles during the
+            Proto-Elamite period in Iran." Journal of Archaeological Science:
+            Reports, 5, 471-481.
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
   function getDescription(yearType) {
     const descriptions = {
-      ilami: 'توضیحات برای سال عیلامی',
+      ilami: <ElamiYearDescription />,
       madi: 'توضیحات برای سال مادی',
       pahlavi: 'توضیحات برای سال پادشاهی',
       jalali: 'توضیحات برای سال هجری خورشیدی',
@@ -551,9 +695,9 @@ export default function Home() {
             onClick={() =>
               openModal(
                 'ایران نو',
-                `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-                `سال\u2003${toPersianNums(convertToIraniMelliYear(today))}\u2003 ایران نو`,
-                'ilamxxxxxxxi'
+                `${PersianWeekday} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+                `سال ${toPersianNums(convertToIraniMelliYear(today))} ایران نو`,
+                'iraniMelli'
               )
             }
             className='bg-[#FFFFFF] p-1.5 rounded-xl cursor-pointer hover:bg-[#dce4ff]'
@@ -568,6 +712,7 @@ export default function Home() {
               {getTodayPersianName()}
             </p>
           </button>
+          {/* Other buttons here */}
         </div>
 
         <div className='w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-2 md:space-y-0 md:space-x-4'>
@@ -575,9 +720,9 @@ export default function Home() {
             key='ilami'
             onClick={() =>
               openModal(
-                'عیلامی',
+                'ایلامی',
                 `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-                `سال\u2003${toPersianNums(convertToIlamiYear(today))}\u2003 عیلامی`,
+                `سال\u2003${toPersianNums(convertToIlamiYear(today))}\u2003 ایلامی`,
                 'ilami'
               )
             }
@@ -587,7 +732,7 @@ export default function Home() {
               {dates.ilami}
             </p>
             <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
-              عیلامی
+              ایلامی
             </p>
             <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
               {getTodayPersianName()}
@@ -641,6 +786,28 @@ export default function Home() {
           </button>
         </div>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel='Example Modal'
+        className='bg-white p-4 rounded-lg shadow-lg max-w-lg max-h-[90vh] overflow-y-auto mx-auto mt-10'
+      >
+        <h1 className='text-3xl font-bold mb-4 text-center'>
+          {modalContent.title}
+        </h1>
+        <div className='text-right ' dir='rtl'>
+          <h2 className='text-xl font-bold '>{modalContent.line1}</h2>
+          <h2 className='text-xl font-bold '>{modalContent.line2}</h2>
+          <br />
+          <p>{modalContent.description}</p>
+        </div>
+        <button
+          onClick={() => setModalIsOpen(false)}
+          className='mt-4 bg-blue-950 text-white px-4 py-2 rounded'
+        >
+          بستن
+        </button>
+      </Modal>
     </main>
   );
 }
