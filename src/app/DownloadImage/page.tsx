@@ -139,7 +139,7 @@ function ClientOnlyPage() {
             images[currentIndex] ||
             'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
           }
-          alt='Decorative background'
+          alt='دوباره تلاش کن! '
           layout='fill'
           objectFit='cover'
           onLoad={handleLoad}
@@ -188,7 +188,7 @@ function ClientOnlyPage() {
             images[currentIndex] ||
             'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
           }
-          alt='Decorative background'
+          alt='دوباره تلاش کن! '
           layout='fill'
           objectFit='cover'
           onLoad={handleLoad}

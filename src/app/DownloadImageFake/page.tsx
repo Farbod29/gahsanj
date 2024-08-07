@@ -91,10 +91,10 @@ function ClientOnlyPage() {
   }, [images.length]);
 
   return (
-    <div className="flex flex-col h-screen justify-between">
+    <div className='flex flex-col h-screen justify-between'>
       <div
         ref={ref}
-        className="flex-grow relative"
+        className='flex-grow relative'
         style={{
           width: '100%',
           height: 'auto',
@@ -107,9 +107,9 @@ function ClientOnlyPage() {
             images[currentIndex] ||
             'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
           }
-          alt="Decorative background"
-          layout="fill"
-          objectFit="cover"
+          alt='دوباره تلاش کن! '
+          layout='fill'
+          objectFit='cover'
           onLoad={handleLoad}
         />
         <div
@@ -147,9 +147,9 @@ function ClientOnlyPage() {
             images[currentIndex] ||
             'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
           }
-          alt="Decorative background"
-          layout="fill"
-          objectFit="cover"
+          alt='دوباره تلاش کن! '
+          layout='fill'
+          objectFit='cover'
           onLoad={handleLoad}
         />
         <div
@@ -158,7 +158,7 @@ function ClientOnlyPage() {
             left: '50%', // Centers horizontally
             transform: 'translate(-50%, -20%)', // Increase the negative translate Y value to move text higher
           }}
-          className="absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap"
+          className='absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap'
         >
           <span> - {gahshomariDates}</span>
           <span> - {gahshomariMonth}</span>
@@ -180,9 +180,9 @@ function ClientOnlyPage() {
           zIndex: 10,
         }}
       >
-        <div className="flex justify-between pl-3 ">
+        <div className='flex justify-between pl-3 '>
           <Link
-            className="pt-2"
+            className='pt-2'
             href={{
               pathname: '/PhoneAppGahshomar',
             }}
@@ -190,34 +190,34 @@ function ClientOnlyPage() {
             // className="bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out z-50 self-start"
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="59.83"
-              height="59.83"
-              viewBox="0 0 59.83 59.83"
+              xmlns='http://www.w3.org/2000/svg'
+              width='59.83'
+              height='59.83'
+              viewBox='0 0 59.83 59.83'
             >
               <g
-                id="Group_26"
-                data-name="Group 26"
-                transform="translate(0 -9.585)"
+                id='Group_26'
+                data-name='Group 26'
+                transform='translate(0 -9.585)'
               >
                 <g
-                  id="Home_icon"
-                  data-name="Home icon"
-                  transform="translate(0 9.585)"
-                  fill="#c2f3ff"
+                  id='Home_icon'
+                  data-name='Home icon'
+                  transform='translate(0 9.585)'
+                  fill='#c2f3ff'
                 >
-                  <path stroke="none" />
-                  <path stroke="none" fill="#465677" />
+                  <path stroke='none' />
+                  <path stroke='none' fill='#465677' />
                 </g>
                 <path
-                  id="Path_311"
-                  data-name="Path 311"
-                  transform="translate(57.342 10.919) rotate(90)"
-                  fill="#465677"
+                  id='Path_311'
+                  data-name='Path 311'
+                  transform='translate(57.342 10.919) rotate(90)'
+                  fill='#465677'
                 />
               </g>
             </svg>
-            <p className="pt-2"></p>
+            <p className='pt-2'></p>
             بازگشت
           </Link>
           <button
@@ -225,33 +225,33 @@ function ClientOnlyPage() {
             // className="bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out z-50 self-start"
           >
             <svg
-              id="Image_Navigation_icon"
-              data-name="Image Navigation icon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="144"
-              height="79"
-              viewBox="0 0 144 79"
+              id='Image_Navigation_icon'
+              data-name='Image Navigation icon'
+              xmlns='http://www.w3.org/2000/svg'
+              width='144'
+              height='79'
+              viewBox='0 0 144 79'
             >
               <g
                 onClick={goRight}
-                id="Polygon_1"
-                data-name="Polygon 1"
-                transform="translate(144) rotate(90)"
-                fill="#c3f3ff"
+                id='Polygon_1'
+                data-name='Polygon 1'
+                transform='translate(144) rotate(90)'
+                fill='#c3f3ff'
               >
-                <path stroke="none" />
-                <path d="" stroke="none" fill="#465677" />
+                <path stroke='none' />
+                <path d='' stroke='none' fill='#465677' />
               </g>
               <g
                 onClick={goLeft}
-                transform="translate(0 79) rotate(-90)"
-                fill="#c3f3ff"
+                transform='translate(0 79) rotate(-90)'
+                fill='#c3f3ff'
                 style={{ cursor: 'pointer' }} // Add cursor pointer for usability
-                id="Polygon_2"
-                data-name="Polygon 2"
+                id='Polygon_2'
+                data-name='Polygon 2'
               >
-                <path d="" stroke="none" />
-                <path d="" stroke="none" fill="#465677" />
+                <path d='' stroke='none' />
+                <path d='' stroke='none' fill='#465677' />
               </g>
               <button onClick={goLeft} disabled={!loaded}>
                 &lt; Previous
@@ -263,37 +263,37 @@ function ClientOnlyPage() {
             دگرگونی فرتور
           </button>
           <button
-            className="pr-3 pt-2"
+            className='pr-3 pt-2'
             onClick={downloadScreenshot}
             disabled={!loaded}
             // className="bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out z-50 self-start"
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="69.08"
-              height="64.481"
-              viewBox="0 0 69.08 64.481"
+              xmlns='http://www.w3.org/2000/svg'
+              width='69.08'
+              height='64.481'
+              viewBox='0 0 69.08 64.481'
             >
               <g
-                id="Download_icon"
-                data-name="Download icon"
-                transform="translate(-1 -2.001)"
+                id='Download_icon'
+                data-name='Download icon'
+                transform='translate(-1 -2.001)'
               >
                 <path
-                  id="Path_56"
-                  data-name="Path 56"
-                  transform="translate(6.104 2.144)"
-                  fill="#c3f3ff"
+                  id='Path_56'
+                  data-name='Path 56'
+                  transform='translate(6.104 2.144)'
+                  fill='#c3f3ff'
                 />
                 <path
-                  id="Path_58"
-                  data-name="Path 58"
-                  transform="translate(0 0)"
-                  fill="#465677"
+                  id='Path_58'
+                  data-name='Path 58'
+                  transform='translate(0 0)'
+                  fill='#465677'
                 />
               </g>
             </svg>
-            <p className="pt-2">بارگزاری</p>
+            <p className='pt-2'>بارگزاری</p>
           </button>
         </div>
 

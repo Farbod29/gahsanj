@@ -59,7 +59,7 @@ export default function Page() {
       >
         <Image
           src="https://irantasvir.com/wp-content/uploads/2024/05/museum-day.jpg"
-          alt="Decorative background"
+          alt="دوباره تلاش کن! "
           layout="fill"
           objectFit="cover"
           onLoad={handleLoad}
@@ -92,7 +92,7 @@ export default function Page() {
       >
         <Image
           src="https://irantasvir.com/wp-content/uploads/2024/05/museum-day.jpg"
-          alt="Decorative background"
+          alt="دوباره تلاش کن! "
           layout="fill"
           objectFit="cover"
           onLoad={handleLoad}

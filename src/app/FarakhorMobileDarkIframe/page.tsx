@@ -129,6 +129,14 @@ const Occasions: React.FC = () => {
     }
   }, [loading, currentMonthEvents, previousDay]);
 
+  const resetToToday = () => {
+    const today = new Date();
+    const jToday = jalaali.toJalaali(today);
+    const newName = monthNames[jToday.jm - 1];
+    setCurrentMonthName(newName);
+    fetchOccasions(newName);
+  };
+
   const updateMonth = (monthIndex: number) => {
     const newName = monthNames[monthIndex];
     setCurrentMonthName(newName);
@@ -169,19 +177,28 @@ const Occasions: React.FC = () => {
   }`;
 
   return (
-    <div className='bg-[#333863] min-h-screen flex flex-col items-center justify-start'>
+    <div className='min-h-screen flex flex-col items-center justify-start bg-transparent'>
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-5 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-20'>
-        <button
-          onClick={() =>
-            updateMonth(
-              (monthNames.indexOf(currentMonthName) + 1 + monthNames.length) %
-                monthNames.length
-            )
-          }
-          className='text-4xl md:text-5xl'
-        >
-          &lt;
-        </button>
+        <div className='flex items-center'>
+          <button
+            onClick={() =>
+              updateMonth(
+                (monthNames.indexOf(currentMonthName) + 1 + monthNames.length) %
+                  monthNames.length
+              )
+            }
+            className='text-4xl md:text-5xl'
+          >
+            &lt;
+          </button>
+          <button
+            onClick={resetToToday}
+            className='ml-12 p-2 text-2xl sm:text-xl rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
+          >
+            برو به امروز
+          </button>
+        </div>
+
         <h1>فراخورهای ماه {currentMonthName}</h1>
         <button
           onClick={() =>
@@ -236,7 +253,7 @@ const Occasions: React.FC = () => {
                     />
                   )}
                 </div>
-                <div className='flex flex-col items-center justify-center'>
+                <div className='flex flex-col items-center justify-center bg-transparent'>
                   <span
                     className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'} text-center`}
                   >

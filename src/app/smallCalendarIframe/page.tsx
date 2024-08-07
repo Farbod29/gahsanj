@@ -169,7 +169,7 @@ function PersianCalendar() {
   // Render the component
   // Render the component
   return (
-    <main className='p-2 bg-[#333863] min-h-screen overflow-hidden flex flex-col justify-start'>
+    <main className='p-2 bg-transparent min-h-screen overflow-hidden flex flex-col justify-start'>
       <div className='flex justify-end'></div>
       <div className='mt-1' dir='rtl'>
         <div className='max-w-md mx-auto overflow-hidden bg-white text-xl sm:text-3xl w-full rounded-md h-full flex flex-col border-black'>
