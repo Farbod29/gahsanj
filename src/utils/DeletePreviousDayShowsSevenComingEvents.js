@@ -6,11 +6,18 @@ export function deletePreviousDayShowsSevenComingEvents(
   // Ensure referenceDate is a Date object
   referenceDate = new Date(referenceDate);
 
-  // Filter out events before the reference date
+  // Get the start of the reference date (removing time component)
+  const startOfToday = new Date(
+    referenceDate.getFullYear(),
+    referenceDate.getMonth(),
+    referenceDate.getDate()
+  );
+
+  // Filter out events before the start of the reference date (includes today's events)
   const upcomingEvents = data.filter((item) => {
     const [day, month] = item.Georgian.split(',');
     const eventDate = new Date(referenceDate.getFullYear(), month - 1, day);
-    return eventDate >= referenceDate;
+    return eventDate >= startOfToday; // Include today's events and future events
   });
 
   // Sort events by date
@@ -28,8 +35,8 @@ export function deletePreviousDayShowsSevenComingEvents(
     return dateA - dateB;
   });
 
-  // Keep only the next 7 events
-  const nextSevenEvents = upcomingEvents.slice(0, 6);
+  // Keep only the next 7 events (fixed the slice count to 7)
+  const nextSevenEvents = upcomingEvents.slice(0, 7);
 
   return nextSevenEvents;
 }

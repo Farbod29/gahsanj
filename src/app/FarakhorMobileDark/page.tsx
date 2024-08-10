@@ -1,9 +1,12 @@
-// pages/Occasions.js
+// pages/Occasions.js // pages/Occasions.js == for whole persian month
 'use client';
+
+// pages/Occasions.js
+
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import jalaali from 'jalaali-js';
 import Image from 'next/image';
-import { findPreviousDay } from '@/utils/findPreviousDay'; // Import the utility function
+import { findPreviousDay } from '@/utils/findPreviousDay';
 
 interface Occasion {
   DayNumber: number;
@@ -70,7 +73,7 @@ const Occasions: React.FC = () => {
         return dateA.getTime() - dateB.getTime();
       });
       setCurrentMonthEvents(filteredData);
-      setPreviousDay(findPreviousDay(filteredData)); // Set the previous day using the utility function
+      setPreviousDay(findPreviousDay(filteredData));
     } catch (error) {
       console.error('Error fetching occasions:', error);
       setCurrentMonthEvents([]);
@@ -93,7 +96,6 @@ const Occasions: React.FC = () => {
 
       const [prevDay, prevMonth] = previousDay.split(',');
 
-      // Create a combined sorted array of all events
       const allEvents = currentMonthEvents.slice().sort((a, b) => {
         const dateA = new Date(a.GeorgianDay);
         const dateB = new Date(b.GeorgianDay);
@@ -159,6 +161,7 @@ const Occasions: React.FC = () => {
       .join('');
   };
 
+  // Get current date in Georgian format
   const todayGregorian = `${new Date().getDate()} ${
     [
       'January',
@@ -224,8 +227,12 @@ const Occasions: React.FC = () => {
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
-            const eventDate = event.GeorgianDay;
-            const isToday = eventDate === todayGregorian;
+            // Parsing Georgian date stored in DB
+            const [day, month] = event.GeorgianDay.split(' ');
+            const eventDate = new Date(`${month} ${day}`);
+            const isToday =
+              eventDate.getDate() === new Date().getDate() &&
+              eventDate.getMonth() === new Date().getMonth();
             const logo = event.Logo || '/https://picsum.photos/536/35'; // Use a valid path
 
             return (
@@ -239,16 +246,16 @@ const Occasions: React.FC = () => {
                     ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
                     : 'bg-[#FFFFFF]'
                 } shadow-md rounded-lg p-2 text-center`}
-                style={{ width: '100%', maxWidth: '350px', height: 'auto' }} // Adjusted maxWidth to 350px
+                style={{ width: '100%', maxWidth: '350px', height: 'auto' }}
               >
                 <div className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl-2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7'>
                   {isValidUrl(logo) && (
                     <Image
                       src={logo}
                       alt='Logo Of the Day'
-                      width={50} // Default width
-                      height={50} // Default height
-                      className='w-[30px] h-full sm-logo:w-[20px] sm-logo:h-[20px] sm-logo:h-[20px]' // Make logo smaller at 572px breakpoint
+                      width={50}
+                      height={50}
+                      className='w-[30px] h-full sm-logo:w-[20px] sm-logo:h-[20px] sm-logo:h-[20px]'
                       layout='responsive'
                     />
                   )}
@@ -265,7 +272,7 @@ const Occasions: React.FC = () => {
                   <div
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636]'}
+                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#8e8585]'}
                text-center`}
                     style={{
                       fontSize:
@@ -289,10 +296,10 @@ const Occasions: React.FC = () => {
                   >
                     <div
                       className={`text-[#2a5b71] B14-SE1 absluteEnmonth ${
-                        isToday ? 'text-black ' : 'text-[#2a5b71]'
+                        isToday ? 'text-[#ded4bd] ' : 'text-[#2a5b71]'
                       }shadow-md rounded-lg p-2 text-center`}
                     >
-                      {eventDate}
+                      {event.GeorgianDay}
                     </div>
                   </div>
                 </div>

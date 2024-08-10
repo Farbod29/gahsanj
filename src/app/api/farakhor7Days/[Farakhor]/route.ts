@@ -1,3 +1,5 @@
+// API for Farakhor7Days  (occazaions7Days)
+
 import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 import { deletePreviousDayShowsSevenComingEvents } from '../../../../utils/DeletePreviousDayShowsSevenComingEvents'; // Ensure correct path

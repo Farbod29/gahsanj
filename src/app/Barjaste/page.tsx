@@ -10,8 +10,15 @@ const Barjaste: React.FC = () => {
     const fetchShortTitles = async () => {
       try {
         const response = await fetch('/api/barjaste');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
         const data = await response.json();
-        setShortTitles(data);
+        if (Array.isArray(data)) {
+          setShortTitles(data);
+        } else {
+          console.error('Invalid data format:', data);
+        }
       } catch (error) {
         console.error('Error fetching short titles:', error);
       } finally {
@@ -35,7 +42,7 @@ const Barjaste: React.FC = () => {
               </li>
             ))
           ) : (
-            <li className='text-lg text-white'></li>
+            <li className='text-lg'>No titles available</li>
           )}
         </ul>
       )}

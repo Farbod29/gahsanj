@@ -1,5 +1,6 @@
 // Farakhor7Days(occazaions7Days)
 
+
 'use client';
 import React, { useState, useEffect, useMemo } from 'react';
 import jalaali from 'jalaali-js';
@@ -19,21 +20,21 @@ interface Occasion {
   ExtraLinks: string[];
 }
 
-const Occasions: React.FC = () => {
+const Occasions7Days: React.FC = () => {
   const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion[]>([]);
   const [currentMonthName, setCurrentMonthName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<Occasion | null>(null);
 
-  const isValidUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  };
+  // const isValidUrl = (url: string) => {
+  //   try {
+  //     new URL(url);
+  //     return true;
+  //   } catch (_) {
+  //     return false;
+  //   }
+  // };
 
   const monthNames = useMemo(
     () => [
@@ -105,22 +106,10 @@ const Occasions: React.FC = () => {
       .join('');
   };
 
-  const todayGregorian = `${new Date().getDate()} ${
-    [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ][new Date().getMonth()]
-  }`;
+  // Get current date in Georgian format
+  const todayDate = new Date();
+  const todayDay = todayDate.getDate();
+  const todayMonth = todayDate.getMonth() + 1; // getMonth() returns 0-based index
 
   return (
     <div className='bg-[#333863]  flex flex-col items-center justify-center pt-1 pb-12'>
@@ -132,8 +121,13 @@ const Occasions: React.FC = () => {
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event) => {
-            const eventDate = event.GeorgianDay;
-            const isToday = eventDate === todayGregorian;
+            // Parse the Georgian date stored in DB
+            const [day, month] = event.GeorgianDay.split(' ');
+            const eventDay = parseInt(day, 10);
+            const eventMonth =
+              new Date(Date.parse(month + ' 1, 2000')).getMonth() + 1;
+
+            const isToday = eventDay === todayDay && eventMonth === todayMonth;
             const logo = event.Logo || '/https://picsum.photos/536/35'; // Use a valid path
 
             return (
@@ -187,7 +181,7 @@ const Occasions: React.FC = () => {
                         isToday ? 'text-white ' : 'text-[#2a5b71]'
                       }  p-2 text-center`}
                     >
-                      {eventDate}
+                      {event.GeorgianDay}
                     </div>
                   </div>
                 </div>
@@ -233,4 +227,4 @@ const Occasions: React.FC = () => {
   );
 };
 
-export default Occasions;
+export default Occasions7Days;
