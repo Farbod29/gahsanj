@@ -117,7 +117,7 @@ const Occasions7Days: React.FC = () => {
         <div className='mt-10 text-center text-white'>Loading...</div>
       ) : (
         <div
-          className='bg-[#333863] grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-1 mt:p-1'
+          className='bg-[#333863] grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-1 mt:p-1'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event) => {
@@ -140,7 +140,7 @@ const Occasions7Days: React.FC = () => {
                   isToday
                     ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
                     : 'bg-[#FFFFFF]'
-                } shadow-md rounded-lg p-2 text-center sm:max-w-[150px] sm:h-[100px] md:max-w-[200px] md:h-[125px]`}
+                } shadow-md rounded-lg p-2 text-center sm:max-w-[150px] sm:h-[140px] md:max-w-[180px] md:h-[145px]`}
               >
                 <div className='flex flex-col items-center justify-center'>
                   <span
