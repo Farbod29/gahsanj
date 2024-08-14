@@ -59,7 +59,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className='Hamishe min-h-screen flex flex-col'>
         <main className='flex-grow'>{children}</main>
         {footerRoutes.includes(pathname) && <Footer />}{' '}
-        {/* Conditionally render Footer */}
+        {/* Conditionally render Footer  sosis to deploy enviornment variable*/}
       </body>
     </html>
   );
