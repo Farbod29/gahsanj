@@ -1,5 +1,3 @@
-// Farakhor whole month
-
 import { MongoClient } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -32,11 +30,45 @@ export async function GET(req: NextRequest) {
       query = { Month: month };
     }
 
-    const documents = await collection.find(query).toArray();
-    // console.log("documents");
-    // console.log(documents);
-    // Format the Georgian date
+    let documents;
+    try {
+      documents = await collection.find(query).toArray();
+      if (!documents || documents.length === 0) {
+        console.warn(`No documents found for month: ${month}`);
+        return NextResponse.json(
+          { message: 'No documents found', query },
+          { status: 404 }
+        );
+      }
+    } catch (dbError) {
+      let errorMessage = 'Unknown database query error';
+      if (dbError instanceof Error) {
+        errorMessage = dbError.message;
+      }
+      console.error(
+        `Error fetching documents for month: ${month}`,
+        errorMessage
+      );
+      return NextResponse.json(
+        { message: 'Database query error', error: errorMessage },
+        { status: 500 }
+      );
+    }
+
+    // Validate and format the Georgian date
     const formattedDocuments = documents.map((doc) => {
+      // Check if Georgian is a string
+      if (typeof doc.Georgian !== 'string') {
+        console.warn(
+          `Georgian date is not a string for document with _id: ${doc._id}. Found value:`,
+          doc.Georgian
+        );
+        return {
+          ...doc,
+          warning: 'Georgian date is not in the correct format',
+        };
+      }
+
       const [day, month] = doc.Georgian.split(',');
       const georgianDate = `${parseInt(day)} ${
         [
@@ -60,14 +92,18 @@ export async function GET(req: NextRequest) {
     if (formattedDocuments.length > 0) {
       return NextResponse.json(formattedDocuments);
     } else {
+      console.warn(`No formatted documents found for month: ${month}`);
       return NextResponse.json(
-        { message: 'No documents found', query },
+        { message: 'No documents found after formatting', query },
         { status: 404 }
       );
     }
   } catch (error) {
-    const errorMessage = (error as Error).message || 'Unknown error';
-    console.error('Database connection error:', errorMessage);
+    let errorMessage = 'Unknown server error';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    console.error('Server error:', errorMessage);
     return NextResponse.json(
       { message: 'Server error', error: errorMessage },
       { status: 500 }

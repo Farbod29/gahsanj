@@ -148,7 +148,7 @@ const Occasions7Days: React.FC = () => {
                       isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'
                     } text-center`}
                   >
-                    {toPersianNum(event.DayNumber.toString())}
+                    {toPersianNum(event.PersianDayNumber.toString())}
                   </span>
                   <span className='text-[#CAB9B9] text-sm sm:text-lg'>
                     {toPersianNum(currentMonthName)}
