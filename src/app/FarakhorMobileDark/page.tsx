@@ -28,6 +28,9 @@ const Occasions: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<Occasion | null>(null);
   const [previousDay, setPreviousDay] = useState<string | null>(null);
+  const [currentYear, setCurrentYear] = useState<number>(
+    jalaali.toJalaali(new Date()).jy
+  );
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const leapYears = useMemo(
@@ -64,6 +67,29 @@ const Occasions: React.FC = () => {
     []
   );
 
+  const georgianMonthMapping = useMemo(
+    () => [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ],
+    []
+  );
+
+  const formatGeorgianDate = (date: string) => {
+    const [day, month] = date.split(',').map(Number);
+    return `${day} ${georgianMonthMapping[month - 1]}`;
+  };
+
   const fetchOccasions = async (monthName: string) => {
     setLoading(true);
     try {
@@ -75,7 +101,7 @@ const Occasions: React.FC = () => {
         ? data.filter((event) => event.ShortTitle)
         : [];
 
-      const today = new Date();
+      const today = new Date(); // Define 'today' here
       const jToday = jalaali.toJalaali(today);
       const currentYear = jToday.jy;
 
@@ -100,30 +126,29 @@ const Occasions: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const today = new Date();
-    const jToday = jalaali.toJalaali(today);
-    const newName = Object.keys(monthMapping).find(
-      (key) => monthMapping[key] === jToday.jm
-    );
-    setCurrentMonthName(newName || '');
-    fetchOccasions(newName || '');
+  const handleMonthChange = (increment: number) => {
+    const newMonthIndex =
+      (monthMapping[currentMonthName] + increment + 12) % 12 || 12;
 
-    // Print today's Persian date for debugging
-    console.log(`Today's Persian date: ${jToday.jd}, ${newName}`);
-  }, [monthMapping]);
+    if (newMonthIndex === 1 && increment === 1) {
+      // When moving from Esfand to Farvardin (right arrow)
+      setCurrentYear(currentYear + 1);
+    } else if (newMonthIndex === 12 && increment === -1) {
+      // When moving from Farvardin to Esfand (left arrow)
+      setCurrentYear(currentYear - 1);
+    }
 
-  const updateMonth = (monthIndex: number) => {
-    const newName = Object.keys(monthMapping).find(
-      (key) => monthMapping[key] === monthIndex
+    const newMonthName = Object.keys(monthMapping).find(
+      (key) => monthMapping[key] === newMonthIndex
     );
-    setCurrentMonthName(newName || '');
-    fetchOccasions(newName || '');
+    setCurrentMonthName(newMonthName || '');
+    fetchOccasions(newMonthName || '');
   };
 
   const resetToToday = () => {
     const today = new Date();
     const jToday = jalaali.toJalaali(today);
+    setCurrentYear(jToday.jy);
     const newName = Object.keys(monthMapping).find(
       (key) => monthMapping[key] === jToday.jm
     );
@@ -147,14 +172,21 @@ const Occasions: React.FC = () => {
       .join('');
   };
 
+  useEffect(() => {
+    resetToToday(); // Call this when the component mounts to show the current month's occasions
+  }, []);
+
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
   const todayPersianDayNumber = jToday.jd;
   const todayPersianMonth = jToday.jm;
-  const currentYear = jToday.jy;
-  const todayPersianDayNumberK = isLeapYear(currentYear)
+  const currentDisplayYear = currentYear;
+  const todayPersianDayNumberK = isLeapYear(currentDisplayYear)
     ? todayPersianDayNumber
     : todayPersianDayNumber;
+  const leapYearText = isLeapYear(currentDisplayYear)
+    ? '(کبیسه / انباشته)'
+    : '';
 
   return (
     <div className='bg-[#333863] min-h-screen flex flex-col items-center justify-center pt-24 pb-24'>
@@ -162,7 +194,10 @@ const Occasions: React.FC = () => {
         <div className='flex items-center'>
           <button
             onClick={() =>
-              updateMonth((monthMapping[currentMonthName] + 1) % 12 || 12)
+              handleMonthChange(
+                (monthMapping[currentMonthName] - 1 + 12) % 12 || 12,
+                currentDisplayYear - (currentMonthName === 'فروردین' ? 1 : 0)
+              )
             }
             className='text-4xl md:text-5xl'
           >
@@ -176,10 +211,17 @@ const Occasions: React.FC = () => {
           </button>
         </div>
 
+        <h1>
+          سال {currentDisplayYear} {leapYearText}
+        </h1>
         <h1>فراخورهای ماه {currentMonthName}</h1>
+
         <button
           onClick={() =>
-            updateMonth((monthMapping[currentMonthName] - 1 + 12) % 12 || 12)
+            handleMonthChange(
+              (monthMapping[currentMonthName] + 1) % 12 || 12,
+              currentDisplayYear + (currentMonthName === 'اسفند' ? 1 : 0)
+            )
           }
           className='text-4xl md:text-5xl'
         >
@@ -195,7 +237,6 @@ const Occasions: React.FC = () => {
         <div
           ref={scrollRef}
           className='grid grid-cols-2 se:grid-cols-3 iphone14:grid-cols-3 lg:grid-cols-6 ipad:grid-cols-3 ipadair:grid-cols-3 gap-4 ipad:gap-3 ipadair:gap-3 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
-          style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
             const isToday =
@@ -234,7 +275,11 @@ const Occasions: React.FC = () => {
                   <span
                     className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'} text-center`}
                   >
-                    {toPersianNum(event.PersianDayNumber.toString())}
+                    {toPersianNum(
+                      isLeapYear(currentDisplayYear)
+                        ? event.PersianDayNumberK.toString()
+                        : event.PersianDayNumber.toString()
+                    )}
                   </span>
                   <span className='text-[#CAB9B9] text-sm sm:text-lg '>
                     {toPersianNum(currentMonthName)}
@@ -243,7 +288,7 @@ const Occasions: React.FC = () => {
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
                     } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#8e8585]'}
-               text-center`}
+                    text-center`}
                     style={{
                       fontSize:
                         event.ShortTitle.length > 16
@@ -267,11 +312,13 @@ const Occasions: React.FC = () => {
                     <div
                       className={`text-[#2a5b71] B14-SE1 absluteEnmonth ${
                         isToday ? 'text-[#ded4bd] ' : 'text-[#2a5b71]'
-                      }shadow-md rounded-lg p-2 text-center`}
+                      } p-2 text-center rtl:text-left `}
                     >
-                      {isLeapYear(currentYear)
-                        ? event.GeorgianK
-                        : event.Georgian}
+                      {formatGeorgianDate(
+                        isLeapYear(currentDisplayYear)
+                          ? event.GeorgianK
+                          : event.Georgian
+                      )}
                     </div>
                   </div>
                 </div>
@@ -289,7 +336,8 @@ const Occasions: React.FC = () => {
             <div className='w-52 mb-4'>
               <Image
                 src={
-                  modalContent.ModalImageLink || 'https://picsum.photos/536/354'
+                  modalContent.ModalImageLink ||
+                  'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg'
                 }
                 alt='Modal Image'
                 className='h-full sm-logo:w-[30px] sm-logo:h-[20px] w-2'
