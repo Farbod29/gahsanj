@@ -127,14 +127,16 @@ const Occasions: React.FC = () => {
   };
 
   const handleMonthChange = (increment: number) => {
-    const newMonthIndex =
-      (monthMapping[currentMonthName] + increment + 12) % 12 || 12;
+    const currentMonthIndex = monthMapping[currentMonthName];
+    let newMonthIndex = currentMonthIndex + increment;
 
-    if (newMonthIndex === 1 && increment === 1) {
-      // When moving from Esfand to Farvardin (right arrow)
+    if (newMonthIndex > 12) {
+      // Moving from Esfand to Farvardin
+      newMonthIndex = 1;
       setCurrentYear(currentYear + 1);
-    } else if (newMonthIndex === 12 && increment === -1) {
-      // When moving from Farvardin to Esfand (left arrow)
+    } else if (newMonthIndex < 1) {
+      // Moving from Farvardin to Esfand
+      newMonthIndex = 12;
       setCurrentYear(currentYear - 1);
     }
 
@@ -191,42 +193,42 @@ const Occasions: React.FC = () => {
   return (
     <div className='bg-[#333863] min-h-screen flex flex-col items-center justify-center pt-24 pb-24'>
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
-        <div className='flex items-center'>
+        <div className='flex items-center justify-between w-full'>
           <button
-            onClick={() =>
-              handleMonthChange(
-                (monthMapping[currentMonthName] - 1 + 12) % 12 || 12,
-                currentDisplayYear - (currentMonthName === 'فروردین' ? 1 : 0)
-              )
-            }
-            className='text-4xl md:text-5xl'
+            onClick={() => handleMonthChange(-1)}
+            className='text-4xl md:text-5xl flex-shrink-0'
           >
             &lt;
           </button>
+
+          <div className='flex items-center'>
+            <button
+              onClick={resetToToday}
+              className='border border-white h-6 text-[10px] sm:text-sm md:text-lg rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0 mx-2'
+              style={{
+                lineHeight: '1rem',
+                padding: '0 0.5rem',
+                height: '24px',
+              }}
+            >
+              برو به امروز
+            </button>
+            <h1 className='text-xs sm:text-sm md:text-lg mx-2'>
+              سال {toPersianNum(currentDisplayYear.toString())}
+              <span className='block'>{leapYearText}</span>
+            </h1>
+            <p className='text-xs sm:text-sm md:text-lg mx-2'>
+              فراخورهای ماه {currentMonthName}
+            </p>
+          </div>
+
           <button
-            onClick={resetToToday}
-            className='ml-12 p-2 text-2xl sm:text-xl rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
+            onClick={() => handleMonthChange(1)}
+            className='text-4xl md:text-5xl flex-shrink-0'
           >
-            برو به امروز
+            &gt;
           </button>
         </div>
-
-        <h1>
-          سال {currentDisplayYear} {leapYearText}
-        </h1>
-        <h1>فراخورهای ماه {currentMonthName}</h1>
-
-        <button
-          onClick={() =>
-            handleMonthChange(
-              (monthMapping[currentMonthName] + 1) % 12 || 12,
-              currentDisplayYear + (currentMonthName === 'اسفند' ? 1 : 0)
-            )
-          }
-          className='text-4xl md:text-5xl'
-        >
-          &gt;
-        </button>
       </div>
 
       {loading ? (
