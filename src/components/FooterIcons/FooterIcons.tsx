@@ -224,14 +224,6 @@ const Icon = ({ name, className = '' }: IconProps) => {
       ) : (
         <PictureAISefid />
       );
-
-    case 'FullScreen':
-      return pathname === '/AiGenerator' ? (
-        <PictureAINareji />
-      ) : (
-        <PictureAISefid />
-      );
-
     default:
       return null;
   }

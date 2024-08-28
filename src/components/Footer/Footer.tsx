@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Icon from '../FooterIcons/FooterIcons';
 import { useState } from 'react';
+import FullscreenIcon from './FullscreenIcon';
+import ExitFullscreenIcon from './ExitFullscreenIcon';
 
 const Footer = () => {
   const pathname = usePathname();
@@ -56,7 +58,7 @@ const Footer = () => {
             }`}
           />
           <span
-            className={`text-xs ${
+            className={`text-xs bg ${
               pathname === button.path ? 'text-[#FD821D]' : 'text-white'
             }`}
           >
@@ -68,24 +70,7 @@ const Footer = () => {
         onClick={toggleFullscreen}
         className='flex flex-col items-center text-center w-1/5 pb-0  '
       >
-        {isFullscreen ? (
-          <Image
-            src='/assets/ExitFullscreen.svg'
-            alt='Exit Fullscreen'
-            width={32}
-            height={32}
-            className='w-8 h-8 text-white mb-1'
-          />
-        ) : (
-          <Image
-            src='/assets/EnterFullscreen.svg'
-            alt='Enter Fullscreen'
-            width={32}
-            height={32}
-            className='w-8 h-8 text-white mb-1'
-          />
-        )}
-        <span className='text-xs text-white'>{isFullscreen ? '' : ''}</span>
+        {isFullscreen ? <ExitFullscreenIcon /> : <FullscreenIcon />}
       </button>
     </footer>
   );
