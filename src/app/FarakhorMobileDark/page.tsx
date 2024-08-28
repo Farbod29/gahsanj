@@ -46,7 +46,7 @@ const Occasions: React.FC = () => {
       return true;
     } catch (_) {
       return false;
-    }
+    } //ss
   };
 
   const monthMapping = useMemo(

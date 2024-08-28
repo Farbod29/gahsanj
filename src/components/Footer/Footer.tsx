@@ -1,11 +1,11 @@
 // src/components/Footer/Footer.tsx
 'use client';
+import Image from 'next/image';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Icon from '../FooterIcons/FooterIcons';
 import { useState } from 'react';
-import EnterFullscreenIcon from '../../../public/assets/EnterFullscreen.svg';
-import ExitFullscreenIcon from '../../../public/assets/ExitFullscreen.svg';
 
 const Footer = () => {
   const pathname = usePathname();
@@ -69,9 +69,21 @@ const Footer = () => {
         className='flex flex-col items-center text-center w-1/5 pb-0  '
       >
         {isFullscreen ? (
-          <ExitFullscreenIcon className='w-8 h-8 text-white mb-1' />
+          <Image
+            src='/assets/ExitFullscreen.svg'
+            alt='Exit Fullscreen'
+            width={32}
+            height={32}
+            className='w-8 h-8 text-white mb-1'
+          />
         ) : (
-          <EnterFullscreenIcon className='w-8 h-8 text-white mb-1' />
+          <Image
+            src='/assets/EnterFullscreen.svg'
+            alt='Enter Fullscreen'
+            width={32}
+            height={32}
+            className='w-8 h-8 text-white mb-1'
+          />
         )}
         <span className='text-xs text-white'>{isFullscreen ? '' : ''}</span>
       </button>
