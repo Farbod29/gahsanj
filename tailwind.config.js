@@ -1,11 +1,41 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}", // Adjust this based on your project structure
-    "./public/index.html",
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      hamishe: ['Hamishe', 'sans-serif'],
+    },
+    extend: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      fontSize: {
+        xxxxs: '0.4rem',
+        verysmall: '0.5rem',
+      },
+      spacing: {
+        0.1: '1.3325rem',
+        3: '0.575rem',
+      },
+      screens: {
+        xs: '430px',
+        xm: '375px',
+        se: '375px',
+        'h-md': { raw: '(min-height: 667px)' },
+        'h-lg': { raw: '(min-height: 844px)' },
+        'h-xl': { raw: '(min-height: 896px)' },
+        iphone14: '430px',
+        ipad: '768px',
+        ipadair: '820px',
+      },
+    },
   },
   plugins: [],
 };

@@ -12,15 +12,15 @@ const Footer = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const buttons = [
-    { path: '/', label: 'Home', icon: 'home' },
-    { path: '/smallCalendarMobile', label: 'Calendar', icon: 'calendar' },
+    { path: '/', label: '', icon: 'home' },
+    { path: '/smallCalendarMobile', label: '', icon: 'calendar' },
     {
       path: '/FarakhorMobileDark',
-      label: 'Farakhor',
+      label: '',
       icon: 'FarakhorMobileDark',
     },
-    { path: '/AiGenerator', label: 'AI Gen', icon: 'AiGenerator' },
-    { path: '/ExtraTools', label: 'Tools', icon: 'ExtraTools' },
+    { path: '/AiGenerator', label: '', icon: 'AiGenerator' },
+    { path: '/ExtraTools', label: '', icon: 'ExtraTools' },
   ];
 
   const toggleFullscreen = () => {
@@ -66,7 +66,7 @@ const Footer = () => {
       ))}
       <button
         onClick={toggleFullscreen}
-        className='flex flex-col items-center text-center w-1/5 pb-2  '
+        className='flex flex-col items-center text-center w-1/5 pb-0  '
       >
         {isFullscreen ? (
           <ExitFullscreenIcon className='w-8 h-8 text-white mb-1' />

@@ -188,31 +188,40 @@ const Occasions: React.FC = () => {
     : '';
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-start bg-transparent'>
+    <div className='min-h-screen  flex flex-col items-center justify-start bg-transparent'>
+      {/* ssssssssss */}
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-5 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-20'>
-        <div className='flex items-center'>
-          <button
-            onClick={() => handleMonthChange(1)}
-            className='text-4xl md:text-5xl'
-          >
-            &lt;
-          </button>
+        <button
+          onClick={() => handleMonthChange(-1)}
+          className='text-4xl md:text-5xl flex-shrink-0'
+        >
+          &lt;
+        </button>
+
+        <div className='flex items-center justify-between space-x-[500px] flex'>
           <button
             onClick={resetToToday}
-            className='ml-12 p-2 text-2xl sm:text-xl rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
+            className='border border-white h-6 text-[10px] sm:text-sm md:text-lg rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0'
+            style={{
+              lineHeight: '1rem',
+              padding: '0 0.5rem',
+              height: '24px',
+            }}
           >
             برو به امروز
           </button>
+          <h1 className='text-xs sm:text-sm md:text-lg'>
+            سال {toPersianNum(currentDisplayYear.toString())}
+            <span className='block'>{leapYearText}</span>
+          </h1>
+          <p className='text-xs sm:text-sm md:text-lg'>
+            فراخورهای ماه {currentMonthName}
+          </p>
         </div>
 
-        <h1>
-          سال {toPersianNum(currentDisplayYear.toString())} {leapYearText}
-        </h1>
-        <h1>فراخورهای ماه {currentMonthName}</h1>
-
         <button
-          onClick={() => handleMonthChange(-1)}
-          className='text-4xl md:text-5xl'
+          onClick={() => handleMonthChange(1)}
+          className='text-4xl md:text-5xl flex-shrink-0'
         >
           &gt;
         </button>
