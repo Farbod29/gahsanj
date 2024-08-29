@@ -186,9 +186,9 @@ const Occasions: React.FC = () => {
   const leapYearText = isLeapYear(currentDisplayYear) ? '( انباشته)' : '';
 
   return (
-    <div className=' min-h-screen flex flex-col items-center justify-center pt-20 pb-1'>
+    <div className='min-h-screen flex flex-col items-center justify-center pt-20 pb-1'>
       {/* sssssssss */}
-      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-3 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
+      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-9 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <button
           onClick={() => handleMonthChange(1)}
           className='text-3xl md:text-4xl flex-shrink-0'
