@@ -188,17 +188,18 @@ const Occasions: React.FC = () => {
     : '';
 
   return (
-    <div className='min-h-screen  flex flex-col items-center justify-start bg-transparent'>
-      {/* ssssssssss */}
-      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-5 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-20'>
+    <div className=' min-h-screen flex flex-col items-center justify-center pt-24 pb-24'>
+      {/* sssssssss */}
+
+      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-4 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <button
-          onClick={() => handleMonthChange(-1)}
-          className='text-4xl md:text-5xl flex-shrink-0'
+          onClick={() => handleMonthChange(1)}
+          className='text-3xl md:text-4xl flex-shrink-0'
         >
           &lt;
         </button>
 
-        <div className='flex items-center justify-between space-x-[500px] flex'>
+        <div className='flex items-center justify-center flex-grow space-x-4 md:space-x-64'>
           <button
             onClick={resetToToday}
             className='border border-white h-6 text-[10px] sm:text-sm md:text-lg rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0'
@@ -220,13 +221,14 @@ const Occasions: React.FC = () => {
         </div>
 
         <button
-          onClick={() => handleMonthChange(1)}
-          className='text-4xl md:text-5xl flex-shrink-0'
+          onClick={() => handleMonthChange(-1)}
+          className='text-3xl md:text-4xl flex-shrink-0'
         >
           &gt;
         </button>
       </div>
 
+      {/* sssssssss */}
       {loading ? (
         <div className='text-center text-white'>
           ... در حال بارگزاری فراخور های پیش رو
@@ -234,7 +236,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-4 sm:grid-cols-5 se:grid-cols-5 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 pt-[100px] w-full p-8 pr-12'
+          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[24px] w-full p-8 pr-12'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
@@ -243,7 +245,9 @@ const Occasions: React.FC = () => {
               (isLeapYear(currentYear)
                 ? event.PersianDayNumberK === todayPersianDayNumberK
                 : event.PersianDayNumber === todayPersianDayNumber);
-            const logo = event.LogoLink || '/https://picsum.photos/536/35';
+            const logo =
+              event.LogoLink ||
+              '/https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
 
             return (
               <div
@@ -335,7 +339,8 @@ const Occasions: React.FC = () => {
             <div className='w-52  4'>
               <Image
                 src={
-                  modalContent.ModalImageLink || 'https://picsum.photos/536/354'
+                  modalContent.ModalImageLink ||
+                  'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg'
                 }
                 alt='Modal Image'
                 className='h-full sm-logo:w-[30px] sm-logo:h-[20px] w-2'

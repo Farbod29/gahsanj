@@ -246,7 +246,9 @@ const Occasions: React.FC = () => {
               (isLeapYear(currentYear)
                 ? event.PersianDayNumberK === todayPersianDayNumberK
                 : event.PersianDayNumber === todayPersianDayNumber);
-            const logo = event.LogoLink || '/https://picsum.photos/536/35';
+            const logo =
+              event.LogoLink ||
+              'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
 
             return (
               <div

@@ -1,3 +1,7 @@
+// This is a React functional component named Footer that renders a footer section with navigation buttons and a fullscreen toggle.
+// It uses Next.js for routing and maintains the current path to highlight the active button.
+// The footer contains
+
 import FullscreenIcon from './FullscreenIcon';
 import ExitFullscreenIcon from './ExitFullscreenIcon';
 import Link from 'next/link';
