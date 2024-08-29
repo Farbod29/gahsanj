@@ -236,7 +236,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[24px] w-full p-8 pr-12'
+          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[14px] w-full p-8 pr-12'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
