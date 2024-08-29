@@ -183,14 +183,11 @@ const Occasions: React.FC = () => {
   const todayPersianDayNumberK = isLeapYear(currentDisplayYear)
     ? todayPersianDayNumber
     : todayPersianDayNumber;
-  const leapYearText = isLeapYear(currentDisplayYear)
-    ? '(کبیسه / انباشته)'
-    : '';
+  const leapYearText = isLeapYear(currentDisplayYear) ? '( انباشته)' : '';
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center pt-24 pb-1'>
+    <div className=' min-h-screen flex flex-col items-center justify-center pt-20 pb-1'>
       {/* sssssssss */}
-
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-7 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <button
           onClick={() => handleMonthChange(1)}
@@ -206,7 +203,7 @@ const Occasions: React.FC = () => {
             style={{
               lineHeight: '1rem',
               padding: '0 0.5rem',
-              height: '24px',
+              height: '30px',
             }}
           >
             برو به امروز
@@ -236,7 +233,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[14px] w-full p-8 pr-12'
+          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[1px] w-full p-8 '
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
