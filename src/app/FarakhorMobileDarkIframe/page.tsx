@@ -188,10 +188,10 @@ const Occasions: React.FC = () => {
     : '';
 
   return (
-    <div className=' min-h-screen flex flex-col items-center justify-center pt-24 pb-24'>
+    <div className='min-h-screen flex flex-col items-center justify-center pt-24 pb-1'>
       {/* sssssssss */}
 
-      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-4 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
+      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-7 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <button
           onClick={() => handleMonthChange(1)}
           className='text-3xl md:text-4xl flex-shrink-0'
