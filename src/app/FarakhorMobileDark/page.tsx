@@ -238,7 +238,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-2 se:grid-cols-3 iphone14:grid-cols-3 lg:grid-cols-6 ipad:grid-cols-3 ipadair:grid-cols-3 gap-4 ipad:gap-3 ipadair:gap-3 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
+          className='grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 ipad:grid-cols-3 ipadair:grid-cols-3 gap-4 ipad:gap-3 ipadair:gap-3 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
         >
           {currentMonthEvents.map((event, index) => {
             const isToday =
@@ -351,7 +351,7 @@ const Occasions: React.FC = () => {
               />
             </div>
             <p
-              className='text-sm sm:text-[#707070] mb-4 text-justify text-end'
+              className='text-sm sm:text-[#707070] mb-4 text-justify'
               dir='rtl'
             >
               {modalContent.Text}

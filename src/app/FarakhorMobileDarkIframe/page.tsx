@@ -256,7 +256,7 @@ const Occasions: React.FC = () => {
                 : event.PersianDayNumber === todayPersianDayNumber);
             const logo =
               event.LogoLink ||
-              '/https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
+              'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
 
             return (
               <div
