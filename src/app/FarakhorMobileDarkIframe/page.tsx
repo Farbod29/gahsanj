@@ -310,8 +310,8 @@ const Occasions: React.FC = () => {
                             : event.ShortTitle.length > 8
                               ? '1.0rem'
                               : event.ShortTitle.length > 7
-                                ? '1.175rem'
-                                : '1.3rem',
+                                ? '1.35rem'
+                                : '0.99rem',
                     }}
                   >
                     {event.ShortTitle}
@@ -324,7 +324,7 @@ const Occasions: React.FC = () => {
                     <div
                       className={`text-[#2a5b71] B14-SE1 absluteEnmonth ${
                         isToday ? 'text-black ' : 'text-[#2a5b71]'
-                      } rounded-lg p-2 text-center`}
+                      } rounded-lg  pt-3 pb-3 text-center`}
                     >
                       {formatGeorgianDate(
                         isLeapYear(currentDisplayYear)
