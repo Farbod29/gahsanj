@@ -246,7 +246,6 @@ const Occasions: React.FC = () => {
             overflow: 'hidden',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
-            height: '120vh',
           }}
         >
           {currentMonthEvents.map((event, index) => {
