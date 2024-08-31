@@ -5,22 +5,6 @@ import jalaali from 'jalaali-js';
 import Image from 'next/image';
 import { findPreviousDay } from '@/utils/findPreviousDay';
 
-interface Occasion {
-  ShortTitle: string;
-  EventTitle: string;
-  Georgian: string;
-  GeorgianK: string;
-  ModalImageLink: string;
-  ModalStatus: boolean;
-  PersianDayNumber: number;
-  PersianDayNumberK: number;
-  RefLink: string;
-  Text: string;
-  importantDay: boolean;
-  Month: string;
-  LogoLink: string;
-}
-
 const Occasions: React.FC = () => {
   const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion[]>([]);
   const [currentMonthName, setCurrentMonthName] = useState<string>('');
@@ -183,12 +167,14 @@ const Occasions: React.FC = () => {
   const todayPersianDayNumberK = isLeapYear(currentDisplayYear)
     ? todayPersianDayNumber
     : todayPersianDayNumber;
-  const leapYearText = isLeapYear(currentDisplayYear) ? '( انباشته)' : '';
+  const leapYearText = isLeapYear(currentDisplayYear)
+    ? '( کبیسه / انباشته ) '
+    : '';
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center pt-20 pb-1'>
+    <div className='min-h-screen flex flex-col items-center justify-center pt-32 pb-1'>
       {/* sssssssss */}
-      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-9 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
+      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-8 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <button
           onClick={() => handleMonthChange(1)}
           className='text-3xl md:text-4xl flex-shrink-0'
@@ -203,7 +189,7 @@ const Occasions: React.FC = () => {
             style={{
               lineHeight: '1rem',
               padding: '0 0.5rem',
-              height: '30px',
+              height: '35px',
             }}
           >
             برو به امروز
@@ -233,8 +219,13 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[1px] w-full p-8 '
-          style={{ direction: 'rtl' }}
+          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[40px] w-full p-8 '
+          style={{
+            direction: 'rtl',
+            overflowY: 'scroll',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
         >
           {currentMonthEvents.map((event, index) => {
             const isToday =
