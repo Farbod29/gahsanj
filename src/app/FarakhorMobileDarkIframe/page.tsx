@@ -5,6 +5,21 @@ import jalaali from 'jalaali-js';
 import Image from 'next/image';
 import { findPreviousDay } from '@/utils/findPreviousDay';
 
+interface Occasion {
+  ShortTitle: string;
+  EventTitle: string;
+  Georgian: string;
+  GeorgianK: string;
+  ModalImageLink: string;
+  ModalStatus: boolean;
+  PersianDayNumber: number;
+  PersianDayNumberK: number;
+  RefLink: string;
+  Text: string;
+  importantDay: boolean;
+  Month: string;
+  LogoLink: string;
+}
 const Occasions: React.FC = () => {
   const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion[]>([]);
   const [currentMonthName, setCurrentMonthName] = useState<string>('');
