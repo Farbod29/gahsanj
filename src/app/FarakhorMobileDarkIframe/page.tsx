@@ -33,7 +33,13 @@ const Occasions: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const leapYears = useMemo(
-    () => [1403, 1407, 1411, 1415, 1419, 1423, 1427, 1431, 1435, 1439],
+    () => [
+      1403, 1407, 1411, 1415, 1419, 1423, 1427, 1431, 1435, 1439, 1443, 1447,
+      1451, 1455, 1459, 1463, 1467, 1471, 1475, 1479, 1483, 1487, 1491, 1495,
+      1499, 1503, 1507, 1511, 1515, 1519, 1523, 1527, 1531, 1535, 1539, 1543,
+      1547, 1551, 1555, 1559, 1563, 1567, 1571, 1575, 1579, 1583, 1587, 1591,
+      1595, 1599,
+    ],
     []
   );
 
@@ -237,9 +243,10 @@ const Occasions: React.FC = () => {
           className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[40px] w-full p-8 '
           style={{
             direction: 'rtl',
-            overflowY: 'scroll',
+            overflow: 'hidden',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
+            height: '120vh',
           }}
         >
           {currentMonthEvents.map((event, index) => {
