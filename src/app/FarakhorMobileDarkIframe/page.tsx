@@ -213,7 +213,7 @@ const Occasions: React.FC = () => {
               height: '35px',
             }}
           >
-            برو به امروز
+            برو به این ماه
           </button>
           <h1 className='text-xs sm:text-sm md:text-lg'>
             سال {toPersianNum(currentDisplayYear.toString())}
@@ -232,7 +232,6 @@ const Occasions: React.FC = () => {
         </button>
       </div>
 
-      {/* sssssssss */}
       {loading ? (
         <div className='text-center text-white'>
           ... در حال بارگزاری فراخور های پیش رو
@@ -240,7 +239,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 w-full align-top mt-[140px]'
+          className=' grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 w-full align-top mt-[140px]'
           style={{
             direction: 'rtl',
             overflow: 'hidden',
@@ -269,10 +268,11 @@ const Occasions: React.FC = () => {
                     ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
                     : 'bg-[#FFFFFF]'
                 } shadow-md rounded-lg p-2 text-center`}
-                style={{ width: '100%', maxWidth: '350px', height: 'auto' }}
+                style={{ width: '100%', maxWidth: '350px', height: '142px' }}
               >
+                {/* ${isToday ? 'bg-gray-900  ' : 'bg-[#FFFFFF] '} */}
                 <div
-                  className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]   xs:top-[80px]  sm:h-[70px] h-[10px] flex 2 pl-2 m-2 customsizefologosite xs: 2 xl: 12 2xl: 10 mr-7'
+                  className={` absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]   xs:top-[80px]  sm:h-[70px] h-[20px] flex 2 pl-2 m-2 customsizefologosite xs: 2 xl: 12 2xl:10 mr-7`}
                   style={{ width: 'auto', maxWidth: '80%' }}
                 >
                   {isValidUrl(logo) && (
@@ -295,9 +295,9 @@ const Occasions: React.FC = () => {
                     }
                   }
                 `}</style>
-                <div className='flex flex-col items-center justify-center bg-transparent'>
+                <div className='flex flex-col h-full'>
                   <span
-                    className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'} text-center`}
+                    className={`text-3xl sm:text-2xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-gray-700'}`}
                   >
                     {toPersianNum(
                       isLeapYear(currentDisplayYear)
@@ -305,18 +305,18 @@ const Occasions: React.FC = () => {
                         : event.PersianDayNumber.toString()
                     )}
                   </span>
-                  <span className='text-[#CAB9B9] text-sm sm:text-lg '>
+                  <span className='text-[#CAB9B9] text-sm sm:text-lg pb-[-5px] '>
                     {toPersianNum(currentMonthName)}
                   </span>
                   <div
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636] pb-2'}
-                  text-center`}
+                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636] pb-12'}
+            text-center`}
                     style={{
                       fontSize:
                         event.ShortTitle.length > 16
-                          ? '0.69rem'
+                          ? '0.72rem'
                           : event.ShortTitle.length > 12
                             ? '0.89rem'
                             : event.ShortTitle.length > 8
@@ -328,15 +328,18 @@ const Occasions: React.FC = () => {
                   >
                     {event.ShortTitle}
                   </div>
-
-                  <div
-                    className='relative'
-                    style={{ height: '32px', position: 'relative' }}
-                  >
+                  <div className='w-full mt-2'>
                     <div
                       className={`text-[#2a5b71] ${
-                        isToday ? 'text-black ' : 'text-[#2a5b71]'
-                      } rounded-lg text-center fixed mr-[-20px]`}
+                        isToday
+                          ? 'text-gray-200 font-extrabold text-lg'
+                          : 'text-[#2a5b71]'
+                      } rounded-lg text-center pl-2`}
+                      style={{
+                        position: 'absolute',
+                        bottom: '10px',
+                        width: '100%',
+                      }}
                     >
                       {formatGeorgianDate(
                         isLeapYear(currentDisplayYear)
@@ -378,7 +381,7 @@ const Occasions: React.FC = () => {
             </p>
             {modalVisible && modalContent && modalContent.RefLink && (
               <p className='text-center mt-4 p-3 py-4 pb-4'>
-                برای اطلاعات بیشتر به{' '}
+                برای اطلاعات بیشتر به
                 <a
                   href={modalContent.RefLink}
                   target='_blank'
@@ -386,7 +389,7 @@ const Occasions: React.FC = () => {
                   className='text-blue-500 underline'
                 >
                   لینک زیر
-                </a>{' '}
+                </a>
                 مراجع کنید.
               </p>
             )}
