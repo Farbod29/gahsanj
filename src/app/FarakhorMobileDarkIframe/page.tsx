@@ -381,7 +381,7 @@ const Occasions: React.FC = () => {
             </p>
             {modalVisible && modalContent && modalContent.RefLink && (
               <p className='text-center mt-4 p-3 py-4 pb-4'>
-                برای اطلاعات بیشتر به
+                برای اطلاعات بیشتر به{' '}
                 <a
                   href={modalContent.RefLink}
                   target='_blank'
@@ -389,7 +389,7 @@ const Occasions: React.FC = () => {
                   className='text-blue-500 underline'
                 >
                   لینک زیر
-                </a>
+                </a>{' '}
                 مراجع کنید.
               </p>
             )}

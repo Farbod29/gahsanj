@@ -275,7 +275,7 @@ const Occasions6Days: React.FC = () => {
             </p>
             {modalVisible && modalContent.RefLink && (
               <p className='text-center mt-4 p-3 py-4 pb-4'>
-                برای اطلاعات بیشتر به
+                برای اطلاعات بیشتر به{' '}
                 <a
                   href={modalContent.RefLink}
                   target='_blank'
@@ -283,7 +283,7 @@ const Occasions6Days: React.FC = () => {
                   className='text-blue-500 underline'
                 >
                   لینک زیر
-                </a>
+                </a>{' '}
                 مراجع کنید.
               </p>
             )}
