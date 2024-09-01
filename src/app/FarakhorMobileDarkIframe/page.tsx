@@ -316,14 +316,14 @@ const Occasions: React.FC = () => {
                     style={{
                       fontSize:
                         event.ShortTitle.length > 16
-                          ? '0.79rem'
+                          ? '0.69rem'
                           : event.ShortTitle.length > 12
-                            ? '0.99rem'
+                            ? '0.89rem'
                             : event.ShortTitle.length > 8
                               ? '1.0rem'
                               : event.ShortTitle.length > 7
-                                ? '1.35rem'
-                                : '0.99rem',
+                                ? '1.0rem'
+                                : '0.89rem',
                     }}
                   >
                     {event.ShortTitle}
@@ -374,7 +374,7 @@ const Occasions: React.FC = () => {
               {modalContent.Text}
             </p>
             <button
-              className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded'
+              className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded xs:py-3'
               onClick={() => setModalVisible(false)}
             >
               بستن
