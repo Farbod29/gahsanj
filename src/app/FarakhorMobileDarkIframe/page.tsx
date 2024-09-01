@@ -193,9 +193,9 @@ const Occasions: React.FC = () => {
     : '';
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center pt-32 pb-1'>
+    <div className='min-h-screen flex flex-col pb-1 '>
       {/* sssssssss */}
-      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-8 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
+      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-8 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10 min-h-[120px]'>
         <button
           onClick={() => handleMonthChange(1)}
           className='text-3xl md:text-4xl flex-shrink-0'
@@ -240,7 +240,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 pt-[40px] w-full p-8 '
+          className='grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 w-full align-top mt-[140px]'
           style={{
             direction: 'rtl',
             overflow: 'hidden',
@@ -271,18 +271,29 @@ const Occasions: React.FC = () => {
                 } shadow-md rounded-lg p-2 text-center`}
                 style={{ width: '100%', maxWidth: '350px', height: 'auto' }}
               >
-                <div className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex 2 pl-2 m-2 customsizefologosite xs: 2 xl: 12 2xl: 10 pr-1 mr-7'>
+                <div
+                  className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex 2 pl-2 m-2 customsizefologosite xs: 2 xl: 12 2xl: 10 pr-1 mr-7'
+                  style={{ width: 'auto', maxWidth: '100%' }}
+                >
                   {isValidUrl(logo) && (
                     <Image
                       src={logo}
                       alt='Logo Of the Day'
                       width={50}
                       height={50}
-                      className='w-[30px] h-full sm-logo:w-[20px] sm-logo:h-[20px] sm-logo:h-[20px]'
                       layout='responsive'
+                      className='w-full h-auto'
                     />
                   )}
                 </div>
+
+                <style jsx>{`
+                  @media (min-width: 1784px) {
+                    .customsizefologosite {
+                      width: 100px;
+                    }
+                  }
+                `}</style>
                 <div className='flex flex-col items-center justify-center bg-transparent'>
                   <span
                     className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'} text-center`}
@@ -299,7 +310,7 @@ const Occasions: React.FC = () => {
                   <div
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636]'}
+                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636] pb-2'}
                   text-center`}
                     style={{
                       fontSize:
@@ -322,9 +333,9 @@ const Occasions: React.FC = () => {
                     style={{ height: '32px', position: 'relative' }}
                   >
                     <div
-                      className={`text-[#2a5b71] B14-SE1 absluteEnmonth ${
+                      className={`text-[#2a5b71] ${
                         isToday ? 'text-black ' : 'text-[#2a5b71]'
-                      } rounded-lg  pt-3 pb-3 text-center`}
+                      } rounded-lg text-center fixed mr-[-20px]`}
                     >
                       {formatGeorgianDate(
                         isLeapYear(currentDisplayYear)
