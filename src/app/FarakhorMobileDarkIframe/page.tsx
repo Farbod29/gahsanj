@@ -364,17 +364,34 @@ const Occasions: React.FC = () => {
                   'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg'
                 }
                 alt='Modal Image'
-                className='h-full sm-logo:w-[30px] sm-logo:h-[20px] w-2'
+                className='h-full sm-logo:w-[30px] sm-logo:h-[20px] w-2 p-2'
                 layout='responsive'
                 width={30}
                 height={30}
               />
             </div>
-            <p className='text-sm sm:text-[#707070]  4 text-justify' dir='rtl'>
+            <p
+              className='text-sm sm:text-[#707070] p-4 4 text-justify'
+              dir='rtl'
+            >
               {modalContent.Text}
             </p>
+            {modalVisible && modalContent && modalContent.RefLink && (
+              <p className='text-center mt-4 p-3 py-4 pb-4'>
+                برای اطلاعات بیشتر به{' '}
+                <a
+                  href={modalContent.RefLink}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-500 underline'
+                >
+                  لینک زیر
+                </a>{' '}
+                مراجع کنید.
+              </p>
+            )}
             <button
-              className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded xs:py-3'
+              className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded xs:py-3 xs:pt-3'
               onClick={() => setModalVisible(false)}
             >
               بستن
