@@ -34,7 +34,13 @@ const Occasions: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const leapYears = useMemo(
-    () => [1403, 1407, 1411, 1415, 1419, 1423, 1427, 1431, 1435, 1439],
+    () => [
+      1403, 1407, 1411, 1415, 1419, 1423, 1427, 1431, 1435, 1439, 1443, 1447,
+      1451, 1455, 1459, 1463, 1467, 1471, 1475, 1479, 1483, 1487, 1491, 1495,
+      1499, 1503, 1507, 1511, 1515, 1519, 1523, 1527, 1531, 1535, 1539, 1543,
+      1547, 1551, 1555, 1559, 1563, 1567, 1571, 1575, 1579, 1583, 1587, 1591,
+      1595, 1599,
+    ],
     []
   );
 
@@ -46,7 +52,7 @@ const Occasions: React.FC = () => {
       return true;
     } catch (_) {
       return false;
-    } //ss
+    }
   };
 
   const monthMapping = useMemo(
@@ -101,11 +107,10 @@ const Occasions: React.FC = () => {
         ? data.filter((event) => event.ShortTitle)
         : [];
 
-      const today = new Date(); // Define 'today' here
+      const today = new Date();
       const jToday = jalaali.toJalaali(today);
       const currentYear = jToday.jy;
 
-      // Sort events based on PersianDayNumber or PersianDayNumberK depending on the leap year status
       filteredData.sort((a, b) => {
         const dayA = isLeapYear(currentYear)
           ? a.PersianDayNumberK
@@ -126,16 +131,51 @@ const Occasions: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const today = new Date();
+    const jToday = jalaali.toJalaali(today);
+    const newName = Object.keys(monthMapping).find(
+      (key) => monthMapping[key] === jToday.jm
+    );
+    setCurrentMonthName(newName || '');
+    fetchOccasions(newName || '');
+  }, [monthMapping]);
+
+  useEffect(() => {
+    if (!loading && scrollRef.current) {
+      const today = new Date();
+      const todayPersianDayNumber = jalaali.toJalaali(today).jd;
+      const todayPersianDayNumberK = isLeapYear(currentYear)
+        ? todayPersianDayNumber
+        : todayPersianDayNumber;
+
+      const targetEventIndex = currentMonthEvents.findIndex((event) =>
+        isLeapYear(currentYear)
+          ? event.PersianDayNumberK === todayPersianDayNumberK
+          : event.PersianDayNumber === todayPersianDayNumber
+      );
+
+      if (targetEventIndex !== -1) {
+        const targetEventElement = scrollRef.current.children[
+          targetEventIndex
+        ] as HTMLDivElement;
+        targetEventElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start', // Scrolls the event to the center of the viewport
+        });
+        window.scrollBy(0, -100);
+      }
+    }
+  }, [loading, currentMonthEvents, currentYear]);
+
   const handleMonthChange = (increment: number) => {
     const currentMonthIndex = monthMapping[currentMonthName];
     let newMonthIndex = currentMonthIndex + increment;
 
     if (newMonthIndex > 12) {
-      // Moving from Esfand to Farvardin
       newMonthIndex = 1;
       setCurrentYear(currentYear + 1);
     } else if (newMonthIndex < 1) {
-      // Moving from Farvardin to Esfand
       newMonthIndex = 12;
       setCurrentYear(currentYear - 1);
     }
@@ -174,10 +214,6 @@ const Occasions: React.FC = () => {
       .join('');
   };
 
-  useEffect(() => {
-    resetToToday(); // Call this when the component mounts to show the current month's occasions
-  }, []);
-
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
   const todayPersianDayNumber = jToday.jd;
@@ -195,13 +231,13 @@ const Occasions: React.FC = () => {
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <div className='flex items-center justify-between w-full'>
           <button
-            onClick={() => handleMonthChange(-1)}
+            onClick={() => handleMonthChange(1)}
             className='text-4xl md:text-5xl flex-shrink-0'
           >
             &lt;
           </button>
 
-          <div className='flex items-center p- flex flex '>
+          <div className='flex items-center'>
             <button
               onClick={resetToToday}
               className='border border-white h-6 text-[10px] sm:text-sm md:text-lg rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0 mx-2'
@@ -223,7 +259,7 @@ const Occasions: React.FC = () => {
           </div>
 
           <button
-            onClick={() => handleMonthChange(1)}
+            onClick={() => handleMonthChange(-1)}
             className='text-4xl md:text-5xl flex-shrink-0'
           >
             &gt;
@@ -238,7 +274,8 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 ipad:grid-cols-3 ipadair:grid-cols-3 gap-4 ipad:gap-3 ipadair:gap-3 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
+          className='grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
+          style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
             const isToday =
@@ -263,14 +300,14 @@ const Occasions: React.FC = () => {
                 } shadow-md rounded-lg p-2 text-center`}
                 style={{ width: '100%', maxWidth: '350px', height: 'auto' }}
               >
-                <div className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[40px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl-2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7'>
+                <div className='absolute  xl:top-[65px]  sm:top-[75px] left-[0] right-24 bottom-[10px] sm-logo:left-2 w-[50px] lg:h-[50px] sm:w-[50px] xs:w-[30px] xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl-2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7'>
                   {isValidUrl(logo) && (
                     <Image
                       src={logo}
                       alt='Logo Of the Day'
-                      width={50}
-                      height={50}
-                      className='w-[30px] h-full sm-logo:w-[20px] sm-logo:h-[20px] sm-logo:h-[20px]'
+                      width={60}
+                      height={60}
+                      className=''
                       layout='responsive'
                     />
                   )}
@@ -311,10 +348,10 @@ const Occasions: React.FC = () => {
 
                   <div
                     className='relative'
-                    style={{ height: '32px', position: 'relative' }}
+                    style={{ height: '36px', position: 'relative' }}
                   >
                     <div
-                      className={`text-[#2a5b71] B14-SE1 absluteEnmonth ${
+                      className={`text-[#2a5b71]  absluteEnmonth ${
                         isToday ? 'text-[#ded4bd] ' : 'text-[#2a5b71]'
                       } p-2 text-center rtl:text-left `}
                     >
@@ -356,6 +393,20 @@ const Occasions: React.FC = () => {
             >
               {modalContent.Text}
             </p>
+            {modalVisible && modalContent.RefLink && (
+              <p className='text-center mt-4 p-3 py-4 pb-4'>
+                برای اطلاعات بیشتر به{' '}
+                <a
+                  href={modalContent.RefLink}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-500 underline'
+                >
+                  لینک زیر
+                </a>{' '}
+                مراجع کنید.
+              </p>
+            )}
             <button
               className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded'
               onClick={() => setModalVisible(false)}

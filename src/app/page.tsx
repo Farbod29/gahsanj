@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import ClocksPage from '@/components/ClocksPageMiniForMobile/ClocksPageMiniForMobile';
 import JustDateWhiteApp from '@/components/JustDateWhiteApp/JustDateWhiteApp';
 import ClocksModal from '@/components/ClocksModal/ClocksModal';
-import Occasions from './Farakhor7Days/page';
+import Occasions from './Farakhor6Days/page';
 import '../styles/globals.css'; // Ensure you import the global CSS
 
 const Home = () => {
@@ -54,7 +54,7 @@ const Home = () => {
             <div className='flex flex-col items-end'>
               <JustDateWhiteApp />
               <div
-                className='text-white text-[17px] mt-1 ml-[70px] fontXXX'
+                className='text-white text-[17px] mt-1 ml-[30px] fontXXX'
                 dir='ltr'
               >
                 {new Date().toLocaleDateString('en-GB', {
