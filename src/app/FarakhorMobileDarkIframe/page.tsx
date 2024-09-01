@@ -193,7 +193,7 @@ const Occasions: React.FC = () => {
     : '';
 
   return (
-    <div className='min-h-screen flex flex-col pb-1 '>
+    <div className='min-h-screen flex flex-col pb-1'>
       {/* sssssssss */}
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-8 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10 min-h-[120px]'>
         <button
@@ -272,8 +272,8 @@ const Occasions: React.FC = () => {
                 style={{ width: '100%', maxWidth: '350px', height: 'auto' }}
               >
                 <div
-                  className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-2 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-0 sm:h-[70px] h-[10px] flex 2 pl-2 m-2 customsizefologosite xs: 2 xl: 12 2xl: 10 pr-1 mr-7'
-                  style={{ width: 'auto', maxWidth: '100%' }}
+                  className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]   xs:top-[80px]  sm:h-[70px] h-[10px] flex 2 pl-2 m-2 customsizefologosite xs: 2 xl: 12 2xl: 10 mr-7'
+                  style={{ width: 'auto', maxWidth: '80%' }}
                 >
                   {isValidUrl(logo) && (
                     <Image
@@ -282,7 +282,7 @@ const Occasions: React.FC = () => {
                       width={50}
                       height={50}
                       layout='responsive'
-                      className='w-full h-auto'
+                      className='w-full h-auto '
                     />
                   )}
                 </div>
@@ -290,7 +290,8 @@ const Occasions: React.FC = () => {
                 <style jsx>{`
                   @media (min-width: 1784px) {
                     .customsizefologosite {
-                      width: 100px;
+                      left: -10px;
+                      width: 25px;
                     }
                   }
                 `}</style>
