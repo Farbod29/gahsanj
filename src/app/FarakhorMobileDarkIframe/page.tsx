@@ -206,7 +206,7 @@ const Occasions: React.FC = () => {
         <div className='flex items-center justify-center flex-grow space-x-4 md:space-x-64'>
           <button
             onClick={resetToToday}
-            className='border border-white h-6 text-[10px] sm:text-sm md:text-lg rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0'
+            className='border border-white h-6 text-[10px] sm:text-sm md:text-sm rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0'
             style={{
               lineHeight: '1rem',
               padding: '0 0.5rem',
@@ -215,11 +215,11 @@ const Occasions: React.FC = () => {
           >
             برو به این ماه
           </button>
-          <h1 className='text-xs sm:text-sm md:text-lg'>
+          <h1 className='text-xs sm:text-sm md:text-sm'>
             سال {toPersianNum(currentDisplayYear.toString())}
             <span className='block'>{leapYearText}</span>
           </h1>
-          <p className='text-xs sm:text-sm md:text-lg'>
+          <p className='text-xs sm:text-sm md:text-sm'>
             فراخورهای ماه {currentMonthName}
           </p>
         </div>
@@ -239,7 +239,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className=' grid grid-cols-6 sm:grid-cols-5 se:grid-cols-5 lg:grid-cols-6 gap-4 w-full align-top mt-[140px]'
+          className=' grid grid-cols-6 sm:grid-cols-4 se:grid-cols-5 lg:grid-cols-6 gap-4 w-full align-top mt-[140px]'
           style={{
             direction: 'rtl',
             overflow: 'hidden',
@@ -272,7 +272,9 @@ const Occasions: React.FC = () => {
               >
                 {/* ${isToday ? 'bg-gray-900  ' : 'bg-[#FFFFFF] '} */}
                 <div
-                  className={` absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]   xs:top-[80px]  sm:h-[70px] h-[20px] flex 2 pl-2 m-2 customsizefologosite xs: 2 xl: 12 2xl:10 mr-7`}
+                  // className={` absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]  xs:top-[80px]  sm:h-[70px] h-[20px] flex 2 pl-2 m-2 xs: 2 xl: 12 2xl:10 mr-7`}
+                  className={` absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]  xs:top-[80px]  sm:h-[40px] h-[40px] flex 2 pl-2 m-2 xs: 2 xl: 12 2xl:10 mr-7`}
+                  //className={` absolute bottom-0  left-1 sm-logo:left-1 w-[20px] lg:h-[30px] sm:w-[50px] xs:w-[20px] xs:left-[-12px]  xs:top-[80px]  sm:h-[70px] h-[20px] flex 2 pl-2 m-2 xs: 2 xl: 12 2xl:10 mr-7`}
                   style={{ width: 'auto', maxWidth: '80%' }}
                 >
                   {isValidUrl(logo) && (
