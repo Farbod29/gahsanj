@@ -104,7 +104,16 @@ const ExtraTools = () => {
           text='تبدیل تاریخ'
           iconSrc='/assets/Replay.png'
           altText='تبدیل تاریخ'
-          onClick={() => handleOpenModal('تبدیل تاریخ')}
+          onClick={() =>
+            handleOpenModal(
+              <iframe
+                src='https://gahshomar.com/gahgardan/'
+                width='100%'
+                height='500px'
+                style={{ border: 'none' }}
+              ></iframe>
+            )
+          }
         />
 
         <div

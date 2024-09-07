@@ -274,7 +274,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-2 se:grid-cols-2 iphone14:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
+          className='grid grid-cols-2 se:grid-cols-2 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
@@ -300,21 +300,22 @@ const Occasions: React.FC = () => {
                 } shadow-md rounded-lg p-2 text-center`}
                 style={{ width: '100%', maxWidth: '350px', height: 'auto' }}
               >
-                <div className='absolute  xl:top-[65px]  sm:top-[75px] left-[0] right-24 bottom-[10px] sm-logo:left-2 w-[50px] lg:h-[50px] sm:w-[50px] xs:w-[30px] xs:left-0 sm:h-[70px] h-[10px] flex items-center justify-center pb-2 pl-2 m-2 customsizefologosite xs:mt-2 xl:mb-12 2xl:mb-10 pr-1 mr-7'>
-                  {isValidUrl(logo) && (
-                    <Image
-                      src={logo}
-                      alt='Logo Of the Day'
-                      width={60}
-                      height={60}
-                      className=''
-                      layout='responsive'
-                    />
-                  )}
+                <div
+                  className={`absolute bottom-0 xl:top-[65px] sm:top-[75px] left-[-10px] sm-logo:left-1 w-[50px] pr-1 lg:h-[70px] sm:w-[110px] xs:w-10 xs:left-[-4px] xs:top-[80px] sm:h-[60px] h-[60px] flex 2 pl-2 m-2 xs:2 xl:12 2xl:10 mr-5 mt-[30px]
+  sm:left-[-6px] md:left-[-8px] lg:left-[-10px]`}
+                >
+                  <Image
+                    src={logo}
+                    alt='Logo Of the Day'
+                    width={80}
+                    height={80}
+                    className=''
+                    layout='responsive'
+                  />
                 </div>
-                <div className='flex flex-col items-center justify-center'>
+                <div className='flex flex-col h-full'>
                   <span
-                    className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-[#333863]'} text-center`}
+                    className={`text-3xl sm:text-2xl font-bold ${isToday ? 'text-[#FFFFFF] ' : 'text-gray-700'}`}
                   >
                     {toPersianNum(
                       isLeapYear(currentDisplayYear)
@@ -322,38 +323,41 @@ const Occasions: React.FC = () => {
                         : event.PersianDayNumber.toString()
                     )}
                   </span>
-                  <span className='text-[#CAB9B9] text-sm sm:text-lg '>
+                  <span className='text-[#CAB9B9] text-sm sm:text-lg pb-[-5px] '>
                     {toPersianNum(currentMonthName)}
                   </span>
                   <div
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#8e8585]'}
-                    text-center`}
+                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636] pb-12'}
+            text-center`}
                     style={{
                       fontSize:
                         event.ShortTitle.length > 16
-                          ? '0.79rem'
+                          ? '0.72rem'
                           : event.ShortTitle.length > 12
-                            ? '0.99rem'
+                            ? '0.89rem'
                             : event.ShortTitle.length > 8
                               ? '1.0rem'
                               : event.ShortTitle.length > 7
-                                ? '1.175rem'
-                                : '1.3rem',
+                                ? '1.0rem'
+                                : '0.89rem',
                     }}
                   >
                     {event.ShortTitle}
                   </div>
-
-                  <div
-                    className='relative'
-                    style={{ height: '36px', position: 'relative' }}
-                  >
+                  <div className='relative' style={{ direction: 'ltr' }}>
                     <div
-                      className={`text-[#2a5b71]  absluteEnmonth ${
-                        isToday ? 'text-[#ded4bd] ' : 'text-[#2a5b71]'
-                      } p-2 text-center rtl:text-left `}
+                      className={`text-[#2a5b71] ${
+                        isToday
+                          ? 'text-gray-200 font-extrabold text-lg'
+                          : 'text-[#2a5b71]'
+                      } rounded-lg text-center pl-2`}
+                      style={{
+                        position: 'absolute',
+                        bottom: '10px',
+                        width: '100%',
+                      }}
                     >
                       {formatGeorgianDate(
                         isLeapYear(currentDisplayYear)

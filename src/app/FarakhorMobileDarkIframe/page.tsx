@@ -330,7 +330,7 @@ const Occasions: React.FC = () => {
                   >
                     {event.ShortTitle}
                   </div>
-                  <div className='w-full mt-2'>
+                  <div className='relative' style={{ direction: 'ltr' }}>
                     <div
                       className={`text-[#2a5b71] ${
                         isToday
