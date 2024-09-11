@@ -144,12 +144,12 @@ const Occasions6Days: React.FC = () => {
   };
 
   return (
-    <div className='bg-[#333863] flex flex-col items-center justify-center pb-0 mb-16'>
+    <div className='bg-[#333863] flex flex-col items-center justify-center pb-0 mb-28 '>
       {loading ? (
-        <div className='mt-10 text-center text-white'>Loading...</div>
+        <div className='mt-8 text-center text-white'>Loading...</div>
       ) : (
         <div
-          className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 w-full p-3'
+          className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 w-full p-4'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event) => {
@@ -233,7 +233,6 @@ const Occasions6Days: React.FC = () => {
           })}
         </div>
       )}
-
       {modalVisible && modalContent && (
         <div
           className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-[9999]'
@@ -292,6 +291,9 @@ const Occasions6Days: React.FC = () => {
           </div>
         </div>
       )}
+      <div className='p-3 pt-3 bg-white rounded-lg w-full max-w-[358px]'>
+        <p className='items-center text-center font-weight-bold'> نمایه</p>
+      </div>
     </div>
   );
 };

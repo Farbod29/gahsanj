@@ -35,13 +35,18 @@ const Home = () => {
   }, []);
 
   return (
-    <main className='p-4 bg-[#333863] min-h-screen relative overflow-hidden'>
+    <main className='p-3 bg-[#333863] min-h-screen relative overflow-hidden'>
       <div
-        className={`absolute top-0 left-0 right-0 p-4 bg-[#333863] ${isScrolled ? 'scroll-shadow' : ''}`}
+        className={`absolute top-0 left-0 right-0 p-3 bg-[#333863] ${isScrolled ? 'scroll-shadow' : ''}`}
       >
-        <h1 className='text-white text-[16px] mb-4 mr-3 mt-4' dir='rtl'>
-          تاریخ امروز
-        </h1>
+        <div className='w-full flex justify-between items-center'>
+          <h1 className='text-gray-300 text-[16px] mb-4 ml-3 mt-3' dir='ltr'>
+            𐎥𐎠𐏃𐏁𐎷𐎠𐎼
+          </h1>
+          <h1 className='text-white text-[16px] mb-4 mr-3 mt-3' dir='rtl'>
+            تاریخ امروز
+          </h1>
+        </div>
 
         <div className='relative bg-[#51546C] rounded-lg p-0 flex items-center overflow-hidden'>
           <div
@@ -73,7 +78,7 @@ const Home = () => {
           <div className='relative ml-4 text-white z-10'></div>
         </div>
 
-        <h1 className='text-white text-xl mt-4 mr-4 ' dir='rtl'>
+        <h1 className='text-white text-xl mt-10 mr-4 ' dir='rtl'>
           برجسته های پیش رو :
         </h1>
       </div>
@@ -81,7 +86,7 @@ const Home = () => {
       <ClocksModal isOpen={isModalOpen} onClose={handleCloseModal} />
 
       <div
-        className={`absolute top-[280px] bottom-0 left-0 right-0 overflow-y-auto ${isScrolled ? 'scroll-shadow' : ''}`}
+        className={`absolute top-[265px] bottom-0 left-0 right-0 overflow-y-auto ${isScrolled ? 'scroll-shadow' : ''}`}
         ref={occasionsRef}
       >
         <Occasions />
