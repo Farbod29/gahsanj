@@ -220,9 +220,13 @@ const Icon = ({ name, className = '' }: IconProps) => {
       );
     case 'AiGenerator':
       return pathname === '/AiGenerator' ? (
-        <PictureAINareji />
+        <div className='mb-1'>
+          <PictureAINareji />
+        </div>
       ) : (
-        <PictureAISefid />
+        <div className='mb-1'>
+          <PictureAISefid />
+        </div>
       );
     default:
       return null;

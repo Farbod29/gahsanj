@@ -1,7 +1,3 @@
-// This is a React functional component named Footer that renders a footer section with navigation buttons and a fullscreen toggle.
-// It uses Next.js for routing and maintains the current path to highlight the active button.
-// The footer contains
-
 import FullscreenIcon from './FullscreenIcon';
 import ExitFullscreenIcon from './ExitFullscreenIcon';
 import Link from 'next/link';
@@ -44,7 +40,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className='fixed bottom-0 w-full p-4 flex justify-around items-center bg-[#373D70]'>
+    <footer className='fixed bottom-0 w-full p-3 flex justify-around items-center bg-[#373D70]'>
       {buttons.map((button) => (
         <Link
           href={button.path}
@@ -58,7 +54,7 @@ const Footer = () => {
             }`}
           />
           <span
-            className={`text-xs ${
+            className={`text-xs mb-1 ${
               pathname === button.path ? 'text-[#FD821D]' : 'text-white'
             }`}
           >
@@ -66,11 +62,20 @@ const Footer = () => {
           </span>
         </Link>
       ))}
+      {/* Fullscreen toggle button (structured similarly to other buttons) */}
       <button
         onClick={toggleFullscreen}
-        className='flex flex-col items-center text-center w-1/5 pb-0'
+        className='flex flex-col items-center text-center w-1/5 mb-[12px]'
       >
-        {isFullscreen ? <ExitFullscreenIcon /> : <FullscreenIcon />}
+        {isFullscreen ? (
+          <div className='w-6 h-6 mb-1 text-white'>
+            <ExitFullscreenIcon />
+          </div>
+        ) : (
+          <div className='w-6 h-6 mb-1 text-white'>
+            <FullscreenIcon />
+          </div>
+        )}
       </button>
     </footer>
   );

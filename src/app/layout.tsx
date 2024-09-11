@@ -27,6 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     '/ExtraTools',
     '/AiGenerator',
     '/PhoneAppGahshomar',
+    '/PhoneAppGahshomarNoAIJustModal',
   ];
 
   return (
@@ -37,9 +38,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           name='description'
           content={metadata.description || 'Default Description'}
         />
-        {/* <meta name='theme-color' content='#4c5494' /> */}
-        {/* <meta name='msapplication-navbutton-color' content='#4c5494' />
-        <meta name='apple-mobile-web-app-status-bar-style' content='#4c5494' /> */}
         <link rel='manifest' href='/manifest.json' />
         <link
           rel='icon'

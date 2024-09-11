@@ -98,7 +98,7 @@ const ExtraTools = () => {
           text='سرآغازها'
           iconSrc='/assets/calendaerIcon.png'
           altText='سرآغازها'
-          link='/gahshomaranDark'
+          link='/PhoneAppGahshomarNoAIJustModal'
         />
         <Box
           text='تبدیل تاریخ'

@@ -225,7 +225,12 @@ const Occasions: React.FC = () => {
   const leapYearText = isLeapYear(currentDisplayYear)
     ? '(کبیسه / انباشته)'
     : '';
-  const persianDate = `(${toPersianNum(todayPersianDayNumber.toString())} ${currentMonthName})`;
+
+  // const persianDate = `(${toPersianNum(todayPersianDayNumber.toString())} ${[todayPersianMonth]})`;
+  const persianMonthName = Object.keys(monthMapping).find(
+    (key) => monthMapping[key] === todayPersianMonth
+  );
+  const persianDate = `(${toPersianNum(todayPersianDayNumber.toString())} ${persianMonthName})`;
   console.log(persianDate); // This prints "۱۲ شهریور"
 
   return (
@@ -255,7 +260,7 @@ const Occasions: React.FC = () => {
             <h1 className='text-xs sm:text-sm md:text-lg mx-2'>
               سال {toPersianNum(currentDisplayYear.toString())}
               <span className='block'>{leapYearText}</span>
-              <p className='text-xs pt-1 font-bold text-cyan-400'>
+              <p className='text-xs pr-2 pl-2 font-bold text-gray-300 shadow-black shadow-inner mt-1 rounded-xl min-w-12 pt-1'>
                 {persianDate}
               </p>
             </h1>
