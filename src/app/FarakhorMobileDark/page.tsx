@@ -225,6 +225,8 @@ const Occasions: React.FC = () => {
   const leapYearText = isLeapYear(currentDisplayYear)
     ? '(کبیسه / انباشته)'
     : '';
+  const persianDate = `(${toPersianNum(todayPersianDayNumber.toString())} ${currentMonthName})`;
+  console.log(persianDate); // This prints "۱۲ شهریور"
 
   return (
     <div className='bg-[#333863] min-h-screen  flex flex-col items-center justify-center pt-24 pb-24'>
@@ -237,21 +239,25 @@ const Occasions: React.FC = () => {
             &lt;
           </button>
 
+          <button
+            onClick={resetToToday}
+            className='border border-white h-6 text-[10px] sm:text-sm md:text-lg rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0 mx-2'
+            style={{
+              lineHeight: '1rem',
+              padding: '0 0.5rem',
+              height: '24px',
+            }}
+          >
+            برو به این ماه
+          </button>
+
           <div className='flex items-center'>
-            <button
-              onClick={resetToToday}
-              className='border border-white h-6 text-[10px] sm:text-sm md:text-lg rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0 mx-2'
-              style={{
-                lineHeight: '1rem',
-                padding: '0 0.5rem',
-                height: '24px',
-              }}
-            >
-              برو به امروز
-            </button>
             <h1 className='text-xs sm:text-sm md:text-lg mx-2'>
               سال {toPersianNum(currentDisplayYear.toString())}
               <span className='block'>{leapYearText}</span>
+              <p className='text-xs pt-1 font-bold text-cyan-400'>
+                {persianDate}
+              </p>
             </h1>
             <p className='text-xs sm:text-sm md:text-lg mx-2 m'>
               فراخورهای ماه {currentMonthName}
@@ -274,7 +280,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-2 se:grid-cols-2 lg:grid-cols-6 gap-4 mt-3 mr-1 w-full p-3 lg:mt-8 mt:p-10'
+          className='grid grid-cols-2 se:grid-cols-2 lg:grid-cols-6 gap-4 mt-5 w-full p-3 lg:mt-8 mt:p-10 '
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
@@ -283,32 +289,35 @@ const Occasions: React.FC = () => {
               (isLeapYear(currentYear)
                 ? event.PersianDayNumberK === todayPersianDayNumberK
                 : event.PersianDayNumber === todayPersianDayNumber);
-            const logo =
-              event.LogoLink ||
-              'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
+            const logo = event.LogoLink
+              ? event.LogoLink // If event.LogoLink is valid, use it
+              : isToday
+                ? '/assets/LogoMobMain.png' // If it's today, use the asset from public folder
+                : 'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg'; // Otherwise, use the default logo
 
             return (
               <div
                 key={`${event.PersianDayNumber}-${event.Georgian}-${index}`}
                 onClick={() => handleDayClick(event)}
-                className={`relative ${
-                  event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                } ${
+                className={`relative h-[150px]  ${
+                  // Adjust the height value here
                   isToday
-                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
-                    : 'bg-[#FFFFFF]'
+                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg' // Today box styling
+                    : 'bg-[#FFFFFF]' // Normal box styling
                 } shadow-md rounded-lg p-2 text-center`}
-                style={{ width: '100%', maxWidth: '350px', height: 'auto' }}
+                style={{ width: '100%', maxWidth: '350px' }}
               >
                 <div
-                  className={`absolute bottom-0 xl:top-[65px] sm:top-[75px] left-[-10px] sm-logo:left-1 w-[50px] pr-1 lg:h-[70px] sm:w-[110px] xs:w-10 xs:left-[-4px] xs:top-[80px] sm:h-[60px] h-[60px] flex 2 pl-2 m-2 xs:2 xl:12 2xl:10 mr-5 mt-[30px]
-  sm:left-[-6px] md:left-[-8px] lg:left-[-10px]`}
+                  //          <div       className={`absolute bottom-0 top-[65px] xl:top-[65px] sm:top-[65px] left-[-10px] sm-logo:left-1 w-[50px] pr-1 lg:h-[10px] sm:w-[110px] xs:w-10 xs:left-[-4px] xs:top-[90px] sm:h-[10px] min-h-[30px] min-w-[30px] flex 2 pl-2 m-2 xs:2 xl:12 2xl:10 mr-5 mt-[30px]
+                  // sm:left-[-6px] md:left-[-8px] lg:left-[-10px] max-h-[60px] max-w-[60px]`}
+                  //               >
+                  className={`absolute bottom-0 top-[110px] max-h-8 max-w-8 left-2`}
                 >
                   <Image
                     src={logo}
                     alt='Logo Of the Day'
-                    width={80}
-                    height={80}
+                    width={50}
+                    height={50}
                     className=''
                     layout='responsive'
                   />
@@ -323,13 +332,13 @@ const Occasions: React.FC = () => {
                         : event.PersianDayNumber.toString()
                     )}
                   </span>
-                  <span className='text-[#CAB9B9] text-sm sm:text-lg pb-[-5px] '>
+                  <span className='text-[#CAB9B9] text-[17px] sm:text-lg pb-[-5px] '>
                     {toPersianNum(currentMonthName)}
                   </span>
                   <div
-                    className={`relative ${
+                    className={`static ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636] pb-12'}
+                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636] '}
             text-center`}
                     style={{
                       fontSize:
@@ -346,25 +355,26 @@ const Occasions: React.FC = () => {
                   >
                     {event.ShortTitle}
                   </div>
-                  <div className='relative' style={{ direction: 'ltr' }}>
-                    <div
-                      className={`text-[#2a5b71] ${
-                        isToday
-                          ? 'text-gray-200 font-extrabold text-lg'
-                          : 'text-[#2a5b71]'
-                      } rounded-lg text-center pl-2`}
-                      style={{
-                        position: 'absolute',
-                        bottom: '10px',
-                        width: '100%',
-                      }}
-                    >
-                      {formatGeorgianDate(
-                        isLeapYear(currentDisplayYear)
-                          ? event.GeorgianK
-                          : event.Georgian
-                      )}
-                    </div>
+                </div>
+                <div className='relative' style={{ direction: 'ltr' }}>
+                  <div
+                    className={` ${
+                      isToday
+                        ? 'text-gray-300 font-extrabold text-lg'
+                        : 'text-[#2a5b71]'
+                    } rounded-lg text-center `}
+                    style={{
+                      position: 'absolute', // Ensure it stays at the bottom
+                      bottom: '0px',
+                      width: '100%',
+                      // paddingBottom: '0px', // Add padding to ensure there's space
+                    }}
+                  >
+                    {formatGeorgianDate(
+                      isLeapYear(currentDisplayYear)
+                        ? event.GeorgianK
+                        : event.Georgian
+                    )}
                   </div>
                 </div>
               </div>
@@ -373,8 +383,22 @@ const Occasions: React.FC = () => {
         </div>
       )}
       {modalVisible && modalContent && (
-        <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50'>
-          <div className='bg-white p-4 sm:p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center'>
+        <div
+          className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-[9999]'
+          onClick={() => setModalVisible(false)} // Close modal when clicking outside
+        >
+          <div
+            className='relative bg-white p-2 sm:p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center z-[10000]'
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+          >
+            {/* Close button at top-right */}
+            <button
+              className='absolute top-3 right-3 text-gray-600 hover:text-gray-800 font-bold text-xl'
+              onClick={() => setModalVisible(false)} // Close modal on clicking the button
+            >
+              &times;
+            </button>
+
             <h1 className='text-xl sm:text-3xl font-bold text-[#393939] mb-4 text-center'>
               {modalContent.EventTitle}
             </h1>
@@ -391,10 +415,7 @@ const Occasions: React.FC = () => {
                 height={30}
               />
             </div>
-            <p
-              className='text-sm sm:text-[#707070] mb-4 text-justify'
-              dir='rtl'
-            >
+            <p className='text-sm sm:text-[#707070] mb-4 text-justify'>
               {modalContent.Text}
             </p>
             {modalVisible && modalContent.RefLink && (
@@ -413,7 +434,7 @@ const Occasions: React.FC = () => {
             )}
             <button
               className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded'
-              onClick={() => setModalVisible(false)}
+              onClick={() => setModalVisible(false)} // Manually close modal on button click
             >
               بستن
             </button>

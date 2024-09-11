@@ -1,19 +1,36 @@
-// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    domains: ['gahshomar.com'],
     remotePatterns: [
-      { hostname: 'irantasvir.com' },
-      { hostname: 'miro.medium.com' },
-      { hostname: 'www.imgonline.com.ua' },
-      { hostname: 'www.imgonline.com' },
-      { hostname: 'gahshomar.com' },
-      { hostname: 'https://picsum.photos' },
-      // { hostname: 'http://news.bbc.co.uk/' },
-      { hostname: 'https://fa.wikipedia.org/' },
       {
-        hostname: 'https://gahshomar.com',
+        protocol: 'https',
+        hostname: 'irantasvir.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'miro.medium.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.imgonline.com.ua',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.imgonline.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'gahshomar.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+      {
+        protocol: 'https',
+        hostname: 'fa.wikipedia.org',
       },
     ],
   },
@@ -35,4 +52,5 @@ const nextConfig = {
   },
 };
 
+// Use export default instead of module.exports
 export default nextConfig;

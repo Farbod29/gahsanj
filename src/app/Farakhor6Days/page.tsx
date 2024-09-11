@@ -69,6 +69,7 @@ const Occasions6Days: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<Occasion | null>(null);
+  const [imageLoaded, setImageLoaded] = useState(true); // Track image loading state
 
   const getPersianMonthName = () => {
     const today = new Date();
@@ -90,6 +91,15 @@ const Occasions6Days: React.FC = () => {
     ];
     return persianMonths[persianMonthNumber - 1];
   };
+
+  function isValidUrl(url: string): boolean {
+    try {
+      new URL(url);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 
   const toPersianNum = (num: number | string) => {
     const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -132,13 +142,14 @@ const Occasions6Days: React.FC = () => {
         <div className='mt-10 text-center text-white'>Loading...</div>
       ) : (
         <div
-          className='bg-[#333863] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-3 mr-1 w-full p-3 lg:mt-1 mt:p-1'
+          className='bg-[#333863] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-3  w-full p-3 lg:mt-1 mt:p-1'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event) => {
             const logo =
-              event.LogoLink ||
-              'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
+              event.LogoLink && isValidUrl(event.LogoLink)
+                ? event.LogoLink
+                : 'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
 
             return (
               <div
@@ -157,8 +168,8 @@ const Occasions6Days: React.FC = () => {
                     alt='Logo Of the Day'
                     width={70}
                     height={70}
-                    layout='responsive'
                     className='w-full h-auto'
+                    onError={() => setImageLoaded(false)} // Hide image if it fails to load
                   />
                 </div>
                 <div className='flex flex-col items-center justify-center bg-transparent'>
@@ -202,8 +213,22 @@ const Occasions6Days: React.FC = () => {
       )}
 
       {modalVisible && modalContent && (
-        <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50'>
-          <div className='bg-white p-2 sm:p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center'>
+        <div
+          className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-[9999]'
+          onClick={() => setModalVisible(false)} // Close modal when clicking outside
+        >
+          <div
+            className='relative bg-white p-2 sm:p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center z-[10000]'
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+          >
+            {/* Close button at top-right */}
+            <button
+              className='absolute top-3 right-3 text-gray-600 hover:text-gray-800 font-bold text-xl'
+              onClick={() => setModalVisible(false)} // Close modal on clicking the button
+            >
+              &times;
+            </button>
+
             <h1 className='text-xl sm:text-3xl font-bold text-[#393939] mb-4 text-center'>
               {modalContent.EventTitle}
             </h1>
@@ -239,7 +264,7 @@ const Occasions6Days: React.FC = () => {
             )}
             <button
               className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded'
-              onClick={() => setModalVisible(false)}
+              onClick={() => setModalVisible(false)} // Manually close modal on button click
             >
               بستن
             </button>
