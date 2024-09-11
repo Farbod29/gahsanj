@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
       .find({
         Month: getJalaaliMonthName(todayPersianMonth),
         importantDay: true,
-        [dayField]: { $gt: todayPersianDay },
+        [dayField]: { $gte: todayPersianDay },
       })
       .toArray();
 

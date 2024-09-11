@@ -1,15 +1,16 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useMemo } from 'react';
 import jalaali from 'jalaali-js';
 import Image from 'next/image';
 
 interface Occasion {
   RefLink: string;
-  DayNumber: number; // Changed to number if DayNumber is a number from backend
+  DayNumber: number;
   PersianDayNumber: number;
   Georgian: string;
   GeorgianK: string;
-  Month: string; // Persian month from the backend
+  Month: string;
   EventTitle: string;
   ShortTitle: string;
   ModalStatus: boolean;
@@ -17,31 +18,13 @@ interface Occasion {
   LogoLink: string;
   ModalImageLink: string;
   importantDay: boolean;
-  PersianDayNumberK: number; // Persian (Jalaali) day number from backend
-  PersianMonthNumberK: number; // Persian (Jalaali) month number from backend
+  PersianDayNumberK: number;
+  PersianMonthNumberK: number;
 }
 
-// Helper function to convert Georgian month number to English month names
-const georgianMonthNames = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
-
-// Function to format Georgian date from "22,09" to "21 Sep"
+// Helper to format the Georgian Date
 const formatGeorgianDate = (dateString: string) => {
   const [day, month] = dateString.split(',');
-
-  // Define a list of month abbreviations
   const months = [
     'Jan',
     'Feb',
@@ -56,24 +39,57 @@ const formatGeorgianDate = (dateString: string) => {
     'Nov',
     'Dec',
   ];
-
-  // Convert the month from string number to the corresponding name
-  const monthName = months[parseInt(month, 10) - 1];
-
-  // Return the correct format: "21 Sep"
-  return `${day} ${monthName}`;
+  return `${day} ${months[parseInt(month, 10) - 1]}`;
 };
 
 const Occasions6Days: React.FC = () => {
+  const [currentYear, setCurrentYear] = useState<number>(
+    jalaali.toJalaali(new Date()).jy
+  );
   const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<Occasion | null>(null);
-  const [imageLoaded, setImageLoaded] = useState(true); // Track image loading state
+
+  const today = new Date();
+  const jToday = jalaali.toJalaali(today);
+  const todayPersianDayNumber = jToday.jd;
+  const todayPersianMonth = jToday.jm;
+
+  const monthMapping = useMemo(
+    () => ({
+      فروردین: 1,
+      اردیبهشت: 2,
+      خرداد: 3,
+      تیر: 4,
+      اَمُرداد: 5,
+      شهریور: 6,
+      مهر: 7,
+      آبان: 8,
+      آذر: 9,
+      دی: 10,
+      بهمن: 11,
+      اسفند: 12,
+    }),
+    []
+  );
+
+  const leapYears = useMemo(
+    () => [
+      1403, 1407, 1411, 1415, 1419, 1423, 1427, 1431, 1435, 1439, 1443, 1447,
+      1451, 1455, 1459, 1463, 1467, 1471, 1475, 1479, 1483, 1487, 1491, 1495,
+      1499, 1503, 1507, 1511, 1515, 1519, 1523, 1527, 1531, 1535, 1539, 1543,
+      1547, 1551, 1555, 1559, 1563, 1567, 1571, 1575, 1579, 1583, 1587, 1591,
+      1595, 1599,
+    ],
+    []
+  );
+
+  const isLeapYear = (year: number) => leapYears.includes(year);
 
   const getPersianMonthName = () => {
     const today = new Date();
-    const persianDate = jalaali.toJalaali(today); // Convert to Persian calendar
+    const persianDate = jalaali.toJalaali(today);
     const persianMonthNumber = persianDate.jm;
     const persianMonths = [
       'فروردین',
@@ -90,24 +106,6 @@ const Occasions6Days: React.FC = () => {
       'اسفند',
     ];
     return persianMonths[persianMonthNumber - 1];
-  };
-
-  function isValidUrl(url: string): boolean {
-    try {
-      new URL(url);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  const toPersianNum = (num: number | string) => {
-    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return num
-      .toString()
-      .split('')
-      .map((digit) => persianNumbers[+digit] || digit)
-      .join('');
   };
 
   const fetchOccasions = async () => {
@@ -136,75 +134,99 @@ const Occasions6Days: React.FC = () => {
     }
   };
 
+  const toPersianNum = (num: number | string) => {
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return num
+      .toString()
+      .split('')
+      .map((digit) => persianNumbers[+digit] || digit)
+      .join('');
+  };
+
   return (
     <div className='bg-[#333863] flex flex-col items-center justify-center pb-0 mb-16'>
       {loading ? (
         <div className='mt-10 text-center text-white'>Loading...</div>
       ) : (
         <div
-          className='bg-[#333863] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-3  w-full p-3 lg:mt-1 mt:p-1'
+          className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 w-full p-3'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event) => {
-            const logo =
-              event.LogoLink && isValidUrl(event.LogoLink)
-                ? event.LogoLink
+            const isToday =
+              monthMapping[event.Month] === todayPersianMonth &&
+              (isLeapYear(currentYear)
+                ? event.PersianDayNumberK === todayPersianDayNumber
+                : event.PersianDayNumber === todayPersianDayNumber);
+
+            const logo = event.LogoLink
+              ? event.LogoLink
+              : isToday
+                ? '/assets/LogoMobMain.png'
                 : 'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
 
             return (
               <div
                 key={event.DayNumber}
                 onClick={() => handleDayClick(event)}
-                className={`relative ${
-                  event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                } bg-[#FFFFFF] shadow-md rounded-lg p-2 text-center sm:max-w-[150px] sm:h-[140px] md:max-w-[180px] md:h-[145px]`}
+                className={`relative h-[150px]  ${
+                  isToday
+                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
+                    : 'bg-[#FFFFFF]'
+                } shadow-md rounded-lg p-2 text-center`}
+                style={{ width: '100%', maxWidth: '350px' }}
               >
-                <div
-                  className='absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[70px] lg:h-[60px] sm:w-[100px] xs:w-10 xs:left-[-12px] xs:top-[80px] sm:h-[80px] h-[30px] flex 2 pl-1  mr-1'
-                  style={{ width: 'auto', maxWidth: '80%' }}
-                >
+                {/* Logo */}
+                <div className='absolute top-[110px] max-h-8 max-w-8 left-2'>
                   <Image
                     src={logo}
                     alt='Logo Of the Day'
-                    width={70}
-                    height={70}
-                    className='w-full h-auto'
-                    onError={() => setImageLoaded(false)} // Hide image if it fails to load
+                    width={50}
+                    height={50}
+                    layout='responsive'
                   />
                 </div>
-                <div className='flex flex-col items-center justify-center bg-transparent'>
-                  <span className='text-3xl sm:text-3xl font-bold text-[#333863] text-center'>
-                    {toPersianNum(event.PersianDayNumberK)}{' '}
+
+                {/* Persian Day */}
+                <div className='flex flex-col items-center justify-center'>
+                  <span
+                    className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-white' : 'text-gray-700'}`}
+                  >
+                    {toPersianNum(event.PersianDayNumberK)}
                   </span>
                   <span className='text-[#CAB9B9] text-sm sm:text-lg'>
                     {event.Month}
                   </span>
-                  <div
-                    className={`relative ${
-                      event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                    } text-[#373636] text-center`}
-                    style={{
-                      fontSize:
-                        event.ShortTitle.length > 16
-                          ? '0.69rem'
-                          : event.ShortTitle.length > 12
-                            ? '0.79rem'
-                            : event.ShortTitle.length > 8
-                              ? '0.79rem'
-                              : event.ShortTitle.length > 7
-                                ? '0.79rem'
-                                : '0.70rem',
-                    }}
-                  >
-                    {event.ShortTitle}
-                  </div>
-                  <div className='relative' style={{ direction: 'ltr' }}>
-                    <div className='text-[#2a5b71] p-2 text-center'>
-                      {event.GeorgianK
-                        ? formatGeorgianDate(event.GeorgianK)
-                        : formatGeorgianDate(event.Georgian)}
-                    </div>
-                  </div>
+                </div>
+
+                {/* Short Title */}
+                <div
+                  className={`relative text-center ${isToday ? 'text-white' : 'text-gray-700'}`}
+                  style={{
+                    fontSize:
+                      event.ShortTitle.length > 16
+                        ? '0.69rem'
+                        : event.ShortTitle.length > 12
+                          ? '0.79rem'
+                          : '0.89rem',
+                  }}
+                >
+                  {event.ShortTitle}
+                </div>
+
+                {/* Georgian Date */}
+                <div
+                  className={`${isToday ? 'text-gray-300 font-extrabold text-lg' : 'text-[#2a5b71]'} rounded-lg text-center`}
+                  style={{
+                    position: 'absolute',
+                    bottom: '5px',
+                    left: '1px',
+                    width: '100%',
+                  }}
+                >
+                  {event.GeorgianK
+                    ? formatGeorgianDate(event.GeorgianK)
+                    : formatGeorgianDate(event.Georgian)}
                 </div>
               </div>
             );
@@ -215,16 +237,15 @@ const Occasions6Days: React.FC = () => {
       {modalVisible && modalContent && (
         <div
           className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-[9999]'
-          onClick={() => setModalVisible(false)} // Close modal when clicking outside
+          onClick={() => setModalVisible(false)}
         >
           <div
-            className='relative bg-white p-2 sm:p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center z-[10000]'
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+            className='relative bg-white p-8 rounded-lg shadow-lg max-w-[90%] w-full max-h-[80vh] overflow-auto flex flex-col items-center z-[10000]'
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button at top-right */}
             <button
               className='absolute top-3 right-3 text-gray-600 hover:text-gray-800 font-bold text-xl'
-              onClick={() => setModalVisible(false)} // Close modal on clicking the button
+              onClick={() => setModalVisible(false)}
             >
               &times;
             </button>
@@ -239,17 +260,17 @@ const Occasions6Days: React.FC = () => {
                   'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg'
                 }
                 alt='Modal Image'
-                className='h-full sm-logo:w-[30px] sm-logo:h-[20px] w-2'
+                className='h-full w-full'
                 layout='responsive'
-                width={30}
-                height={30}
+                width={100}
+                height={100}
               />
             </div>
-            <p className='text-sm sm:text-[#707070] mb-4 text-justify'>
+            <p className='text-sm text-[#707070] mb-4 text-justify'>
               {modalContent.Text}
             </p>
-            {modalVisible && modalContent.RefLink && (
-              <p className='text-center mt-4 p-3 py-4 pb-4'>
+            {modalContent.RefLink && (
+              <p className='text-center mt-4 p-3'>
                 برای اطلاعات بیشتر به{' '}
                 <a
                   href={modalContent.RefLink}
@@ -263,8 +284,8 @@ const Occasions6Days: React.FC = () => {
               </p>
             )}
             <button
-              className='px-3 sm:px-4 py-1 sm:py-2 bg-[#FF8200] text-white rounded'
-              onClick={() => setModalVisible(false)} // Manually close modal on button click
+              className='px-4 py-2 bg-[#FF8200] text-white rounded'
+              onClick={() => setModalVisible(false)}
             >
               بستن
             </button>
