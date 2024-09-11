@@ -144,12 +144,12 @@ const Occasions6Days: React.FC = () => {
   };
 
   return (
-    <div className='bg-[#333863] flex flex-col items-center justify-center pb-0 mb-28 '>
+    <div className='bg-[#333863] flex flex-col items-center justify-center pb-0 mb-28 mt-3 sm:mt-12 md:mt-12 lg:mt-24 xl:mt-24 2xl:mt-40'>
       {loading ? (
         <div className='mt-8 text-center text-white'>Loading...</div>
       ) : (
         <div
-          className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-3 w-full p-4'
+          className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-2 w-full p-4'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event) => {
@@ -179,7 +179,7 @@ const Occasions6Days: React.FC = () => {
                 {/* Logo */}
                 <div className='absolute top-[110px] max-h-8 max-w-8 left-2'>
                   <Image
-                    src={logo}
+                    src={logo || '/path/to/fallback-image.webp'} // Fallback if URL fails
                     alt='Logo Of the Day'
                     width={50}
                     height={50}

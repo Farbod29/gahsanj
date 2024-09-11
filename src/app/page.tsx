@@ -41,7 +41,7 @@ const Home = () => {
       >
         <div className='w-full flex justify-between items-center'>
           <h1 className='text-gray-300 text-[16px] mb-4 ml-3 mt-3' dir='ltr'>
-            𐎥𐎠𐏃𐏁𐎷𐎠𐎼
+            𐎥𐎠𐏃𐏁𐎢𐎷𐎠𐎼
           </h1>
           <h1 className='text-white text-[16px] mb-4 mr-3 mt-3' dir='rtl'>
             تاریخ امروز
@@ -78,9 +78,23 @@ const Home = () => {
           <div className='relative ml-4 text-white z-10'></div>
         </div>
 
-        <h1 className='text-white text-xl mt-10 mr-4 ' dir='rtl'>
+        <h1
+          className='text-white text-xl mt-10 mr-4 mb-12 z-50 relative'
+          dir='rtl'
+        >
           برجسته های پیش رو :
         </h1>
+
+        <style jsx>{`
+          @media (min-width: 1024px) {
+            h1 {
+              display: block;
+              margin-top: 20px;
+              margin-right: 10px;
+              margin-bottom: 20px;
+            }
+          }
+        `}</style>
       </div>
 
       <ClocksModal isOpen={isModalOpen} onClose={handleCloseModal} />

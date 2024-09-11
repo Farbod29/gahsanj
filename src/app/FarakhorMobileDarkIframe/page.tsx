@@ -313,7 +313,7 @@ const Occasions: React.FC = () => {
                   <div
                     className={`relative ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
-                    } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636] pb-12'}
+                    } ${isToday ? 'text-[#FFFFFF] pb-10' : 'text-[#373636] pb-10'}
             text-center`}
                     style={{
                       fontSize:
@@ -332,15 +332,16 @@ const Occasions: React.FC = () => {
                   </div>
                   <div className='relative' style={{ direction: 'ltr' }}>
                     <div
-                      className={`text-[#2a5b71] ${
+                      className={` ${
                         isToday
-                          ? 'text-gray-200 font-extrabold text-lg'
+                          ? 'text-gray-300 font-extrabold text-lg'
                           : 'text-[#2a5b71]'
-                      } rounded-lg text-center pl-2`}
+                      } rounded-lg text-center `}
                       style={{
-                        position: 'absolute',
-                        bottom: '10px',
+                        position: 'absolute', // Ensure it stays at the bottom
+                        bottom: '0px',
                         width: '100%',
+                        // paddingBottom: '0px', // Add padding to ensure there's space
                       }}
                     >
                       {formatGeorgianDate(
