@@ -260,7 +260,7 @@ const Occasions: React.FC = () => {
             <h1 className='text-xs sm:text-sm md:text-lg mx-2'>
               سال {toPersianNum(currentDisplayYear.toString())}
               <span className='block'>{leapYearText}</span>
-              <p className='text-xs pr-2 pl-2 font-bold text-gray-300 shadow-black shadow-inner mt-1 rounded-xl min-w-12 pt-1'>
+              <p className='text-xs pr-2 pl-2 font-bold text-gray-300 shadow-black shadow-inner mt-1 rounded-sm min-w-12 pt-1'>
                 {persianDate}
               </p>
             </h1>

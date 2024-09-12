@@ -291,9 +291,9 @@ const Occasions6Days: React.FC = () => {
           </div>
         </div>
       )}
-      <div className='p-3 pt-3 bg-white rounded-lg w-full max-w-[358px]'>
+      {/* <div className='p-3 pt-3 bg-white rounded-lg w-full max-w-[358px]'>
         <p className='items-center text-center font-weight-bold'> نمایه</p>
-      </div>
+      </div> */}
     </div>
   );
 };

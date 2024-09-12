@@ -35,10 +35,10 @@ const getTodayPersianName = () => {
     '(دوشنبه) مهروز',
     '(سه‌شنبه)  بهرامروز',
     '(چهار‌شنبه) تیرشید',
-    '(پنج‌شنبه) مزدروز',
-    'ناهیدروز (آدینه) ',
-    '(شنبه)  کیوان',
-    '(یک‌شنبه) مهر',
+    '(پنج‌شنبه) اورمزدشید',
+    'ناهیدشید (آدینه) ',
+    '(شنبه)    کیوان شید',
+    '(یک‌شنبه)مهرشید ',
   ];
   const today = new Date();
   const dayOfWeek = today.getDay();
@@ -68,7 +68,7 @@ function PersianCalendar() {
     { day: 'مه', dayShort: 'د', HejriDay: 'دوشنبه', dayLatinShort: 'Mo' },
     { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه', dayLatinShort: 'Tu' },
     { day: 'تیر', dayShort: 'چ', HejriDay: 'چهارشنبه', dayLatinShort: 'W' },
-    { day: 'مزد', dayShort: 'پ', HejriDay: 'پنج‌شنبه', dayLatinShort: 'Th' },
+    { day: 'اورمزد', dayShort: 'پ', HejriDay: 'پنج‌شنبه', dayLatinShort: 'Th' },
     { day: 'ناهید', dayShort: 'آ', HejriDay: 'آدینه', dayLatinShort: 'Fr' },
     { day: 'کیوان', dayShort: 'ش', HejriDay: 'شنبه', dayLatinShort: 'Sa' },
     { day: 'مهر', dayShort: 'ی', HejriDay: 'یکشنبه', dayLatinShort: 'Su' },

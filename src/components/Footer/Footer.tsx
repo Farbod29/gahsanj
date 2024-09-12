@@ -1,24 +1,24 @@
 import FullscreenIcon from './FullscreenIcon';
 import ExitFullscreenIcon from './ExitFullscreenIcon';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Icon from '../FooterIcons/FooterIcons';
+import ConverterIconGahshomar from './ConverterIconGahshomar';
+import ConverterIconGahshomarOrange from './ConverterIconGahshomarOrange';
 import { useState } from 'react';
 
 const Footer = () => {
   const pathname = usePathname();
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const router = useRouter();
+  const [isFullscreen, setIsFullscreen] = useState(false); // Add fullscreen state
 
   const buttons = [
-    { path: '/', label: '', icon: 'home' },
-    { path: '/smallCalendarMobile', label: '', icon: 'calendar' },
-    {
-      path: '/FarakhorMobileDark',
-      label: '',
-      icon: 'FarakhorMobileDark',
-    },
-    { path: '/AiGenerator', label: '', icon: 'AiGenerator' },
     { path: '/ExtraTools', label: '', icon: 'ExtraTools' },
+
+    { path: '/smallCalendarMobile', label: '', icon: 'calendar' },
+    { path: '/FarakhorMobileDark', label: '', icon: 'FarakhorMobileDark' },
+    { path: '/', label: '', icon: 'home' },
+    { path: '/AiGenerator', label: '', icon: 'AiGenerator' },
   ];
 
   const toggleFullscreen = () => {
@@ -37,6 +37,10 @@ const Footer = () => {
       });
       setIsFullscreen(false);
     }
+  };
+
+  const navigateToGahgardanIframe = () => {
+    router.push('/GahgardanIframe');
   };
 
   return (
@@ -62,7 +66,24 @@ const Footer = () => {
           </span>
         </Link>
       ))}
-      {/* Fullscreen toggle button (structured similarly to other buttons) */}
+
+      {/* Gahgardan Button */}
+      <button
+        onClick={navigateToGahgardanIframe}
+        className='flex flex-col items-center text-center w-1/5 mb-[12px] mt-2'
+      >
+        {pathname === '/GahgardanIframe' ? (
+          <div className='w-6 h-6 mb-1 text-white'>
+            <ConverterIconGahshomarOrange />
+          </div>
+        ) : (
+          <div className='w-6 h-6 mb-1 text-white'>
+            <ConverterIconGahshomar />
+          </div>
+        )}
+      </button>
+
+      {/* Fullscreen toggle button */}
       <button
         onClick={toggleFullscreen}
         className='flex flex-col items-center text-center w-1/5 mb-[12px]'

@@ -53,7 +53,7 @@ const ClocksPage = () => {
       <div className='flex flex-row items-center justify-center'>
         <div className='flex flex-col items-center'>
           <div
-            className='flex items-center justify-center rounded-full border-8 border-[#FD821D] bg-white'
+            className='flex items-center justify-center rounded-full border-8 border-[#707070] bg-white'
             style={{
               width: `${containerSize}px`,
               height: `${containerSize}px`,
