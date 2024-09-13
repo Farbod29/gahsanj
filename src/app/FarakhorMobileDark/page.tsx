@@ -285,7 +285,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-2 lg:grid-cols-6 gap-4 mt-5 w-full p-3 lg:mt-8 mt:p-10 h-[1000px] overflow-y-auto mb-11' /* Add a fixed height and scrolling */
+          className='grid grid-cols-2 lg:grid-cols-6 gap-4 mt-5 w-full p-3 lg:mt-8 mt:p-10 '
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
@@ -295,23 +295,29 @@ const Occasions: React.FC = () => {
                 ? event.PersianDayNumberK === todayPersianDayNumberK
                 : event.PersianDayNumber === todayPersianDayNumber);
             const logo = event.LogoLink
-              ? event.LogoLink
+              ? event.LogoLink // If event.LogoLink is valid, use it
               : isToday
-                ? '/assets/LogoMobMain.png'
-                : 'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
+                ? '/assets/LogoMobMain.png' // If it's today, use the asset from public folder
+                : 'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg'; // Otherwise, use the default logo
 
             return (
               <div
                 key={`${event.PersianDayNumber}-${event.Georgian}-${index}`}
                 onClick={() => handleDayClick(event)}
-                className={`relative h-[150px] ${
+                className={`relative h-[150px]  ${
+                  // Adjust the height value here
                   isToday
-                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
-                    : 'bg-[#FFFFFF]'
+                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg' // Today box styling
+                    : 'bg-[#FFFFFF]' // Normal box styling
                 } shadow-md rounded-lg p-2 text-center`}
                 style={{ width: '100%', maxWidth: '350px' }}
               >
-                <div className='absolute bottom-0 top-[110px] max-h-8 max-w-8 left-2'>
+                <div
+                  //          <div       className={`absolute bottom-0 top-[65px] xl:top-[65px] sm:top-[65px] left-[-10px] sm-logo:left-1 w-[50px] pr-1 lg:h-[10px] sm:w-[110px] xs:w-10 xs:left-[-4px] xs:top-[90px] sm:h-[10px] min-h-[30px] min-w-[30px] flex 2 pl-2 m-2 xs:2 xl:12 2xl:10 mr-5 mt-[30px]
+                  // sm:left-[-6px] md:left-[-8px] lg:left-[-10px] max-h-[60px] max-w-[60px]`}
+                  //               >
+                  className={`absolute bottom-0 top-[110px] max-h-8 max-w-8 left-2`}
+                >
                   <Image
                     src={logo}
                     alt='Logo Of the Day'
@@ -338,7 +344,7 @@ const Occasions: React.FC = () => {
                     className={`static ${
                       event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
                     } ${isToday ? 'text-[#FFFFFF] ' : 'text-[#373636] '}
-              text-center`}
+            text-center`}
                     style={{
                       fontSize:
                         event.ShortTitle.length > 16
@@ -357,15 +363,16 @@ const Occasions: React.FC = () => {
                 </div>
                 <div className='relative' style={{ direction: 'ltr' }}>
                   <div
-                    className={`${
+                    className={` ${
                       isToday
                         ? 'text-gray-300 font-extrabold text-lg'
                         : 'text-[#2a5b71]'
-                    } rounded-lg text-center`}
+                    } rounded-lg text-center `}
                     style={{
-                      position: 'absolute',
+                      position: 'absolute', // Ensure it stays at the bottom
                       bottom: '0px',
                       width: '100%',
+                      // paddingBottom: '0px', // Add padding to ensure there's space
                     }}
                   >
                     {formatGeorgianDate(

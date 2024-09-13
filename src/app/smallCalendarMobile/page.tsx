@@ -172,7 +172,7 @@ function PersianCalendar() {
   // Render the component
   // Render the component
   return (
-    <main className='p-2 bg-[#333863] min-h-screen overflow-hidden flex flex-col justify-start'>
+    <main className='p-2 bg-[#333863] min-h-screen overflow-hidden flex flex-col justify-start h-full w-full'>
       <div className='flex justify-end'>
         <h3 className='text-white mb-1 z-1000'>گاهشمار جدولی</h3>
       </div>

@@ -8,17 +8,7 @@
 .fontXXX {
   font-family: 'Quicksand', sans-serif;
 }
-html, body {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  scroll-behavior: smooth; /* Ensures smooth scrolling */
-}
 
-body {
-  overflow-x: hidden; /* Allows horizontal scroll */
-  overflow-y: hidden; /* Allows vertical scroll */
-}
 
 .scroll-shadow {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
