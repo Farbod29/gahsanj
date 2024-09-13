@@ -18,7 +18,7 @@ const GahgardanIframe = () => {
         <iframe
           src='https://gahshomar.com/gahgardan/'
           width='100%'
-          height='100%'
+          height='86%'
           style={{ border: 'none', display: 'block' }}
         ></iframe>
       </div>
