@@ -16,6 +16,9 @@ import ArrowRight from '../../../public/assets/ArrowRight.svg';
 import DownloadIcon from '../../../public/assets/DownloadIcon.svg';
 import Home from '../../../public/assets/home.svg';
 import Calendar from '../../../public/assets/calendar.svg';
+import GoLeftIcon from '@/components/AISvgsIcon/GoLeftSvg';
+import GoRightIcon from '@/components/AISvgsIcon/GoRightSvg';
+import DownloadSVG from '@/components/AISvgsIcon/DownloadSvg';
 
 function decodeHtmlEntities(text) {
   const element = document.createElement('div');
@@ -228,7 +231,7 @@ function ClientOnlyPage() {
               type='text'
               value={additionalText}
               onChange={(e) => setAdditionalText(e.target.value)}
-              placeholder='متن جدید'
+              placeholder='متن اضافه'
               className='px-2 py-1 rounded-md text-black'
             />
             <button
@@ -246,17 +249,17 @@ function ClientOnlyPage() {
               <Calendar width={39.046} height={23.726} />
             </Link>
             <button className='mx-4' disabled={!loaded} onClick={goLeft}>
-              <ArrowLeft width={39.046} height={23.726} />
+              <GoLeftIcon />
             </button>
             <button className='mx-4' disabled={!loaded} onClick={goRight}>
-              <ArrowRight width={39.046} height={23.726} />
+              <GoRightIcon />
             </button>
             <button
               className='mx-4'
               onClick={downloadScreenshot}
               disabled={!loaded}
             >
-              <DownloadIcon width={39.046} height={23.726} />
+              <DownloadSVG />
             </button>
           </div>
           <div className='hidden sm:flex items-center sm:mb-0 mb-4'>
@@ -264,7 +267,7 @@ function ClientOnlyPage() {
               type='text'
               value={additionalText}
               onChange={(e) => setAdditionalText(e.target.value)}
-              placeholder='متن جدید'
+              placeholder='متن اضافه'
               className='px-2 py-1 rounded-md text-black'
             />
             <button

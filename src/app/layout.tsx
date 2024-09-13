@@ -1,11 +1,11 @@
 "use client";
-import { useEffect } from 'react';
+
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import { Hamishe } from '../../public/fonts/fonts';
 import Footer from '../components/Footer/Footer'; // Import Footer component
 import { usePathname } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -30,6 +30,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     '/PhoneAppGahshomarNoAIJustModal',
   ];
 
+  // Redirection logic based on screen width
+  useEffect(() => {
+    // const handleResize = () => {
+    //   if (window.innerWidth > 1080) {
+    //     window.location.href = 'https://www.gahshomar.com/'; // Replace with your target URL
+    //   }
+    // };
+    // // Initial check on mount
+    // if (window.innerWidth > 1080) {
+    //   window.location.href = 'https://www.gahshomar.com/'; // Replace with your target URL
+    // }
+    // // Add event listener to check on resize
+    // window.addEventListener('resize', handleResize);
+    // // Cleanup event listener
+    // return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <html lang='en' className={`${Hamishe.variable}`}>
       <Head>
@@ -38,26 +55,55 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           name='description'
           content={metadata.description || 'Default Description'}
         />
-        <link rel='manifest' href='/manifest.json' />
-        <link
-          rel='icon'
-          href='/assets/logo-mobile-gahshomar-main-page.png'
-          sizes='192x192'
-        />
+
+        {/* Favicon Links */}
         <link
           rel='apple-touch-icon'
-          href='/assets/logo-mobile-gahshomar-main-page.png'
+          sizes='180x180'
+          href='/favicons/apple-touch-icon.png'
         />
+        <link
+          rel='icon'
+          type='image/png'
+          sizes='32x32'
+          href='/favicons/favicon-32x32.png'
+        />
+        <link
+          rel='icon'
+          type='image/png'
+          sizes='16x16'
+          href='/favicons/favicon-16x16.png'
+        />
+        <link rel='manifest' href='/favicons/site.webmanifest' />
+        <link rel='icon' type='image/x-icon' href='/favicons/favicon.ico' />
+        <link
+          rel='icon'
+          type='image/png'
+          sizes='192x192'
+          href='/favicons/android-chrome-192x192.png'
+        />
+        <link
+          rel='icon'
+          type='image/png'
+          sizes='512x512'
+          href='/favicons/android-chrome-512x512.png'
+        />
+
+        {/* Preconnect to Google Fonts */}
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
           href='https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap'
           rel='stylesheet'
         />
+
+        {/* Theme and Background Colors */}
+        <meta name='theme-color' content='#ffffff' />
+        <meta name='background-color' content='#ffffff' />
       </Head>
       <body className='Hamishe min-h-screen flex flex-col'>
         <main className='flex-grow'>{children}</main>
         {footerRoutes.includes(pathname) && <Footer />}{' '}
-        {/* Conditionally render Footer  sosis to deploy enviornment variable*/}
+        {/* Conditionally render Footer */}
       </body>
     </html>
   );
