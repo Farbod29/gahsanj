@@ -144,7 +144,7 @@ const Occasions6Days: React.FC = () => {
   };
 
   return (
-    <div className='bg-[#333863] flex flex-col items-center justify-center pb-0 mb-28 mt-3 sm:mt-12 md:mt-12 lg:mt-24 xl:mt-12 2xl:mt-12 min-h-screen overflow-y-auto scroll-smooth'>
+    <div className='bg-[#333863] flex flex-col items-center justify-center pb-0 mb-28 mt-3 sm:mt-12 md:mt-12 lg:mt-24 xl:mt-12 2xl:mt-12'>
       {loading ? (
         <div className='mt-8 text-center text-white'>Loading...</div>
       ) : (

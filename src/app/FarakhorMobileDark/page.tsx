@@ -235,7 +235,7 @@ const Occasions: React.FC = () => {
 
   return (
     <div className='bg-[#333863] min-h-screen  flex flex-col items-center justify-center pt-24 pb-24'>
-      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
+      <div className='bg-red-500 shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <div className='flex items-center justify-between w-full'>
           <button
             onClick={() => handleMonthChange(1)}

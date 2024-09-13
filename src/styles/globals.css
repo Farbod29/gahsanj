@@ -8,6 +8,17 @@
 .fontXXX {
   font-family: 'Quicksand', sans-serif;
 }
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  scroll-behavior: smooth; /* Ensures smooth scrolling */
+}
+
+body {
+  overflow-x: hidden; /* Allows horizontal scroll */
+  overflow-y: hidden; /* Allows vertical scroll */
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
