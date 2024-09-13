@@ -12,7 +12,7 @@ const GahgardanIframe = () => {
     >
       <div
         style={{ width: '100%', height: '600px', backgroundColor: '#333863' }}
-        className='flex items-center justify-center bg-[#333863]' // Removed `-translate-x-4` and `fixed`
+        className='flex items-center justify-center' // Removed `-translate-x-4` and `fixed`
       >
         <iframe
           src='https://gahshomar.com/gahgardan/'
