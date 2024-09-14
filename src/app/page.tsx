@@ -8,6 +8,7 @@ import JustDateWhiteApp from '@/components/JustDateWhiteApp/JustDateWhiteApp';
 import ClocksModal from '@/components/ClocksModal/ClocksModal';
 import Occasions from './Farakhor6Days/page';
 import '../styles/globals.css'; // Ensure you import the global CSS
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +37,7 @@ const Home = () => {
 
   return (
     <main className='p-3 bg-[#333863] min-h-screen relative overflow-hidden'>
+      <SpeedInsights />
       <div
         className={`absolute top-0 left-0 right-0 p-3 bg-[#333863] ${isScrolled ? 'scroll-shadow' : ''}`}
       >

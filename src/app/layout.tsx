@@ -9,6 +9,7 @@ import { ReactNode, useEffect } from 'react';
 import Head from 'next/head';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
+
 const inter = Inter({ subsets: ['latin'] });
 
 const metadata = {
