@@ -12,7 +12,7 @@ const ReactClockNoSSR = dynamic(
 const ClocksPage = () => {
   // Initialize the clock size with a default value
   const [clockSize, setClockSize] = useState<number>(120);
-
+  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   useEffect(() => {
     // This function will determine the clock size and set it using the state
     function determineClockSize(): number {
@@ -44,10 +44,7 @@ const ClocksPage = () => {
         {/* Clock for Berlin */}
         <div className='flex flex-col items-center mr-4'>
           {/* Added margin for spacing between clocks */}
-          <ReactClockNoSSR
-            timeZone={'localTimeZone' || 'UTC'}
-            size={clockSize}
-          />
+          <ReactClockNoSSR timeZone={localTimeZone || 'UTC'} size={clockSize} />
 
           <div className='text-sm mt-2'>
             {/* Added margin-top for spacing between clock and text */}

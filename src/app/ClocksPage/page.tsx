@@ -12,7 +12,7 @@ const ReactClockNoSSR = dynamic(
 const ClocksPage = () => {
   // Initialize the clock size with a default value
   const [clockSize, setClockSize] = useState<number>(120);
-
+  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   useEffect(() => {
     // This function will determine the clock size and set it using the state
     function determineClockSize(): number {
@@ -32,10 +32,10 @@ const ClocksPage = () => {
     const handleResize = () => {
       setClockSize(determineClockSize());
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Cleanup the event listener when the component unmounts
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
   return (
     <div>
@@ -46,8 +46,9 @@ const ClocksPage = () => {
           {/* Repeat this block for each clock */}
           <div className='flex flex-col items-center mb-4'>
             {/* <div className="text-black text-xxxxs md:text-xs ">Local</div> */}
+            {}
             <ReactClockNoSSR
-              timeZone={'localTimeZone' || 'UTC'}
+              timeZone={localTimeZone || 'UTC'}
               size={clockSize}
             />
             <div className='text-black text-lg md:text-xs text-xxxxs '>
