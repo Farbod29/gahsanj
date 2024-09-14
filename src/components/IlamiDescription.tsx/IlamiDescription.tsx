@@ -85,9 +85,9 @@ const IlamiDescription = () => {
         </li>
       </ul>
 
-      <h2 className='text-3xl font-semibold mt-6 mb-2'>منابع:</h2>
+      <h2 className='text-3xl font-semibold mt-6 mb-2'>سرچشمه:</h2>
       <ul className='list-disc list-inside mb-4'>
-        <li className='text-lg'>
+        <li className='text-xm'>
           <a
             href='https://kherada.com/Dman.aspx?Id=2007'
             target='_blank'
@@ -101,7 +101,7 @@ const IlamiDescription = () => {
           نباید با «ع» نوشت بلکه باید با «الف» نوشت، زیرا در زبان ایلامی «ع»
           نداریم.
         </li>
-        <li className='text-lg'>
+        <li className='text-xm'>
           <a
             href='https://ensani.ir/fa/article/376461/%D9%86%D9%82%D8%B4-%D8%B3%D8%B1%D8%B2%D9%85%DB%8C%D9%86-%D9%87%D8%A7%DB%8C-%D8%B4%D8%B1%D9%82%DB%8C-%D8%A7%DB%8C%D9%84%D8%A7%D9%85-%D8%A7%D9%8E%D8%B1%D8%AC%D8%A7%D9%86-%D9%88-%D8%A7%DB%8C%D8%B0%D9%87-%D8%AF%D8%B1-%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84-%D9%81%D8%B1%D9%87%D9%86%DA%AF-%D8%A7%DB%8C%D9%84%D8%A7%D9%85-%D9%86%D9%88-%D8%A8%D9%87-%D9%BE%D8%A7%D8%B1%D8%B3'
             target='_blank'
@@ -112,7 +112,7 @@ const IlamiDescription = () => {
             نو به پارس». پرتال جامع علوم انسانی.
           </a>
         </li>
-        <li className='text-lg'>
+        <li className='text-xm'>
           <a
             href='https://ensani.ir/fa/article/346108/%D9%88%D8%B6%D8%B9%DB%8C%D8%AA-%D8%B3%DB%8C%D8%A7%D8%B3%DB%8C-%D8%A7%DB%8C%D9%84%D8%A7%D9%85-%D8%A8%D8%B9%D8%AF-%D8%A7%D8%B2-%D8%B3%D9%82%D9%88%D8%B7-%D8%AA%D8%A7-%D8%A8%D8%B1%D8%A2%D9%85%D8%AF%D9%86-%D9%87%D8%AE%D8%A7%D9%85%D9%86%D8%B4%DB%8C%D8%A7%D9%86-550-646-%D9%BE.%D9%85-'
             target='_blank'
@@ -123,7 +123,7 @@ const IlamiDescription = () => {
             م)». پرتال جامع علوم انسانی.
           </a>
         </li>
-        <li className='text-lg'>
+        <li className='text-xm'>
           <a
             href='https://ensani.ir/fa/article/357348/%D8%AF%DA%AF%D8%B1%D8%AF%DB%8C%D8%B3%DB%8C-%D8%AE%D8%AF%D8%A7%DB%8C%D8%A7%D9%86-%D8%AF%D8%B1-%D8%A7%DB%8C%D9%84%D8%A7%D9%85-%D8%A8%D8%A7%D8%B3%D8%AA%D8%A7%D9%86'
             target='_blank'
@@ -133,7 +133,7 @@ const IlamiDescription = () => {
             ↑ «دگردیسی خدایان در عیلام باستان». پرتال جامع علوم انسانی.
           </a>
         </li>
-        <li className='text-lg text-left' dir='ltr'>
+        <li className='text-xm text-left' dir='ltr'>
           Alden, J. R., & Mince, L. (2016). `Itinerant potters and the
           transmission of ceramic technologies and styles during the
           Proto-Elamite period in Iran`. Journal of Archaeological Science:
