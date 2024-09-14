@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['gahshomar.com'],
+    domains: ['www.gahshomar.app'],
     remotePatterns: [
       {
         protocol: 'https',

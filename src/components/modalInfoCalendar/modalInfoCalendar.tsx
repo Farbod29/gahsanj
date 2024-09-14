@@ -188,11 +188,10 @@ const MyModal: React.FC = () => {
                     </li>
                     <br />
                     <li>
-                      Abu Rayhān Biruni, "al-Āṯār-al bāqiā ʿan al-qorun
-                      al-ḵālia," ed. C. E. Sachau, Leipzig, 1923; tr. C. E.
-                      Sachau, "The Chronology of the Ancient Nations," London,
-                      1879; repr. Frankfurt, 1969; Persian tr. A. Dānā Serešt,
-                      Tehran, 1973.
+                      Abu Rayhān Biruni, al-Āṯār-al bāqiā ʿan al-qorun al-ḵālia,
+                      ed. C. E. Sachau, Leipzig, 1923; tr. C. E. Sachau, The
+                      Chronology of the Ancient Nations, London, 1879; repr.
+                      Frankfurt, 1969; Persian tr. A. Dānā Serešt, Tehran, 1973.
                     </li>
                     <br />
                     <li>Gharib, 1998, p. 11.</li>
