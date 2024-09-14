@@ -52,12 +52,12 @@ const ClocksPage = () => {
   return (
     <div className='p-2 bg-transparent'>
       <div className='flex flex-col items-center justify-start mt-1'>
-        <Image
+        {/* <Image
           src={'/assets/LogoMobile.png'}
           alt='گاه شمار'
           width={30}
           height={30}
-        />
+        /> */}
       </div>
       <div className='flex flex-row items-center justify-center'>
         <div className='flex flex-col items-center'>

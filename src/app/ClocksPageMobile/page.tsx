@@ -83,12 +83,12 @@ const ClocksPageMobile = () => {
         {clocks.map((clock, index) => (
           <div className='flex flex-col items-center mb-4' key={index}>
             <div className='flex flex-col items-center justify-start mt-4'>
-              <Image
+              {/* <Image
                 src={'/assets/LogoMobile.png'}
                 alt='گاه شمار'
                 width={20}
                 height={30}
-              />
+              /> */}
             </div>
             {/* Analog clock */}
             <div
