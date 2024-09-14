@@ -1,7 +1,7 @@
 //here is clicksPageMobile page
 
 'use client';
-
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import React, { useState, useEffect } from 'react';
 import DigitalClock from '@/components/DigitalClocks/DigtalClocks'; // Ensure the correct path to DigitalClock component
@@ -82,6 +82,14 @@ const ClocksPageMobile = () => {
       <div className='grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-3 justify-items-center'>
         {clocks.map((clock, index) => (
           <div className='flex flex-col items-center mb-4' key={index}>
+            <div className='flex flex-col items-center justify-start mt-4'>
+              <Image
+                src={'/assets/LogoMobile.png'}
+                alt='گاه شمار'
+                width={20}
+                height={30}
+              />
+            </div>
             {/* Analog clock */}
             <div
               className='flex items-center justify-center rounded-full border-8 border-[#a6a6a6] bg-white mb-2'

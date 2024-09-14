@@ -69,7 +69,7 @@ const MyModal: React.FC = () => {
                 </p>
                 <br />
                 <h2 className=' font-medium leading-6 text-gray-900'>
-                  سه شنبه, بهرام روز:
+                  سه شنبه, بهرامشید / روز:
                 </h2>
                 <p className='text-justify text-right leading-relaxed'>
                   همچنان کلمه «روز» به مهنای نور و روشنایی است بهرام علاوه بر
@@ -82,7 +82,7 @@ const MyModal: React.FC = () => {
                 <p>
                   <br />
                   <h2 className=' font-medium leading-6 text-gray-900'>
-                    چهارشنبه: تیر روز:
+                    چهارشنبه: تیرشید - روز:
                   </h2>
                   <p className='text-justify text-right leading-relaxed'>
                     تیر برگرفته از تیشتر در زبان پهلوی است. ستاره تیشتر مهم ترین
@@ -105,7 +105,7 @@ const MyModal: React.FC = () => {
                   <br />
                   <br />
                   <h2 className='font-medium leading-6 text-gray-900'>
-                    پنجشنبه: اورمزد روز:
+                    پنجشنبه: اورمزدشید- روز:
                   </h2>
                   <p className='text-justify text-right leading-relaxed'>
                     اورمزد روز در واقع همان اهورا مزدا است و روز پنجشنبه را به
@@ -120,7 +120,7 @@ const MyModal: React.FC = () => {
                     است.
                   </p>
                   <br />
-                  <p className='text-xxxxs'>
+                  <p className='text-xxxs'>
                     نگاه کنید به اوستا، یسنا ۲۸،
                     <br />
                     بندِ یکم کانون اروپایی برای آموزش جهان بینی زرتشت
@@ -177,24 +177,40 @@ const MyModal: React.FC = () => {
                   </p>
                 </p>
                 <br />
-                <p className='text-xxxxs'>
-                  سرچشمه ها: محمود روح‌الامینی
-                  <br />
-                  انتشارات آگاه سال چاپ یک سال پیش از ایران نو ،
-                  <br /> شومیز رقعی ۲۰۷ صفحه گردآوری فرهاد درخشان
-                  <br />
-                  Abu Rayhān Biruni, al-Āṯār-al bāqiā ʿan al-qorun al-ḵālia, ed.
-                  C. E. Sachau, repr. Leipzig, 1923; tr. C. E. Sachau, The
-                  Chronology of the Ancient Nations, London, 1879; repr.
-                  Frankfurt, 1969; Pers. tr. A. Dānā Serešt, Tehran, 1973. ایلیا
-                  <br />
-                  گرشویچ ؛ کوشش علمی برای شناخت زبان‌های اوستایی 6.2 /ā∂ēnē/
-                   آدینه نیز یک واژه امانتی از پارسی میانه است که در روزه های
-                  مانوی (هنینگ، 1945) برای ناهید روز (جمعه) با املای مختلف نوشته
-                  شده است (dyn;h: p. 141, no. 1.4.14; dyng: p. 151.15 کوندرا و
-                  همکاران، 1997، ص 197). (Gharib, 1998, p. 11). (Henning, 1945,
-                  p. 154, No. 5):
-                  https://www.iranicaonline.org/articles/hafta-week-history-of-the-weeky-calendar-in-iran-1
+                <p className='text-xxxs'>
+                  <h1 className='text-lg font-bold'>سرچشمه‌ها:</h1>
+
+                  <ul>
+                    <br />
+                    <li>
+                      محمود روح‌الامینی، انتشارات آگاه، سال چاپ یک سال پیش از
+                      ایران نو، 207 صفحه، گردآوری فرهاد درخشان.
+                    </li>
+                    <br />
+                    <li>
+                      Abu Rayhān Biruni, "al-Āṯār-al bāqiā ʿan al-qorun
+                      al-ḵālia," ed. C. E. Sachau, Leipzig, 1923; tr. C. E.
+                      Sachau, "The Chronology of the Ancient Nations," London,
+                      1879; repr. Frankfurt, 1969; Persian tr. A. Dānā Serešt,
+                      Tehran, 1973.
+                    </li>
+                    <br />
+                    <li>Gharib, 1998, p. 11.</li>
+                    <li>
+                      Henning, 1945, p. 154, No. 5. کوندرا و همکاران, 1997, p.
+                      197. مرجع دیجیتال:{' '}
+                      <a href='https://www.iranicaonline.org/articles/hafta-week-history-of-the-weeky-calendar-in-iran-1'>
+                        Iranica Online
+                      </a>
+                      <br />
+                    </li>
+                    <br />
+                    <li>
+                      گرشویچ؛ کوشش علمی برای شناخت زبان‌های اوستایی 6.2 /ā∂ēnē/
+                      آدینه نیز یک واژه امانتی از پارسی میانه است که در روزهای
+                      مانوی برای ناهید روز (جمعه) با املای مختلف نوشته شده است.
+                    </li>
+                  </ul>
                 </p>
               </p>
             </div>

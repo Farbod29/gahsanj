@@ -204,7 +204,7 @@ export default function Home() {
               {dates.IranianDiako}
             </p>
             <h3 className='text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2'>
-              مادی
+              مادی / کردی
             </h3>
           </div>
         </div>

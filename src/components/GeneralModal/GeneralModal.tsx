@@ -1,7 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 
-const GeneralModal = ({ isOpen, onClose, children }) => {
+// Updated GeneralModal Component
+const GeneralModal = ({ isOpen, onClose, children, showLogo = true }) => {
   if (!isOpen) return null;
 
   return (
@@ -19,14 +20,7 @@ const GeneralModal = ({ isOpen, onClose, children }) => {
         >
           &times;
         </button>
-        <div className='flex flex-col items-center justify-start mt-4'>
-          <Image
-            src={'/assets/LogoMobile.png'}
-            alt='گاه شمار'
-            width={150}
-            height={150}
-          />
-        </div>
+
         <div className='mb-8 text-center'>
           {typeof children === 'string' ? (
             <div>

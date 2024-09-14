@@ -631,7 +631,7 @@ export default function Home() {
               pathname: '/DownloadImage',
               query: {
                 paramDates: dates.IranianDiako,
-                paramName: 'مادی',
+                paramName: 'مادی / کردی',
                 line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
                 line2: `سال\u2003${toPersianNums(convertToIranianDiakoYear(today))}\u2003 مادی`,
               },
@@ -642,7 +642,7 @@ export default function Home() {
                 {dates.IranianDiako}
               </p>
               <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-0'>
-                مادی
+                مادی / کردی
               </p>
               <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
                 {getTodayPersianName()}

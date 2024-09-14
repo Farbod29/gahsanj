@@ -80,7 +80,17 @@ const ExtraTools = () => {
           text='تماس با گاه‌شمار'
           iconSrc='/assets/contact.png'
           altText='گاه نامه'
-          onClick={() => handleOpenModal('تماس ')}
+          onClick={
+            () =>
+              handleOpenModal(
+                <iframe
+                  src='https://gahshomar.com/gahgardan/'
+                  width='100%'
+                  height='500px'
+                  style={{ border: 'none' }}
+                ></iframe>
+              ) // https://gahshomar.com/contact/
+          }
         />
         <Box
           text='اینستاگرام'
@@ -104,15 +114,16 @@ const ExtraTools = () => {
           text='تبدیل تاریخ'
           iconSrc='/assets/Replay.png'
           altText='تبدیل تاریخ'
-          onClick={() =>
-            handleOpenModal(
-              <iframe
-                src='https://gahshomar.com/gahgardan/'
-                width='100%'
-                height='500px'
-                style={{ border: 'none' }}
-              ></iframe>
-            )
+          onClick={
+            () =>
+              handleOpenModal(
+                <iframe
+                  src='https://gahshomar.com/gahgardan/'
+                  width='100%'
+                  height='500px'
+                  style={{ border: 'none' }}
+                ></iframe>
+              ) // https://gahshomar.com/contact/
           }
         />
 

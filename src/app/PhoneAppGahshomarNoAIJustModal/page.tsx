@@ -3,7 +3,14 @@ import { useEffect, useState } from 'react';
 import jalaali from 'jalaali-js';
 import Modal from 'react-modal';
 
-import IlamiDescription from '../../components/IlamiDescription.tsx/IlamiDescription';
+import IlamiDescription from '../../components/Descriptions/Ilami';
+import KurdishCalendarDescription from '@/components/Descriptions/Madi';
+import Padeshahi from '@/components/Descriptions/Padeshahi';
+import Hejri from '@/components/Descriptions/Hejri';
+import MiladiDescription from '@/components/Descriptions/Miladi';
+import IraneNo from '@/components/Descriptions/IranNo';
+import Zartosti from '@/components/Descriptions/Zardoshti';
+import Madi from '@/components/Descriptions/Madi';
 
 function toPersianNums(numString: string) {
   const persianNums = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -218,13 +225,13 @@ export default function Home() {
 
   function getDescription(yearType) {
     const descriptions = {
-      ilami: <IlamiDescription />, // JSX component returned
-      madi: <p>توضیحات برای سال مادی</p>, // You can return JSX here as well
-      pahlavi: <p>توضیحات برای سال پادشاهی</p>,
-      jalali: <p>توضیحات برای سال هجری خورشیدی</p>,
-      miladi: <p>توضیحات برای سال میلادی</p>,
-      iraniMelli: <p>توضیحات برای سال ایران نو</p>,
-      zoroastrian: <p>توضیحات برای سال زرتشتی</p>,
+      ایلامی: <IlamiDescription />,
+      مادی: <Madi />,
+      پادشاهی: <Padeshahi />,
+      خورشیدی: <Hejri />,
+      میلادی: <MiladiDescription />,
+      ایرانی: <IraneNo />,
+      زرتشتی: <Zartosti />,
     };
     return descriptions[yearType] || <p>توضیحات موجود نیست</p>; // Default fallback if yearType is not found
   }
@@ -273,7 +280,7 @@ export default function Home() {
 
   const [dates, setDates] = useState({
     europeanDate: '',
-    Jdate: '',
+    date: '',
     pahlaviYear: '',
     IranianDiako: '',
     IraniMithra: '',
@@ -294,7 +301,7 @@ export default function Home() {
     const today = new Date();
     setDates({
       europeanDate: today.toLocaleDateString('en-GB'),
-      Jdate: convertToJalali(today),
+      date: convertToJalali(today),
       pahlaviYear: convertToPahlavi(today),
       IranianDiako: convertToIranianDiako(today),
       IraniMithra: convertToIraniMithra(today),
@@ -550,17 +557,17 @@ export default function Home() {
       title: 'ایران نو',
       date: dates.IraniMelli,
       name: 'ایران نو',
-      yearType: 'iraniMelli',
+      yearType: 'ایرانی',
       line1: `${PersianWeekday} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
       line2: `سال ${toPersianNums(convertToIraniMelliYear(today))} ایران نو`,
       weekDay: getTodayPersianName(), // Add the appropriate weekday
     },
     {
-      key: 'ilami',
+      key: 'ایلامی',
       title: 'ایلامی',
       date: dates.ilami,
       name: 'ایلامی',
-      yearType: 'ilami',
+      yearType: 'ایلامی',
       line1: `${PersianWeekday} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
       line2: `سال ${toPersianNums(convertToIlamiYear(today))} ایلامی`,
       weekDay: getTodayPersianName(),
@@ -571,19 +578,19 @@ export default function Home() {
       title: 'پادشاهی',
       date: dates.pahlaviYear,
       name: '(پادشاهی) هخامنشی',
-      yearType: 'pahlavi',
+      yearType: 'پادشاهی',
       line1: `${PersianWeekday} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
       line2: `سال ${toPersianNums(convertToPahlaviYear(today))} پادشاهی`,
       weekDay: getTodayPersianName(),
     },
     {
       key: 'iranian-diako',
-      title: 'مادی',
+      title: 'مادی / کردی',
       date: dates.IranianDiako,
-      name: 'مادی',
-      yearType: 'iranianDiako',
+      name: 'مادی / کردی',
+      yearType: 'مادی',
       line1: `${PersianWeekday} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-      line2: `سال ${toPersianNums(convertToIranianDiakoYear(today))} مادی`,
+      line2: `سال ${toPersianNums(convertToIranianDiakoYear(today))}      مادی / کردی`,
       weekDay: getTodayPersianName(),
     },
     {
@@ -591,7 +598,7 @@ export default function Home() {
       title: 'زرتشتی',
       date: dates.zoroastrianYear,
       name: 'زرتشتی',
-      yearType: 'zoroastrian',
+      yearType: 'زرتشتی',
       line1: `${getTodayPersianZaratostianDays(jalaali.toJalaali(today).jd)} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
       line2: `سال ${toPersianNums(convertToZoroastrianYear(today))} زرتشتی`,
       weekDay: getTodayPersianZaratostianDays(jalaali.toJalaali(today).jd),
@@ -601,7 +608,7 @@ export default function Home() {
       title: 'میلادی',
       date: dates.europeanDate,
       name: 'میلادی',
-      yearType: 'miladi',
+      yearType: 'میلادی',
       line1: dateParts.line1.split('  ').join('\u2003'),
       line2: dateParts.line2.split(' ').join('\u2003'),
       weekDay: getTodayGeorgianName(), // Using Georgian weekday
@@ -609,19 +616,19 @@ export default function Home() {
     {
       key: 'jalali',
       title: 'هجری خورشیدی',
-      date: dates.Jdate,
+      date: dates.date,
       name: 'هجری خورشیدی',
-      yearType: 'jalali',
+      yearType: 'خورشیدی',
       line1: `${PersianWeekday} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
       line2: `سال ${toPersianNums(convertToJalaliYear(today))} هجری خورشیدی`,
-      weekDay: getTodayPersianWeekdayBaboli(), // Using Jalali weekday
+      weekDay: getTodayPersianWeekdayBaboli(),
     },
   ];
   return (
     <main className='flex min-h-screen w-full flex-col items-center bg-[#333863] px-2 sm:px-4 md:px-2 pb-14 mb-4'>
       <div className='w-full max-w-4xl mx-auto p-3 pb-1'>
         <h1 className='text-center text-sm text-white p-2 pb-2'>
-          سرآغاز ها و تاریچه آنها
+          سرآغاز ها و تاریخچه آنها
         </h1>
         <div className='w-full flex flex-col md:flex-row mt-2 md:mt-8 space-y-2 md:space-y-0 md:space-x-4'>
           {buttonData.map((button) => (
