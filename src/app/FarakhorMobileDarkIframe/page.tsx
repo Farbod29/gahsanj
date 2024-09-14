@@ -391,9 +391,9 @@ const Occasions: React.FC = () => {
                   rel='noopener noreferrer'
                   className='text-blue-500 underline'
                 >
-                  لینک زیر
+                  اینجا
                 </a>{' '}
-                مراجع کنید.
+                کلیک کنید.
               </p>
             )}
             <button

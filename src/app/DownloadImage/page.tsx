@@ -51,7 +51,15 @@ function ClientOnlyPage() {
   }, []);
 
   const handleAddLine = () => {
-    setDisplayedAdditionalText(additionalText); // Update the displayed text when the button is clicked
+    setDisplayedAdditionalText((prev) => prev + '\n' + additionalText); // Add the new text to the displayed output
+    setAdditionalText(''); // Clear the input field after the addition
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      setDisplayedAdditionalText((prev) => prev + '\n' + additionalText);
+      setAdditionalText(''); // Clear the input after pressing Enter
+    }
   };
 
   function getPersianDayNumber(date = new Date()) {
@@ -159,7 +167,7 @@ function ClientOnlyPage() {
             color: 'white',
             fontSize: '20px',
             zIndex: 2,
-            whiteSpace: 'nowrap',
+            whiteSpace: 'nowrap', // Use pre-line to preserve line breaks
             textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
           }}
         >
@@ -227,12 +235,12 @@ function ClientOnlyPage() {
       <div className='fixed bottom-0 w-full bg-[#373D70] text-white'>
         <div className='flex flex-col sm:flex-row justify-center items-center p-4'>
           <div className='sm:hidden mb-4 flex items-center justify-center'>
-            <input
-              type='text'
+            <textarea
               value={additionalText}
-              onChange={(e) => setAdditionalText(e.target.value)}
+              onChange={(e) => setAdditionalText(e.target.value)} // Allow user input to update
               placeholder='متن اضافه'
               className='px-2 py-1 rounded-md text-black'
+              rows={3} // Make the textarea larger
             />
             <button
               onClick={handleAddLine}
@@ -263,12 +271,13 @@ function ClientOnlyPage() {
             </button>
           </div>
           <div className='hidden sm:flex items-center sm:mb-0 mb-4'>
-            <input
-              type='text'
+            <textarea
               value={additionalText}
               onChange={(e) => setAdditionalText(e.target.value)}
+              onKeyPress={handleKeyPress} // Handle Enter keypress to add a new line
               placeholder='متن اضافه'
               className='px-2 py-1 rounded-md text-black'
+              rows={3} // Making the input area bigger
             />
             <button
               onClick={handleAddLine}

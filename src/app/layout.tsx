@@ -7,6 +7,7 @@ import Footer from '../components/Footer/Footer'; // Import Footer component
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect } from 'react';
 import Head from 'next/head';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   return (
     <html lang='en' className={`${Hamishe.variable}`}>
+      <SpeedInsights />
       <Head>
         <title>{String(metadata.title)}</title>
         <meta
