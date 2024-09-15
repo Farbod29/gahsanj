@@ -49,17 +49,23 @@ export async function GET(req: NextRequest) {
       .toArray();
 
     // console.log('Documents found:', documents);
-
     const filteredDocuments = documents.filter((doc) => {
-      if (doc.activeDates === 'allDays' || doc.activeDates === todayJalali) {
+      if (
+        doc.activeDates === 'allDays' ||
+        doc.activeDates === todayJalali ||
+        !doc.activeDates ||
+        doc.activeDates === 'deactivate'
+      ) {
+        console.log(
+          'Excluding document with empty or deactivate activeDates:',
+          doc
+        );
+        return false;
+      } else {
         // console.log('Including document:', doc);
         return true;
-      } else {
-        console.log('Excluding document due to date mismatch:', doc);
-        return false;
       }
     });
-
     if (filteredDocuments.length > 0) {
       const response = filteredDocuments.map((doc) => ({
         category: doc.category,
