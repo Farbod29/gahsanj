@@ -242,13 +242,13 @@ const Occasions: React.FC = () => {
           style={{
             display: 'grid',
             gridTemplateColumns:
-              window.innerWidth >= 1424
+              typeof window !== 'undefined' && window.innerWidth >= 1424
                 ? 'repeat(7, 1fr)' // lg:grid-cols-6
-                : window.innerWidth >= 1024
+                : typeof window !== 'undefined' && window.innerWidth >= 1024
                   ? 'repeat(5, 1fr)' // lg:grid-cols-6
-                  : window.innerWidth >= 768
+                  : typeof window !== 'undefined' && window.innerWidth >= 768
                     ? 'repeat(4, 1fr)' // se:grid-cols-5
-                    : window.innerWidth >= 640
+                    : typeof window !== 'undefined' && window.innerWidth >= 640
                       ? 'repeat(5, 1fr)' // sm:grid-cols-4
                       : 'repeat(5, 1fr)', // grid-cols-6 for default
             gap: '16px', // gap-4 equivalent
