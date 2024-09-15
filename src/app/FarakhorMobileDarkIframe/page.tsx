@@ -273,7 +273,7 @@ const Occasions: React.FC = () => {
                 {/* ${isToday ? 'bg-gray-900  ' : 'bg-[#FFFFFF] '} */}
                 <div
                   // className={` absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]  xs:top-[80px]  sm:h-[70px] h-[20px] flex 2 pl-2 m-2 xs: 2 xl: 12 2xl:10 mr-7`}
-                  className={` absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]  xs:top-[80px]  sm:h-[40px] h-[40px] flex 2 pl-2 m-2 xs: 2 xl: 12 2xl:10 mr-7`}
+                  className={` absolute bottom-0 xl:top-[60px] sm:top-[70px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]  xs:top-[70px]  sm:h-[40px] h-[40px] flex 2 pl-2 m-2 mb-1 xs: 2 xl: 12 2xl:10 mr-7`}
                   //className={` absolute bottom-0  left-1 sm-logo:left-1 w-[20px] lg:h-[30px] sm:w-[50px] xs:w-[20px] xs:left-[-12px]  xs:top-[80px]  sm:h-[70px] h-[20px] flex 2 pl-2 m-2 xs: 2 xl: 12 2xl:10 mr-7`}
                   style={{ width: 'auto', maxWidth: '80%' }}
                 >
