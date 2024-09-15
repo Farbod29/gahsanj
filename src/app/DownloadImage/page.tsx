@@ -153,7 +153,7 @@ function ClientOnlyPage() {
           minHeight: 'calc(100% - 2rem)',
           backgroundColor: '#373D70',
           // border: '3px solid gray',
-          paddingBottom: '100px',
+          paddingBottom: '120px',
         }}
       >
         <p className='text-center text-white font-size-12 font-weight-bold pb-3'>
@@ -161,6 +161,7 @@ function ClientOnlyPage() {
         </p>
         {!loaded && <div className='spinner'></div>}
         <Image
+          className='top-32'
           src={images[currentIndex]}
           alt='Image description'
           layout='responsive'
