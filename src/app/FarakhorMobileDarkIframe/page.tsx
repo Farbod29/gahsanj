@@ -239,8 +239,22 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className=' grid grid-cols-6 sm:grid-cols-4 se:grid-cols-5 lg:grid-cols-6 gap-4 w-full align-top mt-[140px]'
           style={{
+            display: 'grid',
+            gridTemplateColumns:
+              window.innerWidth >= 1424
+                ? 'repeat(7, 1fr)' // lg:grid-cols-6
+                : window.innerWidth >= 1024
+                  ? 'repeat(5, 1fr)' // lg:grid-cols-6
+                  : window.innerWidth >= 768
+                    ? 'repeat(4, 1fr)' // se:grid-cols-5
+                    : window.innerWidth >= 640
+                      ? 'repeat(5, 1fr)' // sm:grid-cols-4
+                      : 'repeat(5, 1fr)', // grid-cols-6 for default
+            gap: '16px', // gap-4 equivalent
+            width: '100%', // w-full
+            alignItems: 'top', // align-top
+            marginTop: '140px', // mt-[140px]
             direction: 'rtl',
             overflow: 'hidden',
             scrollbarWidth: 'none',
