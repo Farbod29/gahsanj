@@ -83,3 +83,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Ignore auto-generated asset files in FarakhorMobileDarkIframe_files
+public/assets/FarakhorMobileDarkIframe_files/

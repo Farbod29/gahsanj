@@ -272,10 +272,32 @@ const Occasions: React.FC = () => {
               >
                 {/* ${isToday ? 'bg-gray-900  ' : 'bg-[#FFFFFF] '} */}
                 <div
-                  // className={` absolute bottom-0 xl:top-[65px] sm:top-[75px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]  xs:top-[80px]  sm:h-[70px] h-[20px] flex 2 pl-2 m-2 xs: 2 xl: 12 2xl:10 mr-7`}
-                  className={` absolute bottom-0 xl:top-[60px] sm:top-[70px] left-1 sm-logo:left-1 w-[30px] lg:h-[50px] sm:w-[90px] xs:w-8 xs:left-[-12px]  xs:top-[70px]  sm:h-[40px] h-[40px] flex 2 pl-2 m-2 mb-1 xs: 2 xl: 12 2xl:10 mr-7`}
-                  //className={` absolute bottom-0  left-1 sm-logo:left-1 w-[20px] lg:h-[30px] sm:w-[50px] xs:w-[20px] xs:left-[-12px]  xs:top-[80px]  sm:h-[70px] h-[20px] flex 2 pl-2 m-2 xs: 2 xl: 12 2xl:10 mr-7`}
-                  style={{ width: 'auto', maxWidth: '80%' }}
+                  style={{
+                    position: 'absolute',
+                    left: '2px', // exact left position
+                    top:
+                      window.innerWidth >= 1200
+                        ? '88px'
+                        : window.innerWidth >= 768
+                          ? '75px'
+                          : '80px', // controlling top based on screen width
+                    width:
+                      window.innerWidth >= 1200
+                        ? '40px'
+                        : window.innerWidth >= 768
+                          ? '50px'
+                          : '30px', // controlling width
+                    height:
+                      window.innerWidth >= 1200
+                        ? '70px'
+                        : window.innerWidth >= 768
+                          ? '50px'
+                          : '40px', // controlling height
+                    padding: '2px', // setting padding
+                    margin: '2px', // setting margin
+                    marginBottom: '1px', // bottom margin
+                    maxWidth: '80%', // max width limit
+                  }}
                 >
                   {isValidUrl(logo) && (
                     <Image
@@ -284,7 +306,7 @@ const Occasions: React.FC = () => {
                       width={50}
                       height={50}
                       layout='responsive'
-                      className='w-full h-auto '
+                      className='w-full h-auto'
                     />
                   )}
                 </div>
