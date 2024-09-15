@@ -31,6 +31,7 @@ export async function GET(req: NextRequest) {
     const category = decodeURIComponent(
       req.nextUrl.pathname.split('/').pop() || ''
     );
+    console.log('Requested Category:', category);
     // console.log('Category:', category);
 
     const today = new Date();
@@ -50,20 +51,13 @@ export async function GET(req: NextRequest) {
 
     // console.log('Documents found:', documents);
     const filteredDocuments = documents.filter((doc) => {
-      if (
-        doc.activeDates === 'allDays' ||
-        doc.activeDates === todayJalali ||
-        !doc.activeDates ||
-        doc.activeDates === 'deactivate'
-      ) {
-        console.log(
-          'Excluding document with empty or deactivate activeDates:',
-          doc
-        );
-        return false;
-      } else {
-        // console.log('Including document:', doc);
+      // Include documents where activeDates is 'allDays' or todayJalali, exclude otherwise
+      if (doc.activeDates === 'allDays' || doc.activeDates === todayJalali) {
+        // This is where valid documents are correctly included
         return true;
+      } else {
+        console.log('Excluding document due to inactive dates:', doc);
+        return false;
       }
     });
     if (filteredDocuments.length > 0) {

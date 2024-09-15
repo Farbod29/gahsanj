@@ -11,9 +11,6 @@ import jalaali from 'jalaali-js';
 import html2canvas from 'html2canvas';
 import { useSearchParams } from 'next/navigation'; // Ensures this is used client-side
 import Link from 'next/link';
-import ArrowLeft from '../../../public/assets/ArrowLeft.svg';
-import ArrowRight from '../../../public/assets/ArrowRight.svg';
-import DownloadIcon from '../../../public/assets/DownloadIcon.svg';
 import Home from '../../../public/assets/home.svg';
 import Calendar from '../../../public/assets/calendar.svg';
 import GoLeftIcon from '@/components/AISvgsIcon/GoLeftSvg';
@@ -21,11 +18,15 @@ import GoRightIcon from '@/components/AISvgsIcon/GoRightSvg';
 import DownloadSVG from '@/components/AISvgsIcon/DownloadSvg';
 
 function decodeHtmlEntities(text) {
-  const element = document.createElement('div');
-  if (text) {
-    element.innerHTML = text;
+  // Check if window is defined to ensure this runs in a client environment
+  if (typeof window !== 'undefined') {
+    const element = document.createElement('div');
+    if (text) {
+      element.innerHTML = text;
+    }
+    return element.innerText || element.textContent;
   }
-  return element.innerText || element.textContent;
+  return text; // Return the original text if not on client side
 }
 
 function ClientOnlyPage() {
@@ -83,6 +84,8 @@ function ClientOnlyPage() {
         const response = await fetch(
           `/api/ImagesAI/${encodeURIComponent(gahshomariName)}`
         );
+        console.log('Fetching category:', gahshomariName);
+        console.log('Encoded category:', encodeURIComponent(gahshomariName));
         if (!response.ok) {
           throw new Error('Failed to fetch images');
         }
@@ -133,55 +136,59 @@ function ClientOnlyPage() {
   }, [images.length]);
 
   return (
-    <div className='flex flex-col h-screen justify-between'>
+    <div className='flex flex-col h-screen justify-between bg-blue-950'>
       <div
         ref={ref}
         className='flex-grow relative'
         style={{
           width: '100%',
           height: 'auto',
+          padding: '18px',
+          paddingTop: '0.1vh',
+          boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
           minHeight: 'calc(100% - 2rem)',
-          objectFit: 'cover',
+          backgroundColor: '#373D70',
+          // border: '3px solid gray',
+          paddingBottom: '100px',
         }}
       >
+        <p className='text-center text-white font-size-12 font-weight-bold pb-3'>
+          می توانید بنز زیر را دریافت و در استوری اینستاگرام استفاده کنید
+        </p>
         {!loaded && <div className='spinner'></div>}
         <Image
-          src={
-            images[currentIndex] ||
-            'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
-          }
-          alt='دوباره تلاش کن! '
-          layout='fill'
-          objectFit='cover'
+          src={images[currentIndex]}
+          alt='Image description'
+          layout='responsive'
+          width={700}
+          height={525}
+          objectFit='contain'
           onLoad={handleLoad}
         />
         <div
-          className='drop-shadow-lg text-cyan-600 '
+          className='text-white text-shadow-lg'
           style={{
             position: 'absolute',
-            top: '10%',
+            top: '15%',
             left: '50%',
             transform: 'translateX(-50%)',
             display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'center',
-            color: 'white',
-            fontSize: '20px',
+            fontSize: '18px',
             zIndex: 2,
-            whiteSpace: 'nowrap', // Use pre-line to preserve line breaks
-            textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
+            whiteSpace: 'nowrap',
+            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.7)', // Shadow to enhance readability
           }}
         >
-          <div dir='rtl'>
-            <div dir='rtl' className='text-center'>
-              <span>{decodeHtmlEntities(line1)}</span>
-            </div>
-            <div dir='rtl' className='text-center '>
-              <span>{decodeHtmlEntities(line2)}</span>
-            </div>
-            <div dir='rtl' className='text-center '>
-              <span>{decodeHtmlEntities(displayedAdditionalText)}</span>
-            </div>
-          </div>
+          <p>{decodeHtmlEntities(line1)}</p>
+          <p>{decodeHtmlEntities(line2)}</p>
+          <p>{decodeHtmlEntities(displayedAdditionalText)}</p>
         </div>
       </div>
       {/* ==============Offscreen div for screenshot ================*/}
@@ -197,7 +204,7 @@ function ClientOnlyPage() {
         <Image
           src={
             images[currentIndex] ||
-            'https://www.imgonline.com.ua/examples/color_palette_3.jpg'
+            'https://gahshomar.app/assets/AImedia/general/سبز-گاهشمار.png'
           }
           alt='دوباره تلاش کن! '
           layout='fill'
@@ -232,15 +239,16 @@ function ClientOnlyPage() {
           </div>
         </div>
       </div>
-      <div className='fixed bottom-0 w-full bg-[#373D70] text-white'>
-        <div className='flex flex-col sm:flex-row justify-center items-center p-4'>
-          <div className='sm:hidden mb-4 flex items-center justify-center'>
+      <div className='fixed bottom-0 w-full bg-[#373D70] text-white shadow-2xl '>
+        <div className='flex flex-col sm:flex-row justify-center items-center p-5 shadow-2xl'>
+          <div className='sm:hidden mb-4 flex items-center justify-center pb-3'>
             <textarea
               value={additionalText}
               onChange={(e) => setAdditionalText(e.target.value)} // Allow user input to update
-              placeholder='متن اضافه'
+              dir='rtl'
+              placeholder='پیوست  نوشته'
               className='px-2 py-1 rounded-md text-black'
-              rows={3} // Make the textarea larger
+              rows={2} // Make the textarea larger
             />
             <button
               onClick={handleAddLine}
@@ -249,7 +257,7 @@ function ClientOnlyPage() {
               +
             </button>
           </div>
-          <div className='flex justify-center items-center'>
+          <div className='flex justify-center items-center gap-2'>
             <Link className='mx-4' href='/'>
               <Home width={39.046} height={23.726} />
             </Link>
@@ -263,7 +271,7 @@ function ClientOnlyPage() {
               <GoRightIcon />
             </button>
             <button
-              className='mx-4'
+              className='mx-5'
               onClick={downloadScreenshot}
               disabled={!loaded}
             >

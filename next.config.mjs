@@ -2,37 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['gahshomar.com'],
-    domains: ['www.gahshomar.app'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'irantasvir.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'miro.medium.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.imgonline.com.ua',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.imgonline.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'gahshomar.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-      },
-      {
-        protocol: 'https',
-        hostname: 'fa.wikipedia.org',
-      },
+    domains: [
+      'gahshomar.app',
+      'www.gahshomar.app',
+      'gahshomar.com',
+      'irantasvir.com',
+      'www.imgonline.com.ua',
+      'miro.medium.com',
+      'picsum.photos',
+      'fa.wikipedia.org',
     ],
   },
   webpack(config) {
@@ -53,5 +31,4 @@ const nextConfig = {
   },
 };
 
-// Use export default instead of module.exports
 export default nextConfig;

@@ -10,7 +10,6 @@ function toPersianNums(numString: string) {
   return numString.replace(/\d/g, (x) => persianNums[parseInt(x)]);
 }
 
-
 const jalaaliMonths = [
   'فروردین',
   'اردیبهشت',
