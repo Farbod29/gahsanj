@@ -419,17 +419,16 @@ const Occasions: React.FC = () => {
               {modalContent.Text}
             </p>
             {modalVisible && modalContent && modalContent.RefLink && (
-              <p className='text-center mt-4 p-3 py-4 pb-4'>
-                برای اطلاعات بیشتر به{' '}
+              <p className='text-center mt-4 p-3'>
+                برای اطلاعات بیشتر{' '}
                 <a
                   href={modalContent.RefLink}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='text-blue-500 underline'
                 >
-                  اینجا
+                  اینجا را کلیک کنید
                 </a>{' '}
-                کلیک کنید.
               </p>
             )}
             <button

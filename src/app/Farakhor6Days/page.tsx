@@ -269,16 +269,15 @@ const Occasions6Days: React.FC = () => {
             </p>
             {modalContent.RefLink && (
               <p className='text-center mt-4 p-3'>
-                برای اطلاعات بیشتر به{' '}
+                برای اطلاعات بیشتر{' '}
                 <a
                   href={modalContent.RefLink}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='text-blue-500 underline'
                 >
-                  اینجا
+                  اینجا را کلیک کنید
                 </a>{' '}
-                کلید کنید.
               </p>
             )}
             <button

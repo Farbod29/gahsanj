@@ -1,29 +1,31 @@
 import React from 'react';
 
-const IlamiDescription = () => {
+const IlamiGahshomarDescription = () => {
   return (
     <div>
-      <h1 className='text-xl font-bold mb-4'>ایلامی</h1>
-      <p className='text-lg mb-4'>
-        گاه‌شمارایلامی یکی از قدیمی‌ترین گاه‌شمارهای ایرانی است که در دوران
+      <p className='text-lg mb-4' dir='rtl' style={{ textAlign: 'justify' }}>
+        گاه‌شمار ایلامی یکی از قدیمی‌ترین گاه‌شمارهای ایرانی است که در دوران
         ایلام باستان (حدود 3200 تا 539 قبل از میلاد) مورد استفاده قرار می‌گرفت.
         ایلامیان که یکی از تمدن‌های باستانی در جنوب غربی ایران بودند، از این
-        گاه‌شمار برای تعیین تاریخ و زمان استفاده می‌کردند.
-        <br />
-        از دیدگاه دکتر عبدالمجید ارفعی باستان شناس و مترجم زبان های اکدی: «ایلام
-        را نباید با «ع» نوشت بلکه باید با «الف» .نوشت، زیرا در زبان ایلامی «ع»
-        نداریم.
+        گاه‌شمار برای تعیین تاریخ و زمان استفاده می‌کردند. <br />
+        از دیدگاه دکتر عبدالمجید ارفعی باستان شناس و مترجم زبان‌های اکدی: «ایلام
+        را نباید با «ع» نوشت بلکه باید با «الف» نوشت، زیرا در زبان ایلامی «ع»
+        نداریم.»
       </p>
 
-      <h2 className='text-3xl font-semibold mt-6 mb-2 '>
+      <h2 className='text-3xl font-semibold mt-6 mb-2'>
         ویژگی‌های گاه‌شمار ایلامی
       </h2>
-      <ul className='list-disc list-inside mb-4'>
+      <ul
+        className='list-disc list-inside mb-4'
+        dir='rtl'
+        style={{ textAlign: 'justify' }}
+      >
         <li className='text-lg'>
           <strong>ماه‌ها و روزها</strong>: ایلامیان نیز مانند بسیاری از تمدن‌های
-          باستانی، از یک تقویم قمری-خورشیدی استفاده می‌کردند. ماه‌های تقویم
-          ایلامی احتمالاً 29 یا 30 روز داشتند که بر اساس مشاهدات ماه تنظیم
-          می‌شدند.
+          باستانی، از یک گاهشمار ماهشیدی (قمری)-خورشیدی استفاده می‌کردند.
+          ماه‌های تقویم ایلامی احتمالاً 29 یا 30 روز داشتند که بر اساس مشاهدات
+          ماه تنظیم می‌شدند.
         </li>
         <li className='text-lg'>
           <strong>سالیانه</strong>: سال ایلامی احتمالاً 12 ماه داشته است که
@@ -52,7 +54,11 @@ const IlamiDescription = () => {
       <h2 className='text-3xl font-semibold mt-6 mb-2'>
         نمونه‌هایی از آثار ایلامی
       </h2>
-      <ul className='list-disc list-inside mb-4'>
+      <ul
+        className='list-disc list-inside mb-4'
+        dir='rtl'
+        style={{ textAlign: 'justify' }}
+      >
         <li className='text-lg'>
           <strong>مجسمه‌ها و سنگ‌نگاره‌ها</strong>: ایلامیان آثار هنری بسیار
           زیبایی مانند مجسمه‌های سنگی و فلزی خلق کرده‌اند که برخی از آن‌ها دارای
@@ -68,12 +74,16 @@ const IlamiDescription = () => {
       <h2 className='text-3xl font-semibold mt-6 mb-2'>
         اهمیت گاه‌شمار ایلامی
       </h2>
-      <p className='text-lg mb-4'>
+      <p className='text-lg mb-4' dir='rtl' style={{ textAlign: 'justify' }}>
         گاه‌شمار ایلامی نقش مهمی در تاریخ‌نگاری و مطالعه تاریخ باستان ایران
         دارد. با بررسی این گاه‌شمار، می‌توان به اطلاعات دقیق‌تری درباره رویدادها
         و تحولات تاریخی ایلام و دیگر تمدن‌های همجوار دست یافت.
       </p>
-      <ul className='list-disc list-inside mb-4'>
+      <ul
+        className='list-disc list-inside mb-4'
+        dir='rtl'
+        style={{ textAlign: 'justify' }}
+      >
         <li className='text-lg'>
           <strong>لوح‌های گلی</strong>: بسیاری از اطلاعات ما درباره گاه‌شمار
           ایلامی از طریق لوح‌های گلی به دست آمده است.
@@ -96,10 +106,10 @@ const IlamiDescription = () => {
           >
             ارفعی، عبدالمجید. «بخشی از گفتگوهای چند سال پیش دربارهٔ ایلام /
             ایلام با دکتر عبدالمجید ارفعی». وبگاه خردگان. دریافت‌شده در ۱۹ اوت
-            ۲۰۲۰. عیلام را
+            ۲۰۲۰.
           </a>
-          نباید با «ع» نوشت بلکه باید با «الف» نوشت، زیرا در زبان ایلامی «ع»
-          نداریم.
+          ایلام را نباید با «ع» نوشت بلکه باید با «الف» نوشت، زیرا در زبان
+          ایلامی «ع» نداریم.
         </li>
         <li className='text-xm'>
           <a
@@ -108,8 +118,8 @@ const IlamiDescription = () => {
             rel='noopener noreferrer'
             className='text-blue-600 hover:underline'
           >
-            ↑ «نقش سرزمین‌های شرقی ایلام: اَرجان و ایذه، در انتقال فرهنگ ایلام
-            نو به پارس». پرتال جامع علوم انسانی.
+            «نقش سرزمین‌های شرقی ایلام: اَرجان و ایذه، در انتقال فرهنگ ایلام نو
+            به پارس». پرتال جامع علوم انسانی.
           </a>
         </li>
         <li className='text-xm'>
@@ -119,8 +129,8 @@ const IlamiDescription = () => {
             rel='noopener noreferrer'
             className='text-blue-600 hover:underline'
           >
-            ↑ «وضعیت سیاسی ایلام بعد از سقوط تا برآمدن هخامنشیان (۵۵۰–۶۴۶ پ.
-            م)». پرتال جامع علوم انسانی.
+            «وضعیت سیاسی ایلام بعد از سقوط تا برآمدن هخامنشیان (۵۵۰–۶۴۶ پ. م)».
+            پرتال جامع علوم انسانی.
           </a>
         </li>
         <li className='text-xm'>
@@ -130,7 +140,7 @@ const IlamiDescription = () => {
             rel='noopener noreferrer'
             className='text-blue-600 hover:underline'
           >
-            ↑ «دگردیسی خدایان در عیلام باستان». پرتال جامع علوم انسانی.
+            «دگردیسی خدایان در عیلام باستان». پرتال جامع علوم انسانی.
           </a>
         </li>
         <li className='text-xm text-left' dir='ltr'>
@@ -143,4 +153,5 @@ const IlamiDescription = () => {
     </div>
   );
 };
-export default IlamiDescription;
+
+export default IlamiGahshomarDescription;

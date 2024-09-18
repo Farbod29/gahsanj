@@ -32,13 +32,13 @@ function toPersianNums(numString) {
 // Get the Persian name of today
 const getTodayPersianName = () => {
   const persianWeekDays = [
-    '(دوشنبه) مه شید',
-    '(سه‌شنبه)  بهرامشید',
-    '(چهار‌شنبه) تیرشید',
-    '(پنج‌شنبه) اورمزدشید',
-    'ناهیدشید (آدینه) ',
-    '(شنبه)  کیوان',
-    '(یک‌شنبه) مهر',
+    '      مه شید (دوشنبه)',
+    '      بهرامشید (سه‌شنبه)',
+    '      تیرشید (چهار‌شنبه)',
+    '      اورمزدشید (پنج‌شنبه)',
+    '      ناهیدشید (آدینه)',
+    '      کیوان (شنبه)',
+    '      مهر (یک‌شنبه)',
   ];
   const today = new Date();
   const dayOfWeek = today.getDay();
@@ -191,7 +191,7 @@ function PersianCalendar() {
                 {jalaaliMonths[currentMonth - 1]}
               </p>
               <div className='flex gap-1 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl'>
-                <p className='pt-1'>{NameOfTheDay}</p>
+                <p className='pt-1 dir=rtl'>{NameOfTheDay}</p>
                 <p className='pt-1'>{padeshahi}</p>
                 <p className='pt-1'>{'پادشاهی'}</p>
               </div>
