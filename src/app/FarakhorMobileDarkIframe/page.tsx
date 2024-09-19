@@ -20,6 +20,36 @@ interface Occasion {
   Month: string;
   LogoLink: string;
 }
+
+function convertToIraniMelliYear(date: Date) {
+  const { jy } = jalaali.toJalaali(date);
+  const IraniMelliYear = jy - 1396;
+  return IraniMelliYear.toString();
+}
+
+function convertToIlamiYear(date: Date) {
+  const { jy } = jalaali.toJalaali(date);
+  const IranianILAMI = jy + 3821;
+  return IranianILAMI.toString();
+}
+
+function convertToPahlaviYear(date: Date) {
+  const { jy } = jalaali.toJalaali(date);
+  const pYear = jy + 1180;
+  return pYear.toString();
+}
+
+function convertToIranianDiakoYear(date: Date) {
+  const { jy } = jalaali.toJalaali(date);
+  const IranianDiako = jy + 1321;
+  return IranianDiako.toString();
+}
+
+function convertToZoroastrianYear(date: Date) {
+  const { jy } = jalaali.toJalaali(date);
+  const zoroastrianYear = jy + 2359;
+  return zoroastrianYear.toString();
+}
 const Occasions: React.FC = () => {
   const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion[]>([]);
   const [currentMonthName, setCurrentMonthName] = useState<string>('');
@@ -193,8 +223,8 @@ const Occasions: React.FC = () => {
     : '';
 
   return (
-    <div className='min-h-screen flex flex-col pb-1'>
-      {/* sssssssss */}
+    <div className='min-h-screen flex flex-col pb-1 '>
+      {/* ssssssss bg-red-600s */}
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-8 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10 min-h-[120px]'>
         <button
           onClick={() => handleMonthChange(1)}
@@ -203,7 +233,7 @@ const Occasions: React.FC = () => {
           &lt;
         </button>
 
-        <div className='flex items-center justify-center flex-grow space-x-4 md:space-x-64'>
+        <div className='flex items-center justify-center flex-grow space-x-4 md:space-x-48'>
           <button
             onClick={resetToToday}
             className='border border-white h-6 text-[10px] sm:text-sm md:text-sm rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0'
@@ -215,10 +245,74 @@ const Occasions: React.FC = () => {
           >
             برو به این ماه
           </button>
-          <h1 className='text-xs sm:text-sm md:text-sm'>
-            سال {toPersianNum(currentDisplayYear.toString())}
-            <span className='block'>{leapYearText}</span>
+          <h1 className='text-xs sm:text-sm md:text-sm flex justify-between space-x-14'>
+            {/* First column */}
+            <div className='flex flex-col space-y-4  items-center'>
+              <div className='flex items-center whitespace-nowrap'>
+                <span className='text-gray-400 ml-2'>ایران نو</span>
+                <span className='text-white mx-2'>
+                  {toPersianNum(convertToIraniMelliYear(today))}
+                </span>
+                <span className='text-gray-400 ml-2'>سال</span>
+              </div>
+              <div className='flex items-center whitespace-nowrap'>
+                <span className='text-gray-400 ml-2'>هجرت</span>
+                <span className='text-white mx-2'>
+                  {toPersianNum(currentDisplayYear.toString())}
+                </span>
+                <span className='text-gray-400 ml-2'>سال</span>
+              </div>
+            </div>
+
+            {/* Second column */}
+            <div className='flex flex-col space-y-4 items'>
+              <div className='flex items-center whitespace-nowrap'>
+                <span className='text-gray-400 ml-2'>پادشاهی</span>
+                <span className='text-white mx-2'>
+                  {toPersianNum(convertToPahlaviYear(today))}
+                </span>
+                <span className='text-gray-400 ml-2'>سال</span>
+              </div>
+              <div className='flex items-center whitespace-nowrap'>
+                <span className='text-gray-400 ml-4'>ایلامی</span>
+                <span className='text-white mx-2'>
+                  {toPersianNum(convertToIlamiYear(today))}
+                </span>
+                <span className='text-gray-400 ml-2'>سال</span>
+              </div>
+            </div>
+
+            {/* Third column */}
+            <div className='flex flex-col space-y-4 items'>
+              <div className='flex items-center whitespace-nowrap'>
+                <span className='text-gray-400 ml-2'>مادی / کردی</span>
+                <span className='text-white mx-2'>
+                  {toPersianNum(convertToIranianDiakoYear(today))}
+                </span>
+                <span className='text-gray-400 ml-2'>سال</span>
+              </div>
+              <div className='flex items-center whitespace-nowrap'>
+                <span className='text-gray-400 ml-4'>زرتشتی</span>
+                <span className='text-white mx-2'>
+                  {toPersianNum(convertToZoroastrianYear(today))}
+                </span>
+                <span className='text-gray-400 ml-2'>سال</span>
+              </div>
+            </div>
           </h1>
+
+          {/* Leap year and Gregorian year */}
+          <div className='flex flex-col items-center mt-1 text-xs space-y-2'>
+            <span className='text-gray-400'>
+              {'  '} سال{'  '}
+              <span className='text-white mx-2'>
+                {toPersianNum(today.getFullYear().toString())}
+                <span className='text-gray-400 mx-2'>میلادی</span>
+              </span>
+            </span>
+            <span className='block text-gray-400 ml-2'>{leapYearText}</span>
+          </div>
+
           <p className='text-xs sm:text-sm md:text-sm'>
             فراخورهای ماه {currentMonthName}
           </p>
@@ -254,7 +348,7 @@ const Occasions: React.FC = () => {
             gap: '16px', // gap-4 equivalent
             width: '100%', // w-full
             alignItems: 'top', // align-top
-            marginTop: '140px', // mt-[140px]
+            marginTop: '137px', // mt-[140px]
             direction: 'rtl',
             overflow: 'hidden',
             scrollbarWidth: 'none',

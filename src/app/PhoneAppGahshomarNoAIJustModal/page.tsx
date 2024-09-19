@@ -471,6 +471,16 @@ export default function Home() {
     Saturday: 'شنبه',
   };
 
+  const kurdishSoraniDays: { [key: string]: string } = {
+    Sunday: 'یەکشممە',
+    Monday: 'دووشممە',
+    Tuesday: 'سێشممە',
+    Wednesday: 'چوارشممە',
+    Thursday: 'پێنجشممە',
+    Friday: 'ھینی',
+    Saturday: 'شممە',
+  };
+
   function getTodayPersianName(): string {
     const today = new Date();
     const gregorianWeekdays = [
@@ -589,9 +599,9 @@ export default function Home() {
       date: dates.IranianDiako,
       name: 'مادی / کردی',
       yearType: 'مادی',
-      line1: `${PersianWeekday} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
+      line1: `${kurdishSoraniDays[getTodayGeorgianName()]} ${getFormattedDatIraniMelliMonthAndDay(today)}`,
       line2: `سال ${toPersianNums(convertToIranianDiakoYear(today))}      مادی / کردی`,
-      weekDay: getTodayPersianName(),
+      weekDay: kurdishSoraniDays[getTodayGeorgianName()],
     },
     {
       key: 'zoroastrian',
