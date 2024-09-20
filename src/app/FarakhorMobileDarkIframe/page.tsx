@@ -21,36 +21,10 @@ interface Occasion {
   LogoLink: string;
 }
 
-function convertToIraniMelliYear(date: Date) {
-  const { jy } = jalaali.toJalaali(date);
-  const IraniMelliYear = jy - 1396;
-  return IraniMelliYear.toString();
-}
-
-function convertToIlamiYear(date: Date) {
-  const { jy } = jalaali.toJalaali(date);
-  const IranianILAMI = jy + 3821;
-  return IranianILAMI.toString();
-}
-
-function convertToPahlaviYear(date: Date) {
-  const { jy } = jalaali.toJalaali(date);
-  const pYear = jy + 1180;
-  return pYear.toString();
-}
-
-function convertToIranianDiakoYear(date: Date) {
-  const { jy } = jalaali.toJalaali(date);
-  const IranianDiako = jy + 1321;
-  return IranianDiako.toString();
-}
-
-function convertToZoroastrianYear(date: Date) {
-  const { jy } = jalaali.toJalaali(date);
-  const zoroastrianYear = jy + 2359;
-  return zoroastrianYear.toString();
-}
 const Occasions: React.FC = () => {
+  const [currentPersianMonth, setCurrentPersianMonth] = useState<number>(
+    jalaali.toJalaali(new Date()).jm
+  );
   const [currentMonthEvents, setCurrentMonthEvents] = useState<Occasion[]>([]);
   const [currentMonthName, setCurrentMonthName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -61,7 +35,7 @@ const Occasions: React.FC = () => {
     jalaali.toJalaali(new Date()).jy
   );
   const scrollRef = useRef<HTMLDivElement | null>(null);
-
+  const getGregorianYear = (jalaliYear: number) => jalaliYear + 621;
   const leapYears = useMemo(
     () => [
       1403, 1407, 1411, 1415, 1419, 1423, 1427, 1431, 1435, 1439, 1443, 1447,
@@ -161,20 +135,28 @@ const Occasions: React.FC = () => {
   };
 
   const handleMonthChange = (increment: number) => {
-    const currentMonthIndex = monthMapping[currentMonthName];
-    let newMonthIndex = currentMonthIndex + increment;
+    let newMonthIndex = currentPersianMonth + increment;
 
+    // If moving to فروردین from اسفند, increment the year
     if (newMonthIndex > 12) {
       newMonthIndex = 1;
-      setCurrentYear(currentYear + 1);
-    } else if (newMonthIndex < 1) {
+      setCurrentYear((prevYear) => prevYear + 1);
+    }
+    // If moving to اسفند from فروردین, decrement the year
+    else if (newMonthIndex < 1) {
       newMonthIndex = 12;
-      setCurrentYear(currentYear - 1);
+      setCurrentYear((prevYear) => prevYear - 1);
     }
 
+    // Update the current Persian month state
+    setCurrentPersianMonth(newMonthIndex);
+
+    // Find the new month name based on the updated month index
     const newMonthName = Object.keys(monthMapping).find(
       (key) => monthMapping[key] === newMonthIndex
     );
+
+    // Update the current month name state and fetch the events for the new month
     setCurrentMonthName(newMonthName || '');
     fetchOccasions(newMonthName || '');
   };
@@ -208,6 +190,11 @@ const Occasions: React.FC = () => {
 
   useEffect(() => {
     resetToToday();
+    console.log('Persian month on load:', todayPersianMonth); // Log the Persian month when component loads
+  }, []);
+
+  useEffect(() => {
+    resetToToday();
   }, []);
 
   const today = new Date();
@@ -221,9 +208,28 @@ const Occasions: React.FC = () => {
   const leapYearText = isLeapYear(currentDisplayYear)
     ? '( کبیسه / انباشته ) '
     : '';
+  const getGregorianYearRange = (jalaliYear: number, currentYear: number) => {
+    console.log(jalaliYear);
+    const currentGeorgianYear = currentDisplayYear + 621;
 
+    // Log to verify the month
+    console.log(`Current Persian month is: ${currentPersianMonth}`);
+
+    // When in دی (month 10), display both the current and next year
+    if (currentPersianMonth === 10) {
+      return `${currentGeorgianYear} / ${currentGeorgianYear + 1}`;
+    }
+    // For بهمن and اسفند (months 11 and 12), show only the next year
+    else if (currentPersianMonth >= 11) {
+      return `${currentGeorgianYear + 1}`;
+    }
+    // For months before دی (months 1 to 9), show only the current year
+    else {
+      return `${currentGeorgianYear}`;
+    }
+  };
   return (
-    <div className='min-h-screen flex flex-col pb-1 '>
+    <div className='min-h-screen flex flex-col pb-1  '>
       {/* ssssssss bg-red-600s */}
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-8 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10 min-h-[120px]'>
         <button
@@ -233,7 +239,7 @@ const Occasions: React.FC = () => {
           &lt;
         </button>
 
-        <div className='flex items-center justify-center flex-grow space-x-4 md:space-x-48'>
+        <div className='flex items-center justify-between flex-grow space-x-4 md:space-x-24 ml-5'>
           <button
             onClick={resetToToday}
             className='border border-white h-6 text-[10px] sm:text-sm md:text-sm rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0'
@@ -245,82 +251,82 @@ const Occasions: React.FC = () => {
           >
             برو به این ماه
           </button>
-          <h1 className='text-xs sm:text-sm md:text-sm flex justify-between space-x-14'>
+          <h1 className='text-xs sm:text-sm md:text-sm flex justify-between space-x-6'>
             {/* First column */}
-            <div className='flex flex-col space-y-4  items-center'>
+            <div className='flex flex-col space-y-6'>
               <div className='flex items-center whitespace-nowrap'>
                 <span className='text-gray-400 ml-2'>ایران نو</span>
                 <span className='text-white mx-2'>
-                  {toPersianNum(convertToIraniMelliYear(today))}
+                  {toPersianNum((currentYear - 1396).toString())}
                 </span>
-                <span className='text-gray-400 ml-2'>سال</span>
+                <span className='text-gray-400 ml-2'></span>
               </div>
               <div className='flex items-center whitespace-nowrap'>
                 <span className='text-gray-400 ml-2'>هجرت</span>
                 <span className='text-white mx-2'>
-                  {toPersianNum(currentDisplayYear.toString())}
+                  {toPersianNum(currentYear.toString())}
                 </span>
-                <span className='text-gray-400 ml-2'>سال</span>
+                <span className='text-gray-400 ml-2'></span>
               </div>
             </div>
 
             {/* Second column */}
-            <div className='flex flex-col space-y-4 items'>
+            <div className='flex flex-col space-y-6'>
               <div className='flex items-center whitespace-nowrap'>
                 <span className='text-gray-400 ml-2'>پادشاهی</span>
                 <span className='text-white mx-2'>
-                  {toPersianNum(convertToPahlaviYear(today))}
+                  {toPersianNum((currentYear + 1180).toString())}
                 </span>
-                <span className='text-gray-400 ml-2'>سال</span>
+                <span className='text-gray-400 ml-2'></span>
               </div>
               <div className='flex items-center whitespace-nowrap'>
-                <span className='text-gray-400 ml-4'>ایلامی</span>
+                <span className='text-gray-400 ml-2'>ایلامی</span>
                 <span className='text-white mx-2'>
-                  {toPersianNum(convertToIlamiYear(today))}
+                  {toPersianNum((currentYear + 3821).toString())}
                 </span>
-                <span className='text-gray-400 ml-2'>سال</span>
+                <span className='text-gray-400 ml-2'></span>
               </div>
             </div>
 
             {/* Third column */}
-            <div className='flex flex-col space-y-4 items'>
+            <div className='flex flex-col space-y-6'>
               <div className='flex items-center whitespace-nowrap'>
                 <span className='text-gray-400 ml-2'>مادی / کردی</span>
                 <span className='text-white mx-2'>
-                  {toPersianNum(convertToIranianDiakoYear(today))}
+                  {toPersianNum((currentYear + 1321).toString())}
                 </span>
-                <span className='text-gray-400 ml-2'>سال</span>
+                <span className='text-gray-400 ml-2'></span>
               </div>
               <div className='flex items-center whitespace-nowrap'>
-                <span className='text-gray-400 ml-4'>زرتشتی</span>
+                <span className='text-gray-400 ml-2'>زرتشتی</span>
                 <span className='text-white mx-2'>
-                  {toPersianNum(convertToZoroastrianYear(today))}
+                  {toPersianNum((currentYear + 2359).toString())}
                 </span>
-                <span className='text-gray-400 ml-2'>سال</span>
+                <span className='text-gray-400 ml-2'></span>
               </div>
             </div>
           </h1>
 
-          {/* Leap year and Gregorian year */}
-          <div className='flex flex-col items-center mt-1 text-xs space-y-2'>
+          {/* Gregorian year */}
+          <div className='flex flex-col items-center mt-6 text-xs space-y-2 '>
             <span className='text-gray-400'>
-              {'  '} سال{'  '}
+              میلادی
               <span className='text-white mx-2'>
-                {toPersianNum(today.getFullYear().toString())}
-                <span className='text-gray-400 mx-2'>میلادی</span>
+                {toPersianNum(
+                  getGregorianYearRange(todayPersianMonth, currentYear) // Use the correct Persian month and year
+                )}
               </span>
             </span>
-            <span className='block text-gray-400 ml-2'>{leapYearText}</span>
+            <span className='block text-gray-400'>{leapYearText}</span>
           </div>
-
-          <p className='text-xs sm:text-sm md:text-sm'>
+          <p className='text-xs sm:text-sm md:text-sm mr-5 space-x-3'>
             فراخورهای ماه {currentMonthName}
           </p>
         </div>
 
         <button
           onClick={() => handleMonthChange(-1)}
-          className='text-3xl md:text-4xl flex-shrink-0'
+          className='text-3xl md:text-4xl flex-shrink-0 ml-5'
         >
           &gt;
         </button>
@@ -348,7 +354,7 @@ const Occasions: React.FC = () => {
             gap: '16px', // gap-4 equivalent
             width: '100%', // w-full
             alignItems: 'top', // align-top
-            marginTop: '137px', // mt-[140px]
+            marginTop: '140px', // mt-[140px]
             direction: 'rtl',
             overflow: 'hidden',
             scrollbarWidth: 'none',
