@@ -180,8 +180,9 @@ function ClientOnlyPage() {
             transform: 'translateX(-50%)',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'center', // Ensures horizontal center alignment
             justifyContent: 'center',
+            textAlign: 'center', // Centers the text itself
             fontSize: '18px',
             zIndex: 2,
             textShadow: '2px 2px 5px rgba(0, 0, 0, 0.7)', // Shadow to enhance readability
@@ -222,16 +223,33 @@ function ClientOnlyPage() {
         >
           <div className='rtl flex flex-row-reverse'>
             <div dir='rtl'>
-              <div dir='rtl' className='text-center'>
+              <div
+                dir='rtl'
+                className='text-center'
+                style={{ textAlign: 'center', lineHeight: '2' }}
+              >
                 <span>{decodeHtmlEntities(line1)}</span>
               </div>
-              <div dir='rtl' className='text-center '>
+              <div
+                dir='rtl'
+                className='text-center '
+                style={{ textAlign: 'center', lineHeight: '2' }}
+              >
                 <span className='inline-block mx-2'>
                   {decodeHtmlEntities(line2)}
                 </span>
               </div>
-              <div dir='rtl' className='text-center '>
-                <span className='inline-block mx-2'>
+              <div
+                dir='rtl'
+                className='text-center '
+                style={{ textAlign: 'center', lineHeight: '2' }}
+              >
+                {' '}
+                {/* Added lineHeight */}
+                <span
+                  className='inline-block mx-2'
+                  style={{ whiteSpace: 'pre-line' }}
+                >
                   {decodeHtmlEntities(displayedAdditionalText)}
                 </span>
               </div>
