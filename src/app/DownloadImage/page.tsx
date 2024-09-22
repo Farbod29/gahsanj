@@ -18,6 +18,7 @@ import GoRightIcon from '@/components/AISvgsIcon/GoRightSvg';
 import DownloadSVG from '@/components/AISvgsIcon/DownloadSvg';
 
 function decodeHtmlEntities(text) {
+  // Check if window is defined to ensure this runs in a client environment
   if (typeof window !== 'undefined') {
     const element = document.createElement('div');
     if (text) {
@@ -25,7 +26,7 @@ function decodeHtmlEntities(text) {
     }
     return element.innerText || element.textContent;
   }
-  return text;
+  return text; // Return the original text if not on client side
 }
 
 function ClientOnlyPage() {
@@ -51,34 +52,40 @@ function ClientOnlyPage() {
   }, []);
 
   const handleAddLine = () => {
-    if (additionalText.trim() !== '') {
-      setDisplayedAdditionalText((prev) => prev + '\n' + additionalText); // Add the new text to the displayed output
-      setAdditionalText(''); // Clear the input field after the addition
-    }
+    setDisplayedAdditionalText((prev) => prev + '\n' + additionalText); // Add the new text to the displayed output
+    setAdditionalText(''); // Clear the input field after the addition
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent form submit on Enter
-      setAdditionalText((prev) => prev + '\n'); // Add new line in textarea
+      setDisplayedAdditionalText((prev) => prev + '\n' + additionalText);
+      setAdditionalText(''); // Clear the input after pressing Enter
     }
   };
 
+  function getPersianDayNumber(date = new Date()) {
+    const jDate = jalaali.toJalaali(date);
+    return jDate.jd; // This returns the day number in the Persian calendar
+  }
+
   useEffect(() => {
     const handleResize = () => {
-      setLoaded(false);
-      setTimeout(handleLoad, 100);
+      setLoaded(false); // Reset load state to trigger reload
+      setTimeout(handleLoad, 100); // Use handleLoad to set loaded to true
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [handleLoad]);
 
+  // Fetching images from the backend API
   useEffect(() => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
           `/api/ImagesAI/${encodeURIComponent(gahshomariName)}`
         );
+        console.log('Fetching category:', gahshomariName);
+        console.log('Encoded category:', encodeURIComponent(gahshomariName));
         if (!response.ok) {
           throw new Error('Failed to fetch images');
         }
@@ -106,10 +113,10 @@ function ClientOnlyPage() {
       const screenshotDiv = screenshotRef.current;
       if (screenshotDiv && loaded) {
         html2canvas(screenshotDiv, { scale: 1 }).then((canvas) => {
-          const image = canvas.toDataURL('image/jpeg', 0.8);
+          const image = canvas.toDataURL('image/jpeg', 0.8); // Adjust quality (0.8 = 80%)
           const link = document.createElement('a');
           link.href = image;
-          link.download = 'screenshot.jpg';
+          link.download = 'screenshot.jpg'; // Change file extension
           link.click();
         });
       } else {
@@ -145,7 +152,8 @@ function ClientOnlyPage() {
           justifyContent: 'center',
           minHeight: 'calc(100% - 2rem)',
           backgroundColor: '#373D70',
-          paddingBottom: '120px',
+          // border: '3px solid gray',
+          paddingBottom: '100px',
         }}
       >
         <p className='text-center text-white font-size-12 font-weight-bold pb-3'>
@@ -153,13 +161,14 @@ function ClientOnlyPage() {
         </p>
         {!loaded && <div className='spinner'></div>}
         <Image
-          className='top-32'
-          src={images[currentIndex]}
-          alt='Image description'
+          src={images[currentIndex] || '/assets/AImedia/general/base.jpg'}
+          alt='Default image description'
           layout='responsive'
           width={700}
           height={525}
           objectFit='contain'
+          priority={true} // This ensures the image loads first
+          loading='eager' // Disables lazy loading for immediate load
           onLoad={handleLoad}
         />
         <div
@@ -175,48 +184,121 @@ function ClientOnlyPage() {
             justifyContent: 'center',
             fontSize: '18px',
             zIndex: 2,
-            whiteSpace: 'nowrap',
-            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.7)',
+            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.7)', // Shadow to enhance readability
           }}
         >
           <p>{decodeHtmlEntities(line1)}</p>
           <p>{decodeHtmlEntities(line2)}</p>
-
-          {/* Separate block for the appended text */}
-          <div style={{ marginTop: '20px' }}>
-            {' '}
-            {/* Adjust the spacing as needed */}
-            <p style={{ whiteSpace: 'pre-wrap' }}>
-              {decodeHtmlEntities(displayedAdditionalText)}
-            </p>
+          <p style={{ whiteSpace: 'pre-line' }}>
+            {decodeHtmlEntities(displayedAdditionalText)}
+          </p>
+        </div>
+      </div>
+      {/* ==============Offscreen div for screenshot ================*/}
+      <div
+        ref={screenshotRef}
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          width: '1080px',
+          height: '1920px',
+        }}
+      >
+        <Image
+          src={images[currentIndex] || '/assets/AImedia/general/base.jpg'}
+          alt='دوباره تلاش کن! '
+          layout='fill'
+          objectFit='cover'
+          onLoad={handleLoad}
+        />
+        <div
+          style={{
+            top: '7%',
+            left: '50%',
+            transform: 'translate(-50%, -20%)',
+            textShadow: '2px 2px 5px rgba(0.2, 0.2, 0.2, 0.7)',
+          }}
+          className='absolute flex justify-center text-white text-5xl z-2 whitespace-nowrap'
+        >
+          <div className='rtl flex flex-row-reverse'>
+            <div dir='rtl'>
+              <div dir='rtl' className='text-center'>
+                <span>{decodeHtmlEntities(line1)}</span>
+              </div>
+              <div dir='rtl' className='text-center '>
+                <span className='inline-block mx-2'>
+                  {decodeHtmlEntities(line2)}
+                </span>
+              </div>
+              <div dir='rtl' className='text-center '>
+                <span className='inline-block mx-2'>
+                  {decodeHtmlEntities(displayedAdditionalText)}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div className='fixed bottom-0 w-full bg-[#373D70] text-white shadow-2xl'>
+      <div className='fixed bottom-0 w-full bg-[#373D70] text-white shadow-2xl '>
         <div className='flex flex-col sm:flex-row justify-center items-center p-5 shadow-2xl'>
-          <textarea
-            value={additionalText}
-            onChange={(e) => setAdditionalText(e.target.value)} // Allow user input to update
-            onKeyPress={handleKeyPress}
-            dir='rtl'
-            placeholder='پیوست  نوشته'
-            className='px-2 py-1 rounded-md text-black'
-            rows={3}
-            style={{ whiteSpace: 'pre-wrap' }}
-          />
-          <button
-            onClick={handleAddLine}
-            className='ml-2 px-3 py-1 bg-white text-[#373D70] rounded-md'
-          >
-            +
-          </button>
+          <div className='sm:hidden mb-4 flex items-center justify-center pb-3'>
+            <textarea
+              value={additionalText}
+              onChange={(e) => setAdditionalText(e.target.value)} // Allow user input to update
+              dir='rtl'
+              placeholder='پیوست  نوشته'
+              className='px-2 py-1 rounded-md text-black'
+              rows={2} // Make the textarea larger
+            />
+            <button
+              onClick={handleAddLine}
+              className='ml-2 px-3 py-1 bg-white text-[#373D70] rounded-md'
+            >
+              +
+            </button>
+          </div>
+          <div className='flex justify-center items-center gap-2'>
+            <Link className='mx-4' href='/'>
+              <Home width={39.046} height={23.726} />
+            </Link>
+            <Link className='mx-4' href='/PhoneAppGahshomar'>
+              <Calendar width={39.046} height={23.726} />
+            </Link>
+            <button className='mx-4' disabled={!loaded} onClick={goLeft}>
+              <GoLeftIcon />
+            </button>
+            <button className='mx-4' disabled={!loaded} onClick={goRight}>
+              <GoRightIcon />
+            </button>
+            <button
+              className='mx-5'
+              onClick={downloadScreenshot}
+              disabled={!loaded}
+            >
+              <DownloadSVG />
+            </button>
+          </div>
+          <div className='hidden sm:flex items-center sm:mb-0 mb-4'>
+            <textarea
+              value={additionalText}
+              onChange={(e) => setAdditionalText(e.target.value)}
+              onKeyPress={handleKeyPress} // Handle Enter keypress to add a new line
+              placeholder='متن اضافه'
+              className='px-2 py-1 rounded-md text-black'
+              rows={3} // Making the input area bigger
+            />
+            <button
+              onClick={handleAddLine}
+              className='ml-2 px-3 py-1 bg-white text-[#373D70] rounded-md'
+            >
+              +
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
 export default function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
