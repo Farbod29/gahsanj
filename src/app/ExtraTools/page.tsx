@@ -80,16 +80,8 @@ const ExtraTools = () => {
           text='تماس با گاه‌شمار'
           iconSrc='/assets/contact.png'
           altText='گاه نامه'
-          onClick={
-            () =>
-              handleOpenModal(
-                <iframe
-                  src='https://gahshomar.com/contact/'
-                  width='100%'
-                  height='500px'
-                  style={{ border: 'none' }}
-                ></iframe>
-              ) // https://gahshomar.com/contact/
+          onClick={() =>
+            (window.location.href = 'https://gahshomar.com/contact/')
           }
         />
         <Box

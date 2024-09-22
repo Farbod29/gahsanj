@@ -81,10 +81,10 @@ const Home = () => {
         </div>
 
         <h1
-          className='text-white text-xl mt-10 mr-4 mb-12 z-50 relative'
+          className='text-white text-xl mt-8 mr-4 mb-12 z-50 relative pb-8'
           dir='rtl'
         >
-          برجسته های پیش رو :
+          روزهای برجسته پیش رو :
         </h1>
 
         <style jsx>{`

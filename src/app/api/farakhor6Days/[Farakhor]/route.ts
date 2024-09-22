@@ -100,7 +100,6 @@ export async function GET(req: NextRequest) {
           Month: nextMonthName,
           importantDay: true,
         })
-        .limit(remainingEventsNeeded)
         .toArray();
 
       // Clean the data for the next month
@@ -122,6 +121,16 @@ export async function GET(req: NextRequest) {
       // Combine current and next month events
       importantEvents = [...importantEvents, ...nextMonthEvents];
     }
+
+    // Sort events by the Persian day number for both current and next month events
+    importantEvents.sort(
+      (a, b) =>
+        (a.PersianDayNumber || a.PersianDayNumberK) -
+        (b.PersianDayNumber || b.PersianDayNumberK)
+    );
+
+    // Slice to only keep the next 6 upcoming events
+    importantEvents = importantEvents.slice(0, 6);
 
     console.log('Final important events:', importantEvents);
 

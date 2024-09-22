@@ -239,7 +239,7 @@ const Occasions: React.FC = () => {
           &lt;
         </button>
 
-        <div className='flex items-center justify-between flex-grow space-x-4 md:space-x-24 ml-5'>
+        <div className='flex items-center justify-between flex-grow space-x-4 md:space-x-24 ml-14 pl-8'>
           <button
             onClick={resetToToday}
             className='border border-white h-6 text-[10px] sm:text-sm md:text-sm rounded transition-colors duration-300 text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white flex-shrink-0'
@@ -319,7 +319,7 @@ const Occasions: React.FC = () => {
             </span>
             <span className='block text-gray-400'>{leapYearText}</span>
           </div>
-          <p className='text-xs sm:text-sm md:text-sm mr-5 space-x-3'>
+          <p className='text-xs sm:text-sm md:text-sm mr-16 space-x-3 pr-20'>
             فراخورهای ماه {currentMonthName}
           </p>
         </div>
