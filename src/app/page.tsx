@@ -9,12 +9,17 @@ import ClocksModal from '@/components/ClocksModal/ClocksModal';
 import Occasions from './Farakhor6Days/page';
 import '../styles/globals.css'; // Ensure you import the global CSS
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const occasionsRef = useRef(null);
+  const router = useRouter(); // Initialize useRouter
 
+  const handleCalendarClick = () => {
+    router.push('/smallCalendarMobile'); // Navigate to smallCalendarMobile
+  };
   const handleClockClick = () => {
     setIsModalOpen(true);
   };
@@ -58,7 +63,10 @@ const Home = () => {
             <ClocksPage />
           </div>
           <div className='absolute right-0 mr-4 z-20 text-right' dir='rtl'>
-            <div className='flex flex-col items-end'>
+            <div
+              className='flex flex-col items-end'
+              onClick={handleCalendarClick}
+            >
               <JustDateWhiteApp />
               <div
                 className='text-white text-[17px] mt-1 ml-[30px] fontXXX'

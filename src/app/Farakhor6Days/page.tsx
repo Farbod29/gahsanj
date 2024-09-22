@@ -169,7 +169,7 @@ const Occasions6Days: React.FC = () => {
               <div
                 key={event.DayNumber}
                 onClick={() => handleDayClick(event)}
-                className={`relative h-[150px]  ${
+                className={`relative h-[150px] rounded-2xl ${
                   isToday
                     ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
                     : 'bg-[#FFFFFF]'
@@ -177,13 +177,14 @@ const Occasions6Days: React.FC = () => {
                 style={{ width: '100%', maxWidth: '350px' }}
               >
                 {/* Logo */}
-                <div className='absolute top-[110px] max-h-8 max-w-8 left-2'>
+                <div className='absolute top-[110px] left-2 rounded-xl overflow-hidden max-h-8 max-w-8'>
                   <Image
                     src={logo || '/path/to/fallback-image.webp'} // Fallback if URL fails
                     alt='Logo Of the Day'
-                    width={50}
-                    height={50}
+                    width={50} // Keep the original width
+                    height={50} // Keep the original height
                     layout='responsive'
+                    className='object-cover'
                   />
                 </div>
 
