@@ -229,9 +229,9 @@ const Occasions: React.FC = () => {
     }
   };
   return (
-    <div className='min-h-screen flex flex-col pb-1  '>
+    <div className='min-h-screen flex flex-col pb-1'>
       {/* ssssssss bg-red-600s */}
-      <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-8 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10 min-h-[120px]'>
+      <div className='bg-[#4c5494] shadow-lg rounded-lg px-8 py-6 w-full text-center text-lg md:text-xl font-bold text-white fixed top-0 flex justify-between items-center z-10 min-h-[120px]'>
         <button
           onClick={() => handleMonthChange(1)}
           className='text-3xl md:text-4xl flex-shrink-0'
@@ -354,7 +354,7 @@ const Occasions: React.FC = () => {
             gap: '16px', // gap-4 equivalent
             width: '100%', // w-full
             alignItems: 'top', // align-top
-            marginTop: '140px', // mt-[140px]
+            marginTop: '148px', // mt-[140px]
             direction: 'rtl',
             overflow: 'hidden',
             scrollbarWidth: 'none',
@@ -412,6 +412,7 @@ const Occasions: React.FC = () => {
                     marginBottom: '1px', // bottom margin
                     maxWidth: '80%', // max width limit
                   }}
+                  className='rounded-xl overflow-hidden'
                 >
                   {isValidUrl(logo) && (
                     <Image
