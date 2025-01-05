@@ -14,18 +14,8 @@ import dynamic from 'next/dynamic';
 import { CalendarProvider } from '@/contexts/CalendarContext';
 import jalaali from 'jalaali-js';
 import Image from 'next/image';
-
-// Dynamic imports
-const SmallCalendarIframe = dynamic(
-  () => import('./smallCalendarIframe/page'),
-  {
-    ssr: false,
-  }
-);
-const FarakhorMobileDarkIframe = dynamic(
-  () => import('./FarakhorMobileDarkIframe/page'),
-  { ssr: false }
-);
+import SmallCalendarIframe from '../components/SmallCalendarIframe/page';
+import FarakhorMobileDarkIframe from '../components/FarakhorMobileDarkIframe/page';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -61,7 +51,7 @@ const Home = () => {
         </div>
         <div className='flex flex-col items-center justify-center absolute left-1/2 transform -translate-x-1/2 w-[110px] sm:w-[140px] lg:w-[140px]'>
           <Image
-            src='/assets/LogoMobile.png'
+            src='/assets/logo-gahshomar-yellow2.png'
             alt='گاه شمار'
             width={110}
             height={110}

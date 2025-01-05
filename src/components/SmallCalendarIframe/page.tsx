@@ -64,7 +64,7 @@ function convertToPahlavi(date) {
 }
 
 // The main component
-function PersianCalendar() {
+function SmallCalendarIframe() {
   const { currentMonth, currentYear, handleMonthChange } = useCalendar();
   const persianWeekDays = [
     { day: 'مه', dayShort: 'د', HejriDay: 'دوشنبه', dayLatinShort: 'Mo' },
@@ -279,4 +279,4 @@ function PersianCalendar() {
   );
 }
 
-export default PersianCalendar;
+export default SmallCalendarIframe;
