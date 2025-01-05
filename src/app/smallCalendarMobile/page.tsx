@@ -255,19 +255,7 @@ function PersianCalendar() {
             <p>{modalMessage}</p>
           </ModalAlert>
           <div className='flex justify-between items-end mt-3 mr-80'>
-            <div className='flex justify-between items-center mt-4'>
-              {/* <button
-                onClick={resetToCurrentMonth}
-                className={`p-2 text-sm sm:text-xl rounded transition-colors duration-300 ${
-                  currentMonth === jalaali.toJalaali(today).jm &&
-                  currentYear === jalaali.toJalaali(today).jy
-                    ? 'bg-[#373D70] text-white'
-                    : 'bg-[#333863] text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
-                }`}
-              >
-                برو به امشید
-              </button> */}
-            </div>
+            <div className='flex justify-between items-center mt-4'></div>
           </div>
           <div
             className='flex justify-start items-start pl-4 sm:pl-6 md:pl-8 lg:pl-10'

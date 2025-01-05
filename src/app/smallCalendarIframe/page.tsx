@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import jalaali from 'jalaali-js';
 import MyModal from '@/components/modalInfoCalendar/modalInfoCalendar';
 import ModalAlert from '@/components/ModalAlert/ModalAlert';
+import { useCalendar } from '@/contexts/CalendarContext';
 
 // Helper function to convert numbers to Persian
 const toPersianDigits = (num) => {
@@ -64,6 +65,7 @@ function convertToPahlavi(date) {
 
 // The main component
 function PersianCalendar() {
+  const { currentMonth, currentYear, handleMonthChange } = useCalendar();
   const persianWeekDays = [
     { day: 'مه', dayShort: 'د', HejriDay: 'دوشنبه', dayLatinShort: 'Mo' },
     { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه', dayLatinShort: 'Tu' },
@@ -78,8 +80,6 @@ function PersianCalendar() {
   const today = new Date();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [currentMonth, setCurrentMonth] = useState(jalaali.toJalaali(today).jm);
-  const [currentYear, setCurrentYear] = useState(jalaali.toJalaali(today).jy);
   const NameOfTheDay = getTodayPersianName();
   const IraniMelli = convertToIraniMelli(today);
   const padeshahi = convertToPahlavi(today);
@@ -94,25 +94,14 @@ function PersianCalendar() {
   const days = generateMonthDays(currentYear, currentMonth);
 
   // Navigation functions
-  const goToPreviousMonth = () => {
-    setCurrentMonth(currentMonth === 1 ? 12 : currentMonth - 1);
-    if (currentMonth === 1) {
-      setCurrentYear(currentYear - 1);
-    }
-  };
-
-  const goToNextMonth = () => {
-    setCurrentMonth(currentMonth === 12 ? 1 : currentMonth + 1);
-    if (currentMonth === 12) {
-      setCurrentYear(currentYear + 1);
-    }
-  };
+  const handleNextMonth = () => handleMonthChange(1);
+  const handlePrevMonth = () => handleMonthChange(-1);
 
   // Reset function
   const resetToCurrentMonth = () => {
     const today = new Date();
-    setCurrentMonth(jalaali.toJalaali(today).jm);
-    setCurrentYear(jalaali.toJalaali(today).jy);
+    handleMonthChange(jalaali.toJalaali(today).jm - currentMonth);
+    handleMonthChange(jalaali.toJalaali(today).jy - currentYear);
   };
 
   // Convert Jalaali date to Gregorian day
@@ -179,7 +168,7 @@ function PersianCalendar() {
           <div className='flex justify-between items-center bg-[#373D70] text-white p-3 '>
             <div className='absolute top-4'></div>
             <button
-              onClick={goToPreviousMonth}
+              onClick={handlePrevMonth}
               className='p-2 text-4xl sm:text-8xl'
             >
               ‹
@@ -195,7 +184,7 @@ function PersianCalendar() {
               </div>
             </span>
             <button
-              onClick={goToNextMonth}
+              onClick={handleNextMonth}
               className='p-2 text-4xl sm:text-8xl'
             >
               ›
