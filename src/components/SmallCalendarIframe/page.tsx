@@ -97,11 +97,25 @@ function SmallCalendarIframe() {
   const handleNextMonth = () => handleMonthChange(1);
   const handlePrevMonth = () => handleMonthChange(-1);
 
-  // Reset function
+  // Add debug logs to resetToCurrentMonth
   const resetToCurrentMonth = () => {
-    const today = new Date();
-    handleMonthChange(jalaali.toJalaali(today).jm - currentMonth);
-    handleMonthChange(jalaali.toJalaali(today).jy - currentYear);
+    const todayDate = new Date();
+    const { jy: todayYear, jm: todayMonth } = jalaali.toJalaali(todayDate);
+
+    console.log('Current State:', { currentYear, currentMonth });
+    console.log('Target Date:', { todayYear, todayMonth });
+
+    // Calculate total months difference
+    const totalMonthsDiff =
+      (todayYear - currentYear) * 12 + (todayMonth - currentMonth);
+
+    console.log('Total Months Difference:', totalMonthsDiff);
+
+    // Apply the change in one go
+    if (totalMonthsDiff !== 0) {
+      console.log('Attempting to change month by:', totalMonthsDiff);
+      handleMonthChange(totalMonthsDiff);
+    }
   };
 
   // Convert Jalaali date to Gregorian day
@@ -248,17 +262,8 @@ function SmallCalendarIframe() {
           <div className='p-4 border-t border-gray-200'>
             <button
               onClick={() => {
-                if (
-                  currentMonth === jalaali.toJalaali(today).jm &&
-                  currentYear === jalaali.toJalaali(today).jy
-                ) {
-                  setModalMessage(
-                    `شما همینک نیز در ماه ${jalaaliMonths[currentMonth - 1]} ${jalaali.toJalaali(today).jy} هستید.`
-                  );
-                  setIsModalOpen(true);
-                } else {
-                  resetToCurrentMonth();
-                }
+                console.log('Button clicked');
+                resetToCurrentMonth();
               }}
               className='w-full py-2 px-4 bg-[#373D70] text-white rounded-lg hover:bg-[#4c5494] transition-colors'
             >
