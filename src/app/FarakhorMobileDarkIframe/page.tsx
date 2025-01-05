@@ -217,6 +217,32 @@ const FarakhorMobileDarkIframe: React.FC = () => {
     }
   }, [currentPersianMonth, currentYear]);
 
+  const getRepeatedDates = (events: Occasion[]) => {
+    const dateCount: { [key: number]: number } = {};
+
+    // Count occurrences of each date
+    events.forEach((event) => {
+      const dayNumber = isLeapYear(currentDisplayYear)
+        ? event.PersianDayNumberK
+        : event.PersianDayNumber;
+
+      dateCount[dayNumber] = (dateCount[dayNumber] || 0) + 1;
+    });
+
+    // Return dates that appear more than once
+    return dateCount;
+  };
+
+  const [repeatedDates, setRepeatedDates] = useState<{ [key: number]: number }>(
+    {}
+  );
+
+  // Update repeatedDates whenever currentMonthEvents changes
+  useEffect(() => {
+    const dates = getRepeatedDates(currentMonthEvents);
+    setRepeatedDates(dates);
+  }, [currentMonthEvents, currentDisplayYear]);
+
   return (
     <div className='min-h-screen flex flex-col pb-1 mt-4'>
       {/* Calendar info section - Moved from fixed position */}
@@ -343,9 +369,15 @@ const FarakhorMobileDarkIframe: React.FC = () => {
                   event.ModalStatus ? 'cursor-pointer' : 'cursor-default'
                 } ${
                   isToday
-                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
-                    : 'bg-[#FFFFFF]'
-                } shadow-md rounded-lg p-2 text-center`}
+                    ? 'bg-[#4c5494] border-2 border-[#FF8200] shadow-lg'
+                    : repeatedDates[
+                          isLeapYear(currentDisplayYear)
+                            ? event.PersianDayNumberK
+                            : event.PersianDayNumber
+                        ] > 1
+                      ? 'bg-[#ffeedd]' // Warm background for repeated dates
+                      : 'bg-white'
+                } shadow-md rounded-lg p-2 text-center hover:shadow-lg transition-shadow duration-200`}
                 style={{ width: '100%', maxWidth: '350px', height: '142px' }}
               >
                 <div className='flex flex-col h-full justify-between'>

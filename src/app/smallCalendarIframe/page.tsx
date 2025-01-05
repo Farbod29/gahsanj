@@ -167,12 +167,7 @@ function PersianCalendar() {
         <div className='max-w-md mx-auto overflow-hidden bg-white text-xl sm:text-3xl w-full rounded-md h-full flex flex-col border-black'>
           <div className='flex justify-between items-center bg-[#373D70] text-white p-3 '>
             <div className='absolute top-4'></div>
-            <button
-              onClick={handlePrevMonth}
-              className='p-2 text-4xl sm:text-8xl'
-            >
-              ‹
-            </button>
+            <button onClick={handlePrevMonth}>‹</button>
             <span className='p-3 ml-3 items-center pt-4 pb-4'>
               <p className='text-4xl sm:text-6xl pb-1 pt-2'>
                 {jalaaliMonths[currentMonth - 1]}
@@ -183,12 +178,7 @@ function PersianCalendar() {
                 <p className='pt-1'>{'پادشاهی'}</p>
               </div>
             </span>
-            <button
-              onClick={handleNextMonth}
-              className='p-2 text-4xl sm:text-8xl'
-            >
-              ›
-            </button>
+            <button onClick={handleNextMonth}>›</button>
           </div>
           <div className='grid grid-cols-7 gap-1 p-4 flex-grow overflow-y-auto'>
             {persianWeekDays.map((day, index) => (
