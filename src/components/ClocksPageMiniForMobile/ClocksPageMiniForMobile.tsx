@@ -10,7 +10,7 @@ const ReactClockNoSSR = dynamic(
   { ssr: false }
 );
 
-const ClocksPage = () => {
+const ClocksPageMiniForMobile = () => {
   // Initialize the clock size with a default value
   const [clockSize, setClockSize] = useState<number>(90);
   const [containerSize, setContainerSize] = useState<number>(110); // Initialize container size
@@ -70,4 +70,4 @@ const ClocksPage = () => {
   );
 };
 
-export default ClocksPage;
+export default ClocksPageMiniForMobile;

@@ -52,32 +52,34 @@ const Home = () => {
       <SpeedInsights />
 
       {/* Clock and date section */}
-      <div className='relative bg-[#51546C] rounded-lg p-0 flex items-center overflow-hidden mb-1'>
+      <div className='relative bg-[#51546C] rounded-lg p-2 flex items-center justify-between overflow-hidden mb-1 min-h-[120px] sm:min-h-[140px] lg:min-h-[160px]'>
         <div
-          className='relative flex space-x-1 z-10'
+          className='relative flex space-x-1 z-10 cursor-pointer hover:opacity-90 transition-opacity'
           onClick={handleClockClick}
         >
           <ClocksPage />
         </div>
-        <div className='flex flex-col items-center justify-center mt-1 absolute left-1/2 transform -translate-x-1/2'>
+        <div className='flex flex-col items-center justify-center absolute left-1/2 transform -translate-x-1/2 w-[110px] sm:w-[140px] lg:w-[140px]'>
           <Image
             src='/assets/LogoMobile.png'
             alt='گاه شمار'
-            width={120}
-            height={120}
+            width={110}
+            height={110}
+            className='w-full h-auto'
+            priority
           />
         </div>
-        <div className='absolute right-0 mr-4 z-20 text-right' dir='rtl'>
+        <div className='z-20 text-right' dir='rtl'>
           <div
-            className='flex flex-col items-end'
+            className='flex flex-col items-end cursor-pointer hover:opacity-90 transition-opacity'
             onClick={handleCalendarClick}
           >
             <JustDateWhiteApp />
           </div>
         </div>
-        <div className='bg-pattern'>
-          <div className='w-[150px] h-[150px] custom-border ml-[-45px]'></div>
-          <div className='w-[150px] h-[150px] custom-border ml-[290px]'></div>
+        <div className='bg-pattern absolute inset-0'>
+          <div className='w-[150px] h-[150px] custom-border left-[-45px] absolute'></div>
+          <div className='w-[150px] h-[150px] custom-border right-[-45px] absolute'></div>
         </div>
       </div>
 

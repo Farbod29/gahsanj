@@ -14,10 +14,20 @@ const MyModal: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className='mt-2'>
       <div className='text-right'>
-        <button onClick={openModal} className='text-xs text-white'>
-          ⓘ راهنما
+        <button
+          onClick={openModal}
+          className='text-[10px] sm:text-xs md:text-sm lg:text-base 
+                     text-white float-right 
+                     hover:text-gray-200 transition-colors
+                     px-2 py-1 rounded
+                     flex items-center gap-1'
+        >
+          <span className='text-[8px] sm:text-[10px] md:text-xs lg:text-sm'>
+            ⓘ
+          </span>
+          <span>راهنما</span>
         </button>
       </div>
       <Dialog

@@ -63,17 +63,20 @@ type WeekdayKey =
     return (
       <main className='flex w-full flex-col items-center px-2 sm:px-4 md:px-8 z-10 ml-4'>
         <div className='w-full max-w-4xl mx-auto mt-1'>
-          <div className='justify-center items-center text-center text-[32px] md:text-xl lg:text-xl text-[#ffffff] flex flex-row-reverse'>
+          <div className='justify-center items-center text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#ffffff] flex flex-row-reverse'>
             <div>{dates.monthName}</div>
             <div className='p-1'>{dates.day}</div>
             <br />
           </div>
         </div>
         <div className='text-center p-0 -mt-2 mb-3 rounded-xl flex flex-col justify-center items-center'>
-          <div className='text-center text-[#ffffff] text-[22px] justify-center items-center p-0 xm:text-[20px] lg:text-3xl'>
+          <div className='text-center text-[#ffffff] text-lg sm:text-xl md:text-2xl lg:text-3xl justify-center items-center p-0'>
             {dates.weekday}
           </div>
-          <div className='text-white text-[17px] fontXXX mt-1' dir='ltr'>
+          <div
+            className='text-white text-sm sm:text-base md:text-lg mt-1'
+            dir='ltr'
+          >
             {new Date().toLocaleDateString('en-GB', {
               day: 'numeric',
               month: 'long',
