@@ -51,14 +51,6 @@ const ClocksPage = () => {
 
   return (
     <div className='p-2 bg-transparent'>
-      <div className='flex flex-col items-center justify-start mt-1'>
-        {/* <Image
-          src={'/assets/LogoMobile.png'}
-          alt='گاه شمار'
-          width={30}
-          height={30}
-        /> */}
-      </div>
       <div className='flex flex-row items-center justify-center'>
         <div className='flex flex-col items-center'>
           <div
@@ -70,6 +62,7 @@ const ClocksPage = () => {
           >
             <ReactClockNoSSR timeZone='Asia/Tehran' size={clockSize} />
           </div>
+
           <div className='text-white text-sm mt-2'>ایران</div>
         </div>
       </div>

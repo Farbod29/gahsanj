@@ -223,7 +223,7 @@ const Occasions: React.FC = () => {
     ? todayPersianDayNumber
     : todayPersianDayNumber;
   const leapYearText = isLeapYear(currentDisplayYear)
-    ? '(کبیسه / انباشته)'
+    ? '   امسال کبیسه (انباشته) است  '
     : '';
 
   // const persianDate = `(${toPersianNum(todayPersianDayNumber.toString())} ${[todayPersianMonth]})`;

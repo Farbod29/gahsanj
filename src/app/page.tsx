@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { CalendarProvider } from '@/contexts/CalendarContext';
 import jalaali from 'jalaali-js';
+import Image from 'next/image';
 
 // Dynamic imports
 const SmallCalendarIframe = dynamic(
@@ -28,7 +29,7 @@ const FarakhorMobileDarkIframe = dynamic(
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  // const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const occasionsRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const today = new Date();
@@ -47,16 +48,24 @@ const Home = () => {
   };
 
   return (
-    <main className='p-3 bg-[#333863] min-h-screen relative overflow-hidden'>
+    <main className='p-1 bg-[#333863] min-h-screen relative overflow-hidden'>
       <SpeedInsights />
 
       {/* Clock and date section */}
-      <div className='relative bg-[#51546C] rounded-lg p-4 flex items-center overflow-hidden mb-8'>
+      <div className='relative bg-[#51546C] rounded-lg p-0 flex items-center overflow-hidden mb-1'>
         <div
           className='relative flex space-x-1 z-10'
           onClick={handleClockClick}
         >
           <ClocksPage />
+        </div>
+        <div className='flex flex-col items-center justify-center mt-1 absolute left-1/2 transform -translate-x-1/2'>
+          <Image
+            src='/assets/LogoMobile.png'
+            alt='گاه شمار'
+            width={120}
+            height={120}
+          />
         </div>
         <div className='absolute right-0 mr-4 z-20 text-right' dir='rtl'>
           <div
@@ -64,16 +73,6 @@ const Home = () => {
             onClick={handleCalendarClick}
           >
             <JustDateWhiteApp />
-            <div
-              className='text-white text-[17px] mt-1 ml-[30px] fontXXX'
-              dir='ltr'
-            >
-              {today.toLocaleDateString('en-GB', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
-            </div>
           </div>
         </div>
         <div className='bg-pattern'>
@@ -83,9 +82,6 @@ const Home = () => {
       </div>
 
       {/* Upcoming days title */}
-      <h1 className='text-white text-xl mb-6' dir='rtl'>
-        روزهای برجسته پیش رو :
-      </h1>
 
       <ClocksModal isOpen={isModalOpen} onClose={handleCloseModal} />
 

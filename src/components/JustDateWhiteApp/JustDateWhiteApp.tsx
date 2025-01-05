@@ -69,9 +69,16 @@ type WeekdayKey =
             <br />
           </div>
         </div>
-        <div className='text-center p-0 -mt-2 mb-3 rounded-xl flex justify-center items-center'>
+        <div className='text-center p-0 -mt-2 mb-3 rounded-xl flex flex-col justify-center items-center'>
           <div className='text-center text-[#ffffff] text-[22px] justify-center items-center p-0 xm:text-[20px] lg:text-3xl'>
             {dates.weekday}
+          </div>
+          <div className='text-white text-[17px] fontXXX mt-1' dir='ltr'>
+            {new Date().toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
           </div>
         </div>
       </main>
