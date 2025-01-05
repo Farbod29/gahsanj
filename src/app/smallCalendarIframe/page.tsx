@@ -39,7 +39,7 @@ const getTodayPersianName = () => {
     '      اورمزدشید (پنج‌شنبه)',
     '      ناهیدشید (آدینه)',
     '      کیوان (شنبه)',
-    '      مهر (یک‌شنبه)',
+    '      مهر شید    (یک‌شنبه)',
   ];
   const today = new Date();
   const dayOfWeek = today.getDay();
@@ -162,94 +162,90 @@ function PersianCalendar() {
   // Render the component
   return (
     <main className='p-2 bg-transparent min-h-screen overflow-hidden flex flex-col justify-start'>
-      <div className='flex justify-end'></div>
       <div className='mt-1' dir='rtl'>
-        <div className='max-w-md mx-auto overflow-hidden bg-white text-xl sm:text-3xl w-full rounded-md h-full flex flex-col border-black'>
-          <div className='flex justify-between items-center bg-[#373D70] text-white p-3 '>
-            <div className='absolute top-4'></div>
-            <button onClick={handlePrevMonth}>‹</button>
-            <span className='p-3 ml-3 items-center pt-4 pb-4'>
-              <p className='text-4xl sm:text-6xl pb-1 pt-2'>
+        <div className='max-w-md mx-auto overflow-hidden bg-white rounded-lg shadow-lg border border-gray-200'>
+          {/* Header Section */}
+          <div className='flex justify-between items-center bg-[#373D70] text-white p-4'>
+            <button
+              onClick={handlePrevMonth}
+              className='hover:bg-[#4c5494] p-2 rounded-full transition-colors'
+            >
+              ‹
+            </button>
+            <div className='text-center'>
+              <p className='text-3xl sm:text-4xl font-bold mb-2'>
                 {jalaaliMonths[currentMonth - 1]}
               </p>
-              <div className='flex gap-1 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl'>
-                <p className='pt-1'>{NameOfTheDay}</p>
-                <p className='pt-1'>{padeshahi}</p>
-                <p className='pt-1'>{'پادشاهی'}</p>
+              <div className='flex gap-2 text-sm sm:text-base justify-center items-center'>
+                <p>&nbsp;&nbsp;{NameOfTheDay}&nbsp;&nbsp;</p>
+                <span>|</span>
+                <p>{padeshahi}</p>
+                <p>{'پادشاهی'}</p>
               </div>
-            </span>
-            <button onClick={handleNextMonth}>›</button>
+            </div>
+            <button
+              onClick={handleNextMonth}
+              className='hover:bg-[#4c5494] p-2 rounded-full transition-colors'
+            >
+              ›
+            </button>
           </div>
-          <div className='grid grid-cols-7 gap-1 p-4 flex-grow overflow-y-auto'>
-            {persianWeekDays.map((day, index) => (
-              <div
-                key={index}
-                className='flex flex-col items-center justify-center px-4'
-              >
-                <span className='text-sm sm:text-xl text-gray-500'>
-                  {day.day}
-                </span>
-                <span className='text-sm sm:text-xl text-gray-500'>
-                  {day.dayShort}
-                </span>
-                <span className='text-xs sm:text-xl text-gray-600'>
-                  {day.dayLatinShort}
-                </span>
-              </div>
-            ))}
-            {emptySlots}
-            {days.map((day, index) => {
-              const isToday =
-                jalaali.toJalaali(today).jd === day &&
-                currentMonth === jalaali.toJalaali(today).jm &&
-                currentYear === jalaali.toJalaali(today).jy;
-              const gregorianDay = convertToGregorianDay(
-                currentYear,
-                currentMonth,
-                day
-              );
-              return (
+
+          {/* Calendar Grid */}
+          <div className='p-4'>
+            {/* Weekday Headers */}
+            <div className='grid grid-cols-7 gap-1 mb-4'>
+              {persianWeekDays.map((day, index) => (
                 <div
                   key={index}
-                  className={`border rounded text-center px-3 p-3 flex items-center justify-center relative ${
-                    isToday
-                      ? 'border-[#FD821D] text-black font-bold border-2 p-1 rounded'
-                      : 'text-gray-500'
-                  }`}
+                  className='flex flex-col items-center justify-center'
                 >
-                  <span className='font-bold'>{toPersianDigits(day)}</span>
-                  <span className='text-[12px] absolute top-0 left-0 mt-7 ml-1'>
-                    {gregorianDay}
+                  <span className='text-sm sm:text-base font-medium text-gray-600'>
+                    {day.day}
+                  </span>
+                  <span className='text-xs sm:text-sm text-gray-500'>
+                    {day.dayShort}
+                  </span>
+                  <span className='text-xs text-gray-400'>
+                    {day.dayLatinShort}
                   </span>
                 </div>
-              );
-            })}
-          </div>
-          <ModalAlert
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-          >
-            <p>{modalMessage}</p>
-          </ModalAlert>
-          <div className='flex justify-between items-end mt-3 mr-80'>
-            <div className='flex justify-between items-center mt-4'>
-              {/* <button
-                onClick={resetToCurrentMonth}
-                className={`p-2 text-sm sm:text-xl rounded transition-colors duration-300 ${
+              ))}
+            </div>
+
+            {/* Calendar Days */}
+            <div className='grid grid-cols-7 gap-2'>
+              {emptySlots}
+              {days.map((day, index) => {
+                const isToday =
+                  jalaali.toJalaali(today).jd === day &&
                   currentMonth === jalaali.toJalaali(today).jm &&
-                  currentYear === jalaali.toJalaali(today).jy
-                    ? 'bg-[#373D70] text-white'
-                    : 'bg-[#333863] text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
-                }`}
-              >
-                برو به امروز
-              </button> */}
+                  currentYear === jalaali.toJalaali(today).jy;
+                const gregorianDay = convertToGregorianDay(
+                  currentYear,
+                  currentMonth,
+                  day
+                );
+                return (
+                  <div
+                    key={index}
+                    className={`relative h-12 flex items-center justify-center rounded-lg transition-colors
+                      ${isToday ? 'bg-[#4c5494] text-white font-bold' : 'hover:bg-gray-50'}`}
+                  >
+                    <span className='text-lg'>{toPersianDigits(day)}</span>
+                    <span
+                      className={`absolute bottom-1 right-1 text-[10px] ${isToday ? 'text-white' : 'text-gray-500'}`}
+                    >
+                      {gregorianDay}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <div
-            className='flex justify-start items-start pl-4 sm:pl-6 md:pl-8 lg:pl-10'
-            dir='ltr'
-          >
+
+          {/* Footer */}
+          <div className='p-4 border-t border-gray-200'>
             <button
               onClick={() => {
                 if (
@@ -264,16 +260,20 @@ function PersianCalendar() {
                   resetToCurrentMonth();
                 }
               }}
-              className='ml-3 p-2 text-xs sm:text-sm rounded transition-colors duration-300 bg-[#333863] text-white hover:bg-white hover:text-[#333863] active:bg-gray-700 active:text-white'
+              className='w-full py-2 px-4 bg-[#373D70] text-white rounded-lg hover:bg-[#4c5494] transition-colors'
             >
               برو به امروز
             </button>
           </div>
-
-          <div className='mr-4 flex-none'>
-            <MyModal />
-          </div>
         </div>
+      </div>
+
+      <ModalAlert isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <p>{modalMessage}</p>
+      </ModalAlert>
+
+      <div className='mr-4 mt-4'>
+        <MyModal />
       </div>
     </main>
   );

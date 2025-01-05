@@ -328,7 +328,7 @@ const FarakhorMobileDarkIframe: React.FC = () => {
           </div>
           <div className='ml-5 mr-9'>
             <span className='text-white text-base mt-2'>
-              فراخورهای ماه {currentMonthName}
+              {/* فراخورهای ماه {currentMonthName} */}
             </span>
           </div>
 
@@ -338,7 +338,7 @@ const FarakhorMobileDarkIframe: React.FC = () => {
         </div>
       </div>
       <h1 className='text-white text-2xl mb-1 mt-3' dir='rtl'>
-        روزهای برجسته ماه {currentMonthName} :
+        فراخورهای ماه {currentMonthName} :
       </h1>
       {/* Events Grid */}
       {loading ? (
@@ -348,7 +348,7 @@ const FarakhorMobileDarkIframe: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 mt-4'
+          className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-4'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
@@ -406,7 +406,7 @@ const FarakhorMobileDarkIframe: React.FC = () => {
                       style={{
                         fontSize:
                           event.ShortTitle.length > 16
-                            ? '0.68rem'
+                            ? '0.83rem'
                             : event.ShortTitle.length > 12
                               ? '1.09rem'
                               : event.ShortTitle.length > 8

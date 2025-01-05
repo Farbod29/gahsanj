@@ -15,9 +15,11 @@ const MyModal: React.FC = () => {
 
   return (
     <div>
-      <button onClick={openModal} className='text-xs'>
-        ⓘ راهنما
-      </button>
+      <div className='text-right'>
+        <button onClick={openModal} className='text-xs text-white'>
+          ⓘ راهنما
+        </button>
+      </div>
       <Dialog
         open={isOpen}
         onClose={closeModal}
