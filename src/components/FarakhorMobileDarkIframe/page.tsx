@@ -281,7 +281,7 @@ const FarakhorMobileDarkIframe: React.FC = () => {
               {/* Second Column */}
               <div className='flex flex-col space-y-2'>
                 <div className='flex items-center whitespace-nowrap'>
-                  <span className='text-gray-300'>پادشاهی</span>
+                  <span className='text-gray-300'>شاهنشاهی</span>
                   <span className='text-white mx-1'>
                     {toPersianNum((currentYear + 1180).toString())}
                   </span>

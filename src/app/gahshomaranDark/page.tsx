@@ -602,9 +602,9 @@ export default function Home() {
               pathname: '/DownloadImage',
               query: {
                 paramDates: dates.pahlaviYear,
-                paramName: 'پادشاهی',
+                paramName: 'شاهنشاهی',
                 line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-                line2: `سال\u2003${toPersianNums(convertToPahlaviYear(today))}\u2003 پادشاهی`,
+                line2: `سال\u2003${toPersianNums(convertToPahlaviYear(today))}\u2003 شاهنشاهی`,
               },
             }}
           >
@@ -613,7 +613,7 @@ export default function Home() {
                 {dates.pahlaviYear}
               </p>
               <p className='text-lg md:text-sm lg:text-2xl text-[#32127A] text-center mt-1'>
-                (پادشاهی) هخامنشی
+                (شاهنشاهی) هخامنشی
               </p>
               <p className='text-sm md:text-2xl lg:text-3xl text-[#1C39BB] pl-3'>
                 {getTodayPersianName()}

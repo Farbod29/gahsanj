@@ -193,7 +193,7 @@ function PersianCalendar() {
               <div className='flex gap-1 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl'>
                 <p className='pt-1 dir=rtl'>{NameOfTheDay}</p>
                 <p className='pt-1'>{padeshahi}</p>
-                <p className='pt-1'>{'پادشاهی'}</p>
+                <p className='pt-1'>{'شاهنشاهی'}</p>
               </div>
             </span>
             <button

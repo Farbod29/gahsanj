@@ -195,7 +195,7 @@ export default function Home() {
             {dates.pahlaviYear}
           </p>
           <h3 className='text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2'>
-            پادشاهی
+            شاهنشاهی
           </h3>
         </div>
         <div className='flex flex-col md:flex-row justify-between items-center md:space-x-4 w-full  md:mt-8'>

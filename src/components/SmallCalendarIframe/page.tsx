@@ -194,7 +194,7 @@ function SmallCalendarIframe() {
                 <p>&nbsp;&nbsp;{NameOfTheDay}&nbsp;&nbsp;</p>
                 <span>|</span>
                 <p>{padeshahi}</p>
-                <p>{'پادشاهی'}</p>
+                <p>{'شاهنشاهی'}</p>
               </div>
             </div>
             <button

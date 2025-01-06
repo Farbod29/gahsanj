@@ -227,7 +227,7 @@ export default function Home() {
     const descriptions = {
       ایلامی: <IlamiDescription />,
       مادی: <Madi />,
-      پادشاهی: <Padeshahi />,
+      شاهنشاهی: <Padeshahi />,
       خورشیدی: <Hejri />,
       میلادی: <MiladiDescription />,
       ایرانی: <IraneNo />,
@@ -585,12 +585,12 @@ export default function Home() {
 
     {
       key: 'pahlavi',
-      title: 'پادشاهی',
+      title: 'شاهنشاهی',
       date: dates.pahlaviYear,
-      name: '(پادشاهی) هخامنشی',
-      yearType: 'پادشاهی',
+      name: '(شاهنشاهی) هخامنشی',
+      yearType: 'شاهنشاهی',
       line1: `${PersianWeekday} (${getTodayPersianWeekdayBaboli()}) ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-      line2: `سال ${toPersianNums(convertToPahlaviYear(today))} پادشاهی`,
+      line2: `سال ${toPersianNums(convertToPahlaviYear(today))} شاهنشاهی`,
       weekDay: getTodayPersianName(),
     },
     {
