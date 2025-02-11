@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { useDebounce } from '@/hooks/useDebounce';
+import LogoImage from '@/components/LogoImage';
 
 interface Occasion {
   _id: string;
@@ -103,7 +103,7 @@ export default function Dashboard() {
   };
 
   const sortedOccasions = [...occasions].sort((a, b) => {
-    // Implementation of sortedOccasions function
+    return a.PersianDayNumber - b.PersianDayNumber;
   });
 
   // Add pagination controls
@@ -212,71 +212,83 @@ export default function Dashboard() {
       {/* Excel-like Table */}
       <div className='bg-white rounded-lg shadow overflow-x-auto'>
         <table className='min-w-full divide-y divide-gray-200'>
-          <thead className='bg-gray-50'>
+          <thead className='bg-gray-50 border-b border-gray-200'>
             <tr>
+              <th className='px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-8'>
+                ردیف
+              </th>
               {[
-                { key: 'LogoLink', label: 'لوگو' },
-                { key: 'ShortTitle', label: 'عنوان کوتاه' },
-                { key: 'EventTitle', label: 'عنوان کامل' },
-                { key: 'Month', label: 'ماه' },
-                { key: 'PersianDayNumber', label: 'روز' },
-                { key: 'Georgian', label: 'تاریخ میلادی' },
-                { key: 'GeorgianK', label: 'تاریخ میلادی کبیسه' },
-                { key: 'importantDay', label: 'روز مهم' },
-                { key: 'ModalStatus', label: 'نمایش مدال' },
-              ].map(({ key, label }) => (
+                { key: 'LogoLink', label: 'لوگو', width: 'w-14' },
+                { key: 'ShortTitle', label: 'عنوان کوتاه', width: 'w-48' },
+                { key: 'EventTitle', label: 'عنوان کامل', width: 'w-64' },
+                { key: 'Month', label: 'ماه', width: 'w-20' },
+                { key: 'PersianDayNumber', label: 'روز', width: 'w-14' },
+                { key: 'Georgian', label: 'تاریخ میلادی', width: 'w-32' },
+                {
+                  key: 'GeorgianK',
+                  label: 'تاریخ میلادی کبیسه',
+                  width: 'w-32',
+                },
+                { key: 'importantDay', label: 'روز مهم', width: 'w-20' },
+                { key: 'ModalStatus', label: 'نمایش مدال', width: 'w-24' },
+              ].map(({ key, label, width }) => (
                 <th
                   key={key}
                   onClick={() => handleSort(key as keyof Occasion)}
-                  className='px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100'
+                  className={`px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 ${width || ''}`}
                 >
                   {label}
                   {/* Implementation of sort icon */}
                 </th>
               ))}
-              <th className='px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider'>
+              <th className='px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-32'>
                 عملیات
               </th>
             </tr>
           </thead>
-          <tbody className='bg-white divide-y divide-gray-200'>
+          <tbody className='bg-white'>
             {loading ? (
               <tr>
-                <td colSpan={10} className='text-center py-4'>
+                <td colSpan={11} className='text-center py-4'>
                   <div className='inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900'></div>
                   <p className='mt-2'>در حال بارگذاری...</p>
                 </td>
               </tr>
             ) : (
               <>
-                {sortedOccasions.map((occasion) => (
+                {sortedOccasions.map((occasion, index) => (
                   <tr
                     key={occasion._id}
-                    className='hover:bg-gray-50 transition-colors'
+                    className={`hover:bg-gray-50 transition-colors ${
+                      index !== 0 ? 'border-t border-gray-200' : ''
+                    }`}
                   >
-                    <td className='px-6 py-4 whitespace-nowrap'>
-                      <Image
+                    <td className='px-1 py-2 whitespace-nowrap text-gray-500 text-center text-sm'>
+                      {(page - 1) * 10 + index + 1}
+                    </td>
+                    <td className='px-1 py-2 whitespace-nowrap text-center'>
+                      <LogoImage
                         src={occasion.LogoLink}
                         alt={occasion.ShortTitle}
-                        width={40}
-                        height={40}
-                        className='rounded-full'
+                        className='rounded-full object-cover w-7 h-7 mx-auto'
                       />
                     </td>
-                    <td className='px-6 py-4 whitespace-nowrap'>
+                    <td className='px-6 py-4 whitespace-nowrap min-w-[12rem]'>
                       {occasion.ShortTitle}
                     </td>
-                    <td className='px-6 py-4'>{occasion.EventTitle}</td>
+                    <td className='px-6 py-4 whitespace-nowrap min-w-[16rem]'>
+                      {occasion.EventTitle}
+                    </td>
                     <td className='px-6 py-4 whitespace-nowrap'>
                       {occasion.Month}
                     </td>
                     <td className='px-6 py-4 whitespace-nowrap'>
                       {occasion.PersianDayNumber}
                     </td>
-                    <td className='px-6 py-4 whitespace-nowrap'>
+                    <td className='px-6 py-4 whitespace-nowrap min-w-[8rem]'>
                       {occasion.Georgian}
                     </td>
-                    <td className='px-6 py-4 whitespace-nowrap'>
+                    <td className='px-6 py-4 whitespace-nowrap min-w-[8rem]'>
                       {occasion.GeorgianK}
                     </td>
                     <td className='px-6 py-4 whitespace-nowrap'>
@@ -285,15 +297,15 @@ export default function Dashboard() {
                     <td className='px-6 py-4 whitespace-nowrap'>
                       {occasion.ModalStatus ? '✅' : '❌'}
                     </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm'>
-                      <div className='flex gap-2'>
+                    <td className='px-4 py-3 whitespace-nowrap text-sm'>
+                      <div className='flex justify-between items-center gap-6'>
                         <button
                           onClick={() =>
                             router.push(
                               `/dashboard/edit-occasion/${occasion._id}`
                             )
                           }
-                          className='text-blue-600 hover:text-blue-800'
+                          className='text-blue-600 hover:text-blue-800 px-2 py-1 rounded transition-colors'
                         >
                           ویرایش
                         </button>
@@ -305,7 +317,7 @@ export default function Dashboard() {
                               // Handle delete
                             }
                           }}
-                          className='text-red-600 hover:text-red-800'
+                          className='text-red-600 hover:text-red-800 px-2 py-1 rounded transition-colors'
                         >
                           حذف
                         </button>
@@ -313,11 +325,11 @@ export default function Dashboard() {
                     </td>
                   </tr>
                 ))}
-                <Pagination />
               </>
             )}
           </tbody>
         </table>
+        {!loading && <Pagination />}
       </div>
     </div>
   );
