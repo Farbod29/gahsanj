@@ -1,7 +1,8 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import LogoImage from '@/components/LogoImage';
+import Image from 'next/image';
 
 interface Occasion {
   _id: string;
@@ -19,16 +20,16 @@ interface Occasion {
   ModalStatus: boolean;
 }
 
-export default function EditOccasionPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function EditOccasion() {
   const router = useRouter();
+  const params = useParams();
+  const id = params?.id;
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [occasion, setOccasion] = useState<Occasion | null>(null);
+  const [logoUrl, setLogoUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
 
   const months = [
     'فروردین',
@@ -47,14 +48,16 @@ export default function EditOccasionPage({
 
   useEffect(() => {
     fetchOccasion();
-  }, [params.id]);
+  }, [id]);
 
   const fetchOccasion = async () => {
     try {
-      const response = await fetch(`/api/occasions/${params.id}`);
+      const response = await fetch(`/api/occasions/${id}`);
       if (!response.ok) throw new Error('Failed to fetch occasion');
       const data = await response.json();
       setOccasion(data);
+      setLogoUrl(data.LogoLink);
+      setImageUrl(data.ModalImageLink);
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An error occurred');
     } finally {
@@ -68,7 +71,7 @@ export default function EditOccasionPage({
 
     try {
       setSaving(true);
-      const response = await fetch(`/api/occasions?id=${params.id}`, {
+      const response = await fetch(`/api/occasions?id=${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(occasion),
@@ -102,6 +105,42 @@ export default function EditOccasionPage({
     });
   };
 
+  const uploadFile = useCallback(async (file: File, type: 'logo' | 'medal') => {
+    if (!file) return;
+
+    // Check file size for medal images (200KB = 200 * 1024 bytes)
+    if (type === 'medal' && file.size > 200 * 1024) {
+      alert('حجم تصویر مدال نباید بیشتر از ۲۰۰ کیلوبایت باشد');
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('type', type);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      return data.url;
+    } catch (error) {
+      console.error('Upload error details:', error);
+      alert(
+        'خطا در آپلود تصویر: ' +
+          (error instanceof Error ? error.message : 'خطای ناشناخته')
+      );
+      return null;
+    }
+  }, []);
+
   if (loading) {
     return (
       <div className='flex justify-center items-center h-64'>
@@ -123,9 +162,8 @@ export default function EditOccasionPage({
   }
 
   return (
-    <div className='max-w-4xl mx-auto p-6'>
-      <h1 className='text-2xl font-bold mb-6'>ویرایش مناسبت</h1>
-
+    <div className='max-w-4xl mx-auto p-4'>
+      <h2 className='text-xl font-bold mb-6 text-right'>ویرایش مناسبت</h2>
       <form onSubmit={handleSubmit} className='space-y-6'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           <div>
@@ -207,45 +245,81 @@ export default function EditOccasionPage({
           </div>
 
           <div>
-            <label className='block mb-2'>لینک تصویر مدال</label>
-            <div className='space-y-2'>
-              <div className='w-12 h-12 overflow-hidden'>
-                <LogoImage
-                  src={occasion.ModalImageLink}
-                  alt={occasion.ShortTitle}
-                  size={48}
-                  className='rounded object-cover w-12 h-12'
-                />
-              </div>
+            <label className='block text-sm font-medium text-right mb-1'>
+              لینک لوگو
+            </label>
+            <div className='flex gap-2'>
               <input
-                type='url'
-                name='ModalImageLink'
-                value={occasion.ModalImageLink}
-                onChange={handleChange}
-                className='w-full p-2 border rounded mt-2'
-                placeholder='آدرس تصویر مدال را وارد کنید'
+                type='text'
+                value={logoUrl}
+                className='flex-1 p-2 border rounded-md'
+                placeholder='آدرس تصویر را وارد کنید'
+                readOnly
+              />
+              <button
+                type='button'
+                onClick={() => document.getElementById('logo-upload')?.click()}
+                className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
+              >
+                بارگذاری
+              </button>
+              <input
+                id='logo-upload'
+                type='file'
+                className='hidden'
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file)
+                    uploadFile(file, 'logo').then((url) => {
+                      if (url) {
+                        setLogoUrl(url);
+                        setOccasion((prev) =>
+                          prev ? { ...prev, LogoLink: url } : prev
+                        );
+                      }
+                    });
+                }}
+                accept='image/*'
               />
             </div>
           </div>
 
           <div>
-            <label className='block mb-2'>لینک لوگو</label>
-            <div className='space-y-2'>
-              <div className='w-12 h-12 overflow-hidden'>
-                <LogoImage
-                  src={occasion.LogoLink}
-                  alt={occasion.ShortTitle}
-                  size={48}
-                  className='rounded-full object-cover w-12 h-12'
-                />
-              </div>
+            <label className='block text-sm font-medium text-right mb-1'>
+              لینک تصویر مدال
+            </label>
+            <div className='flex gap-2'>
               <input
-                type='url'
-                name='LogoLink'
-                value={occasion.LogoLink}
-                onChange={handleChange}
-                className='w-full p-2 border rounded mt-2'
-                placeholder='آدرس تصویر را وارد کنید'
+                type='text'
+                value={imageUrl}
+                className='flex-1 p-2 border rounded-md'
+                placeholder='آدرس تصویر مدال را وارد کنید'
+                readOnly
+              />
+              <button
+                type='button'
+                onClick={() => document.getElementById('medal-upload')?.click()}
+                className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
+              >
+                بارگذاری
+              </button>
+              <input
+                id='medal-upload'
+                type='file'
+                className='hidden'
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file)
+                    uploadFile(file, 'medal').then((url) => {
+                      if (url) {
+                        setImageUrl(url);
+                        setOccasion((prev) =>
+                          prev ? { ...prev, ModalImageLink: url } : prev
+                        );
+                      }
+                    });
+                }}
+                accept='image/*'
               />
             </div>
           </div>
