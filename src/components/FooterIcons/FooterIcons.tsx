@@ -219,7 +219,7 @@ const Icon = ({ name, className = '' }: IconProps) => {
           </g>
         </svg>
       );
-    case 'AiGenerator':
+      // case 'AiGenerator':
       return pathname === '/AiGenerator' ? (
         <div className='mb-1'>
           <Image

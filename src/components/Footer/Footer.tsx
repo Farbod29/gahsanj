@@ -39,8 +39,8 @@ const Footer = () => {
     }
   };
 
-  const navigateToGahgardanIframe = () => {
-    router.push('/GahgardanIframe');
+  const navigateToDateConverter = () => {
+    router.push('/DateConverter');
   };
 
   return (
@@ -69,10 +69,10 @@ const Footer = () => {
 
       {/* Gahgardan Button */}
       <button
-        onClick={navigateToGahgardanIframe}
+        onClick={navigateToDateConverter}
         className='flex flex-col items-center text-center w-1/5 mb-[12px] mt-2'
       >
-        {pathname === '/GahgardanIframe' ? (
+        {pathname === '/DateConverter' ? (
           <div className='w-6 h-6 mb-1 text-white'>
             <ConverterIconGahshomarOrange />
           </div>
