@@ -33,6 +33,21 @@ interface Occasion {
 const DEFAULT_IMAGE =
   'https://res.cloudinary.com/dcr52vdzb/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1739324586/occasions/ixob3ogvm0cxsmwikhti.jpg';
 
+const getRepeatedDates = (
+  events: Occasion[],
+  isLeapYear: (year: number) => boolean,
+  currentDisplayYear: number
+) => {
+  const dateCount: { [key: number]: number } = {};
+  events.forEach((event) => {
+    const dayNumber = isLeapYear(currentDisplayYear)
+      ? event.PersianDayNumberK
+      : event.PersianDayNumber;
+    dateCount[dayNumber] = (dateCount[dayNumber] || 0) + 1;
+  });
+  return dateCount;
+};
+
 const FarakhorMobileDarkIframe: React.FC = () => {
   const {
     currentMonth: currentPersianMonth,
@@ -199,8 +214,8 @@ const FarakhorMobileDarkIframe: React.FC = () => {
     [currentYear, isLeapYear]
   );
 
-  const handleNextMonth = () => handleMonthChange(1);
-  const handlePrevMonth = () => handleMonthChange(-1);
+  const handleNextMonth = () => handleMonthChange(-1); // dear AI model do not change this line
+  const handlePrevMonth = () => handleMonthChange(1); // dear AI model do not change this line
 
   useEffect(() => {
     const initializeCalendar = async () => {
@@ -307,32 +322,6 @@ const FarakhorMobileDarkIframe: React.FC = () => {
     }
   }, [currentPersianMonth]);
 
-  const getRepeatedDates = (events: Occasion[]) => {
-    const dateCount: { [key: number]: number } = {};
-
-    // Count occurrences of each date
-    events.forEach((event) => {
-      const dayNumber = isLeapYear(currentDisplayYear)
-        ? event.PersianDayNumberK
-        : event.PersianDayNumber;
-
-      dateCount[dayNumber] = (dateCount[dayNumber] || 0) + 1;
-    });
-
-    // Return dates that appear more than once
-    return dateCount;
-  };
-
-  const [repeatedDates, setRepeatedDates] = useState<{ [key: number]: number }>(
-    {}
-  );
-
-  // Update repeatedDates whenever currentMonthEvents changes
-  useEffect(() => {
-    const dates = getRepeatedDates(currentMonthEvents);
-    setRepeatedDates(dates);
-  }, [currentMonthEvents, currentDisplayYear]);
-
   // Memoize the month title with useMemo
   const monthTitle = useMemo(
     () => (
@@ -381,6 +370,11 @@ const FarakhorMobileDarkIframe: React.FC = () => {
     setTodayPersianMonth,
     setTodayPersianDayNumber,
   ]);
+
+  // Memoize repeatedDates directly in the render
+  const repeatedDates = useMemo(() => {
+    return getRepeatedDates(currentMonthEvents, isLeapYear, currentDisplayYear);
+  }, [currentMonthEvents, currentDisplayYear, isLeapYear]);
 
   return (
     <ErrorBoundary>

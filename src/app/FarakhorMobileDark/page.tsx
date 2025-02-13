@@ -166,7 +166,7 @@ const Occasions: React.FC = () => {
         window.scrollBy(0, -100);
       }
     }
-  }, [loading, currentMonthEvents, currentYear]);
+  }, [loading, currentMonthEvents, currentYear, isLeapYear]);
 
   const handleMonthChange = (increment: number) => {
     const currentMonthIndex = monthMapping[currentMonthName];
@@ -241,7 +241,7 @@ const Occasions: React.FC = () => {
   console.log(persianDate); // This prints "۱۲ شهریور"
 
   return (
-    <div className='bg-[#333863] min-h-screen  flex flex-col items-center justify-center pt-24 pb-24'>
+    <div className='bg-[#333863] min-h-screen flex flex-col items-center justify-center pt-24 pb-96'>
       <div className='bg-[#4c5494] shadow-lg rounded-lg px-4 py-6 w-full text-center text-xl md:text-2xl font-bold text-white fixed top-0 flex justify-between items-center z-10'>
         <div className='flex items-center justify-between w-full'>
           <button
@@ -292,7 +292,7 @@ const Occasions: React.FC = () => {
       ) : (
         <div
           ref={scrollRef}
-          className='grid grid-cols-2 lg:grid-cols-6 gap-4 mt-5 w-full p-3 lg:mt-8 mt:p-10 '
+          className='grid grid-cols-2 lg:grid-cols-6 gap-4 mt-5 w-full p-3 lg:mt-8 pb-40 mb-40'
           style={{ direction: 'rtl' }}
         >
           {currentMonthEvents.map((event, index) => {
@@ -311,27 +311,21 @@ const Occasions: React.FC = () => {
               <div
                 key={`${event.PersianDayNumber}-${event.Georgian}-${index}`}
                 onClick={() => handleDayClick(event)}
-                className={`relative h-[150px]  ${
-                  // Adjust the height value here
+                className={`relative h-[180px] ${
                   isToday
-                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg' // Today box styling
-                    : 'bg-[#FFFFFF]' // Normal box styling
-                } shadow-md rounded-lg p-2 text-center`}
+                    ? 'bg-[#4c5494] border-4 border-[#FF8200] shadow-lg'
+                    : 'bg-[#FFFFFF]'
+                } shadow-md rounded-lg p-2 text-center mb-2`}
                 style={{ width: '100%', maxWidth: '350px' }}
               >
-                <div
-                  //          <div       className={`absolute bottom-0 top-[65px] xl:top-[65px] sm:top-[65px] left-[-10px] sm-logo:left-1 w-[50px] pr-1 lg:h-[10px] sm:w-[110px] xs:w-10 xs:left-[-4px] xs:top-[90px] sm:h-[10px] min-h-[30px] min-w-[30px] flex 2 pl-2 m-2 xs:2 xl:12 2xl:10 mr-5 mt-[30px]
-                  // sm:left-[-6px] md:left-[-8px] lg:left-[-10px] max-h-[60px] max-w-[60px]`}
-                  //               >
-                  className={`absolute bottom-0 top-[110px] max-h-8 max-w-8 left-2`}
-                >
+                <div className={`absolute bottom-2 left-2 w-8 h-8`}>
                   <Image
                     src={logo}
                     alt='Logo Of the Day'
-                    width={50}
-                    height={50}
-                    className=''
-                    layout='responsive'
+                    width={32}
+                    height={32}
+                    className='object-contain'
+                    priority
                   />
                 </div>
                 <div className='flex flex-col h-full'>
@@ -394,6 +388,28 @@ const Occasions: React.FC = () => {
           })}
         </div>
       )}
+      <div className='w-full flex flex-col items-center justify-center mt-20 mb-40 text-white/80 text-sm px-4'>
+        <div className='max-w-2xl text-center space-y-4'>
+          <h3 className='text-lg font-semibold mb-4'>درباره گاه سنج </h3>
+          <p>
+            گاه سنج یک تقویم هوشمند است که رویدادهای مهم و مناسبت‌های ایرانی را
+            به شما یادآوری می‌کند.
+          </p>
+          <p>
+            با استفاده از گاه سنج می‌توانید از تمامی مناسبت‌ها و رویدادهای مهم
+            مطلع شوید.
+          </p>
+          <p>
+            همچنین می‌توانید رویدادهای شخصی خود را ثبت کنید و در زمان مناسب
+            یادآوری دریافت کنید.
+          </p>
+          <div className='h-20'></div>
+          <p className='text-xs opacity-50'>
+            تمامی حقوق برای گاه سنج محفوظ است © {new Date().getFullYear()}
+          </p>
+        </div>
+      </div>
+      <div className='w-full h-60'></div>
       {modalVisible && modalContent && (
         <div
           className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-[9999]'

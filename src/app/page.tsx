@@ -96,6 +96,30 @@ const Home = () => {
           </div>
         </CalendarProvider>
       </div>
+
+      {/* Dummy content for extra scrolling */}
+      <div className='w-full flex flex-col items-center justify-center mt-10 mb-10 text-white/80 text-sm px-4'>
+        <div className='max-w-2xl text-center space-y-2'>
+          <h3 className='text-lg font-semibold mb-4'>درباره گاه سنج </h3>
+          <p>
+            گاه سنج یک تقویم هوشمند است که رویدادهای مهم و مناسبت‌های ایرانی را
+            به شما یادآوری می‌کند.
+          </p>
+          <p>
+            با استفاده از گاه سنج می‌توانید از تمامی مناسبت‌ها و رویدادهای مهم
+            مطلع شوید.
+          </p>
+          <p>
+            همچنین می‌توانید رویدادهای شخصی خود را ثبت کنید و در زمان مناسب
+            یادآوری دریافت کنید.
+          </p>
+          <div className='h-20'></div>
+          <p className='text-xs opacity-50'>
+            تمامی حقوق برای گاه سنج محفوظ است © {new Date().getFullYear()}
+          </p>
+        </div>
+      </div>
+      <div className='w-full h-60'></div>
     </main>
   );
 };
