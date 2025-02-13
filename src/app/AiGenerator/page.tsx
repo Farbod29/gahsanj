@@ -29,7 +29,7 @@ const AiGenerator = () => {
         <h1 className='text-white text-lg mt-6 text-center' dir='rtl'>
           در اینجا میتوانید برگه روزشمار
           <br />
-          با گاهشمار و پس زمینه انتخابی خود را بسازید
+          با گاه سنج و پس زمینه انتخابی خود را بسازید
         </h1>
       </div>
       <Link href='/PhoneAppGahshomar' legacyBehavior passHref>

@@ -13,10 +13,10 @@ export default function DashboardLayout({
 
   const navItems = [
     { path: '/dashboard', label: 'داشبورد', icon: '📊' },
-    { path: '/dashboard/occasions', label: 'مناسبت‌ها', icon: '📅' },
+    // { path: '/dashboard/occasions', label: 'مناسبت‌ها', icon: '📅' },
     { path: '/dashboard/add-occasion', label: 'افزودن مناسبت', icon: '➕' },
-    { path: '/dashboard/search', label: 'جستجو', icon: '🔍' },
-    { path: '/dashboard/settings', label: 'تنظیمات', icon: '⚙️' },
+    // { path: '/dashboard/search', label: 'جستجو', icon: '🔍' },
+    // { path: '/dashboard/settings', label: 'تنظیمات', icon: '⚙️' },
   ];
 
   return (

@@ -85,7 +85,7 @@ const ClocksPageMobile = () => {
             <div className='flex flex-col items-center justify-start mt-4'>
               {/* <Image
                 src={'/assets/LogoMobile.png'}
-                alt='گاه شمار'
+                alt='گاه سنج'
                 width={20}
                 height={30}
               /> */}

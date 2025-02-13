@@ -3,9 +3,9 @@ import React from 'react';
 const MiladiDescription = () => {
   return (
     <div>
-      <h1 className='text-xl font-bold mb-4'>گاه‌شمار میلادی</h1>
+      <h1 className='text-xl font-bold mb-4'>گاه سنج میلادی</h1>
       <p className='text-lg mb-4'>
-        گاه‌شمار میلادی، همچنین شناخته شده به عنوان تقویم گریگوریان، تقویمی است
+        گاه سنج میلادی، همچنین شناخته شده به عنوان تقویم گریگوریان، تقویمی است
         که بیشتر در جهان استفاده می‌شود و برای امور بین‌المللی، تجارت و ارتباطات
         جهانی به کار برده می‌شود. این تقویم در سال ۱۵۸۲ میلادی توسط پاپ گریگوری
         XIII به منظور اصلاح تقویم ژولین و بهتر تطابق پیدا کردن با طول سال
@@ -43,7 +43,7 @@ const MiladiDescription = () => {
             rel='noopener noreferrer'
             className='text-blue-600 hover:underline'
           >
-            ویکی‌پدیا، گاه‌شمار میلادی
+            ویکی‌پدیا، گاه سنج میلادی
           </a>
         </li>
       </ul>

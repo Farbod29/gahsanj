@@ -77,7 +77,7 @@ const ExtraTools = () => {
     <main className='flex flex-col items-center min-h-screen h-screen overflow-hidden px-2 py-3 bg-[#333863]'>
       <div className='w-full max-w-md space-y-3 py-3 p-2 flex flex-col flex-grow'>
         <Box
-          text='تماس با گاه‌شمار'
+          text='تماس با گاه سنج'
           iconSrc='/assets/contact.png'
           altText='گاه نامه'
           onClick={() =>

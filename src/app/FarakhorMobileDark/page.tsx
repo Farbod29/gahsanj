@@ -214,6 +214,13 @@ const Occasions: React.FC = () => {
       .join('');
   };
 
+  const safeToString = (value: any): string => {
+    if (value === undefined || value === null) {
+      return '';
+    }
+    return value.toString();
+  };
+
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
   const todayPersianDayNumber = jToday.jd;
@@ -333,8 +340,8 @@ const Occasions: React.FC = () => {
                   >
                     {toPersianNum(
                       isLeapYear(currentDisplayYear)
-                        ? event.PersianDayNumberK.toString()
-                        : event.PersianDayNumber.toString()
+                        ? safeToString(event?.PersianDayNumberK)
+                        : safeToString(event?.PersianDayNumber)
                     )}
                   </span>
                   <span className='text-[#CAB9B9] text-[17px] sm:text-lg pb-[-5px] '>

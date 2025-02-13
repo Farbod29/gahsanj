@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import LogoImage from '@/components/LogoImage';
 import Image from 'next/image';
+import LogoImage from '@/components/LogoImage';
 
 interface Occasion {
   _id: string;
@@ -20,6 +20,24 @@ interface Occasion {
   ModalStatus: boolean;
 }
 
+const UploadIcon = () => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    className='mx-auto h-12 w-12 text-gray-400'
+    fill='none'
+    viewBox='0 0 48 48'
+    stroke='currentColor'
+    aria-hidden='true'
+  >
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      strokeWidth={2}
+      d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
+    />
+  </svg>
+);
+
 export default function EditOccasion() {
   const router = useRouter();
   const params = useParams();
@@ -30,6 +48,8 @@ export default function EditOccasion() {
   const [occasion, setOccasion] = useState<Occasion | null>(null);
   const [logoUrl, setLogoUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [isDraggingLogo, setIsDraggingLogo] = useState(false);
+  const [isDraggingMedal, setIsDraggingMedal] = useState(false);
 
   const months = [
     'فروردین',
@@ -108,9 +128,23 @@ export default function EditOccasion() {
   const uploadFile = useCallback(async (file: File, type: 'logo' | 'medal') => {
     if (!file) return;
 
-    // Check file size for medal images (200KB = 200 * 1024 bytes)
-    if (type === 'medal' && file.size > 200 * 1024) {
-      alert('حجم تصویر مدال نباید بیشتر از ۲۰۰ کیلوبایت باشد');
+    // بررسی سایز و نوع فایل
+    const isValidFileType = ['image/png', 'image/jpeg', 'image/webp'].includes(
+      file.type
+    );
+    if (!isValidFileType) {
+      alert('لطفاً فقط فایل‌های PNG، JPG یا WebP آپلود کنید');
+      return;
+    }
+
+    // بررسی سایز
+    const maxSize = type === 'logo' ? 100 * 1024 : 200 * 1024;
+    if (file.size > maxSize) {
+      alert(
+        `حجم ${type === 'logo' ? 'لوگو' : 'مدال'} نباید بیشتر از ${
+          maxSize / 1024
+        }KB باشد`
+      );
       return;
     }
 
@@ -130,16 +164,51 @@ export default function EditOccasion() {
         throw new Error(data.error || 'Upload failed');
       }
 
+      if (!data.success || !data.url) {
+        throw new Error('Invalid response from server');
+      }
+
       return data.url;
     } catch (error) {
-      console.error('Upload error details:', error);
+      console.error('Upload error:', error);
       alert(
-        'خطا در آپلود تصویر: ' +
+        'خطا در آپلود فایل: ' +
           (error instanceof Error ? error.message : 'خطای ناشناخته')
       );
       return null;
     }
   }, []);
+
+  const handleDrag = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handleDrop = useCallback(
+    async (e: React.DragEvent, type: 'logo' | 'medal') => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      type === 'logo' ? setIsDraggingLogo(false) : setIsDraggingMedal(false);
+
+      const file = e.dataTransfer.files?.[0];
+      if (file) {
+        const url = await uploadFile(file, type);
+        if (url) {
+          if (type === 'logo') {
+            setLogoUrl(url);
+            setOccasion((prev) => (prev ? { ...prev, LogoLink: url } : prev));
+          } else {
+            setImageUrl(url);
+            setOccasion((prev) =>
+              prev ? { ...prev, ModalImageLink: url } : prev
+            );
+          }
+        }
+      }
+    },
+    [uploadFile]
+  );
 
   if (loading) {
     return (
@@ -167,11 +236,11 @@ export default function EditOccasion() {
       <form onSubmit={handleSubmit} className='space-y-6'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           <div>
-            <label className='block mb-2'>عنوان کوتاه</label>
+            <label className='block mb-2 text-right'>عنوان کوتاه</label>
             <input
               type='text'
               name='ShortTitle'
-              value={occasion.ShortTitle}
+              value={occasion?.ShortTitle || ''}
               onChange={handleChange}
               className='w-full p-2 border rounded'
               required
@@ -179,11 +248,11 @@ export default function EditOccasion() {
           </div>
 
           <div>
-            <label className='block mb-2'>عنوان کامل</label>
+            <label className='block mb-2 text-right'>عنوان کامل</label>
             <input
               type='text'
               name='EventTitle'
-              value={occasion.EventTitle}
+              value={occasion?.EventTitle || ''}
               onChange={handleChange}
               className='w-full p-2 border rounded'
               required
@@ -191,15 +260,15 @@ export default function EditOccasion() {
           </div>
 
           <div>
-            <label className='block mb-2'>ماه</label>
+            <label className='block mb-2 text-right'>ماه</label>
             <select
               name='Month'
-              value={occasion.Month}
+              value={occasion?.Month || ''}
               onChange={handleChange}
               className='w-full p-2 border rounded'
               required
             >
-              <option value=''>انتخاب ماه</option>
+              <option value=''>انتخاب کنید</option>
               {months.map((month) => (
                 <option key={month} value={month}>
                   {month}
@@ -209,11 +278,11 @@ export default function EditOccasion() {
           </div>
 
           <div>
-            <label className='block mb-2'>روز</label>
+            <label className='block mb-2 text-right'>روز</label>
             <input
               type='number'
               name='PersianDayNumber'
-              value={occasion.PersianDayNumber}
+              value={occasion?.PersianDayNumber || ''}
               onChange={handleChange}
               min='1'
               max='31'
@@ -223,24 +292,30 @@ export default function EditOccasion() {
           </div>
 
           <div>
-            <label className='block mb-2'>تاریخ میلادی</label>
+            <label className='block mb-2 text-right'>تاریخ میلادی</label>
             <input
               type='text'
               name='Georgian'
-              value={occasion.Georgian}
+              value={occasion?.Georgian || ''}
               onChange={handleChange}
               className='w-full p-2 border rounded'
+              placeholder='مثال: 22,03'
+              pattern='\d{1,2},\d{1,2}'
+              title='لطفاً تاریخ را به فرمت روز,ماه وارد کنید. مثال: 22,03'
             />
           </div>
 
           <div>
-            <label className='block mb-2'>تاریخ میلادی کبیسه</label>
+            <label className='block mb-2 text-right'>تاریخ میلادی کبیسه</label>
             <input
               type='text'
               name='GeorgianK'
-              value={occasion.GeorgianK}
+              value={occasion?.GeorgianK || ''}
               onChange={handleChange}
               className='w-full p-2 border rounded'
+              placeholder='مثال: 21,03'
+              pattern='\d{1,2},\d{1,2}'
+              title='لطفاً تاریخ را به فرمت روز,ماه وارد کنید. مثال: 21,03'
             />
           </div>
 
@@ -248,39 +323,79 @@ export default function EditOccasion() {
             <label className='block text-sm font-medium text-right mb-1'>
               لینک لوگو
             </label>
-            <div className='flex gap-2'>
-              <input
-                type='text'
-                value={logoUrl}
-                className='flex-1 p-2 border rounded-md'
-                placeholder='آدرس تصویر را وارد کنید'
-                readOnly
-              />
-              <button
-                type='button'
-                onClick={() => document.getElementById('logo-upload')?.click()}
-                className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
-              >
-                بارگذاری
-              </button>
-              <input
-                id='logo-upload'
-                type='file'
-                className='hidden'
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file)
-                    uploadFile(file, 'logo').then((url) => {
-                      if (url) {
-                        setLogoUrl(url);
-                        setOccasion((prev) =>
-                          prev ? { ...prev, LogoLink: url } : prev
-                        );
-                      }
-                    });
+            <div className='space-y-2'>
+              {logoUrl && (
+                <div className='flex items-center gap-2'>
+                  <LogoImage
+                    src={logoUrl}
+                    alt='Logo preview'
+                    size={48}
+                    showClearButton
+                    onClear={() => {
+                      setLogoUrl('');
+                      setOccasion((prev) =>
+                        prev ? { ...prev, LogoLink: '' } : prev
+                      );
+                    }}
+                  />
+                </div>
+              )}
+
+              <div
+                className={`border-2 border-dashed rounded-lg p-4 transition-colors ${
+                  isDraggingLogo
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-300 hover:border-blue-400'
+                }`}
+                onDragEnter={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsDraggingLogo(true);
                 }}
-                accept='image/*'
-              />
+                onDragLeave={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsDraggingLogo(false);
+                }}
+                onDragOver={handleDrag}
+                onDrop={(e) => handleDrop(e, 'logo')}
+              >
+                <div className='flex flex-col items-center justify-center space-y-4'>
+                  <div className='text-center'>
+                    <UploadIcon />
+                    <p className='mt-1 text-sm text-gray-600'>
+                      فایل را اینجا رها کنید یا کلیک کنید
+                    </p>
+                    <button
+                      type='button'
+                      onClick={() =>
+                        document.getElementById('logo-upload')?.click()
+                      }
+                      className='mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
+                    >
+                      بارگذاری
+                    </button>
+                  </div>
+                  <input
+                    id='logo-upload'
+                    type='file'
+                    className='hidden'
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file)
+                        uploadFile(file, 'logo').then((url) => {
+                          if (url) {
+                            setLogoUrl(url);
+                            setOccasion((prev) =>
+                              prev ? { ...prev, LogoLink: url } : prev
+                            );
+                          }
+                        });
+                    }}
+                    accept='image/*'
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -288,40 +403,79 @@ export default function EditOccasion() {
             <label className='block text-sm font-medium text-right mb-1'>
               لینک تصویر مدال
             </label>
-            <div className='flex gap-2'>
-              <input
-                type='text'
-                value={imageUrl}
-                className='flex-1 p-2 border rounded-md'
-                placeholder='آدرس تصویر مدال را وارد کنید'
-                readOnly
-              />
-              <button
-                type='button'
-                onClick={() => document.getElementById('medal-upload')?.click()}
-                className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
-              >
-                بارگذاری
-              </button>
-              <input
-                id='medal-upload'
-                type='file'
-                className='hidden'
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file)
-                    uploadFile(file, 'medal').then((url) => {
-                      if (url) {
-                        setImageUrl(url);
-                        setOccasion((prev) =>
-                          prev ? { ...prev, ModalImageLink: url } : prev
-                        );
-                      }
-                    });
-                }}
-                accept='image/*'
-              />
+            <div
+              className={`border-2 border-dashed rounded-lg p-4 transition-colors ${
+                isDraggingMedal
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-blue-400'
+              }`}
+              onDragEnter={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsDraggingMedal(true);
+              }}
+              onDragLeave={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsDraggingMedal(false);
+              }}
+              onDragOver={handleDrag}
+              onDrop={(e) => handleDrop(e, 'medal')}
+            >
+              <div className='flex flex-col items-center justify-center space-y-4'>
+                <div className='text-center'>
+                  <UploadIcon />
+                  <p className='mt-1 text-sm text-gray-600'>
+                    فایل را اینجا رها کنید یا کلیک کنید
+                  </p>
+                  <button
+                    type='button'
+                    onClick={() =>
+                      document.getElementById('medal-upload')?.click()
+                    }
+                    className='mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
+                  >
+                    بارگذاری
+                  </button>
+                </div>
+                <input
+                  id='medal-upload'
+                  type='file'
+                  className='hidden'
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file)
+                      uploadFile(file, 'medal').then((url) => {
+                        if (url) {
+                          setImageUrl(url);
+                          setOccasion((prev) =>
+                            prev ? { ...prev, ModalImageLink: url } : prev
+                          );
+                        }
+                      });
+                  }}
+                  accept='image/*'
+                />
+              </div>
+              {imageUrl && (
+                <div className='mt-4 flex justify-center'>
+                  <Image
+                    src={imageUrl}
+                    alt='Medal preview'
+                    width={200}
+                    height={200}
+                    className='rounded'
+                  />
+                </div>
+              )}
             </div>
+            <input
+              type='text'
+              value={imageUrl}
+              className='mt-2 w-full p-2 border rounded-md'
+              placeholder='آدرس تصویر را وارد کنید'
+              readOnly
+            />
           </div>
         </div>
 

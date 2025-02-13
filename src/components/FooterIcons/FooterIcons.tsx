@@ -1,9 +1,10 @@
 // src/components/Icon.tsx
 
 import { usePathname } from 'next/navigation';
-import PictureAISefid from '../../../public/pictureAI.svg';
-import PictureAINareji from '../../../public/pictureAiNarenji.svg';
 import Image from 'next/image';
+import pictureAISefid from '../../../public/pictureAI.svg';
+import pictureAINareji from '../../../public/pictureAiNarenji.svg';
+
 type IconProps = {
   name: string;
   className?: string;
@@ -221,11 +222,21 @@ const Icon = ({ name, className = '' }: IconProps) => {
     case 'AiGenerator':
       return pathname === '/AiGenerator' ? (
         <div className='mb-1'>
-          <PictureAINareji />
+          <Image
+            src={pictureAINareji.src || '/pictureAiNarenji.svg'}
+            alt='AI Generator Active'
+            width={24}
+            height={24}
+          />
         </div>
       ) : (
         <div className='mb-1'>
-          <PictureAISefid />
+          <Image
+            src={pictureAISefid.src || '/pictureAI.svg'}
+            alt='AI Generator'
+            width={24}
+            height={24}
+          />
         </div>
       );
     default:

@@ -6,6 +6,11 @@ import jalaali from 'jalaali-js';
 interface CalendarContextType {
   currentMonth: number;
   currentYear: number;
+  setCurrentPersianMonth: (month: number) => void;
+  setCurrentYear: (year: number) => void;
+  setCurrentDisplayYear: (year: number) => void;
+  setTodayPersianMonth: (month: number) => void;
+  setTodayPersianDayNumber: (day: number) => void;
   handleMonthChange: (increment: number) => void;
   resetToToday: () => void;
 }
@@ -20,6 +25,11 @@ export function CalendarProvider({ children }: { children: React.ReactNode }) {
   );
   const [currentYear, setCurrentYear] = useState(
     jalaali.toJalaali(new Date()).jy
+  );
+  const [currentDisplayYear, setCurrentDisplayYear] = useState(currentYear);
+  const [todayPersianMonth, setTodayPersianMonth] = useState(currentMonth);
+  const [todayPersianDayNumber, setTodayPersianDayNumber] = useState(
+    jalaali.toJalaali(new Date()).jd
   );
 
   const handleMonthChange = (increment: number) => {
@@ -55,7 +65,17 @@ export function CalendarProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <CalendarContext.Provider
-      value={{ currentMonth, currentYear, handleMonthChange, resetToToday }}
+      value={{
+        currentMonth,
+        currentYear,
+        handleMonthChange,
+        resetToToday,
+        setCurrentYear,
+        setCurrentDisplayYear,
+        setCurrentPersianMonth: setCurrentMonth,
+        setTodayPersianMonth,
+        setTodayPersianDayNumber,
+      }}
     >
       {children}
     </CalendarContext.Provider>

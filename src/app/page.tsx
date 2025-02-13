@@ -52,7 +52,7 @@ const Home = () => {
         <div className='flex flex-col items-center justify-center absolute left-1/2 transform -translate-x-1/2 w-[110px] sm:w-[140px] lg:w-[140px]'>
           <Image
             src='/assets/logo-gahshomar-yellow2.png'
-            alt='گاه شمار'
+            alt='گاه سنج'
             width={110}
             height={110}
             className='w-full h-auto'

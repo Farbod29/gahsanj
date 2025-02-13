@@ -20,6 +20,7 @@ interface Occasion {
   importantDay: boolean;
   PersianDayNumberK: number;
   PersianMonthNumberK: number;
+  _id: string;
 }
 
 // Helper to format the Georgian Date
@@ -144,7 +145,7 @@ const Occasions6Days: React.FC = () => {
   };
 
   return (
-    <div className='bg-[#333863]  overflow-x-hidden flex flex-col items-center justify-center pb-0 mb-28 mt-3 sm:mt-12 md:mt-12 lg:mt-24 xl:mt-12 2xl:mt-12 w-full overflow-y-hidden scroll-smooth"'>
+    <div className='min-h-screen bg-gradient-to-b from-[#373D70] to-[#1C1E33]'>
       {loading ? (
         <div className='mt-8 text-center text-white'>Loading...</div>
       ) : (
@@ -167,7 +168,7 @@ const Occasions6Days: React.FC = () => {
 
             return (
               <div
-                key={event.DayNumber}
+                key={event._id}
                 onClick={() => handleDayClick(event)}
                 className={`relative h-[150px] rounded-2xl ${
                   isToday
@@ -179,10 +180,10 @@ const Occasions6Days: React.FC = () => {
                 {/* Logo */}
                 <div className='absolute top-[110px] left-2 rounded-xl overflow-hidden max-h-8 max-w-8'>
                   <Image
-                    src={logo || '/path/to/fallback-image.webp'} // Fallback if URL fails
+                    src={logo || '/assets/LogoMobMain.png'}
                     alt='Logo Of the Day'
-                    width={50} // Keep the original width
-                    height={50} // Keep the original height
+                    width={50}
+                    height={50}
                     layout='responsive'
                     className='object-cover'
                   />

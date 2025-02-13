@@ -276,7 +276,7 @@ export default function Home() {
 
   const today = new Date();
   const [currentPersianMonth, setCurrentPersianMonth] = useState('');
-  const [activeTab, setActiveTab] = useState('گاهشمار'); // State to track active tab
+  const [activeTab, setActiveTab] = useState('گاه سنج'); // State to track active tab
 
   const [dates, setDates] = useState({
     europeanDate: '',

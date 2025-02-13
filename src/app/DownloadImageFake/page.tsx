@@ -297,7 +297,7 @@ function ClientOnlyPage() {
           </button>
         </div>
 
-        {/* <p className="text-xxxxs">© 2024 گاهشمار. All rights reserved.</p> */}
+        {/* <p className="text-xxxxs">© 2024 گاه سنج. All rights reserved.</p> */}
       </div>
     </div>
   );

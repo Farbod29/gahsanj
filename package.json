@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -21,13 +21,14 @@
     "html2canvas": "^1.4.1",
     "jalaali-js": "^1.2.7",
     "mongodb": "^6.8.1",
-    "next": "^14.2.8",
+    "next": "^15.1.7",
     "next-router-mock": "^0.9.13",
     "react": "^18",
     "react-clock": "^4.6.0",
     "react-dom": "^18",
     "react-html2canvas": "^1.0.1",
     "react-modal": "^3.16.1",
+    "stream": "^0.0.3",
     "use-react-screenshot": "^4.0.0"
   },
   "devDependencies": {

@@ -174,7 +174,7 @@ function PersianCalendar() {
   return (
     <main className='p-2 bg-[#333863] min-h-screen overflow-hidden flex flex-col justify-start h-full w-full'>
       <div className='flex justify-end'>
-        <h3 className='text-white mb-1 z-1000'>گاهشمار جدولی</h3>
+        <h3 className='text-white mb-1 z-1000'>گاه سنج جدولی</h3>
       </div>
       <div className='mt-1' dir='rtl'>
         <div className='max-w-md mx-auto overflow-hidden bg-white text-xl sm:text-3xl w-full rounded-md h-full flex flex-col border-black'>

@@ -68,7 +68,7 @@ export default function Home() {
   const today = new Date();
   const jToday = jalaali.toJalaali(today);
   const [currentMonth, setCurrentMonth] = useState(jToday.jm);
-  const [activeTab, setActiveTab] = useState('گاهشمار'); // State to track active tab
+  const [activeTab, setActiveTab] = useState('گاه سنج'); // State to track active tab
   const [dates, setDates] = useState({
     europeanDate: '',
     jalaliDate: '',

@@ -238,7 +238,7 @@ export default function Home() {
   const [currentPersianMonth, setCurrentPersianMonth] = useState('');
   //const [currentPersianMonth, setCurrentPersianMonth] = useState<string | null>(
   const [currentLatinMonth, setCurrentLatinMonth] = useState('');
-  const [activeTab, setActiveTab] = useState('گاهشمار'); // State to track active tab
+  const [activeTab, setActiveTab] = useState('گاه سنج'); // State to track active tab
 
   const [dates, setDates] = useState({
     europeanDate: '',
@@ -511,7 +511,7 @@ export default function Home() {
     <main className='flex min-h-screen w-full flex-col items-center bg-[#333863] px-2 sm:px-4 md:px-2 pb-14 mb-3'>
       <div className='w-full max-w-4xl mx-auto p-3 pb-1'>
         <h1 className='text-center m- text-sm text-white p-2 pb-2'>
-          برای دریافت فرتور امروز، گاهشماری خود را انتخاب کنید
+          برای دریافت فرتور امروز، گاه سنجی خود را انتخاب کنید
         </h1>
 
         {/* // 'iran-nov' ============ مهرروز (دوشنبه) ،۱  اَمُرداد سال ۷ ایران نو =========== > 'ایران نو',  */}
