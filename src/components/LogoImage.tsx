@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 // import defaultLogo from '../public/gahsanjFav/apple-touch-icon.png';
-import defaultLogo from '../../public/gahsanjFav/apple-touch-icon.png';
+import appleIcon from '../../public/favicon/apple-touch-icon.png';
 
 interface LogoImageProps {
   src?: string;
@@ -21,13 +21,13 @@ export default function LogoImage({
   showClearButton = false,
 }: LogoImageProps) {
   const [imageExists, setImageExists] = useState(false);
-  const [imageSrc, setImageSrc] = useState<string>(defaultLogo.src);
+  const [imageSrc, setImageSrc] = useState<string>(appleIcon.src);
 
   useEffect(() => {
     // اگر src خالی یا undefined باشد، مستقیماً از defaultLogo استفاده می‌کنیم
     if (!src?.trim()) {
       setImageExists(false);
-      setImageSrc(defaultLogo.src);
+      setImageSrc(appleIcon.src);
       return;
     }
 
@@ -39,11 +39,11 @@ export default function LogoImage({
           setImageSrc(url);
         } else {
           setImageExists(false);
-          setImageSrc(defaultLogo.src);
+          setImageSrc(appleIcon.src);
         }
       } catch (error) {
         setImageExists(false);
-        setImageSrc(defaultLogo.src);
+        setImageSrc(appleIcon.src);
       }
     };
 
@@ -51,7 +51,7 @@ export default function LogoImage({
   }, [src]);
 
   // مطمئن می‌شویم که همیشه یک مقدار معتبر داریم
-  const validSrc = imageSrc || defaultLogo.src;
+  const validSrc = imageSrc || appleIcon.src;
 
   return (
     <div className='relative'>
@@ -63,7 +63,7 @@ export default function LogoImage({
         className={className}
         onError={() => {
           setImageExists(false);
-          setImageSrc(defaultLogo.src);
+          setImageSrc(appleIcon.src);
         }}
         priority
       />

@@ -13,7 +13,7 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-    domains: ['res.cloudinary.com', 'gahshomar.com'],
+    domains: ['res.cloudinary.com', 'gahshomar.com', 'localhost'],
   },
   webpack(config) {
     config.module.rules.push({
