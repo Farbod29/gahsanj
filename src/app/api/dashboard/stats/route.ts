@@ -4,6 +4,15 @@ import clientPromise from '@/lib/mongodb';
 
 export async function GET() {
   try {
+    // Check if MONGODB_URI exists
+    if (!process.env.MONGODB_URI) {
+      console.error('MONGODB_URI is not defined');
+      return NextResponse.json(
+        { error: 'Database configuration error' },
+        { status: 500 }
+      );
+    }
+
     const client = await clientPromise;
     const db = client.db('farakhor');
     const collection = db.collection('farakhorCollection');
