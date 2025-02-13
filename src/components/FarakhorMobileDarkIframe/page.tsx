@@ -30,8 +30,7 @@ interface Occasion {
   LogoLink: string | null;
 }
 
-const DEFAULT_IMAGE =
-  'https://res.cloudinary.com/dcr52vdzb/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1739324586/occasions/ixob3ogvm0cxsmwikhti.jpg';
+const DEFAULT_IMAGE = '/mainLogo/mainLogo.png';
 
 const getRepeatedDates = (
   events: Occasion[],

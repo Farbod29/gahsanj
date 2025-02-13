@@ -21,7 +21,7 @@ const AiGenerator = () => {
     <main className='flex flex-col items-center justify-between p-4 bg-[#333863] min-h-screen overflow-hidden'>
       <div className='flex flex-col items-center justify-start flex-grow mt-20 flex-shrink-0'>
         <Image
-          src={'/assets/LogoMobile.png'}
+          src={'/mainLogo/mainLogo.png'}
           alt='AI Generator'
           width={150}
           height={150}
