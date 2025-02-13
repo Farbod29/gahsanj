@@ -16,6 +16,7 @@ import jalaali from 'jalaali-js';
 import Image from 'next/image';
 import SmallCalendarIframe from '../components/SmallCalendarIframe/page';
 import FarakhorMobileDarkIframe from '../components/FarakhorMobileDarkIframe/page';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -37,6 +38,15 @@ const Home = () => {
     setIsModalOpen(false);
   };
 
+  const getYear = () => {
+    try {
+      return new Date().getFullYear().toString() || '';
+    } catch (error) {
+      console.error('Error getting year:', error);
+      return '';
+    }
+  };
+
   return (
     <main className='p-1 bg-[#333863] min-h-screen relative overflow-hidden'>
       <SpeedInsights />
@@ -51,7 +61,7 @@ const Home = () => {
         </div>
         <div className='flex flex-col items-center justify-center absolute left-1/2 transform -translate-x-1/2 w-[110px] sm:w-[140px] lg:w-[140px]'>
           <Image
-            src='/assets/logo-gahshomar-yellow2.png'
+            src='/mainLogo/mainLogo.png'
             alt='گاه سنج'
             width={110}
             height={110}
@@ -115,7 +125,7 @@ const Home = () => {
           </p>
           <div className='h-20'></div>
           <p className='text-xs opacity-50'>
-            تمامی حقوق برای گاه سنج محفوظ است © {new Date().getFullYear()}
+            تمامی حقوق برای گاه سنج محفوظ است © {getYear()}
           </p>
         </div>
       </div>
@@ -124,4 +134,14 @@ const Home = () => {
   );
 };
 
-export default Home;
+const HomeWithErrorBoundary = () => {
+  return (
+    <ErrorBoundary
+      fallback={<div>مشکلی پیش آمده است. لطفاً صفحه را رفرش کنید.</div>}
+    >
+      <Home />
+    </ErrorBoundary>
+  );
+};
+
+export default HomeWithErrorBoundary;

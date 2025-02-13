@@ -1,23 +1,32 @@
-import React, { Component, ReactNode } from 'react';
+'use client';
 
-interface ErrorBoundaryProps {
-  children: ReactNode; // Define children prop
+import { Component, ErrorInfo, ReactNode } from 'react';
+
+interface Props {
+  children?: ReactNode;
+  fallback?: ReactNode;
 }
 
-class ErrorBoundary extends Component<ErrorBoundaryProps> {
-  state = { hasError: false };
+interface State {
+  hasError: boolean;
+}
 
-  static getDerivedStateFromError(error: Error) {
+class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false,
+  };
+
+  public static getDerivedStateFromError(_: Error): State {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by ErrorBoundary:', error, errorInfo);
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Uncaught error:', error, errorInfo);
   }
 
-  render() {
+  public render() {
     if (this.state.hasError) {
-      return <h1>Something went wrong. Please try again later.</h1>;
+      return this.props.fallback || <div>مشکلی پیش آمده است</div>;
     }
 
     return this.props.children;
