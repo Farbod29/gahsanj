@@ -1,9 +1,14 @@
 // src/app/metadata.ts
 
-import type { Metadata } from "next";
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'گاه سنج تقویم ایرانی',
-  description:
-    'Explore the Iranian calendar with our comprehensive گاه سنج تقویم ایرانی app. Stay updated with Persian dates, holidays, and historical events in an easy-to-use format jui تهران ساعت چنده.',
+  title: 'گاه‌شمار',
+  description: 'تقویم و ساعت ایران',
+  icons: {
+    icon: '/favicon_io/favicon-32x32.png',
+    apple: '/favicon_io/apple-touch-icon.png',
+  },
+  manifest: '/favicon_io/site.webmanifest',
+  themeColor: '#ffffff',
 };
