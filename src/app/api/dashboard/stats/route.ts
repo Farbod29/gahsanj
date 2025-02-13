@@ -1,19 +1,24 @@
 import { NextResponse } from 'next/server';
 import jalaali from 'jalaali-js';
-import clientPromise from '@/lib/mongodb';
+import { MongoClient } from 'mongodb';
+
+// Create a new MongoClient instance
+const uri = process.env.MONGODB_URI || process.env.DATABASE_URL;
+const client = new MongoClient(uri as string);
 
 export async function GET() {
   try {
-    // Check if MONGODB_URI exists
-    if (!process.env.MONGODB_URI) {
-      console.error('MONGODB_URI is not defined');
+    if (!uri) {
+      console.error('Database URI is not defined');
       return NextResponse.json(
         { error: 'Database configuration error' },
         { status: 500 }
       );
     }
 
-    const client = await clientPromise;
+    // Connect to the MongoDB cluster
+    await client.connect();
+
     const db = client.db('farakhor');
     const collection = db.collection('farakhorCollection');
 
@@ -45,6 +50,13 @@ export async function GET() {
       { error: 'Failed to fetch dashboard stats' },
       { status: 500 }
     );
+  } finally {
+    // Close the connection when done
+    try {
+      await client.close();
+    } catch (error) {
+      console.error('Error closing MongoDB connection:', error);
+    }
   }
 }
 
