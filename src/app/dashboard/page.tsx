@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDebounce } from '@/hooks/useDebounce';
 import LogoImage from '@/components/LogoImage';
@@ -59,11 +59,7 @@ export default function Dashboard() {
     'اسفند',
   ];
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, [debouncedSearch, selectedMonth, filterImportant, page]);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setLoading(true);
       setError('');
@@ -96,7 +92,11 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [debouncedSearch, selectedMonth, filterImportant, page]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   const handleSort = (key: keyof Occasion) => {
     // Implementation of handleSort function

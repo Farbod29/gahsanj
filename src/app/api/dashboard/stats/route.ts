@@ -5,16 +5,19 @@ import { MongoClient } from 'mongodb';
 // Debug logging
 console.log('Environment check:', {
   hasMongoDB_URI: !!process.env.MONGODB_URI,
-  hasDatabase_URL: !!process.env.DATABASE_URL
+  hasMONGODB_URI: !!process.env.MONGODB_URI,
 });
 
-if (!process.env.MONGODB_URI && !process.env.DATABASE_URL) {
+const connectionString = process.env.MONGODB_URI || process.env.MONGODB_URI;
+if (!connectionString) {
   throw new Error(
-    'Please define the MONGODB_URI or DATABASE_URL environment variable'
+    'Environment variable missing: Please define MONGODB_URI or MONGODB_URI in your Vercel project settings.'
   );
 }
 
-const uri = process.env.MONGODB_URI || process.env.DATABASE_URL;
+// Now you can use `connectionString` for your MongoDB connection.
+
+const uri = process.env.MONGODB_URI || process.env.MONGODB_URI;
 
 export async function GET() {
   let client: MongoClient | null = null;
