@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-yarn.lock
+
 /.pnp
 .pnp.js
 .env
@@ -49,7 +49,7 @@ public/assets/FarakhorMobileDarkIframe_files/
 
 # dependencies
 /node_modules
-yarn.lock
+# yarn.lock
 /.pnp
 .pnp.js
 .history    
