@@ -2,22 +2,28 @@ import { NextResponse } from 'next/server';
 import jalaali from 'jalaali-js';
 import { MongoClient } from 'mongodb';
 
-// Create a new MongoClient instance
+// Debug logging
+console.log('Environment check:', {
+  hasMongoDB_URI: !!process.env.MONGODB_URI,
+  hasDatabase_URL: !!process.env.DATABASE_URL
+});
+
+if (!process.env.MONGODB_URI && !process.env.DATABASE_URL) {
+  throw new Error(
+    'Please define the MONGODB_URI or DATABASE_URL environment variable'
+  );
+}
+
 const uri = process.env.MONGODB_URI || process.env.DATABASE_URL;
-const client = new MongoClient(uri as string);
 
 export async function GET() {
-  try {
-    if (!uri) {
-      console.error('Database URI is not defined');
-      return NextResponse.json(
-        { error: 'Database configuration error' },
-        { status: 500 }
-      );
-    }
+  let client: MongoClient | null = null;
 
-    // Connect to the MongoDB cluster
+  try {
+    console.log('Attempting to connect to MongoDB...');
+    client = new MongoClient(uri!);
     await client.connect();
+    console.log('Successfully connected to MongoDB');
 
     const db = client.db('farakhor');
     const collection = db.collection('farakhorCollection');
@@ -45,17 +51,18 @@ export async function GET() {
       importantDays,
     });
   } catch (error) {
-    console.error('Error fetching dashboard stats:', error);
+    console.error('Error fetching dashboard stats:', {
+      error,
+      message: error instanceof Error ? error.message : 'Unknown error',
+      uri: uri?.split('@')[1], // Log only the host part of URI for security
+    });
     return NextResponse.json(
       { error: 'Failed to fetch dashboard stats' },
       { status: 500 }
     );
   } finally {
-    // Close the connection when done
-    try {
+    if (client) {
       await client.close();
-    } catch (error) {
-      console.error('Error closing MongoDB connection:', error);
     }
   }
 }
