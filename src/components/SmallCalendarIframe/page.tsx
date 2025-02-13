@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import jalaali from 'jalaali-js';
 import MyModal from '@/components/modalInfoCalendar/modalInfoCalendar';
 import ModalAlert from '@/components/ModalAlert/ModalAlert';
@@ -63,9 +63,34 @@ function convertToPahlavi(date) {
   );
 }
 
+// اضافه کردن در بالای فایل با بقیه constants
+const monthMapping = {
+  فروردین: 1,
+  اردیبهشت: 2,
+  خرداد: 3,
+  تیر: 4,
+  اَمُرداد: 5,
+  شهریور: 6,
+  مهر: 7,
+  آبان: 8,
+  آذر: 9,
+  دی: 10,
+  بهمن: 11,
+  اسفند: 12,
+} as const;
+
 // The main component
 function SmallCalendarIframe() {
-  const { currentMonth, currentYear, handleMonthChange } = useCalendar();
+  const {
+    currentMonth,
+    currentYear,
+    handleMonthChange,
+    setCurrentYear,
+    setCurrentDisplayYear,
+    setCurrentPersianMonth,
+    setTodayPersianMonth,
+    setTodayPersianDayNumber,
+  } = useCalendar();
   const persianWeekDays = [
     { day: 'مه', dayShort: 'د', HejriDay: 'دوشنبه', dayLatinShort: 'Mo' },
     { day: 'بهرام', dayShort: 'س', HejriDay: 'سه‌شنبه', dayLatinShort: 'Tu' },
@@ -97,26 +122,30 @@ function SmallCalendarIframe() {
   const handleNextMonth = () => handleMonthChange(1);
   const handlePrevMonth = () => handleMonthChange(-1);
 
-  // Add debug logs to resetToCurrentMonth
-  const resetToCurrentMonth = () => {
-    const todayDate = new Date();
-    const { jy: todayYear, jm: todayMonth } = jalaali.toJalaali(todayDate);
+  // و تغییر resetToCurrentMonth به:
+  const resetToCurrentMonth = useCallback(() => {
+    const today = new Date();
+    const {
+      jy: todayYear,
+      jm: todayMonth,
+      jd: todayDay,
+    } = jalaali.toJalaali(today);
 
-    console.log('Current State:', { currentYear, currentMonth });
-    console.log('Target Date:', { todayYear, todayMonth });
-
-    // Calculate total months difference
-    const totalMonthsDiff =
-      (todayYear - currentYear) * 12 + (todayMonth - currentMonth);
-
-    console.log('Total Months Difference:', totalMonthsDiff);
-
-    // Apply the change in one go
-    if (totalMonthsDiff !== 0) {
-      console.log('Attempting to change month by:', totalMonthsDiff);
-      handleMonthChange(totalMonthsDiff);
-    }
-  };
+    // Batch state updates
+    Promise.resolve().then(() => {
+      setCurrentYear(todayYear);
+      setCurrentDisplayYear(todayYear);
+      setCurrentPersianMonth(todayMonth);
+      setTodayPersianMonth(todayMonth);
+      setTodayPersianDayNumber(todayDay);
+    });
+  }, [
+    setCurrentYear,
+    setCurrentDisplayYear,
+    setCurrentPersianMonth,
+    setTodayPersianMonth,
+    setTodayPersianDayNumber,
+  ]);
 
   // Convert Jalaali date to Gregorian day
   const convertToGregorianDay = (jalaaliYear, jalaaliMonth, jalaaliDay) => {
