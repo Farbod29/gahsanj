@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '../../../../lib/prisma';
 
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: Request,
+  { params: { id } }: { params: { id: string } }
+) {
   try {
-    const id = request.url.split('/').pop();
     const occasion = await prisma.occasion.findUnique({
       where: {
-        id: parseInt(id!),
+        id: id,
       },
     });
 
@@ -21,7 +23,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Error fetching occasion:', error);
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Failed to fetch occasion' },
       { status: 500 }
     );
   }
