@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from '../../../../lib/prisma';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest) {
   try {
-    const id = params.id;
+    const id = request.url.split('/').pop();
     const occasion = await prisma.occasion.findUnique({
       where: {
-        id: parseInt(id),
+        id: parseInt(id!),
       },
     });
 
@@ -30,17 +27,14 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest) {
   try {
-    const id = params.id;
+    const id = request.url.split('/').pop();
     const data = await request.json();
 
     const updatedOccasion = await prisma.occasion.update({
       where: {
-        id: parseInt(id),
+        id: parseInt(id!),
       },
       data,
     });
@@ -55,16 +49,13 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest) {
   try {
-    const id = params.id;
+    const id = request.url.split('/').pop();
 
     await prisma.occasion.delete({
       where: {
-        id: parseInt(id),
+        id: parseInt(id!),
       },
     });
 

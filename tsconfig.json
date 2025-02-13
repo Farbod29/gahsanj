@@ -21,7 +21,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"] // Shortcut to reference files from the src directory
+      "@/*": ["./src/*"]
     },
     "typeRoots": [
       "./node_modules/@types",
