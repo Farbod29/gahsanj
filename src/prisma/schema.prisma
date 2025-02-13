@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Occasion {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   date        DateTime
