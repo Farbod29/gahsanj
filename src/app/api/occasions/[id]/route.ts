@@ -1,11 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '../../../../lib/prisma';
+import { MongoClient, ObjectId } from 'mongodb';
+import { getUserFromHeaders } from '@/lib/permissions';
 
-export async function GET(request: NextRequest, { params }: any) {
-  const { id } = params;
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  throw new Error('Please define the MONGODB_URI environment variable');
+}
+
+const client = new MongoClient(uri);
+
+// GET - Fetch a single occasion
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const occasion = await prisma.occasion.findUnique({
-      where: { id: id },
+    const user = await getUserFromHeaders();
+    await client.connect();
+    const db = client.db('farakhor');
+    const collection = db.collection('farakhorCollection');
+
+    const occasion = await collection.findOne({
+      _id: new ObjectId(params.id),
     });
 
     if (!occasion) {
@@ -22,43 +38,81 @@ export async function GET(request: NextRequest, { params }: any) {
       { error: 'Failed to fetch occasion' },
       { status: 500 }
     );
+  } finally {
+    await client.close();
   }
 }
 
-export async function PUT(request: NextRequest, { params }: any) {
+// PATCH - Update an occasion
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = params;
-    const data = await request.json();
+    const user = await getUserFromHeaders();
+    const updates = await req.json();
 
-    const updatedOccasion = await prisma.occasion.update({
-      where: { id: id },
-      data,
-    });
+    await client.connect();
+    const db = client.db('farakhor');
+    const collection = db.collection('farakhorCollection');
 
-    return NextResponse.json(updatedOccasion);
+    // Remove _id from updates if present
+    delete updates._id;
+
+    const result = await collection.updateOne(
+      { _id: new ObjectId(params.id) },
+      { $set: updates }
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json(
+        { error: 'Occasion not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: 'Occasion updated successfully' });
   } catch (error) {
     console.error('Error updating occasion:', error);
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Failed to update occasion' },
       { status: 500 }
     );
+  } finally {
+    await client.close();
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: any) {
+// DELETE - Delete an occasion
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = params;
+    const user = await getUserFromHeaders();
+    await client.connect();
+    const db = client.db('farakhor');
+    const collection = db.collection('farakhorCollection');
 
-    await prisma.occasion.delete({
-      where: { id: id },
+    const result = await collection.deleteOne({
+      _id: new ObjectId(params.id),
     });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json(
+        { error: 'Occasion not found' },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({ message: 'Occasion deleted successfully' });
   } catch (error) {
     console.error('Error deleting occasion:', error);
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Failed to delete occasion' },
       { status: 500 }
     );
+  } finally {
+    await client.close();
   }
 }

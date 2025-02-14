@@ -84,8 +84,14 @@ export default function Dashboard() {
       if (!occasionsResponse.ok) throw new Error('Failed to fetch occasions');
 
       const data = await occasionsResponse.json();
-      setOccasions(data.occasions);
-      setTotalPages(data.pagination.totalPages);
+      if (data.occasions) {
+        setOccasions(data.occasions);
+      }
+      if (data.pagination?.totalPages) {
+        setTotalPages(data.pagination.totalPages);
+      } else {
+        setTotalPages(1); // Default to 1 page if pagination info is not available
+      }
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
       setError(error instanceof Error ? error.message : 'An error occurred');

@@ -1,129 +1,127 @@
-import { MongoClient, ObjectId } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
-import clientPromise from '@/lib/mongodb';
+import { z } from 'zod';
+import { MongoClient, ObjectId } from 'mongodb';
+import { getUserFromHeaders, canManageOccasions } from '@/lib/permissions';
 
-if (!process.env.MONGODB_URI) {
-  throw new Error(
-    'Please define the MONGODB_URI environment variable inside .env'
-  );
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-// GET - Fetch occasions (existing code)
+const client = new MongoClient(uri);
+
+const occasionSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  date: z.string().transform((str) => new Date(str)),
+});
+
+// GET - Fetch occasions
 export async function GET(req: NextRequest) {
   try {
-    const client = await clientPromise;
+    const user = await getUserFromHeaders();
+    const searchParams = req.nextUrl.searchParams;
+
+    // Parse pagination parameters
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const skip = (page - 1) * limit;
+
+    // Connect to MongoDB
+    await client.connect();
     const db = client.db('farakhor');
     const collection = db.collection('farakhorCollection');
 
-    // Get query parameters
-    const { searchParams } = new URL(req.url);
-    const month = searchParams.get('month');
-    const search = searchParams.get('search');
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const important = searchParams.get('important') === 'true';
-
     // Build query
-    let query: any = {};
-    if (month) {
-      query.Month = month;
-    }
-    if (important) {
-      query.importantDay = true;
-    }
+    const query: any = {};
+
+    // Add search filter if provided
+    const search = searchParams.get('search');
     if (search) {
       query.$or = [
         { ShortTitle: { $regex: search, $options: 'i' } },
         { EventTitle: { $regex: search, $options: 'i' } },
-        { Text: { $regex: search, $options: 'i' } },
       ];
     }
 
-    // Get total count for pagination
-    const total = await collection.countDocuments(query);
+    // Add month filter if provided
+    const month = searchParams.get('month');
+    if (month) {
+      query.Month = month;
+    }
 
-    // Get paginated results
+    // Add important days filter if provided
+    const important = searchParams.get('important');
+    if (important === 'true') {
+      query.importantDay = true;
+    }
+
+    // Get total count for pagination
+    const totalCount = await collection.countDocuments(query);
+
+    // Fetch paginated occasions
     const occasions = await collection
       .find(query)
       .sort({ Month: 1, PersianDayNumber: 1 })
-      .skip((page - 1) * limit)
+      .skip(skip)
       .limit(limit)
       .toArray();
 
     return NextResponse.json({
       occasions,
       pagination: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
+        totalPages: Math.ceil(totalCount / limit),
+        currentPage: page,
+        totalItems: totalCount,
       },
     });
   } catch (error) {
-    console.error('Error fetching occasions:', error);
+    console.error('Error in GET /api/occasions:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch occasions' },
+      { error: 'Internal server error' },
       { status: 500 }
     );
+  } finally {
+    // Close the connection
+    await client.close();
   }
 }
 
 // POST - Create new occasion
 export async function POST(req: NextRequest) {
-  const client = await clientPromise;
-
   try {
+    const user = await getUserFromHeaders();
+
+    if (!canManageOccasions(user.role)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
+    await client.connect();
     const db = client.db('farakhor');
     const collection = db.collection('farakhorCollection');
 
-    const occasion = await req.json();
+    const body = await req.json();
+    const occasion = await collection.insertOne(body);
 
-    // Validate required fields
-    const requiredFields = [
-      'ShortTitle',
-      'EventTitle',
-      'Month',
-      'PersianDayNumber',
-    ];
-    for (const field of requiredFields) {
-      if (!occasion[field]) {
-        return NextResponse.json(
-          { error: `Missing required field: ${field}` },
-          { status: 400 }
-        );
-      }
-    }
-
-    // Convert PersianDayNumber to number if it's a string
-    occasion.PersianDayNumber = Number(occasion.PersianDayNumber);
-
-    // Set default values for optional fields
-    occasion.importantDay = occasion.importantDay || false;
-    occasion.ModalStatus = occasion.ModalStatus || false;
-
-    const result = await collection.insertOne(occasion);
-
-    return NextResponse.json(
-      {
-        message: 'Occasion created successfully',
-        _id: result.insertedId,
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({
+      message: 'Occasion created successfully',
+      id: occasion.insertedId,
+    });
   } catch (error) {
     console.error('Error creating occasion:', error);
     return NextResponse.json(
       { error: 'Failed to create occasion' },
       { status: 500 }
     );
+  } finally {
+    await client.close();
   }
 }
 
 // PATCH - Update occasion
 export async function PATCH(req: NextRequest) {
-  const client = await clientPromise;
-
   try {
+    await client.connect();
     const db = client.db('farakhor');
     const collection = db.collection('farakhorCollection');
 
@@ -168,14 +166,15 @@ export async function PATCH(req: NextRequest) {
       { error: 'Failed to update occasion' },
       { status: 500 }
     );
+  } finally {
+    await client.close();
   }
 }
 
 // DELETE - Delete occasion
 export async function DELETE(req: NextRequest) {
-  const client = await clientPromise;
-
   try {
+    await client.connect();
     const db = client.db('farakhor');
     const collection = db.collection('farakhorCollection');
 
@@ -207,5 +206,7 @@ export async function DELETE(req: NextRequest) {
       { error: 'Failed to delete occasion' },
       { status: 500 }
     );
+  } finally {
+    await client.close();
   }
 }

@@ -17,14 +17,33 @@ if (!connectionString) {
 
 // Now you can use `connectionString` for your MongoDB connection.
 
-const uri = process.env.MONGODB_URI || process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI as string;
+if (!uri) {
+  throw new Error('Please define the MONGODB_URI environment variable');
+}
+
+function getMonthName(monthNumber: number): string {
+  const months = [
+    'فروردین',
+    'اردیبهشت',
+    'خرداد',
+    'تیر',
+    'امرداد',
+    'شهریور',
+    'مهر',
+    'آبان',
+    'آذر',
+    'دی',
+    'بهمن',
+    'اسفند',
+  ];
+  return months[monthNumber - 1];
+}
 
 export async function GET() {
-  let client: MongoClient | null = null;
+  const client = new MongoClient(uri);
 
   try {
-    console.log('Attempting to connect to MongoDB...');
-    client = new MongoClient(uri!);
     await client.connect();
     console.log('Successfully connected to MongoDB');
 
@@ -54,36 +73,12 @@ export async function GET() {
       importantDays,
     });
   } catch (error) {
-    console.error('Error fetching dashboard stats:', {
-      error,
-      message: error instanceof Error ? error.message : 'Unknown error',
-      uri: uri?.split('@')[1], // Log only the host part of URI for security
-    });
+    console.error('Error fetching dashboard stats:', error);
     return NextResponse.json(
       { error: 'Failed to fetch dashboard stats' },
       { status: 500 }
     );
   } finally {
-    if (client) {
-      await client.close();
-    }
+    await client.close();
   }
-}
-
-function getMonthName(month: number): string {
-  const months = [
-    'فروردین',
-    'اردیبهشت',
-    'خرداد',
-    'تیر',
-    'امرداد',
-    'شهریور',
-    'مهر',
-    'آبان',
-    'آذر',
-    'دی',
-    'بهمن',
-    'اسفند',
-  ];
-  return months[month - 1];
 }

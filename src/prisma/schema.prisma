@@ -7,11 +7,38 @@ datasource db {
   url      = env("MONGODB_URI")
 }
 
+enum Role {
+  ADMIN
+  COMPOSER
+  VIEWER
+}
+
+model user {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  email         String     @unique
+  username      String     @unique
+  password      String
+  role          Role       @default(VIEWER)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  createdOccasions Occasion[] @relation("CreatedBy")
+  updatedOccasions Occasion[] @relation("UpdatedBy")
+
+  @@map("user")
+}
+
 model Occasion {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String?
-  date        DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String?
+  date          DateTime
+  hidden        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  createdBy     user     @relation("CreatedBy", fields: [createdById], references: [id])
+  createdById   String   @db.ObjectId
+  updatedBy     user     @relation("UpdatedBy", fields: [updatedById], references: [id])
+  updatedById   String   @db.ObjectId
+
+  @@map("farakhorCollection")
 } 
