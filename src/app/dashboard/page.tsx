@@ -35,6 +35,7 @@ export default function Dashboard() {
   });
   const [occasions, setOccasions] = useState<Occasion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [authChecking, setAuthChecking] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [filterImportant, setFilterImportant] = useState(false);
@@ -101,6 +102,20 @@ export default function Dashboard() {
   }, [debouncedSearch, selectedMonth, filterImportant, page]);
 
   useEffect(() => {
+    // Check authentication status
+    fetch('/api/auth/me')
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error('Not authenticated');
+        }
+        setAuthChecking(false);
+      })
+      .catch(() => {
+        router.push('/login?redirect=/dashboard');
+      });
+  }, [router]);
+
+  useEffect(() => {
     fetchDashboardData();
   }, [fetchDashboardData]);
 
@@ -145,9 +160,45 @@ export default function Dashboard() {
     </div>
   );
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        router.push('/login');
+      } else {
+        throw new Error('Failed to logout');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      setError('خطا در خروج از سیستم');
+    }
+  };
+
+  if (authChecking) {
+    return (
+      <div className='min-h-screen flex items-center justify-center'>
+        <div className='text-center'>
+          <div className='inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900'></div>
+          <p className='mt-2'>در حال بررسی دسترسی...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='space-y-6'>
-      <h1 className='text-3xl font-bold'>داشبورد مدیریت گاه سنج</h1>
+      <div className='flex justify-between items-center'>
+        <h1 className='text-3xl font-bold'>داشبورد مدیریت گاه سنج</h1>
+        <button
+          onClick={handleLogout}
+          className='px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors'
+        >
+          خروج
+        </button>
+      </div>
 
       {/* Stats Cards */}
       <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
