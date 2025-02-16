@@ -1,4 +1,4 @@
-import { Inter } from 'next/font/google';
+import { Inter, Quicksand } from 'next/font/google';
 import '../styles/globals.css';
 import { Hamishe } from '../../public/fonts/fonts';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -6,6 +6,11 @@ import { metadata } from './metadata';
 import ClientLayout from '../components/ClientLayout';
 
 const inter = Inter({ subsets: ['latin'] });
+const quicksand = Quicksand({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 // Export metadata
 export { metadata };
@@ -16,7 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='fa' dir='rtl' className={`${Hamishe.variable}`}>
+    <html
+      lang='fa'
+      dir='rtl'
+      className={`${Hamishe.variable} ${quicksand.className}`}
+    >
       <head>
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link

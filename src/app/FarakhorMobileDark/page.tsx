@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+} from 'react';
 import jalaali from 'jalaali-js';
 import Image from 'next/image';
 import { findPreviousDay } from '@/utils/findPreviousDay';
@@ -44,7 +50,10 @@ const Occasions: React.FC = () => {
     []
   );
 
-  const isLeapYear = (year: number) => leapYears.includes(year);
+  const isLeapYear = useCallback(
+    (year: number) => leapYears.includes(year),
+    [leapYears]
+  );
 
   const isValidUrl = (url: string) => {
     try {
@@ -96,22 +105,31 @@ const Occasions: React.FC = () => {
     return `${day} ${georgianMonthMapping[month - 1]}`;
   };
 
-  const fetchOccasions = async (monthName: string) => {
-    setLoading(true);
+  const fetchOccasions = useCallback(async () => {
     try {
-      const response = await fetch(`/api/farakhor/${monthName}`);
-      const data: Occasion[] = await response.json();
-      console.log('Occasion', data);
+      setLoading(true);
+      const response = await fetch('/api/occasions');
+      if (!response.ok) {
+        throw new Error('Failed to fetch occasions');
+      }
+      const data = await response.json();
 
-      const filteredData = Array.isArray(data)
-        ? data.filter((event) => event.ShortTitle)
-        : [];
+      // Extract occasions array from the response
+      const occasions = data.occasions || [];
 
+      // Filter occasions for the current month
       const today = new Date();
       const jToday = jalaali.toJalaali(today);
-      const currentYear = jToday.jy;
+      const currentMonthName = Object.keys(monthMapping).find(
+        (key) => monthMapping[key] === jToday.jm
+      );
 
-      filteredData.sort((a, b) => {
+      const filteredOccasions = occasions.filter(
+        (occ) => occ.Month === currentMonthName
+      );
+
+      // Sort occasions by day number
+      const sortedOccasions = [...filteredOccasions].sort((a, b) => {
         const dayA = isLeapYear(currentYear)
           ? a.PersianDayNumberK
           : a.PersianDayNumber;
@@ -121,16 +139,21 @@ const Occasions: React.FC = () => {
         return dayA - dayB;
       });
 
-      setCurrentMonthEvents(filteredData);
-      setPreviousDay(findPreviousDay(filteredData));
+      setCurrentMonthEvents(sortedOccasions);
     } catch (error) {
       console.error('Error fetching occasions:', error);
       setCurrentMonthEvents([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentYear, isLeapYear, monthMapping]); // Only depend on stable values
 
+  // Fetch occasions only on mount and when month/year changes
+  useEffect(() => {
+    fetchOccasions();
+  }, [fetchOccasions]);
+
+  // Set current month name separately
   useEffect(() => {
     const today = new Date();
     const jToday = jalaali.toJalaali(today);
@@ -138,7 +161,6 @@ const Occasions: React.FC = () => {
       (key) => monthMapping[key] === jToday.jm
     );
     setCurrentMonthName(newName || '');
-    fetchOccasions(newName || '');
   }, [monthMapping]);
 
   useEffect(() => {
@@ -184,7 +206,7 @@ const Occasions: React.FC = () => {
       (key) => monthMapping[key] === newMonthIndex
     );
     setCurrentMonthName(newMonthName || '');
-    fetchOccasions(newMonthName || '');
+    fetchOccasions();
   };
 
   const resetToToday = () => {
@@ -195,7 +217,7 @@ const Occasions: React.FC = () => {
       (key) => monthMapping[key] === jToday.jm
     );
     setCurrentMonthName(newName || '');
-    fetchOccasions(newName || '');
+    fetchOccasions();
   };
 
   const handleDayClick = (occasion: Occasion) => {

@@ -66,24 +66,24 @@ export default function EditOccasion() {
     'اسفند',
   ];
 
-  useEffect(() => {
-    fetchOccasion();
-  }, [id]);
-
-  const fetchOccasion = async () => {
+  const fetchOccasion = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await fetch(`/api/occasions/${id}`);
-      if (!response.ok) throw new Error('Failed to fetch occasion');
       const data = await response.json();
       setOccasion(data);
       setLogoUrl(data.LogoLink);
       setImageUrl(data.ModalImageLink);
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'An error occurred');
+      console.error('Error fetching occasion:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchOccasion();
+  }, [fetchOccasion]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -36,7 +36,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
       <main className='flex-grow' style={{ direction: 'ltr' }}>
         {children}
       </main>
-      {footerRoutes.includes(pathname) && <Footer />}
+      {pathname && footerRoutes.includes(pathname) && <Footer />}
     </div>
   );
 }

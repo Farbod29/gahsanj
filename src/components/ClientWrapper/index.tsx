@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
+import Head from 'next/head';
 import Footer from '../Footer/Footer';
 
 export default function ClientWrapper({ children }: { children: ReactNode }) {
@@ -20,17 +21,17 @@ export default function ClientWrapper({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <head>
+      <Head>
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
           href='https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap'
           rel='stylesheet'
         />
-      </head>
+      </Head>
       <main className='flex-grow' style={{ direction: 'rtl' }}>
         {children}
       </main>
-      {footerRoutes.includes(pathname) && <Footer />}
+      {pathname && footerRoutes.includes(pathname) && <Footer />}
     </>
   );
 }

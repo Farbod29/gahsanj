@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useDebounce } from '../../../hooks/useDebounce';
@@ -24,7 +24,7 @@ interface PaginationData {
 
 export default function OccasionsPage() {
   const [occasions, setOccasions] = useState<Occasion[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [currentMonth, setCurrentMonth] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [pagination, setPagination] = useState<PaginationData>({
@@ -51,11 +51,7 @@ export default function OccasionsPage() {
     'اسفند',
   ];
 
-  useEffect(() => {
-    fetchOccasions();
-  }, [currentMonth, debouncedSearch, pagination.page]);
-
-  const fetchOccasions = async () => {
+  const fetchOccasions = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams({
@@ -63,19 +59,33 @@ export default function OccasionsPage() {
         limit: pagination.limit.toString(),
       });
 
-      if (currentMonth) params.append('month', currentMonth);
-      if (debouncedSearch) params.append('search', debouncedSearch);
+      if (currentMonth) {
+        params.append('month', currentMonth);
+      }
+
+      if (debouncedSearch) {
+        params.append('search', debouncedSearch);
+      }
 
       const response = await fetch(`/api/occasions?${params}`);
       const data = await response.json();
-      setOccasions(data.occasions);
-      setPagination(data.pagination);
+      setOccasions(data.occasions || []);
+      setPagination((prev) => ({
+        ...prev,
+        total: data.total,
+        totalPages: data.totalPages,
+      }));
     } catch (error) {
       console.error('Error fetching occasions:', error);
+      setOccasions([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [pagination.page, pagination.limit, currentMonth, debouncedSearch]);
+
+  useEffect(() => {
+    fetchOccasions();
+  }, [fetchOccasions]);
 
   const handleDelete = async (id: string) => {
     if (!confirm('آیا از حذف این مناسبت اطمینان دارید؟')) return;

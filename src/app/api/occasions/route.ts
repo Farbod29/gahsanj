@@ -19,8 +19,8 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const month = searchParams.get('month');
     const search = searchParams.get('search');
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const page = searchParams.get('page');
+    const limit = searchParams.get('limit');
     const important = searchParams.get('important') === 'true';
 
     // Build query
@@ -39,26 +39,36 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    // Get total count for pagination
-    const total = await collection.countDocuments(query);
+    // If page and limit are provided, return paginated results
+    if (page && limit) {
+      const pageNum = parseInt(page);
+      const limitNum = parseInt(limit);
+      const total = await collection.countDocuments(query);
+      const occasions = await collection
+        .find(query)
+        .sort({ Month: 1, PersianDayNumber: 1 })
+        .skip((pageNum - 1) * limitNum)
+        .limit(limitNum)
+        .toArray();
 
-    // Get paginated results
+      return NextResponse.json({
+        occasions,
+        pagination: {
+          total,
+          page: pageNum,
+          limit: limitNum,
+          totalPages: Math.ceil(total / limitNum),
+        },
+      });
+    }
+
+    // If no pagination parameters, return all occasions
     const occasions = await collection
       .find(query)
       .sort({ Month: 1, PersianDayNumber: 1 })
-      .skip((page - 1) * limit)
-      .limit(limit)
       .toArray();
 
-    return NextResponse.json({
-      occasions,
-      pagination: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
-    });
+    return NextResponse.json({ occasions });
   } catch (error) {
     console.error('Error fetching occasions:', error);
     return NextResponse.json(

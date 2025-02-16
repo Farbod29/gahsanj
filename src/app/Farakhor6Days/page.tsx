@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import jalaali from 'jalaali-js';
 import Image from 'next/image';
 
@@ -88,7 +88,7 @@ const Occasions6Days: React.FC = () => {
 
   const isLeapYear = (year: number) => leapYears.includes(year);
 
-  const getPersianMonthName = () => {
+  const getPersianMonthName = useCallback(() => {
     const today = new Date();
     const persianDate = jalaali.toJalaali(today);
     const persianMonthNumber = persianDate.jm;
@@ -107,22 +107,36 @@ const Occasions6Days: React.FC = () => {
       'اسفند',
     ];
     return persianMonths[persianMonthNumber - 1];
-  };
+  }, []);
 
-  const fetchOccasions = async () => {
-    setLoading(true);
+  const fetchOccasions = useCallback(async () => {
     try {
-      const currentMonth = getPersianMonthName();
-      const response = await fetch(`/api/farakhor6Days/${currentMonth}`);
-      const data: Occasion[] = await response.json();
-      setCurrentMonthEvents(data);
+      setLoading(true);
+      const response = await fetch('/api/occasions');
+      if (!response.ok) {
+        throw new Error('Failed to fetch occasions');
+      }
+      const data = await response.json();
+
+      // The API returns { occasions: [...] }, so we need to extract the occasions array
+      const occasions = data.occasions || [];
+
+      // Filter occasions for the current month if needed
+      const currentMonthName = getPersianMonthName();
+      const filteredOccasions = occasions.filter(
+        (occ) => occ.Month === currentMonthName
+      );
+      setCurrentMonthEvents(filteredOccasions);
+
+      console.log('API Response:', data);
+      console.log('Filtered Occasions:', filteredOccasions);
     } catch (error) {
       console.error('Error fetching occasions:', error);
       setCurrentMonthEvents([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchOccasions();
@@ -135,7 +149,9 @@ const Occasions6Days: React.FC = () => {
     }
   };
 
-  const toPersianNum = (num: number | string) => {
+  const toPersianNum = (num: number | string | undefined | null) => {
+    if (num === undefined || num === null) return '';
+
     const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     return num
       .toString()
@@ -166,6 +182,10 @@ const Occasions6Days: React.FC = () => {
                 ? '/assets/LogoMobMain.png'
                 : 'https://gahshomar.com/wp-content/uploads/2024/08/gahshomar-dark.svg';
 
+            const dayNumber = isLeapYear(currentYear)
+              ? event.PersianDayNumberK
+              : event.PersianDayNumber;
+
             return (
               <div
                 key={event._id}
@@ -194,7 +214,7 @@ const Occasions6Days: React.FC = () => {
                   <span
                     className={`text-3xl sm:text-3xl font-bold ${isToday ? 'text-white' : 'text-gray-700'}`}
                   >
-                    {toPersianNum(event.PersianDayNumberK)}
+                    {toPersianNum(dayNumber)}
                   </span>
                   <span className='text-[#CAB9B9] text-sm sm:text-lg'>
                     {event.Month}
