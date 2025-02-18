@@ -2,8 +2,18 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcryptjs';
 import clientPromise from '@/lib/mongodb';
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+
+if (!process.env.NEXTAUTH_SECRET) {
+  throw new Error('Please provide NEXTAUTH_SECRET environment variable');
+}
+
+if (!process.env.MONGODB_URI) {
+  throw new Error('Please provide MONGODB_URI environment variable');
+}
 
 const handler = NextAuth({
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -16,31 +26,36 @@ const handler = NextAuth({
           throw new Error('Invalid credentials');
         }
 
-        const client = await clientPromise;
-        const db = client.db('farakhor');
-        const user = await db
-          .collection('users')
-          .findOne({ email: credentials.email });
+        try {
+          const client = await clientPromise;
+          const db = client.db('farakhor');
+          const user = await db
+            .collection('users')
+            .findOne({ email: credentials.email });
 
-        if (!user) {
-          throw new Error('No user found');
+          if (!user) {
+            throw new Error('No user found');
+          }
+
+          const isPasswordValid = await compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            throw new Error('Invalid password');
+          }
+
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            username: user.username,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error('Authorization error:', error);
+          throw new Error('Authentication failed');
         }
-
-        const isPasswordValid = await compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          throw new Error('Invalid password');
-        }
-
-        return {
-          id: user._id.toString(),
-          email: user.email,
-          username: user.username,
-          role: user.role,
-        };
       },
     }),
   ],
@@ -69,6 +84,7 @@ const handler = NextAuth({
     maxAge: 24 * 60 * 60, // 24 hours
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === 'development',
 });
 
 export { handler as GET, handler as POST };

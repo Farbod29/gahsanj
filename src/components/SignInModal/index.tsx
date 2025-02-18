@@ -9,6 +9,21 @@ interface SignInModalProps {
   onClose: () => void;
 }
 
+const getErrorMessage = (error: string) => {
+  switch (error) {
+    case 'CredentialsSignin':
+    case 'No user found':
+    case 'Invalid password':
+      return 'ایمیل یا رمز عبور نادرست است';
+    case 'Invalid credentials':
+      return 'لطفا ایمیل و رمز عبور را وارد کنید';
+    case 'Authentication failed':
+      return 'خطا در احراز هویت. لطفا دوباره تلاش کنید';
+    default:
+      return 'خطا در ورود به سیستم. لطفا دوباره تلاش کنید';
+  }
+};
+
 export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,21 +38,35 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
     setLoading(true);
     setError('');
 
+    if (!email || !password) {
+      setError('لطفا ایمیل و رمز عبور را وارد کنید');
+      setLoading(false);
+      return;
+    }
+
     try {
       const result = await signIn('credentials', {
         email,
         password,
         redirect: false,
+        callbackUrl: '/dashboard',
       });
 
       if (result?.error) {
-        setError('ایمیل یا رمز عبور نادرست است');
-      } else {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Sign in error:', result.error);
+        }
+        setError(getErrorMessage(result.error));
+      } else if (result?.ok) {
         onClose();
+        router.push('/dashboard');
         router.refresh();
       }
-    } catch (error) {
-      setError('خطا در ورود به سیستم');
+    } catch (error: any) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Sign in error:', error);
+      }
+      setError(getErrorMessage(error?.message || 'Authentication failed'));
     } finally {
       setLoading(false);
     }
@@ -87,10 +116,11 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
               name='email'
               type='email'
               required
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#373D70] focus:border-[#373D70]'
+              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#373D70] focus:border-[#373D70] text-left'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder='example@email.com'
+              dir='ltr'
             />
           </div>
 
@@ -106,15 +136,18 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
               name='password'
               type='password'
               required
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#373D70] focus:border-[#373D70]'
+              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#373D70] focus:border-[#373D70] text-left'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder='رمز عبور خود را وارد کنید'
+              dir='ltr'
             />
           </div>
 
           {error && (
-            <div className='text-red-500 text-sm text-center'>{error}</div>
+            <div className='text-red-500 text-sm text-center bg-red-50 p-2 rounded'>
+              {error}
+            </div>
           )}
 
           <button
