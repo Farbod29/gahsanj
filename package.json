@@ -11,8 +11,16 @@
     "format": "prettier --write .",
     "pc": "yarn format && yarn lint --fix && next build",
     "pc:quick": "prettier --write . && next build",
-    "pcr": "prettier --write . && yarn lint && yarn build && yarn vercel-build",
-    "vercel-build": "vercel build --local-config"
+    "pcr": "prettier --write . && yarn lint && yarn build",
+    "vercel:dev": "vercel dev",
+    "vercel:build": "vercel build",
+    "vercel:deploy": "vercel deploy",
+    "test:deploy": "yarn pcr && yarn vercel:build",
+    "v": "vercel dev",
+    "vb": "vercel build",
+    "vd": "vercel deploy",
+    "t": "yarn pcr && yarn vb",
+    "prepush": "yarn format && yarn lint && yarn build && yarn vb"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.7.4",
@@ -42,7 +50,6 @@
     "use-react-screenshot": "^4.0.0"
   },
   "devDependencies": {
-    "@next/swc-darwin-x64": "^15.1.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
