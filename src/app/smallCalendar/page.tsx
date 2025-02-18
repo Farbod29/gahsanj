@@ -50,7 +50,7 @@ function convertToIraniMelli(date: Date) {
   const { jy, jm, jd } = jalaali.toJalaali(date);
   const iraniMelli = jy - 1396;
   return toPersianNums(
-    `${iraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`,
+    `${iraniMelli}/${jm < 10 ? '0' + jm : jm}/${jd < 10 ? '0' + jd : jd}`
   );
 }
 
@@ -101,17 +101,17 @@ function PersianCalendar() {
   const convertToGregorianDay = (
     jalaaliYear: number,
     jalaaliMonth: number,
-    jalaaliDay: number,
+    jalaaliDay: number
   ) => {
     const gregorianDate = jalaali.toGregorian(
       jalaaliYear,
       jalaaliMonth,
-      jalaaliDay,
+      jalaaliDay
     );
     return new Date(
       gregorianDate.gy,
       gregorianDate.gm - 1,
-      gregorianDate.gd,
+      gregorianDate.gd
     ).getDate();
   };
 
@@ -135,12 +135,12 @@ function PersianCalendar() {
   const firstDayOfJalaaliMonth = jalaali.toGregorian(
     currentYear,
     currentMonth,
-    1,
+    1
   );
   const firstDayDate = new Date(
     firstDayOfJalaaliMonth.gy,
     firstDayOfJalaaliMonth.gm - 1,
-    firstDayOfJalaaliMonth.gd,
+    firstDayOfJalaaliMonth.gd
   );
   const firstDayOfWeek = firstDayDate.getDay() - 1;
 
@@ -151,55 +151,55 @@ function PersianCalendar() {
   const emptySlots = Array.from({ length: offset }, (_, index) => (
     <div
       key={`empty-${index}`}
-      className="border rounded text-center p-3 text-gray-500 opacity-50"
+      className='border rounded text-center p-3 text-gray-500 opacity-50'
     ></div>
   ));
 
   // Render the component
   return (
-    <div className="w-full h-full">
+    <div className='w-full h-full'>
       <div
-        dir="rtl"
-        className="max-w-md mx-auto rounded-lg overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full"
+        dir='rtl'
+        className='max-w-md mx-auto rounded-lg overflow-hidden bg-white my-2 text-xl sm:text-3xl w-full'
       >
-        <div className="flex justify-between items-center bg-[#FF8200] text-white p-3">
-          <div className="absolute top-4">
+        <div className='flex justify-between items-center bg-[#FF8200] text-white p-3'>
+          <div className='absolute top-4'>
             <MyModal />
           </div>
           <button
             onClick={goToPreviousMonth}
-            className="p-2 text-4xl sm:text-8xl"
+            className='p-2 text-4xl sm:text-8xl'
           >
             ‹
           </button>
-          <span className="p-3 ml-3 items-center pt-4 pb-4">
-            <p className="text-4xl sm:text-6xl pb-1 pt-2">
+          <span className='p-3 ml-3 items-center pt-4 pb-4'>
+            <p className='text-4xl sm:text-6xl pb-1 pt-2'>
               {jalaaliMonths[currentMonth - 1]}
             </p>
-            <div className="flex gap-12">
-              <p className="text-sm sm:text-xl pt-3">{NameOfTheDay}</p>
-              <p className="text-sm sm:text-xl pt-3">{IraniMelli}</p>{' '}
+            <div className='flex gap-12'>
+              <p className='text-sm sm:text-xl pt-3'>{NameOfTheDay}</p>
+              <p className='text-sm sm:text-xl pt-3'>{IraniMelli}</p>{' '}
               {/* This will now show the correct date */}
             </div>
           </span>
-          <button onClick={goToNextMonth} className="p-2 text-4xl sm:text-8xl">
+          <button onClick={goToNextMonth} className='p-2 text-4xl sm:text-8xl'>
             ›
           </button>
         </div>
-        <div className="grid grid-cols-7 gap-1 p-4">
+        <div className='grid grid-cols-7 gap-1 p-4'>
           {persianWeekDays.map((day, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-center px-4"
+              className='flex flex-col items-center justify-center px-4'
             >
-              <span className="text-sm sm:text-xl text-gray-500">
+              <span className='text-sm sm:text-xl text-gray-500'>
                 {day.day}
               </span>
               {/* <span className="text-sm sm:text-xl text-gray-500">روز</span> */}
-              <span className="text-sm sm:text-xl text-gray-500">
+              <span className='text-sm sm:text-xl text-gray-500'>
                 {day.dayShort}
               </span>
-              <span className="text-sm sm:text-xl text-gray-600">
+              <span className='text-sm sm:text-xl text-gray-600'>
                 {day.dayLatinShort}
               </span>
             </div>
@@ -213,7 +213,7 @@ function PersianCalendar() {
             const gregorianDay = convertToGregorianDay(
               currentYear,
               currentMonth,
-              day,
+              day
             );
             return (
               <div
@@ -224,8 +224,8 @@ function PersianCalendar() {
                     : 'text-gray-500'
                 }`}
               >
-                <span className="font-bold">{toPersianDigits(day)}</span>
-                <span className="text-[12px] absolute top-0 left-0 mt-6 ml-0.5">
+                <span className='font-bold'>{toPersianDigits(day)}</span>
+                <span className='text-[12px] absolute top-0 left-0 mt-6 ml-0.5'>
                   {gregorianDay}
                 </span>
               </div>

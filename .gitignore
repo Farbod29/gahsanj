@@ -65,3 +65,15 @@ public/assets/FarakhorMobileDarkIframe_files/
 prisma/*
 # Ignore all files in the src/app/api directory
 public/assets/FarakhorMobileDarkIframe_files/
+
+# Build artifacts
+public/assets/localhost_files/
+*.generated.*
+/public/assets/localhost.html
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

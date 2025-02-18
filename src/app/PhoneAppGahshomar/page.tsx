@@ -40,8 +40,6 @@ const monthIndices: { [key: string]: string } = {
   '۱۲': 'اسفند',
 };
 
-
-
 const gregorianMonthsPersianText = {
   1: 'ژانویه (Jan)',
   2: 'فوریه (Feb)',

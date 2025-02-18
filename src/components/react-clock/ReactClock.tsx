@@ -40,7 +40,7 @@ export default function ReactClock({ timeZone, size }: ReactClockProps) {
   }, [timeZone]);
 
   return (
-    <div className="inline-block m-2">
+    <div className='inline-block m-2'>
       <Clock value={currentTime} size={size} />
     </div>
   );

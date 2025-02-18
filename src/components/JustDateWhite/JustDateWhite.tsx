@@ -61,16 +61,16 @@ export default function JustDateWhite() {
   }, []);
 
   return (
-    <main className="flexw-full flex-col items-center px-2 sm:px-4 md:px-8 z-10">
-      <div className="w-full max-w-4xl mx-auto mt-2">
-        <div className="justify-center items-center text-center text-3xl md:text-2xl lg:text-2xl text-[#ffffff] flex flex-row-reverse -mt-4">
-          <div className="p-1">{dates.day}</div>
+    <main className='flexw-full flex-col items-center px-2 sm:px-4 md:px-8 z-10'>
+      <div className='w-full max-w-4xl mx-auto mt-2'>
+        <div className='justify-center items-center text-center text-3xl md:text-2xl lg:text-2xl text-[#ffffff] flex flex-row-reverse -mt-4'>
+          <div className='p-1'>{dates.day}</div>
           <div>{dates.monthName}</div>
           <br />
         </div>
       </div>
-      <div className="text-center p-4 rounded-xl flex justify-center items-center">
-        <div className="text-center text-[#ffffff] text-4xl justify-center items-center p-0 xm:text-xl lg:text-3xl">
+      <div className='text-center p-4 rounded-xl flex justify-center items-center'>
+        <div className='text-center text-[#ffffff] text-4xl justify-center items-center p-0 xm:text-xl lg:text-3xl'>
           {dates.weekday}
         </div>
       </div>

@@ -113,7 +113,7 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({
   const emptySlots = Array.from({ length: offset }, (_, index) => (
     <div
       key={`empty-${index}`}
-      className="border rounded text-center p-3 text-gray-500 opacity-50"
+      className='border rounded text-center p-3 text-gray-500 opacity-50'
     />
   ));
 
