@@ -4,6 +4,7 @@ import { Hamishe } from '../../public/fonts/fonts';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { metadata } from './metadata';
 import ClientLayout from '../components/ClientLayout';
+import AuthSessionProvider from '@/components/AuthSessionProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 const quicksand = Quicksand({
@@ -34,7 +35,9 @@ export default function RootLayout({
         />
       </head>
       <body className='Hamishe min-h-screen flex flex-col'>
-        <ClientLayout>{children}</ClientLayout>
+        <AuthSessionProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </AuthSessionProvider>
         <SpeedInsights />
       </body>
     </html>
