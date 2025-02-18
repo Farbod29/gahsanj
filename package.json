@@ -22,7 +22,6 @@
     "axios": "^1.7.1",
     "bcryptjs": "^3.0.1",
     "cloudinary": "^2.5.1",
-    "D": "^1.0.0",
     "date-fns": "^3.4.0",
     "date-fns-jalali": "^3.4.0-0",
     "framer-motion": "10.16.4",
@@ -41,6 +40,7 @@
     "use-react-screenshot": "^4.0.0"
   },
   "devDependencies": {
+    "@next/swc-darwin-x64": "^15.1.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

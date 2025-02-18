@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const getErrorMessage = (error: string | null) => {
@@ -16,7 +16,7 @@ const getErrorMessage = (error: string | null) => {
   }
 };
 
-export default function ErrorPage() {
+function ErrorPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
@@ -46,5 +46,21 @@ export default function ErrorPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ErrorPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className='min-h-screen flex items-center justify-center bg-gray-50'>
+          <div className='text-center'>
+            <h2 className='text-xl font-semibold'>در حال بارگذاری...</h2>
+          </div>
+        </div>
+      }
+    >
+      <ErrorPageContent />
+    </Suspense>
   );
 }
