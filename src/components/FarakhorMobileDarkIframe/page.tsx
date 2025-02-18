@@ -77,7 +77,10 @@ const FarakhorMobileDarkIframe: React.FC = () => {
     []
   );
 
-  const isLeapYear = (year: number) => leapYears.includes(year);
+  const isLeapYear = useCallback(
+    (year: number) => leapYears.includes(year),
+    [leapYears]
+  );
 
   const isValidUrl = (url: string | undefined | null): url is string => {
     console.log('isValidUrl checking:', { url, type: typeof url });
@@ -230,22 +233,24 @@ const FarakhorMobileDarkIframe: React.FC = () => {
       );
 
       if (monthName) {
-        // Batch all state updates together
-        await Promise.resolve().then(() => {
-          setCurrentYear(todayYear);
-          setCurrentDisplayYear(todayYear);
-          setCurrentPersianMonth(todayMonth);
-          setTodayPersianMonth(todayMonth);
-          setCurrentMonthName(monthName);
-        });
-
-        // Fetch occasions after state updates are complete
+        setCurrentYear(todayYear);
+        setCurrentDisplayYear(todayYear);
+        setCurrentPersianMonth(todayMonth);
+        setTodayPersianMonth(todayMonth);
+        setCurrentMonthName(monthName);
         await fetchOccasions(monthName);
       }
     };
 
     initializeCalendar();
-  }, []); // Run only once on mount
+  }, [
+    fetchOccasions,
+    monthMapping,
+    setCurrentDisplayYear,
+    setCurrentPersianMonth,
+    setCurrentYear,
+    setTodayPersianMonth,
+  ]);
 
   useEffect(() => {
     if (!currentPersianMonth) return;

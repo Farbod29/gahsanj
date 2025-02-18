@@ -136,11 +136,11 @@ const Occasions6Days: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [getPersianMonthName]);
 
   useEffect(() => {
     fetchOccasions();
-  }, []);
+  }, [fetchOccasions]);
 
   const handleDayClick = (occasion: Occasion) => {
     if (occasion.ModalStatus) {
