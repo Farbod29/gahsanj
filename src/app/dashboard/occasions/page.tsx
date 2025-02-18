@@ -110,7 +110,7 @@ export default function OccasionsPage() {
           href='/dashboard/add-occasion'
           className='bg-[#373D70] text-white px-4 py-2 rounded-lg hover:bg-[#4c5494]'
         >
-          افزودن مناسبت جدید
+          افزودن مناسبت/ فراخور جدید
         </Link>
       </div>
 

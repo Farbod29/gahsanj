@@ -20,7 +20,9 @@
     "vb": "vercel build",
     "vd": "vercel deploy",
     "t": "yarn pcr && yarn vb",
-    "prepush": "yarn format && yarn lint && yarn build && yarn vb"
+    "pp": "yarn cache clean && yarn install && yarn format && yarn lint --fix && yarn vb && yarn vd",
+    "clean": "rm -rf node_modules && rm -rf .next && yarn install",
+    "pp:clean": "yarn clean && yarn format && yarn lint --fix && yarn vb && yarn vd"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.7.4",

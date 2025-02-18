@@ -69,13 +69,30 @@ export default function EditOccasion() {
   const fetchOccasion = useCallback(async () => {
     try {
       setLoading(true);
+      setError('');
+
+      // Use MongoDB ObjectId format for the query
       const response = await fetch(`/api/occasions/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch occasion');
+      }
+
       const data = await response.json();
+      if (!data) {
+        throw new Error('No data received');
+      }
+
+      // Set all the state values
       setOccasion(data);
-      setLogoUrl(data.LogoLink);
-      setImageUrl(data.ModalImageLink);
+      setLogoUrl(data.LogoLink || '');
+      setImageUrl(data.ModalImageLink || '');
+
+      console.log('Loaded occasion data:', data); // For debugging
     } catch (error) {
       console.error('Error fetching occasion:', error);
+      setError(
+        error instanceof Error ? error.message : 'Failed to load occasion data'
+      );
     } finally {
       setLoading(false);
     }

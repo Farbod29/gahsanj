@@ -165,7 +165,9 @@ export default function AddOccasion() {
 
   return (
     <div className='max-w-4xl mx-auto p-4'>
-      <h2 className='text-xl font-bold mb-6 text-right'>افزودن مناسبت</h2>
+      <h2 className='text-xl font-bold mb-6 text-right'>
+        افزودن مناسبت/ فراخور
+      </h2>
       <form onSubmit={handleSubmit} className='space-y-6'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           <div>
