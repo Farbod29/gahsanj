@@ -10,7 +10,9 @@
     "postinstall": "prisma generate --schema=src/prisma/schema.prisma",
     "format": "prettier --write .",
     "pc": "yarn format && yarn lint --fix && next build",
-    "pc:quick": "prettier --write . && next build"
+    "pc:quick": "prettier --write . && next build",
+    "pcr": "prettier --write . && yarn lint && yarn build && yarn vercel-build",
+    "vercel-build": "vercel build --local-config"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.7.4",
@@ -51,7 +53,8 @@
     "prettier": "^3.2.5",
     "prisma": "^6.3.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^41.1.4"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

@@ -18,19 +18,6 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
     '/PhoneAppGahshomarNoAIJustModal',
   ];
 
-  useEffect(() => {
-    // const handleResize = () => {
-    //   if (window.innerWidth > 1080) {
-    //     window.location.href = 'https://www.gahshomar.com/';
-    //   }
-    // };
-    // if (window.innerWidth > 1080) {
-    //   window.location.href = 'https://www.gahshomar.com/';
-    // }
-    // window.addEventListener('resize', handleResize);
-    // return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
     <div style={{ direction: 'ltr' }}>
       <main className='flex-grow' style={{ direction: 'ltr' }}>
