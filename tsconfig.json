@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "es2015", // or a higher version like es6, es2017, etc.
     "downlevelIteration": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true, // Allows JavaScript files to be included in your TypeScript project
     "skipLibCheck": true, // Skips type checking of declaration files (*.d.ts)
     "strict": true, // Enables all strict type-checking options
@@ -21,7 +25,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
     "typeRoots": [
       "./node_modules/@types",
@@ -29,13 +35,13 @@
     ]
   },
   "include": [
-    "next-env.d.ts", // Includes Next.js type definitions
-    "**/*.ts", // Include all TypeScript files
-    "**/*.tsx", // Include all TypeScript React files
+    "**/*.ts", // Includes Next.js type definitions
+    "**/*.tsx", // Include all TypeScript files
+    "next-env.d.ts", // Include all TypeScript React files
     "src/**/*.d.ts", // Include all TypeScript declaration files in src
-    ".next/types/**/*.ts",
+    "src/app/api/route.tsx",
     "src/components/buttonComponent/ButtonComponent.js",
-    "src/app/api/route.tsx"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules" // Exclude node_modules from TypeScript compilation

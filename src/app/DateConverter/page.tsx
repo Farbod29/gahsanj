@@ -622,7 +622,7 @@ const DateConverter = () => {
         {direction === 'g2p' ? (
           <div className='mb-6'>
             <label className='block mb-3 text-lg text-blue-200 font-semibold text-right'>
-              تاریخ میلادی:
+              : تاریخ میلادی
             </label>
             <div className='flex justify-between gap-2 rtl'>
               {/* Year Input - سمت چپ */}
@@ -1014,4 +1014,3 @@ export default DateConverter;
 function setManualGregDate(arg0: string) {
   throw new Error('Function not implemented.');
 }
-
