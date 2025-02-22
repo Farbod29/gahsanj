@@ -403,7 +403,7 @@ const FarakhorMobileDarkIframe: React.FC = () => {
                 {/* First Column */}
                 <div className='flex flex-col space-y-2'>
                   <div className='flex items-center whitespace-nowrap'>
-                    <span className='text-gray-300'>ایران نو</span>
+                    {/* <span className='text-gray-300'>ایران نو</span> */}
                     <span className='text-white mx-1'>
                       {toPersianNum((currentYear - 1396).toString())}
                     </span>

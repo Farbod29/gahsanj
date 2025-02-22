@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
 import LogoImage from '@/components/LogoImage';
+import jalaali from 'jalaali-js';
 
 interface Occasion {
   _id: string;
@@ -10,6 +11,7 @@ interface Occasion {
   EventTitle: string;
   Month: string;
   PersianDayNumber: number;
+  PersianDayNumberK?: number;
   Georgian: string;
   GeorgianK: string;
   ModalImageLink: string;
@@ -18,6 +20,7 @@ interface Occasion {
   RefLink: string;
   importantDay: boolean;
   ModalStatus: boolean;
+  globalDay: boolean;
 }
 
 const UploadIcon = () => (
@@ -50,6 +53,11 @@ export default function EditOccasion() {
   const [imageUrl, setImageUrl] = useState('');
   const [isDraggingLogo, setIsDraggingLogo] = useState(false);
   const [isDraggingMedal, setIsDraggingMedal] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
+  const [displayDates, setDisplayDates] = useState({
+    persianToGregorian: '',
+    leapYearDate: '',
+  });
 
   const months = [
     'فروردین',
@@ -122,15 +130,66 @@ export default function EditOccasion() {
     }
   };
 
+  const updateDateDisplay = useCallback(() => {
+    if (!occasion?.Month || !occasion?.PersianDayNumber) {
+      setDisplayDates({
+        persianToGregorian: '',
+        leapYearDate: '',
+      });
+      return;
+    }
+
+    const monthIndex = months.indexOf(occasion.Month) + 1;
+    const { gy, gm, gd } = jalaali.toGregorian(
+      new Date().getFullYear(),
+      monthIndex,
+      occasion.PersianDayNumber
+    );
+
+    const georgianMonths = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    setDisplayDates({
+      persianToGregorian: `${occasion.Month} ${occasion.PersianDayNumber} → ${gd} ${georgianMonths[gm - 1]}`,
+      leapYearDate:
+        occasion.PersianDayNumberK && occasion.GeorgianK
+          ? `${occasion.Month} ${occasion.PersianDayNumberK} → ${occasion.GeorgianK.split(',')[0]} ${georgianMonths[Number(occasion.GeorgianK.split(',')[1]) - 1]}`
+          : '',
+    });
+  }, [
+    occasion?.Month,
+    occasion?.PersianDayNumber,
+    occasion?.PersianDayNumberK,
+    occasion?.GeorgianK,
+  ]);
+
+  useEffect(() => {
+    updateDateDisplay();
+  }, [updateDateDisplay]);
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
     const { name, value, type } = e.target;
+
     setOccasion((prev) => {
       if (!prev) return prev;
-      return {
+
+      const newOccasion = {
         ...prev,
         [name]:
           type === 'checkbox'
@@ -139,6 +198,26 @@ export default function EditOccasion() {
               ? Number(value)
               : value,
       };
+
+      // Clear related fields when a value is cleared
+      if (value === '') {
+        if (name === 'Month') {
+          newOccasion.PersianDayNumber = 0;
+          newOccasion.PersianDayNumberK = 0;
+          newOccasion.Georgian = '';
+          newOccasion.GeorgianK = '';
+        } else if (name === 'PersianDayNumber') {
+          newOccasion.Georgian = '';
+          newOccasion.GeorgianK = '';
+        } else if (name === 'Georgian') {
+          if (newOccasion.globalDay) {
+            newOccasion.PersianDayNumber = 0;
+            newOccasion.PersianDayNumberK = 0;
+          }
+        }
+      }
+
+      return newOccasion;
     });
   };
 
@@ -227,6 +306,257 @@ export default function EditOccasion() {
     [uploadFile]
   );
 
+  const handleGlobalDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isGlobal = e.target.checked;
+    setOccasion((prev) => {
+      if (!prev) return prev;
+
+      if (isGlobal) {
+        // For global days, Georgian dates remain the same
+        if (!prev.Georgian || !prev.Georgian.includes(',')) {
+          return {
+            ...prev,
+            globalDay: isGlobal,
+            PersianDayNumber: 0,
+            PersianDayNumberK: 0,
+            Georgian: '',
+            GeorgianK: '',
+          };
+        }
+
+        // Validate Georgian date format and values
+        const [day, month] = prev.Georgian.split(',').map(Number);
+        if (
+          isNaN(day) ||
+          isNaN(month) ||
+          month < 1 ||
+          month > 12 ||
+          day < 1 ||
+          day > getDaysInMonth(month)
+        ) {
+          return {
+            ...prev,
+            globalDay: isGlobal,
+            PersianDayNumber: 0,
+            PersianDayNumberK: 0,
+            Georgian: '',
+            GeorgianK: '',
+          };
+        }
+
+        // Convert Georgian to Persian
+        const { jy, jm, jd } = jalaali.toJalaali(
+          new Date().getFullYear(),
+          month,
+          day
+        );
+
+        // For global days, Persian dates need to be adjusted for leap years
+        const isCurrentYearLeap = jalaali.isLeapJalaaliYear(jy);
+        const nextYearLeap = jalaali.isLeapJalaaliYear(jy + 1);
+
+        return {
+          ...prev,
+          globalDay: isGlobal,
+          PersianDayNumber: jd,
+          // In leap years, Persian date is one day more for global occasions
+          PersianDayNumberK: isCurrentYearLeap || nextYearLeap ? jd + 1 : jd,
+          GeorgianK: prev.Georgian, // Georgian dates stay the same for global days
+        };
+      } else {
+        // For Persian days, Persian dates remain the same
+        if (!prev.Month || !prev.PersianDayNumber) {
+          return {
+            ...prev,
+            globalDay: isGlobal,
+            Georgian: '',
+            GeorgianK: '',
+          };
+        }
+
+        const monthIndex = months.indexOf(prev.Month) + 1;
+        if (monthIndex === 0) {
+          return {
+            ...prev,
+            globalDay: isGlobal,
+            Georgian: '',
+            GeorgianK: '',
+          };
+        }
+
+        // Validate Persian date
+        const maxDaysInMonth = jalaali.jalaaliMonthLength(
+          new Date().getFullYear(),
+          monthIndex
+        );
+        if (prev.PersianDayNumber > maxDaysInMonth) {
+          return {
+            ...prev,
+            globalDay: isGlobal,
+            Georgian: '',
+            GeorgianK: '',
+          };
+        }
+
+        // Convert Persian to Georgian
+        const { gy, gm, gd } = jalaali.toGregorian(
+          new Date().getFullYear(),
+          monthIndex,
+          prev.PersianDayNumber
+        );
+
+        const georgianDate = `${gd},${String(gm).padStart(2, '0')}`;
+        // For Persian days in leap years, Georgian date is one day earlier
+        const georgianKDate = `${gd - 1},${String(gm).padStart(2, '0')}`;
+
+        return {
+          ...prev,
+          globalDay: isGlobal,
+          Georgian: georgianDate,
+          GeorgianK: georgianKDate,
+          PersianDayNumberK: prev.PersianDayNumber, // Persian dates stay the same for Persian days
+        };
+      }
+    });
+  };
+
+  const decrementGeorgianDate = (georgianDate: string) => {
+    const [day, month] = georgianDate.split(',').map(Number);
+    if (day === 1) {
+      // Handle January to December transition
+      if (month === 1) {
+        return `31,12`; // December 31st
+      }
+      // For other months, get the last day of the previous month
+      const prevMonth = month - 1;
+      return `${getDaysInMonth(prevMonth)},${String(prevMonth).padStart(2, '0')}`;
+    }
+    return `${day - 1},${String(month).padStart(2, '0')}`;
+  };
+
+  const getDaysInMonth = (month: number) => {
+    // Handle February specially for leap years
+    if (month === 2) {
+      // We use our reference year which is 2024 (a leap year)
+      return 29;
+    }
+    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return daysInMonth[month - 1] || 31;
+  };
+
+  const handlePersianDayBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (!value || isNaN(value)) return;
+
+    setOccasion((prev) => {
+      if (!prev) return prev;
+
+      if (prev.globalDay) {
+        // For global days, Persian leap year is one more than normal
+        return {
+          ...prev,
+          PersianDayNumber: value,
+          PersianDayNumberK: value + 1,
+        };
+      } else {
+        // For Persian days, both dates should be the same
+        return {
+          ...prev,
+          PersianDayNumber: value,
+          PersianDayNumberK: value,
+        };
+      }
+    });
+  };
+
+  const handlePersianDayKBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (!value || isNaN(value)) return;
+
+    setOccasion((prev) => {
+      if (!prev) return prev;
+
+      if (prev.globalDay) {
+        // For global days, normal Persian day is one less than leap year
+        return {
+          ...prev,
+          PersianDayNumber: value - 1,
+          PersianDayNumberK: value,
+        };
+      } else {
+        // For Persian days, both dates should be the same
+        return {
+          ...prev,
+          PersianDayNumber: value,
+          PersianDayNumberK: value,
+        };
+      }
+    });
+  };
+
+  const handleGeorgianBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (!value) return;
+
+    setOccasion((prev) => {
+      if (!prev) return prev;
+
+      if (prev.globalDay) {
+        // For global days, both Georgian dates should be the same
+        return {
+          ...prev,
+          Georgian: value,
+          GeorgianK: value,
+        };
+      } else {
+        // For Persian days, leap year date should be one less
+        return {
+          ...prev,
+          Georgian: value,
+          GeorgianK: decrementGeorgianDate(value),
+        };
+      }
+    });
+  };
+
+  const handleGeorgianKBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (!value) return;
+
+    setOccasion((prev) => {
+      if (!prev) return prev;
+
+      if (prev.globalDay) {
+        // For global days, both Georgian dates should be the same
+        return {
+          ...prev,
+          Georgian: value,
+          GeorgianK: value,
+        };
+      } else {
+        // For Persian days, non-leap year date should be one more
+        const [day, month] = value.split(',').map(Number);
+
+        // Handle December 31st to January 1st transition
+        let nextDay = day === getDaysInMonth(month) ? 1 : day + 1;
+        let nextMonth =
+          day === getDaysInMonth(month)
+            ? month === 12
+              ? 1 // If December 31st, go to January
+              : month + 1
+            : month;
+
+        const incrementedDate = `${nextDay},${String(nextMonth).padStart(2, '0')}`;
+
+        return {
+          ...prev,
+          Georgian: incrementedDate,
+          GeorgianK: value,
+        };
+      }
+    });
+  };
+
   if (loading) {
     return (
       <div className='flex justify-center items-center h-64'>
@@ -249,7 +579,206 @@ export default function EditOccasion() {
 
   return (
     <div className='max-w-4xl mx-auto p-4'>
-      <h2 className='text-xl font-bold mb-6 text-right'>ویرایش مناسبت</h2>
+      <div className='flex justify-between items-center mb-6'>
+        <button
+          onClick={() => setShowHelpModal(true)}
+          className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
+        >
+          راهنما
+        </button>
+        <h2 className='text-xl font-bold text-right'>ویرایش مناسبت</h2>
+      </div>
+
+      {showHelpModal && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center'>
+          <div className='bg-white p-6 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto'>
+            <div className='flex justify-between items-center mb-4'>
+              <h3 className='text-xl font-bold'>راهنمای تقویم کبیسه</h3>
+              <button
+                onClick={() => setShowHelpModal(false)}
+                className='text-gray-500 hover:text-gray-700'
+              >
+                ✕
+              </button>
+            </div>
+            <div className='space-y-4'>
+              <div className='overflow-x-auto'>
+                <table className='min-w-full border border-gray-200 mb-4'>
+                  <thead className='bg-gray-50'>
+                    <tr>
+                      <th className='px-4 py-2 border text-right'>مناسبت</th>
+                      <th className='px-4 py-2 border text-right'>
+                        به سال میلادی
+                      </th>
+                      <th className='px-4 py-2 border text-right'>
+                        به سال میلادی کبیسه
+                      </th>
+                      <th className='px-4 py-2 border text-right'>
+                        به سال شمسی
+                      </th>
+                      <th className='px-4 py-2 border text-right'>
+                        به سال شمسی کبیسه
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className='px-4 py-2 border'>نوروز (مناسبت شمسی)</td>
+                      <td className='px-4 py-2 border'>۲۱ مارس</td>
+                      <td className='px-4 py-2 border'>۲۰ مارس</td>
+                      <td className='px-4 py-2 border'>۱ فروردین</td>
+                      <td className='px-4 py-2 border'>۱ فروردین</td>
+                    </tr>
+                    <tr>
+                      <td className='px-4 py-2 border'>
+                        هالووین (مناسبت جهانی)
+                      </td>
+                      <td className='px-4 py-2 border'>۳۱ اکتبر</td>
+                      <td className='px-4 py-2 border'>۳۱ اکتبر</td>
+                      <td className='px-4 py-2 border'>۸ آبان</td>
+                      <td className='px-4 py-2 border'>۹ آبان</td>
+                    </tr>
+                    <tr>
+                      <td className='px-4 py-2 border'>روز جهانی دوستی</td>
+                      <td className='px-4 py-2 border'>۳۰ ژوئیه</td>
+                      <td className='px-4 py-2 border'>۳۰ ژوئیه</td>
+                      <td className='px-4 py-2 border'>۸ امرداد</td>
+                      <td className='px-4 py-2 border'>۹ امرداد</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className='space-y-2 text-right text-gray-700'>
+                <p>
+                  🔹 در سال‌های کبیسه شمسی، مناسبت‌های جهانی یک روز جلوتر در
+                  تقویم شمسی می‌افتند.
+                </p>
+                <p>🔹 در سال‌های غیر کبیسه شمسی، تاریخ‌شان ثابت می‌ماند.</p>
+                <p>
+                  🔹 اگر مناسبت مبتنی بر تقویم فارسی است، عدد شمسی تغییر نمی‌کند
+                  اما معادل میلادی آن در سال کبیسه یک روز تغییر می‌کند.
+                </p>
+                <p>
+                  🔹 اگر مناسبت مبتنی بر تقویم میلادی است، عدد میلادی تغییر
+                  نمی‌کند اما معادل شمسی آن در سال کبیسه یک روز تغییر می‌کند.
+                </p>
+                <p>
+                  🔹 برای مناسبت‌های بین‌المللی و جهانی، همیشه معادل شمسی باید
+                  بررسی و اصلاح شود تا از تغییرات ناشی از کبیسه بودن سال جلوگیری
+                  شود.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className='bg-gray-100 p-4 rounded-lg mb-6 text-gray-700 text-right'>
+        <div className='flex items-center justify-end gap-2 mb-4'>
+          <label className='flex items-center gap-2'>
+            <input
+              type='checkbox'
+              name='globalDay'
+              checked={occasion.globalDay}
+              onChange={handleGlobalDayChange}
+              className='ml-2'
+            />
+            روز جهانی
+          </label>
+        </div>
+      </div>
+
+      <div className='bg-white p-4 rounded-lg mb-6 shadow-sm'>
+        <div className='overflow-x-auto'>
+          <table className='min-w-full border border-gray-200 mb-4'>
+            <thead className='bg-gray-50'>
+              <tr>
+                <th className='px-4 py-2 border text-right'>مناسبت</th>
+                <th className='px-4 py-2 border text-right'>به سال میلادی</th>
+                <th className='px-4 py-2 border text-right'>
+                  به سال میلادی کبیسه
+                </th>
+                <th className='px-4 py-2 border text-right'>به سال شمسی</th>
+                <th className='px-4 py-2 border text-right'>
+                  به سال شمسی کبیسه
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className='px-4 py-2 border'>نوروز (مناسبت شمسی)</td>
+                <td className='px-4 py-2 border'>۲۱ مارس</td>
+                <td className='px-4 py-2 border'>۲۰ مارس</td>
+                <td className='px-4 py-2 border'>۱ فروردین</td>
+                <td className='px-4 py-2 border'>۱ فروردین</td>
+              </tr>
+              <tr>
+                <td className='px-4 py-2 border'>هالووین (مناسبت میلادی)</td>
+                <td className='px-4 py-2 border'>۳۱ اکتبر</td>
+                <td className='px-4 py-2 border'>۳۱ اکتبر</td>
+                <td className='px-4 py-2 border'>۸ آبان</td>
+                <td className='px-4 py-2 border'>۹ آبان</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className='space-y-2 text-right text-gray-700'>
+          <p>
+            ✅ نوروز در سال‌های کبیسه شمسی، معادل میلادی‌اش یک روز عقب‌تر
+            می‌آید.
+          </p>
+          <p>
+            ✅ هالووین که یک مناسبت میلادی است، در سال‌های کبیسه میلادی، معادل
+            شمسی‌اش یک روز جلوتر می‌آید.
+          </p>
+          <div className='mt-4'>
+            <p>
+              🔹 اگر مناسبت مبتنی بر تقویم فارسی است، عدد شمسی تغییر نمی‌کند اما
+              معادل میلادی آن در سال کبیسه یک روز تغییر می‌کند.
+            </p>
+            <p>
+              🔹 اگر مناسبت مبتنی بر تقویم میلادی است، عدد میلادی تغییر نمی‌کند
+              اما معادل شمسی آن در سال کبیسه یک روز تغییر می‌کند.
+            </p>
+            <p>
+              🔹 برای مناسبت‌های بین‌المللی و جهانی، همیشه معادل شمسی باید بررسی
+              و اصلاح شود تا از تغییرات ناشی از کبیسه بودن سال جلوگیری شود.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className='col-span-2 bg-blue-50 p-4 rounded-lg border border-blue-200 mt-4 mb-4'>
+        <h3 className='font-bold text-lg text-blue-800 text-right mb-4'>
+          تبدیل تاریخ:
+        </h3>
+        <div className='grid grid-cols-2 gap-4'>
+          <div>
+            <label className='block text-sm font-medium text-blue-700 text-right mb-2'>
+              تاریخ خورشیدی به میلادی
+            </label>
+            <input
+              type='text'
+              value={displayDates.persianToGregorian}
+              className='w-full p-2 border rounded bg-white text-gray-500'
+              readOnly
+            />
+          </div>
+          <div>
+            <label className='block text-sm font-medium text-blue-700 text-right mb-2'>
+              تاریخ کبیسه
+            </label>
+            <input
+              type='text'
+              value={displayDates.leapYearDate}
+              className='w-full p-2 border rounded bg-white text-gray-500'
+              readOnly
+            />
+          </div>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit} className='space-y-6'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           <div>
@@ -295,204 +824,264 @@ export default function EditOccasion() {
           </div>
 
           <div>
-            <label className='block mb-2 text-right'>روز</label>
-            <input
-              type='number'
-              name='PersianDayNumber'
-              value={occasion?.PersianDayNumber || ''}
-              onChange={handleChange}
-              min='1'
-              max='31'
-              className='w-full p-2 border rounded'
-              required
-            />
-          </div>
-
-          <div>
-            <label className='block mb-2 text-right'>تاریخ میلادی</label>
-            <input
-              type='text'
-              name='Georgian'
-              value={occasion?.Georgian || ''}
-              onChange={handleChange}
-              className='w-full p-2 border rounded'
-              placeholder='مثال: 22,03'
-              pattern='\d{1,2},\d{1,2}'
-              title='لطفاً تاریخ را به فرمت روز,ماه وارد کنید. مثال: 22,03'
-            />
-          </div>
-
-          <div>
-            <label className='block mb-2 text-right'>تاریخ میلادی کبیسه</label>
-            <input
-              type='text'
-              name='GeorgianK'
-              value={occasion?.GeorgianK || ''}
-              onChange={handleChange}
-              className='w-full p-2 border rounded'
-              placeholder='مثال: 21,03'
-              pattern='\d{1,2},\d{1,2}'
-              title='لطفاً تاریخ را به فرمت روز,ماه وارد کنید. مثال: 21,03'
-            />
-          </div>
-
-          <div>
-            <label className='block text-sm font-medium text-right mb-1'>
-              لینک لوگو
-            </label>
-            <div className='space-y-2'>
-              {logoUrl && (
-                <div className='flex items-center gap-2'>
-                  <LogoImage
-                    src={logoUrl}
-                    alt='Logo preview'
-                    size={48}
-                    showClearButton
-                    onClear={() => {
-                      setLogoUrl('');
-                      setOccasion((prev) =>
-                        prev ? { ...prev, LogoLink: '' } : prev
-                      );
-                    }}
-                  />
-                </div>
-              )}
-
-              <div
-                className={`border-2 border-dashed rounded-lg p-4 transition-colors ${
-                  isDraggingLogo
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-300 hover:border-blue-400'
-                }`}
-                onDragEnter={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setIsDraggingLogo(true);
-                }}
-                onDragLeave={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setIsDraggingLogo(false);
-                }}
-                onDragOver={handleDrag}
-                onDrop={(e) => handleDrop(e, 'logo')}
-              >
-                <div className='flex flex-col items-center justify-center space-y-4'>
-                  <div className='text-center'>
-                    <UploadIcon />
-                    <p className='mt-1 text-sm text-gray-600'>
-                      فایل را اینجا رها کنید یا کلیک کنید
-                    </p>
-                    <button
-                      type='button'
-                      onClick={() =>
-                        document.getElementById('logo-upload')?.click()
-                      }
-                      className='mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
-                    >
-                      بارگذاری
-                    </button>
-                  </div>
-                  <input
-                    id='logo-upload'
-                    type='file'
-                    className='hidden'
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file)
-                        uploadFile(file, 'logo').then((url) => {
-                          if (url) {
-                            setLogoUrl(url);
-                            setOccasion((prev) =>
-                              prev ? { ...prev, LogoLink: url } : prev
-                            );
-                          }
-                        });
-                    }}
-                    accept='image/*'
-                  />
-                </div>
-              </div>
+            <label className='block mb-2 text-right'>نوع روز</label>
+            <div className='flex items-center justify-end gap-2'>
+              <label className='flex items-center gap-2'>
+                <input
+                  type='checkbox'
+                  name='globalDay'
+                  checked={occasion.globalDay}
+                  onChange={handleGlobalDayChange}
+                  className='ml-2'
+                />
+                روز جهانی
+              </label>
             </div>
           </div>
 
-          <div>
-            <label className='block text-sm font-medium text-right mb-1'>
-              لینک تصویر مدال
-            </label>
-            <div
-              className={`border-2 border-dashed rounded-lg p-4 transition-colors ${
-                isDraggingMedal
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-300 hover:border-blue-400'
-              }`}
-              onDragEnter={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsDraggingMedal(true);
-              }}
-              onDragLeave={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsDraggingMedal(false);
-              }}
-              onDragOver={handleDrag}
-              onDrop={(e) => handleDrop(e, 'medal')}
-            >
-              <div className='flex flex-col items-center justify-center space-y-4'>
-                <div className='text-center'>
-                  <UploadIcon />
-                  <p className='mt-1 text-sm text-gray-600'>
-                    فایل را اینجا رها کنید یا کلیک کنید
-                  </p>
-                  <button
-                    type='button'
-                    onClick={() =>
-                      document.getElementById('medal-upload')?.click()
-                    }
-                    className='mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
-                  >
-                    بارگذاری
-                  </button>
-                </div>
+          <div className='col-span-2 mt-8'>
+            <h3 className='font-bold text-lg text-gray-800 text-right mb-6'>
+              روز خورشیدی:
+            </h3>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <div>
+                <label className='block mb-2 text-right' title='روز خورشیدی'>
+                  روز خورشیدی
+                </label>
                 <input
-                  id='medal-upload'
-                  type='file'
-                  className='hidden'
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file)
-                      uploadFile(file, 'medal').then((url) => {
-                        if (url) {
-                          setImageUrl(url);
-                          setOccasion((prev) =>
-                            prev ? { ...prev, ModalImageLink: url } : prev
-                          );
-                        }
-                      });
-                  }}
-                  accept='image/*'
+                  type='text'
+                  name='PersianDayNumber'
+                  value={occasion?.PersianDayNumber || ''}
+                  onChange={handleChange}
+                  onBlur={handlePersianDayBlur}
+                  className='w-full p-2 border rounded'
+                  placeholder='مثال: 1'
+                  required
+                  disabled={occasion.globalDay}
                 />
               </div>
-              {imageUrl && (
-                <div className='mt-4 flex justify-center'>
-                  <Image
-                    src={imageUrl}
-                    alt='Medal preview'
-                    width={200}
-                    height={200}
-                    className='rounded'
-                  />
-                </div>
-              )}
+              <div>
+                <label
+                  className='block mb-2 text-right'
+                  title='روز خورشیدی کبیسه'
+                >
+                  روز خورشیدی کبیسه
+                </label>
+                <input
+                  type='text'
+                  name='PersianDayNumberK'
+                  value={occasion?.PersianDayNumberK || ''}
+                  onChange={handleChange}
+                  onBlur={handlePersianDayKBlur}
+                  className='w-full p-2 border rounded'
+                  placeholder='مثال: 1'
+                  disabled={!occasion.globalDay}
+                />
+              </div>
             </div>
-            <input
-              type='text'
-              value={imageUrl}
-              className='mt-2 w-full p-2 border rounded-md'
-              placeholder='آدرس تصویر را وارد کنید'
-              readOnly
-            />
+          </div>
+
+          <div className='col-span-2 mt-8'>
+            <h3 className='font-bold text-lg text-gray-800 text-right mb-6'>
+              روز میلادی:
+            </h3>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <div>
+                <label className='block mb-2 text-right'>تاریخ میلادی</label>
+                <input
+                  type='text'
+                  name='Georgian'
+                  value={occasion?.Georgian || ''}
+                  onChange={handleChange}
+                  onBlur={handleGeorgianBlur}
+                  className='w-full p-2 border rounded'
+                  placeholder='مثال: 21,03'
+                  pattern='\d{1,2},\d{1,2}'
+                  title='لطفاً تاریخ را به فرمت روز,ماه وارد کنید. مثال: 21,03'
+                  disabled={!occasion.globalDay}
+                />
+              </div>
+              <div>
+                <label className='block mb-2 text-right'>
+                  تاریخ میلادی کبیسه
+                </label>
+                <input
+                  type='text'
+                  name='GeorgianK'
+                  value={occasion?.GeorgianK || ''}
+                  onChange={handleChange}
+                  onBlur={handleGeorgianKBlur}
+                  className='w-full p-2 border rounded'
+                  placeholder='مثال: 20,03'
+                  pattern='\d{1,2},\d{1,2}'
+                  title='لطفاً تاریخ را به فرمت روز,ماه وارد کنید. مثال: 20,03'
+                  disabled={occasion.globalDay}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className='space-y-6'>
+            <h3 className='font-medium text-gray-700 text-right'>تصاویر:</h3>
+            <div className='grid grid-cols-2 gap-4'>
+              <div>
+                <label className='block text-sm font-medium text-right mb-1'>
+                  لینک لوگو
+                </label>
+                <div className='space-y-2'>
+                  {logoUrl && (
+                    <div className='flex items-center gap-2'>
+                      <LogoImage
+                        src={logoUrl}
+                        alt='Logo preview'
+                        size={48}
+                        showClearButton
+                        onClear={() => {
+                          setLogoUrl('');
+                          setOccasion((prev) =>
+                            prev ? { ...prev, LogoLink: '' } : prev
+                          );
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  <div
+                    className={`border-2 border-dashed rounded-lg p-4 transition-colors ${
+                      isDraggingLogo
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-300 hover:border-blue-400'
+                    }`}
+                    onDragEnter={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDraggingLogo(true);
+                    }}
+                    onDragLeave={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDraggingLogo(false);
+                    }}
+                    onDragOver={handleDrag}
+                    onDrop={(e) => handleDrop(e, 'logo')}
+                  >
+                    <div className='flex flex-col items-center justify-center space-y-4'>
+                      <div className='text-center'>
+                        <UploadIcon />
+                        <p className='mt-1 text-sm text-gray-600'>
+                          فایل را اینجا رها کنید یا کلیک کنید
+                        </p>
+                        <button
+                          type='button'
+                          onClick={() =>
+                            document.getElementById('logo-upload')?.click()
+                          }
+                          className='mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
+                        >
+                          بارگذاری
+                        </button>
+                      </div>
+                      <input
+                        id='logo-upload'
+                        type='file'
+                        className='hidden'
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file)
+                            uploadFile(file, 'logo').then((url) => {
+                              if (url) {
+                                setLogoUrl(url);
+                                setOccasion((prev) =>
+                                  prev ? { ...prev, LogoLink: url } : prev
+                                );
+                              }
+                            });
+                        }}
+                        accept='image/*'
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label className='block text-sm font-medium text-right mb-1'>
+                  لینک تصویر مدال
+                </label>
+                <div
+                  className={`border-2 border-dashed rounded-lg p-4 transition-colors ${
+                    isDraggingMedal
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-300 hover:border-blue-400'
+                  }`}
+                  onDragEnter={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsDraggingMedal(true);
+                  }}
+                  onDragLeave={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsDraggingMedal(false);
+                  }}
+                  onDragOver={handleDrag}
+                  onDrop={(e) => handleDrop(e, 'medal')}
+                >
+                  <div className='flex flex-col items-center justify-center space-y-4'>
+                    <div className='text-center'>
+                      <UploadIcon />
+                      <p className='mt-1 text-sm text-gray-600'>
+                        فایل را اینجا رها کنید یا کلیک کنید
+                      </p>
+                      <button
+                        type='button'
+                        onClick={() =>
+                          document.getElementById('medal-upload')?.click()
+                        }
+                        className='mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
+                      >
+                        بارگذاری
+                      </button>
+                    </div>
+                    <input
+                      id='medal-upload'
+                      type='file'
+                      className='hidden'
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file)
+                          uploadFile(file, 'medal').then((url) => {
+                            if (url) {
+                              setImageUrl(url);
+                              setOccasion((prev) =>
+                                prev ? { ...prev, ModalImageLink: url } : prev
+                              );
+                            }
+                          });
+                      }}
+                      accept='image/*'
+                    />
+                  </div>
+                  {imageUrl && (
+                    <div className='mt-4 flex justify-center'>
+                      <Image
+                        src={imageUrl}
+                        alt='Medal preview'
+                        width={200}
+                        height={200}
+                        className='rounded'
+                      />
+                    </div>
+                  )}
+                </div>
+                <input
+                  type='text'
+                  value={imageUrl}
+                  className='mt-2 w-full p-2 border rounded-md'
+                  placeholder='آدرس تصویر را وارد کنید'
+                  readOnly
+                />
+              </div>
+            </div>
           </div>
         </div>
 

@@ -119,13 +119,13 @@ const DateConverter = () => {
       try {
         // اگر هر کدام از اجزای تاریخ خالی هستند، از تبدیل جلوگیری کن
         if (
-          !gregYear ||
-          !gregMonth ||
-          !gregDay ||
+          gregYear === '' ||
+          gregMonth === '' ||
+          gregDay === '' ||
           gregYear === '-' ||
-          isNaN(parseInt(gregYear)) ||
-          isNaN(parseInt(gregMonth)) ||
-          isNaN(parseInt(gregDay))
+          (gregYear !== '' && isNaN(parseInt(gregYear))) ||
+          (gregMonth !== '' && isNaN(parseInt(gregMonth))) ||
+          (gregDay !== '' && isNaN(parseInt(gregDay)))
         ) {
           setConversionResult(null);
           return;
@@ -159,6 +159,16 @@ const DateConverter = () => {
         setConversionResult({ error: true });
       }
     } else {
+      if (
+        persianYear === '' ||
+        persianMonth === '' ||
+        persianDay === '' ||
+        persianYear === '-'
+      ) {
+        setConversionResult(null);
+        return;
+      }
+
       const jyNum = parseInt(persianYear, 10);
       const jmNum = parseInt(persianMonth, 10);
       const jdNum = parseInt(persianDay, 10);
@@ -324,13 +334,16 @@ const DateConverter = () => {
 
     switch (type) {
       case 'year':
-        if (value.length <= 4) setPersianYear(value);
+        // Allow empty value for year
+        if (value === '' || value.length <= 4) setPersianYear(value);
         break;
       case 'month':
-        if (parseInt(value) <= 12) setPersianMonth(value);
+        // Allow empty value for month
+        if (value === '' || parseInt(value) <= 12) setPersianMonth(value);
         break;
       case 'day':
-        if (parseInt(value) <= 31) setPersianDay(value);
+        // Allow empty value for day
+        if (value === '' || parseInt(value) <= 31) setPersianDay(value);
         break;
     }
   };
@@ -344,7 +357,10 @@ const DateConverter = () => {
     const day = type === 'persian' ? date.jd : date.gd;
     const isBeforeEra = date.isBeforeCommonEra;
 
-    return `${Math.abs(year)}/${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')} ${isBeforeEra ? 'قبل از میلاد' : ''}`;
+    const formattedDate = `${Math.abs(year)}/${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}`;
+    const persianDate = toPersianNum(formattedDate);
+
+    return `${persianDate} ${isBeforeEra ? 'قبل از میلاد' : ''}`;
   };
 
   // Update the increment/decrement functions to handle negative numbers
@@ -352,21 +368,23 @@ const DateConverter = () => {
     switch (type) {
       case 'year':
         setPersianYear((prev) => {
-          // اگر خالی یا NaN بود، از 1 شروع کن
-          const currentYear = parseInt(prev) || 0;
+          if (prev === '') return '1'; // Start from 1 if empty
+          const currentYear = parseInt(prev);
           return (currentYear + 1).toString();
         });
         break;
       case 'month':
         setPersianMonth((prev) => {
+          if (prev === '') return '01'; // Start from 01 if empty
           const newMonth = parseInt(prev) + 1;
-          return newMonth > 12 ? '1' : newMonth.toString().padStart(2, '0');
+          return newMonth > 12 ? '01' : newMonth.toString().padStart(2, '0');
         });
         break;
       case 'day':
         setPersianDay((prev) => {
+          if (prev === '') return '01'; // Start from 01 if empty
           const newDay = parseInt(prev) + 1;
-          return newDay > 31 ? '1' : newDay.toString().padStart(2, '0');
+          return newDay > 31 ? '01' : newDay.toString().padStart(2, '0');
         });
         break;
     }
@@ -376,19 +394,21 @@ const DateConverter = () => {
     switch (type) {
       case 'year':
         setPersianYear((prev) => {
-          // اگر خالی یا NaN بود، از 0 شروع کن
-          const currentYear = parseInt(prev) || 0;
+          if (prev === '') return '-1'; // Start from -1 if empty
+          const currentYear = parseInt(prev);
           return (currentYear - 1).toString();
         });
         break;
       case 'month':
         setPersianMonth((prev) => {
+          if (prev === '') return '12'; // Start from 12 if empty
           const newMonth = parseInt(prev) - 1;
           return newMonth < 1 ? '12' : newMonth.toString().padStart(2, '0');
         });
         break;
       case 'day':
         setPersianDay((prev) => {
+          if (prev === '') return '31'; // Start from 31 if empty
           const newDay = parseInt(prev) - 1;
           return newDay < 1 ? '31' : newDay.toString().padStart(2, '0');
         });
@@ -438,9 +458,11 @@ const DateConverter = () => {
               <div className='relative flex-1'>
                 <button
                   onClick={() => {
-                    const newYear = parseInt(gregYear) + 1;
-                    setGregYear(newYear.toString());
-                    updateGregDate(gregDay, gregMonth, newYear.toString());
+                    if (gregYear !== '') {
+                      const newYear = parseInt(gregYear) + 1;
+                      setGregYear(newYear.toString());
+                      updateGregDate(gregDay, gregMonth, newYear.toString());
+                    }
                   }}
                   className='absolute top-0 right-0 w-full h-8 flex items-center justify-center 
                      text-blue-200 hover:text-white hover:bg-blue-500/20 rounded-t-lg'
@@ -461,7 +483,9 @@ const DateConverter = () => {
                       /^-?\d{0,4}$/.test(englishValue)
                     ) {
                       setGregYear(englishValue);
-                      updateGregDate(gregDay, gregMonth, englishValue);
+                      if (englishValue !== '') {
+                        updateGregDate(gregDay, gregMonth, englishValue);
+                      }
                     }
                   }}
                   className='w-full text-center p-3 mt-8 mb-8 rounded-lg bg-[#0f2439] 
@@ -597,7 +621,7 @@ const DateConverter = () => {
         ) : (
           <div className='mb-6'>
             <label className='block mb-3 text-lg text-blue-200 font-semibold text-right'>
-              تاریخ خورشیدی:
+              : تاریخ خورشیدی
             </label>
             <div className='flex justify-between gap-2 rtl'>
               {/* Year Input - سمت چپ */}
@@ -744,9 +768,9 @@ const DateConverter = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.3 }}
-            className='p-6 bg-[#16314c]/80 rounded-lg mt-6 border border-blue-400/10 shadow-lg'
+            className='p-6 bg-[#16314c]/80 rounded-lg mt-6 border border-blue-400/10 shadow-lg text-right'
           >
-            <h2 className='text-xl font-semibold mb-2'>نتیجه تبدیل:</h2>
+            <h2 className='text-xl font-semibold mb-2'>:نتیجه تبدیل</h2>
             {direction === 'g2p' &&
             conversionResult &&
             typeof conversionResult.jm !== 'undefined' ? (
@@ -754,23 +778,27 @@ const DateConverter = () => {
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.2 }}
+                dir='rtl'
               >
-                <p className='text-lg'>
-                  تاریخ خورشیدی: {formatDate(conversionResult, 'persian')}
-                </p>
+                <div className='flex flex-col gap-2'>
+                  <p className='text-lg text-blue-200'>تاریخ خورشیدی :</p>
+                  <p className='text-xl font-bold pr-4'>
+                    {formatDate(conversionResult, 'persian')}
+                  </p>
+                </div>
                 {eraResults && (
                   <div className='mt-4'>
-                    <h3 className='text-lg font-semibold'>سال‌های مختلف:</h3>
+                    <h3 className='text-lg font-semibold'>:سال‌های مختلف</h3>
                     <ul className='mt-2 space-y-1'>
                       {Object.entries(eraResults).map(([era, value], index) => (
                         <motion.li
                           key={era}
-                          initial={{ x: -20, opacity: 0 }}
+                          initial={{ x: 20, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: index * 0.1 }}
                           className='flex justify-between items-center'
                         >
-                          <span className='text-gray-300'>{era}:</span>
+                          <span className='text-gray-300'>{era}</span>
                           <span className='font-bold text-xl'>
                             {toPersianNum(value)}
                           </span>
@@ -787,23 +815,27 @@ const DateConverter = () => {
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.2 }}
+                dir='rtl'
               >
-                <p className='text-lg'>
-                  تاریخ میلادی: {formatDate(conversionResult, 'gregorian')}
-                </p>
+                <div className='flex flex-col gap-2'>
+                  <p className='text-lg text-blue-200'>تاریخ میلادی :</p>
+                  <p className='text-xl font-bold pr-4'>
+                    {formatDate(conversionResult, 'gregorian')}
+                  </p>
+                </div>
                 {eraResults && (
                   <div className='mt-4'>
-                    <h3 className='text-lg font-semibold'>سال‌های مختلف:</h3>
+                    <h3 className='text-lg font-semibold'>:سال‌های مختلف</h3>
                     <ul className='mt-2 space-y-1'>
                       {Object.entries(eraResults).map(([era, value], index) => (
                         <motion.li
                           key={era}
-                          initial={{ x: -20, opacity: 0 }}
+                          initial={{ x: 20, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: index * 0.1 }}
                           className='flex justify-between items-center'
                         >
-                          <span className='text-gray-300'>{era}:</span>
+                          <span className='text-gray-300'>{era}</span>
                           <span className='font-bold text-xl'>
                             {toPersianNum(value)}
                           </span>

@@ -169,9 +169,9 @@ export default function Home() {
           <p className='text sm:text-xl lg:text-2xl text-[#000000] text-center'>
             {dates.IraniMelli}
           </p>
-          <h3 className='text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2'>
+          {/* <h3 className='text-lg sm:text-2xl lg:text-4xl text-[#000000] text-center mr-2 ml-2'>
             ایران نو
-          </h3>
+          </h3> */}
         </div>
         <div className='bg-[#ffffff] p-4 rounded-2xl w-full flex md:flex-1 md:ml-2 mt-4 md:mt-0 items-center justify-center'>
           <p className='text sm:text-xl lg:text-2xl text-[#000000] text-center'>

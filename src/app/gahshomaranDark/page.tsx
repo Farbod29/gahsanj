@@ -394,11 +394,11 @@ export default function Home() {
     const monthName = jalaaliMonths[jm - 1];
     return { persianDay, monthName, persianYear };
   }
-  function getFormattedDatIraniMelliYear(date: Date): string {
-    const { persianYear } = convertToIraniMelli(date);
+  // function getFormattedDatIraniMelliYear(date: Date): string {
+  //   const { persianYear } = convertToIraniMelli(date);
 
-    return ` سال ${persianYear} ایران نو`;
-  }
+  //   return ` سال ${persianYear} ایران نو`;
+  // }
   function getFormattedDatIraniMelliMonthAndDay(date: Date): string {
     const { persianDay, monthName } = convertToIraniMelli(date);
 
@@ -522,7 +522,7 @@ export default function Home() {
               paramDates: dates.IraniMelli,
               paramName: 'ایران نو',
               line1: `${PersianWeekday}\u2003(${getTodayPersianWeekdayBaboli()})\u2003 ${getFormattedDatIraniMelliMonthAndDay(today)}`,
-              line2: `سال\u2003${toPersianNums(convertToIraniMelliYear(today))}\u2003 ایران نو`,
+              // line2: `سال\u2003${toPersianNums(convertToIraniMelliYear(today))}\u2003 ایران نو`,
             },
           }}
         >

@@ -10,6 +10,7 @@ interface Occasion {
   EventTitle: string;
   Month: string;
   PersianDayNumber: number;
+  PersianDayNumberK?: number;
   Georgian: string;
   GeorgianK: string;
   ModalImageLink: string;
@@ -223,6 +224,11 @@ export default function Dashboard() {
                 { key: 'EventTitle', label: 'عنوان کامل', width: 'w-64' },
                 { key: 'Month', label: 'ماه', width: 'w-20' },
                 { key: 'PersianDayNumber', label: 'روز', width: 'w-14' },
+                {
+                  key: 'PersianDayNumberK',
+                  label: 'روز (کبیسه)',
+                  width: 'w-14',
+                },
                 { key: 'Georgian', label: 'تاریخ میلادی', width: 'w-32' },
                 {
                   key: 'GeorgianK',
@@ -284,6 +290,9 @@ export default function Dashboard() {
                     </td>
                     <td className='px-6 py-4 whitespace-nowrap'>
                       {occasion.PersianDayNumber}
+                    </td>
+                    <td className='px-6 py-4 whitespace-nowrap'>
+                      {occasion.PersianDayNumberK || '-'}
                     </td>
                     <td className='px-6 py-4 whitespace-nowrap min-w-[8rem]'>
                       {occasion.Georgian}

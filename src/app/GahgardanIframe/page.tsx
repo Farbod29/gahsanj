@@ -125,7 +125,7 @@ const DateConverter = () => {
   const alternativeCalendars =
     persianYear !== null
       ? {
-          'ایران نو': persianYear - 1396,
+          // 'ایران نو': persianYear - 1396,
           هجرت: persianYear,
           شاهنشاهی: persianYear + 1180,
           ایلامی: persianYear + 3821,
@@ -288,9 +288,9 @@ const DateConverter = () => {
             <div className='grid grid-cols-3 gap-4 text-sm'>
               <div className='flex flex-col space-y-2'>
                 <div className='flex items-center justify-between'>
-                  <span className='text-gray-600'>ایران نو:</span>
+                  {/* <span className='text-gray-600'>ایران نو:</span> */}
                   <span className='text-purple-800 font-medium'>
-                    {toPersianNum(alternativeCalendars['ایران نو'])}
+                    {/* {toPersianNum(alternativeCalendars['ایران نو'])} */}
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>

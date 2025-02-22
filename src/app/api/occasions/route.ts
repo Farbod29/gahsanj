@@ -104,8 +104,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Convert PersianDayNumber to number if it's a string
+    // Convert PersianDayNumber and PersianDayNumberK to numbers if they're strings
     occasion.PersianDayNumber = Number(occasion.PersianDayNumber);
+    if (occasion.PersianDayNumberK) {
+      occasion.PersianDayNumberK = Number(occasion.PersianDayNumberK);
+    }
 
     // Set default values for optional fields
     occasion.importantDay = occasion.importantDay || false;
@@ -152,9 +155,12 @@ export async function PATCH(req: NextRequest) {
     // Remove _id from updates if present
     delete updates._id;
 
-    // Convert PersianDayNumber to number if it's present
+    // Convert PersianDayNumber and PersianDayNumberK to numbers if they're present
     if (updates.PersianDayNumber) {
       updates.PersianDayNumber = Number(updates.PersianDayNumber);
+    }
+    if (updates.PersianDayNumberK) {
+      updates.PersianDayNumberK = Number(updates.PersianDayNumberK);
     }
 
     const result = await collection.updateOne(
