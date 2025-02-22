@@ -129,7 +129,7 @@ const DateConverter = () => {
           هجرت: persianYear,
           شاهنشاهی: persianYear + 1180,
           ایلامی: persianYear + 3821,
-          'مادی/کردی': persianYear + 1321,
+          مادی: persianYear + 1321,
           زرتشتی: persianYear + 2359,
         }
       : null;
@@ -316,9 +316,9 @@ const DateConverter = () => {
               </div>
               <div className='flex flex-col space-y-2'>
                 <div className='flex items-center justify-between'>
-                  <span className='text-gray-600'>مادی/کردی:</span>
+                  <span className='text-gray-600'>مادی:</span>
                   <span className='text-purple-800 font-medium'>
-                    {toPersianNum(alternativeCalendars['مادی/کردی'])}
+                    {toPersianNum(alternativeCalendars['مادی'])}
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>

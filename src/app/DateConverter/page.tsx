@@ -4,12 +4,24 @@ import jalaali from 'jalaali-js';
 import Footer from '@/components/Footer/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Function to convert English numbers to Persian
+const toPersianNum = (num: string | number): string => {
+  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return num
+    .toString()
+    .split('')
+    .map((char) => persianNumbers[Number(char)] || char)
+    .join('');
+};
+
 const DirectionToggle = ({
   direction,
   setDirection,
+  setPersianInput,
 }: {
   direction: 'g2p' | 'p2g';
   setDirection: (dir: 'g2p' | 'p2g') => void;
+  setPersianInput: (value: boolean) => void;
 }) => {
   return (
     <div className='relative w-full bg-[#0f2439]/50 rounded-xl p-1.5'>
@@ -35,7 +47,10 @@ const DirectionToggle = ({
                      ${direction === 'g2p' ? 'text-white' : 'text-blue-200/70 hover:text-blue-100'}`}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => setDirection('g2p')}
+          onClick={() => {
+            setDirection('g2p');
+            setPersianInput(false);
+          }}
         >
           میلادی به خورشیدی
         </motion.button>
@@ -45,7 +60,10 @@ const DirectionToggle = ({
                      ${direction === 'p2g' ? 'text-white' : 'text-blue-200/70 hover:text-blue-100'}`}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => setDirection('p2g')}
+          onClick={() => {
+            setDirection('p2g');
+            setPersianInput(true);
+          }}
         >
           خورشیدی به میلادی
         </motion.button>
@@ -73,6 +91,142 @@ const getTodayGregorian = () => {
   return { year: year.toString(), month, day };
 };
 
+// Add VirtualKeyboard component
+const VirtualKeyboard = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  initialValue,
+  direction,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (value: string) => void;
+  initialValue: string;
+  direction: 'g2p' | 'p2g';
+}) => {
+  const [inputValue, setInputValue] = useState(() => {
+    // If converting from Persian to Gregorian, start with current Persian year
+    if (direction === 'p2g') {
+      const { jy } = jalaali.toJalaali(new Date());
+      return jy.toString();
+    }
+    return initialValue;
+  });
+
+  // Reset input value when keyboard is opened
+  useEffect(() => {
+    if (isOpen) {
+      if (direction === 'p2g') {
+        const { jy } = jalaali.toJalaali(new Date());
+        setInputValue(jy.toString());
+      } else {
+        setInputValue(initialValue);
+      }
+    }
+  }, [isOpen, direction, initialValue]);
+
+  const handleNumberClick = (num: string) => {
+    if (
+      inputValue.length < 4 ||
+      (inputValue.startsWith('-') && inputValue.length < 5)
+    ) {
+      setInputValue((prev) => {
+        if (prev === '0') return num;
+        return prev + num;
+      });
+    }
+  };
+
+  const handleBackspace = () => {
+    setInputValue((prev) => prev.slice(0, -1));
+  };
+
+  const handleNegative = () => {
+    setInputValue((prev) => {
+      if (prev.startsWith('-')) {
+        return prev.slice(1);
+      }
+      return '-' + prev;
+    });
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className='fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50'
+          onClick={onClose}
+        >
+          <motion.div
+            className='bg-[#1f4e7a] p-6 rounded-xl shadow-2xl border border-blue-400/20 w-full max-w-xs'
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className='mb-4'>
+              <input
+                type='text'
+                value={toPersianNum(inputValue)}
+                readOnly
+                className='w-full text-center p-3 rounded-lg bg-[#0f2439] border border-blue-400/30 text-xl'
+                dir='ltr'
+              />
+            </div>
+            <div className='grid grid-cols-3 gap-2'>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                <button
+                  key={num}
+                  onClick={() => handleNumberClick(num.toString())}
+                  className='p-4 bg-[#0f2439] rounded-lg hover:bg-blue-500/20 text-xl transition-colors'
+                >
+                  {toPersianNum(num.toString())}
+                </button>
+              ))}
+              <button
+                onClick={handleNegative}
+                className='p-4 bg-[#0f2439] rounded-lg hover:bg-blue-500/20 text-xl transition-colors'
+              >
+                ±
+              </button>
+              <button
+                onClick={() => handleNumberClick('0')}
+                className='p-4 bg-[#0f2439] rounded-lg hover:bg-blue-500/20 text-xl transition-colors'
+              >
+                {toPersianNum('0')}
+              </button>
+              <button
+                onClick={handleBackspace}
+                className='p-4 bg-[#0f2439] rounded-lg hover:bg-blue-500/20 text-xl transition-colors'
+              >
+                ←
+              </button>
+            </div>
+            <div className='mt-4 grid grid-cols-2 gap-2'>
+              <button
+                onClick={onClose}
+                className='p-3 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition-colors'
+              >
+                انصراف
+              </button>
+              <button
+                onClick={() => {
+                  onConfirm(inputValue);
+                  onClose();
+                }}
+                className='p-3 bg-green-500/20 text-green-300 rounded-lg hover:bg-green-500/30 transition-colors'
+              >
+                تایید
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const DateConverter = () => {
   // Conversion direction: "g2p" = Gregorian to Persian, "p2g" = Persian to Gregorian
   const [direction, setDirection] = useState<'g2p' | 'p2g'>('g2p');
@@ -97,10 +251,18 @@ const DateConverter = () => {
   const [conversionResult, setConversionResult] = useState<any>(null);
 
   // New state for manual Gregorian date input
-  const [manualGregDate, setManualGregDate] = useState('');
 
   // Add state for animation trigger
   const [flashTrigger, setFlashTrigger] = useState(0);
+
+  // Add state for virtual keyboard
+  const [showVirtualKeyboard, setShowVirtualKeyboard] = useState(false);
+  const [activeInput, setActiveInput] = useState<
+    'persian' | 'gregorian' | null
+  >(null);
+
+  // Add new state for persianInput
+  const [persianInput, setPersianInput] = useState<boolean>(false);
 
   // Add a simple conversion function for dates before common era
   const approximateJalaliBeforeCommonEra = (date: Date) => {
@@ -234,24 +396,44 @@ const DateConverter = () => {
     year: number,
     isBeforeCommonEra: boolean = false
   ) => {
-    const absoluteYear = Math.abs(year);
+    const isNegative = year < 0;
 
-    // For negative Persian years, we need to calculate differently
-    if (year < 0) {
-      return {
-        شاهنشاهی: 2583 - absoluteYear, // 2583 is the base year for Shahanshahi
-        'مادی/کردی': 2724 - absoluteYear,
-        ایلامی: 5224 - absoluteYear,
-        زردشتی: 3762 - absoluteYear,
-      };
+    if (!persianInput) {
+      // Using persianInput instead of isPersian
+      // For Gregorian years (میلادی)
+      if (isNegative) {
+        return {
+          شاهنشاهی: year - 1181,
+          مادی: year - 2724,
+          ایلامی: year - 5224,
+          زردشتی: year - 3762,
+        };
+      } else {
+        return {
+          شاهنشاهی: year + 1180,
+          مادی: year + 1321,
+          ایلامی: year + 3821,
+          زردشتی: year + 2359,
+        };
+      }
     } else {
-      // For positive years, use the regular calculation
-      return {
-        شاهنشاهی: year + 1180,
-        'مادی/کردی': year + 1321,
-        ایلامی: year + 3821,
-        زردشتی: year + 2359,
-      };
+      // For Persian years (خورشیدی)
+      // const adjustedYear = year - 621;
+      if (isNegative) {
+        return {
+          شاهنشاهی: year + 2583,
+          مادی: year + 2724,
+          ایلامی: year + 5224,
+          زردشتی: year + 3762,
+        };
+      } else {
+        return {
+          شاهنشاهی: year + 1180,
+          مادی: year + 1321,
+          ایلامی: year + 3821,
+          زردشتی: year + 2359,
+        };
+      }
     }
   };
 
@@ -261,14 +443,16 @@ const DateConverter = () => {
     if (direction === 'g2p' && conversionResult.jy !== undefined) {
       eraResults = calculateEraYears(
         conversionResult.jy,
-        conversionResult.isBeforeCommonEra
+        conversionResult.isBeforeCommonEra,
+        true // Persian year
       );
     } else if (direction === 'p2g' && persianYear) {
       const jyNum = parseInt(persianYear, 10);
       if (!isNaN(jyNum)) {
         eraResults = calculateEraYears(
           jyNum,
-          conversionResult.isBeforeCommonEra
+          conversionResult.isBeforeCommonEra,
+          true // Persian year
         );
       }
     }
@@ -289,16 +473,6 @@ const DateConverter = () => {
       formatted = input;
     }
     return formatted;
-  };
-
-  // Function to convert English numbers to Persian
-  const toPersianNum = (num: string | number): string => {
-    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return num
-      .toString()
-      .split('')
-      .map((char) => persianNumbers[Number(char)] || char)
-      .join('');
   };
 
   // Enhanced date input handler
@@ -442,10 +616,14 @@ const DateConverter = () => {
                       border border-blue-400/20 transition-all duration-300'
       >
         <div className='mb-6'>
-          <span className='block mb-3 text-lg text-blue-200 font-semibold direction-ltr'>
+          <span className='block mb-3 text-lg text-blue-200 font-semibold direction-rtl text-right'>
             : جهت تبدیل
           </span>
-          <DirectionToggle direction={direction} setDirection={setDirection} />
+          <DirectionToggle
+            direction={direction}
+            setDirection={setDirection}
+            setPersianInput={setPersianInput}
+          />
         </div>
 
         {direction === 'g2p' ? (
@@ -469,35 +647,16 @@ const DateConverter = () => {
                 >
                   ▲
                 </button>
-                <input
-                  type='text'
-                  value={toPersianNum(gregYear)}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^۰-۹-]/g, '');
-                    const englishValue = value.replace(/[۰-۹]/g, (d) =>
-                      String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
-                    );
-                    if (
-                      value === '' ||
-                      value === '-' ||
-                      /^-?\d{0,4}$/.test(englishValue)
-                    ) {
-                      setGregYear(englishValue);
-                      if (englishValue !== '') {
-                        updateGregDate(gregDay, gregMonth, englishValue);
-                      }
-                    }
+                <div
+                  onClick={() => {
+                    setActiveInput('gregorian');
+                    setShowVirtualKeyboard(true);
                   }}
                   className='w-full text-center p-3 mt-8 mb-8 rounded-lg bg-[#0f2439] 
-                     border border-blue-400/30 focus:outline-none focus:ring-2'
-                  placeholder='سال'
-                  dir='ltr'
-                  style={{
-                    textAlign: 'center',
-                    direction: 'ltr',
-                    unicodeBidi: 'plaintext',
-                  }}
-                />
+                     border border-blue-400/30 focus:outline-none focus:ring-2 cursor-pointer'
+                >
+                  {toPersianNum(gregYear)}
+                </div>
                 <button
                   onClick={() => {
                     const newYear = parseInt(gregYear) - 1;
@@ -633,32 +792,16 @@ const DateConverter = () => {
                 >
                   ▲
                 </button>
-                <input
-                  type='text'
-                  value={toPersianNum(persianYear)}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^۰-۹-]/g, '');
-                    const englishValue = value.replace(/[۰-۹]/g, (d) =>
-                      String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
-                    );
-                    if (
-                      value === '' ||
-                      value === '-' ||
-                      /^-?\d{0,4}$/.test(englishValue)
-                    ) {
-                      setPersianYear(englishValue);
-                    }
+                <div
+                  onClick={() => {
+                    setActiveInput('persian');
+                    setShowVirtualKeyboard(true);
                   }}
                   className='w-full text-center p-3 mt-8 mb-8 rounded-lg bg-[#0f2439] 
-                     border border-blue-400/30 focus:outline-none focus:ring-2'
-                  placeholder='سال'
-                  dir='ltr'
-                  style={{
-                    textAlign: 'center',
-                    direction: 'ltr',
-                    unicodeBidi: 'plaintext',
-                  }}
-                />
+                     border border-blue-400/30 focus:outline-none focus:ring-2 cursor-pointer'
+                >
+                  {toPersianNum(persianYear)}
+                </div>
                 <button
                   onClick={() => decrementValue('year')}
                   className='absolute bottom-0 right-0 w-full h-8 flex items-center justify-center 
@@ -852,8 +995,26 @@ const DateConverter = () => {
         </AnimatePresence>
       </div>
       <Footer />
+      <VirtualKeyboard
+        isOpen={showVirtualKeyboard}
+        onClose={() => {
+          setShowVirtualKeyboard(false);
+          setActiveInput(null);
+        }}
+        onConfirm={(value) => {
+          if (activeInput === 'persian') {
+            setPersianYear(value);
+          } else if (activeInput === 'gregorian') {
+            setGregYear(value);
+            updateGregDate(gregDay, gregMonth, value);
+          }
+        }}
+        initialValue={activeInput === 'persian' ? persianYear : gregYear}
+        direction={direction}
+      />
     </div>
   );
 };
 
 export default DateConverter;
+
