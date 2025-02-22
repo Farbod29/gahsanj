@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import jalaali from 'jalaali-js';
 import Footer from '@/components/Footer/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
+import { convertDate as convertDateUtil } from './utils';
 
 // Function to convert English numbers to Persian
 const toPersianNum = (num: string | number): string => {
@@ -151,6 +152,11 @@ const VirtualKeyboard = ({
     });
   };
 
+  // Add clear handler
+  const handleClear = () => {
+    setInputValue('0');
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -196,12 +202,20 @@ const VirtualKeyboard = ({
               >
                 {toPersianNum('0')}
               </button>
-              <button
-                onClick={handleBackspace}
-                className='p-4 bg-[#0f2439] rounded-lg hover:bg-blue-500/20 text-xl transition-colors'
-              >
-                ←
-              </button>
+              <div className='grid grid-cols-2 gap-1'>
+                <button
+                  onClick={handleBackspace}
+                  className='p-4 bg-[#0f2439] rounded-lg hover:bg-blue-500/20 text-xl transition-colors'
+                >
+                  ←
+                </button>
+                <button
+                  onClick={handleClear}
+                  className='p-4 bg-[#0f2439] rounded-lg hover:bg-blue-500/20 text-sm transition-colors text-red-400'
+                >
+                  C
+                </button>
+              </div>
             </div>
             <div className='mt-4 grid grid-cols-2 gap-2'>
               <button
@@ -267,60 +281,55 @@ const DateConverter = () => {
   // Add a simple conversion function for dates before common era
   const approximateJalaliBeforeCommonEra = (date: Date) => {
     const year = date.getFullYear();
-    // Approximate conversion: Add 621 years for dates before common era
+    const month = date.getMonth() + 1; // Convert to 1-based month
+    const day = date.getDate();
+
+    // Check if date is before Persian New Year (March 21st)
+    const isBeforePersianNewYear = month < 3 || (month === 3 && day <= 20);
+
+    // Calculate Persian year based on whether date is before or after March 21st
+    const persianYear = isBeforePersianNewYear
+      ? -year + 622 // Before March 21st
+      : -year + 621; // After March 21st
+
     return {
-      jy: year + 621,
-      jm: date.getMonth() + 1,
-      jd: date.getDate(),
+      jy: persianYear,
+      jm: month,
+      jd: day,
       isBeforeCommonEra: true,
     };
   };
 
   const convertDate = useCallback(() => {
+    // Handle empty or invalid inputs
     if (direction === 'g2p') {
+      if (
+        gregYear === '' ||
+        gregMonth === '' ||
+        gregDay === '' ||
+        gregYear === '-' ||
+        (gregYear !== '' && isNaN(parseInt(gregYear))) ||
+        (gregMonth !== '' && isNaN(parseInt(gregMonth))) ||
+        (gregDay !== '' && isNaN(parseInt(gregDay)))
+      ) {
+        setConversionResult(null);
+        return;
+      }
+
+      const yearNum = parseInt(gregYear);
+      const monthNum = parseInt(gregMonth);
+      const dayNum = parseInt(gregDay);
+
       try {
-        // اگر هر کدام از اجزای تاریخ خالی هستند، از تبدیل جلوگیری کن
-        if (
-          gregYear === '' ||
-          gregMonth === '' ||
-          gregDay === '' ||
-          gregYear === '-' ||
-          (gregYear !== '' && isNaN(parseInt(gregYear))) ||
-          (gregMonth !== '' && isNaN(parseInt(gregMonth))) ||
-          (gregDay !== '' && isNaN(parseInt(gregDay)))
-        ) {
-          setConversionResult(null);
-          return;
-        }
-
-        const date = new Date(gregDate);
-        // بررسی معتبر بودن تاریخ
-        if (isNaN(date.getTime())) {
-          setConversionResult({ error: true });
-          return;
-        }
-
-        const year = date.getFullYear();
-        if (year < 622) {
-          // Before Islamic calendar started
-          const result = approximateJalaliBeforeCommonEra(date);
-          setConversionResult(result);
-        } else {
-          const { jy, jm, jd } = jalaali.toJalaali(date);
-          setConversionResult({
-            jy,
-            jm,
-            jd,
-            isBeforeCommonEra: false,
-          });
-        }
-
+        const result = convertDateUtil(yearNum, monthNum, dayNum, 'g2p');
+        setConversionResult(result);
         setFlashTrigger((prev) => prev + 1);
       } catch (error) {
         console.error('Conversion error:', error);
         setConversionResult({ error: true });
       }
     } else {
+      // Persian to Gregorian conversion
       if (
         persianYear === '' ||
         persianMonth === '' ||
@@ -331,42 +340,14 @@ const DateConverter = () => {
         return;
       }
 
-      const jyNum = parseInt(persianYear, 10);
-      const jmNum = parseInt(persianMonth, 10);
-      const jdNum = parseInt(persianDay, 10);
+      const jyNum = parseInt(persianYear);
+      const jmNum = parseInt(persianMonth);
+      const jdNum = parseInt(persianDay);
 
       if (!isNaN(jyNum) && !isNaN(jmNum) && !isNaN(jdNum)) {
         try {
-          if (jyNum < 0) {
-            const absYear = Math.abs(jyNum);
-            let gregYear;
-            let isBeforeCommonEra;
-
-            if (absYear <= 621) {
-              // برای سال‌های -1 تا -621 خورشیدی
-              gregYear = 622 - absYear;
-              isBeforeCommonEra = false;
-            } else {
-              // برای سال‌های -622 و کمتر
-              gregYear = absYear - 621;
-              isBeforeCommonEra = true;
-            }
-
-            setConversionResult({
-              gy: isBeforeCommonEra ? -gregYear : gregYear,
-              gm: jmNum,
-              gd: jdNum,
-              isBeforeCommonEra,
-            });
-          } else {
-            const { gy, gm, gd } = jalaali.toGregorian(jyNum, jmNum, jdNum);
-            setConversionResult({
-              gy,
-              gm,
-              gd,
-              isBeforeCommonEra: false,
-            });
-          }
+          const result = convertDateUtil(jyNum, jmNum, jdNum, 'p2g');
+          setConversionResult(result);
           setFlashTrigger((prev) => prev + 1);
         } catch (error) {
           console.error('Conversion error:', error);
@@ -378,7 +359,6 @@ const DateConverter = () => {
     }
   }, [
     direction,
-    gregDate,
     gregYear,
     gregMonth,
     gregDay,
@@ -396,29 +376,39 @@ const DateConverter = () => {
     year: number,
     isBeforeCommonEra: boolean = false
   ) => {
-    const isNegative = year < 0;
+    console.log('calculateEraYears called with:', {
+      year,
+      isBeforeCommonEra,
+      persianInput,
+    }); // Debug log
+
+    const numericYear = Number(year);
+    const isNegative = numericYear < 0;
+    console.log('After conversion:', { numericYear, isNegative }); // Debug log
 
     if (!persianInput) {
-      // Using persianInput instead of isPersian
       // For Gregorian years (میلادی)
+      console.log('Processing Gregorian year calculation'); // Debug log
+
       if (isNegative) {
+        const absYear = Math.abs(numericYear);
         return {
-          شاهنشاهی: year - 1181,
-          مادی: year - 2724,
-          ایلامی: year - 5224,
-          زردشتی: year - 3762,
+          شاهنشاهی: -absYear + 2583,
+          مادی: -absYear + 2724,
+          ایلامی: -absYear + 5224,
+          زردشتی: -absYear + 3762,
         };
       } else {
         return {
-          شاهنشاهی: year + 1180,
-          مادی: year + 1321,
-          ایلامی: year + 3821,
-          زردشتی: year + 2359,
+          شاهنشاهی: numericYear + 558,
+          مادی: numericYear + 698,
+          ایلامی: numericYear + 3198,
+          زردشتی: numericYear + 1736,
         };
       }
     } else {
       // For Persian years (خورشیدی)
-      // const adjustedYear = year - 621;
+      console.log('Processing Persian year calculation'); // Debug log
       if (isNegative) {
         return {
           شاهنشاهی: year + 2583,
@@ -440,19 +430,22 @@ const DateConverter = () => {
   // Update era results calculation
   let eraResults: { [key: string]: number } | null = null;
   if (conversionResult && !conversionResult.error) {
+    console.log('Direction:', direction); // Debug log
+    console.log('ConversionResult:', conversionResult); // Debug log
+
     if (direction === 'g2p' && conversionResult.jy !== undefined) {
+      console.log('Calculating era for Gregorian input:', gregYear); // Debug log
       eraResults = calculateEraYears(
-        conversionResult.jy,
-        conversionResult.isBeforeCommonEra,
-        true // Persian year
+        parseInt(gregYear),
+        conversionResult.isBeforeCommonEra
       );
     } else if (direction === 'p2g' && persianYear) {
+      console.log('Calculating era for Persian input:', persianYear); // Debug log
       const jyNum = parseInt(persianYear, 10);
       if (!isNaN(jyNum)) {
         eraResults = calculateEraYears(
           jyNum,
-          conversionResult.isBeforeCommonEra,
-          true // Persian year
+          conversionResult.isBeforeCommonEra
         );
       }
     }
@@ -534,7 +527,7 @@ const DateConverter = () => {
     const formattedDate = `${Math.abs(year)}/${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}`;
     const persianDate = toPersianNum(formattedDate);
 
-    return `${persianDate} ${isBeforeEra ? 'قبل از میلاد' : ''}`;
+    return `${persianDate} ${isBeforeEra ? '-' : ''}`;
   };
 
   // Update the increment/decrement functions to handle negative numbers
@@ -1017,4 +1010,8 @@ const DateConverter = () => {
 };
 
 export default DateConverter;
+
+function setManualGregDate(arg0: string) {
+  throw new Error('Function not implemented.');
+}
 
