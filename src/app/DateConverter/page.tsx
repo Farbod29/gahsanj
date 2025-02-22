@@ -242,6 +242,9 @@ const VirtualKeyboard = ({
 };
 
 const DateConverter = () => {
+  // Add a key to force re-render when direction changes
+  const [rerenderKey, setRerenderKey] = useState(0);
+
   // Conversion direction: "g2p" = Gregorian to Persian, "p2g" = Persian to Gregorian
   const [direction, setDirection] = useState<'g2p' | 'p2g'>('g2p');
 
@@ -367,9 +370,18 @@ const DateConverter = () => {
     persianDay,
   ]);
 
+  // Modify direction state setter
+  const handleDirectionChange = (newDirection: 'g2p' | 'p2g') => {
+    setDirection(newDirection);
+    setPersianInput(newDirection === 'p2g');
+    // Force re-render
+    setRerenderKey((prev) => prev + 1);
+  };
+
+  // Update useEffect to include rerenderKey
   useEffect(() => {
     convertDate();
-  }, [convertDate]);
+  }, [convertDate, rerenderKey]);
 
   // Update the era calculations to handle negative years correctly
   const calculateEraYears = (
@@ -614,7 +626,7 @@ const DateConverter = () => {
           </span>
           <DirectionToggle
             direction={direction}
-            setDirection={setDirection}
+            setDirection={handleDirectionChange}
             setPersianInput={setPersianInput}
           />
         </div>
